@@ -1,0 +1,10 @@
+node_modules
+dist
+.DS_Store
+
+# Temporary and reference directories
+.current/
+.reference/
+.tmp/
+/assets/
+

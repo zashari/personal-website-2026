@@ -1,0 +1,71 @@
+/* Base folder styles */
+.folder {
+  position: absolute;
+  left: 0;
+  background-color: transparent;
+  width: 100vw;
+  height: auto;
+  /* Do NOT use overflow: hidden - it will clip the baked shadows */
+}
+
+/* Folder preview images - positioned behind cover */
+.folder-preview {
+  display: block;
+  width: 100%;
+  height: auto;
+  background-color: transparent;
+  position: absolute;
+  top: -100px;
+  left: 0;
+  z-index: 1;
+  transition: top 0.3s ease;
+}
+
+/* Folder cover images */
+.folder-cover {
+  display: block;
+  width: 100%;
+  height: auto;
+  background-color: transparent;
+  position: relative;
+  z-index: 2;
+}
+
+/* Folder 1 (Personal Info) - Front-most */
+.folder-1 {
+  z-index: 4;
+  bottom: -150px;
+}
+
+.folder-1:hover .folder-preview {
+  top: -150px;
+}
+
+/* Folder 2 (Professional Info) - Middle-front */
+.folder-2 {
+  z-index: 3;
+  bottom: 100px;
+}
+
+.folder-2 .folder-preview {
+  top: -50px;
+}
+
+.folder-2:hover .folder-preview {
+  top: -100px;
+}
+
+/* Folder 3 (Projects) - Middle-back */
+.folder-3 {
+  z-index: 2;
+  bottom: 300px;
+}
+
+.folder-3 .folder-preview {
+  top: -60px;
+}
+
+.folder-3:hover .folder-preview {
+  top: -110px;
+}
+
