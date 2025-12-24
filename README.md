@@ -26,6 +26,9 @@ src/
   ├── components/          # React components
   │   ├── Beams.jsx       # Animated beams background component
   │   ├── Folder.jsx      # Folder component
+  │   ├── GridScan.jsx    # Grid scan background component
+  │   ├── Image3D.jsx     # 3D interactive image component
+  │   ├── Modal.jsx       # Modal component
   │   └── Folder.css      # Folder styles
   ├── constants/          # Configuration constants
   │   └── folders.js      # Folder and beams configuration
@@ -35,9 +38,7 @@ src/
   └── main.jsx            # Application entry point
 
 public/
-  └── assets/             # Static assets (folder images)
-
-assets/                    # Source assets (folder images)
+  └── assets/             # Static assets (folder images and paper documents)
 ```
 
 ## Technologies
@@ -47,4 +48,3 @@ assets/                    # Source assets (folder images)
 - Three.js
 - @react-three/fiber
 - @react-three/drei
-
