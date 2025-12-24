@@ -28,19 +28,4 @@ export const BEAMS_CONFIG = {
   rotation: 30,
 };
 
-// GridScan background configuration
-export const GRID_SCAN_CONFIG = {
-  sensitivity: 0.55,
-  lineThickness: 1,
-  linesColor: '#F9F7FC', // RGB: 249, 247, 252
-  gridScale: 0.02,
-  scanColor: '#E7DFE7', // RGB: 231, 223, 231
-  scanOpacity: 0.4,
-  scanDirection: 'forward',
-  enablePost: false,
-  bloomIntensity: 0.6,
-  chromaticAberration: 0.002,
-  noiseIntensity: 0.01,
-  scanGlow: 0.5,
-};
 

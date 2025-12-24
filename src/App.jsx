@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { Beams, Folder, GridScan, Modal } from './components';
-import { FOLDERS, BEAMS_CONFIG, GRID_SCAN_CONFIG } from './constants/folders';
+import { Beams, Folder, Modal } from './components';
+import { FOLDERS, BEAMS_CONFIG } from './constants/folders';
 import './App.css';
 
 function App() {
@@ -71,12 +71,7 @@ function App() {
 
   return (
     <div className="app">
-      {/* GridScan background - preserved for easy revert (commented out) */}
-      {/* <div className="beams-container">
-        <GridScan {...GRID_SCAN_CONFIG} />
-      </div> */}
-
-      {/* Beams background - current active background */}
+      {/* Beams background */}
       <div className="beams-container">
         <Beams {...BEAMS_CONFIG} />
       </div>
