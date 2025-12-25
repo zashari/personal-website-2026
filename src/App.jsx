@@ -97,6 +97,7 @@ function App() {
         activeFolder={activeFolder}
         currentPage={currentPage}
         onPageChange={handlePageChange}
+        folderImages={folderImages}
       />
     </div>
   );

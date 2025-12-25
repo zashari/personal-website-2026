@@ -1,0 +1,12 @@
+.flipbook-3d-container {
+  width: 100%;
+  height: 100%;
+  background-color: transparent;
+}
+
+.flipbook-3d-container canvas {
+  width: 100% !important;
+  height: 100% !important;
+  outline: none;
+}
+

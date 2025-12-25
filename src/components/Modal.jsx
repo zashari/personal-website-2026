@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
 import Image3D from './Image3D';
+import FlipBook3D from './FlipBook3D';
 import './Modal.css';
 
-const Modal = ({ isOpen, onClose, imageSrc, backImageSrc, alt, activeFolder, currentPage, onPageChange }) => {
+const Modal = ({ isOpen, onClose, imageSrc, backImageSrc, alt, activeFolder, currentPage, onPageChange, folderImages }) => {
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (!isOpen) return;
@@ -33,8 +34,43 @@ const Modal = ({ isOpen, onClose, imageSrc, backImageSrc, alt, activeFolder, cur
 
   if (!isOpen) return null;
 
-  // Create a unique key that changes when page changes to reset Image3D state
-  const imageKey = activeFolder === 3 ? `folder-3-page-${currentPage}` : `folder-${activeFolder}`;
+  // For Folder 3, use FlipBook3D with both pages
+  if (activeFolder === 3 && folderImages?.[3]?.pages) {
+    const pages = [
+      {
+        front: folderImages[3].pages[1].front,
+        back: folderImages[3].pages[1].back,
+      },
+      {
+        front: folderImages[3].pages[2].front,
+        back: folderImages[3].pages[2].back,
+      },
+    ];
+
+    return (
+      <div className="modal-overlay" onClick={onClose}>
+        <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+          <FlipBook3D 
+            pages={pages}
+            currentPage={currentPage}
+            onPageChange={(page) => {
+              if (page === 1) onPageChange('prev');
+              if (page === 2) onPageChange('next');
+            }}
+          />
+        </div>
+        <div className="modal-guide-container">
+          <div className="modal-guide-text">
+            Press [←] [→] to navigate pages.
+          </div>
+          <div className="modal-close-text">Press [esc] to close.</div>
+        </div>
+      </div>
+    );
+  }
+
+  // For folders 1 and 2, use Image3D
+  const imageKey = `folder-${activeFolder}`;
 
   return (
     <div className="modal-overlay" onClick={onClose}>
@@ -47,11 +83,6 @@ const Modal = ({ isOpen, onClose, imageSrc, backImageSrc, alt, activeFolder, cur
         />
       </div>
       <div className="modal-guide-container">
-        {activeFolder === 3 && (
-          <div className="modal-guide-text">
-            Press [←] [→] to navigate pages.
-          </div>
-        )}
         <div className="modal-close-text">Press [esc] to close.</div>
       </div>
     </div>
