@@ -220,10 +220,12 @@ const FlipBook3D = ({ pages, currentPage, onPageChange }) => {
         }}
         dpr={[1, 2]}
         camera={{ position: [0, 0, 3.5], fov: 45 }}
+        style={{ width: '100%', height: '100%' }}
         onCreated={(state) => {
           state.gl.setClearColor('#000000', 0);
         }}
       >
+        <color attach="background" args={['#000000']} />
         <PerspectiveCamera makeDefault position={[0, 0, 3.5]} fov={45} />
         <BookScene pages={pages} currentPage={currentPage} onPageChange={onPageChange} />
       </Canvas>
