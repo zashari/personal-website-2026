@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import Image3D from './Image3D';
+import Image3DWebGL from './Image3DWebGL';
 import './ProjectStack.css';
 
 const ProjectStack = ({ pages, currentPage, navigationDirection }) => {
@@ -117,7 +117,7 @@ const ProjectStack = ({ pages, currentPage, navigationDirection }) => {
             className={className}
             style={{ zIndex }}
           >
-            <Image3D
+            <Image3DWebGL
               imageSrc={pageData.front}
               backImageSrc={pageData.back}
               alt={pageData.alt}

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import Image3D from './Image3D';
+import Image3DWebGL from './Image3DWebGL';
 import ProjectStack from './ProjectStack';
 import './Modal.css';
 
@@ -50,7 +50,7 @@ const Modal = ({ isOpen, onClose, imageSrc, backImageSrc, alt, activeFolder, cur
             navigationDirection={navigationDirection}
           />
         ) : (
-          <Image3D
+          <Image3DWebGL
             key={`folder-${activeFolder}`}
             imageSrc={imageSrc}
             backImageSrc={backImageSrc}
@@ -73,7 +73,7 @@ const Modal = ({ isOpen, onClose, imageSrc, backImageSrc, alt, activeFolder, cur
       {activePhoto && (
         <div className="photo-modal-overlay" onClick={onClosePhoto}>
           <div className="photo-modal-content" onClick={(e) => e.stopPropagation()}>
-            <Image3D
+            <Image3DWebGL
               imageSrc={activePhoto.front}
               backImageSrc={activePhoto.back}
               alt={activePhoto.alt}
