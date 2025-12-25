@@ -14,29 +14,20 @@
   cursor: grabbing;
 }
 
-/* Hotspot layer that overlays the canvas - centered */
+/* Hotspot layer - absolute positioned overlay for projected hotspots */
 .image-3d-webgl-hotspot-layer {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   pointer-events: none;
-}
-
-/* Container that matches the paper size - receives 3D transforms */
-.image-3d-webgl-hotspot-container {
-  position: relative;
-  pointer-events: none;
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
+  overflow: visible;
+  z-index: 10;
 }
 
 .image-3d-webgl-hotspot {
-  position: absolute;
   cursor: pointer;
   pointer-events: auto;
+  box-sizing: border-box;
 }

@@ -23,6 +23,7 @@ function App() {
           height: '2.8%',
           href: 'https://wa.me/6281248777317',
           title: 'WhatsApp',
+          debugColor: 'green',
         },
         {
           top: '26.5%',
@@ -31,6 +32,7 @@ function App() {
           height: '2.8%',
           href: 'mailto:izzat.zaky@gmail.com',
           title: 'Email',
+          debugColor: 'orange',
         },
         {
           top: '-2%',

@@ -8,11 +8,14 @@ const PaperMesh = ({
   frontTexture,
   backTexture,
   rotation,
+  scale,
+  position,
   aspectRatio,
-  onSizeCalculated
+  hotspots,
+  onHotspotPositionsUpdate,
 }) => {
-  const meshRef = useRef();
-  const { viewport, size } = useThree();
+  const groupRef = useRef();
+  const { viewport, camera, size } = useThree();
 
   // Calculate plane size to fit viewport while maintaining aspect ratio
   const planeSize = useMemo(() => {
@@ -31,18 +34,6 @@ const PaperMesh = ({
     return { width, height };
   }, [viewport, aspectRatio]);
 
-  // Calculate and report pixel size to parent
-  useEffect(() => {
-    if (onSizeCalculated && planeSize.width > 0) {
-      // Convert Three.js units to pixels
-      // viewport.width corresponds to size.width pixels
-      const pixelPerUnit = size.width / viewport.width;
-      const pixelWidth = planeSize.width * pixelPerUnit;
-      const pixelHeight = planeSize.height * pixelPerUnit;
-      onSizeCalculated({ width: pixelWidth, height: pixelHeight });
-    }
-  }, [planeSize, viewport, size, onSizeCalculated]);
-
   // Create materials for front and back
   const materials = useMemo(() => {
     const frontMaterial = new THREE.MeshBasicMaterial({
@@ -60,16 +51,123 @@ const PaperMesh = ({
     return [frontMaterial, backMaterial];
   }, [frontTexture, backTexture]);
 
-  // Apply rotation from parent state
+  // Project 3D position to 2D screen coordinates
+  const projectToScreen = useCallback((worldPos) => {
+    const vector = worldPos.clone();
+    vector.project(camera);
+
+    // Convert from normalized device coordinates to screen pixels
+    const x = (vector.x + 1) / 2 * size.width;
+    const y = -(vector.y - 1) / 2 * size.height;
+
+    return { x, y, z: vector.z };
+  }, [camera, size]);
+
+  // Apply transforms and calculate hotspot screen positions
   useFrame(() => {
-    if (meshRef.current) {
-      meshRef.current.rotation.x = THREE.MathUtils.degToRad(rotation.x);
-      meshRef.current.rotation.y = THREE.MathUtils.degToRad(rotation.y);
+    if (!groupRef.current) return;
+
+    // Apply transforms to the mesh group
+    groupRef.current.rotation.x = THREE.MathUtils.degToRad(rotation.x);
+    groupRef.current.rotation.y = THREE.MathUtils.degToRad(rotation.y);
+    groupRef.current.scale.setScalar(scale);
+    groupRef.current.position.x = position.x * (viewport.width / size.width);
+    groupRef.current.position.y = -position.y * (viewport.height / size.height);
+
+    // Calculate hotspot screen positions
+    if (hotspots && hotspots.length > 0 && onHotspotPositionsUpdate) {
+      const positions = hotspots.map((hotspot) => {
+        // Parse percentage values
+        const topPercent = parseFloat(hotspot.top) / 100;
+        const leftPercent = parseFloat(hotspot.left) / 100;
+        const widthPercent = parseFloat(hotspot.width) / 100;
+        const heightPercent = parseFloat(hotspot.height) / 100;
+
+        // Calculate 3D position on the paper plane
+        // Paper is centered at origin, so we need to offset from center
+        const halfWidth = planeSize.width / 2;
+        const halfHeight = planeSize.height / 2;
+
+        // Convert percentage to local 3D coordinates
+        // Left edge is at -halfWidth, top edge is at +halfHeight
+        const localX = -halfWidth + leftPercent * planeSize.width + (widthPercent * planeSize.width) / 2;
+        const localY = halfHeight - topPercent * planeSize.height - (heightPercent * planeSize.height) / 2;
+        const localZ = 0.01; // Slightly in front of the paper
+
+        // Create local position vector
+        const localPos = new THREE.Vector3(localX, localY, localZ);
+
+        // Transform to world coordinates using the group's matrix
+        groupRef.current.updateMatrixWorld();
+        const worldPos = localPos.applyMatrix4(groupRef.current.matrixWorld);
+
+        // Project to screen coordinates
+        const screenPos = projectToScreen(worldPos);
+
+        // Calculate screen dimensions for the hotspot
+        // Project corners to get width/height in screen space
+        const cornerTL = new THREE.Vector3(
+          -halfWidth + leftPercent * planeSize.width,
+          halfHeight - topPercent * planeSize.height,
+          0.01
+        ).applyMatrix4(groupRef.current.matrixWorld);
+
+        const cornerTR = new THREE.Vector3(
+          -halfWidth + (leftPercent + widthPercent) * planeSize.width,
+          halfHeight - topPercent * planeSize.height,
+          0.01
+        ).applyMatrix4(groupRef.current.matrixWorld);
+
+        const cornerBL = new THREE.Vector3(
+          -halfWidth + leftPercent * planeSize.width,
+          halfHeight - (topPercent + heightPercent) * planeSize.height,
+          0.01
+        ).applyMatrix4(groupRef.current.matrixWorld);
+
+        const cornerBR = new THREE.Vector3(
+          -halfWidth + (leftPercent + widthPercent) * planeSize.width,
+          halfHeight - (topPercent + heightPercent) * planeSize.height,
+          0.01
+        ).applyMatrix4(groupRef.current.matrixWorld);
+
+        const screenTL = projectToScreen(cornerTL);
+        const screenTR = projectToScreen(cornerTR);
+        const screenBL = projectToScreen(cornerBL);
+        const screenBR = projectToScreen(cornerBR);
+
+        // Calculate bounding box for the quadrilateral
+        const minX = Math.min(screenTL.x, screenTR.x, screenBL.x, screenBR.x);
+        const maxX = Math.max(screenTL.x, screenTR.x, screenBL.x, screenBR.x);
+        const minY = Math.min(screenTL.y, screenTR.y, screenBL.y, screenBR.y);
+        const maxY = Math.max(screenTL.y, screenTR.y, screenBL.y, screenBR.y);
+
+        const boundingWidth = maxX - minX;
+        const boundingHeight = maxY - minY;
+
+        // Calculate clip-path polygon points relative to bounding box
+        const clipPath = `polygon(
+          ${((screenTL.x - minX) / boundingWidth) * 100}% ${((screenTL.y - minY) / boundingHeight) * 100}%,
+          ${((screenTR.x - minX) / boundingWidth) * 100}% ${((screenTR.y - minY) / boundingHeight) * 100}%,
+          ${((screenBR.x - minX) / boundingWidth) * 100}% ${((screenBR.y - minY) / boundingHeight) * 100}%,
+          ${((screenBL.x - minX) / boundingWidth) * 100}% ${((screenBL.y - minY) / boundingHeight) * 100}%
+        )`;
+
+        return {
+          x: minX,
+          y: minY,
+          width: boundingWidth,
+          height: boundingHeight,
+          clipPath,
+          visible: screenPos.z < 1, // Only visible if in front of camera
+        };
+      });
+
+      onHotspotPositionsUpdate(positions);
     }
   });
 
   return (
-    <group ref={meshRef}>
+    <group ref={groupRef}>
       {/* Front face */}
       <mesh material={materials[0]}>
         <planeGeometry args={[planeSize.width, planeSize.height]} />
@@ -90,18 +188,24 @@ const TextureLoader = ({ frontSrc, backSrc, children, onLoad }) => {
     const loader = new THREE.TextureLoader();
     let disposed = false;
 
-    const loadTexture = (src) => {
+    const loadTexture = (src, flipHorizontal = false) => {
       return new Promise((resolve, reject) => {
         loader.load(
           src,
           (texture) => {
-            // High quality texture settings - no mipmaps, linear filtering
+            // High quality texture settings
             texture.minFilter = THREE.LinearFilter;
             texture.magFilter = THREE.LinearFilter;
             texture.generateMipmaps = false;
             texture.colorSpace = THREE.SRGBColorSpace;
-            // Enable anisotropic filtering for better quality at angles
             texture.anisotropy = 16;
+
+            // Flip horizontally for back side
+            if (flipHorizontal) {
+              texture.wrapS = THREE.RepeatWrapping;
+              texture.repeat.x = -1;
+            }
+
             resolve(texture);
           },
           undefined,
@@ -111,8 +215,8 @@ const TextureLoader = ({ frontSrc, backSrc, children, onLoad }) => {
     };
 
     Promise.all([
-      loadTexture(frontSrc),
-      loadTexture(backSrc || frontSrc)
+      loadTexture(frontSrc, false),
+      loadTexture(backSrc || frontSrc, true) // Flip back side horizontally
     ]).then(([front, back]) => {
       if (disposed) {
         front.dispose();
@@ -129,7 +233,6 @@ const TextureLoader = ({ frontSrc, backSrc, children, onLoad }) => {
     };
   }, [frontSrc, backSrc, onLoad]);
 
-  // Cleanup textures on unmount
   useEffect(() => {
     return () => {
       if (textures.front) textures.front.dispose();
@@ -142,53 +245,6 @@ const TextureLoader = ({ frontSrc, backSrc, children, onLoad }) => {
   }
 
   return children(textures);
-};
-
-// Camera controller for zoom
-const CameraController = ({ scale, position }) => {
-  const { camera } = useThree();
-
-  useFrame(() => {
-    // Adjust camera Z based on scale (inverse relationship)
-    const baseZ = 5;
-    camera.position.z = baseZ / scale;
-    // Position camera to create panning effect
-    camera.position.x = -position.x * 0.01 / scale;
-    camera.position.y = position.y * 0.01 / scale;
-    camera.updateProjectionMatrix();
-  });
-
-  return null;
-};
-
-// Component to report paper size from inside Canvas
-const PaperSizeReporter = ({ aspectRatio, onSizeCalculated }) => {
-  const { viewport, size } = useThree();
-
-  useEffect(() => {
-    if (!onSizeCalculated) return;
-
-    const maxWidth = viewport.width * 0.85;
-    const maxHeight = viewport.height * 0.85;
-
-    let width, height;
-    if (aspectRatio > maxWidth / maxHeight) {
-      width = maxWidth;
-      height = maxWidth / aspectRatio;
-    } else {
-      height = maxHeight;
-      width = maxHeight * aspectRatio;
-    }
-
-    // Convert Three.js units to pixels
-    const pixelPerUnit = size.width / viewport.width;
-    const pixelWidth = width * pixelPerUnit;
-    const pixelHeight = height * pixelPerUnit;
-
-    onSizeCalculated({ width: pixelWidth, height: pixelHeight });
-  }, [viewport, size, aspectRatio, onSizeCalculated]);
-
-  return null;
 };
 
 const Image3DWebGL = ({
@@ -205,9 +261,8 @@ const Image3DWebGL = ({
   const [scale, setScale] = useState(1);
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [lastMouse, setLastMouse] = useState({ x: 0, y: 0 });
-  const [imageAspectRatio, setImageAspectRatio] = useState(1);
-  const [paperPixelSize, setPaperPixelSize] = useState({ width: 0, height: 0 });
   const [isLoaded, setIsLoaded] = useState(false);
+  const [hotspotScreenPositions, setHotspotScreenPositions] = useState([]);
 
   // Reset when paper becomes inactive
   useEffect(() => {
@@ -261,7 +316,6 @@ const Image3DWebGL = ({
       return;
     }
 
-    // Cursor-centered zoom logic
     const container = containerRef.current;
     if (!container) {
       setScale(newScale);
@@ -276,9 +330,8 @@ const Image3DWebGL = ({
     const mouseY = e.clientY - containerCenterY;
     const adjustedMouseX = isBackside ? -mouseX : mouseX;
 
-    // Use actual paper pixel size for calculations
-    const baseWidth = paperPixelSize.width || containerRect.width * 0.85;
-    const baseHeight = paperPixelSize.height || containerRect.height * 0.85;
+    const baseWidth = containerRect.width * 0.85;
+    const baseHeight = containerRect.height * 0.85;
 
     const scaledWidth = baseWidth * newScale;
     const scaledHeight = baseHeight * newScale;
@@ -300,9 +353,8 @@ const Image3DWebGL = ({
 
     setPosition({ x: newPositionX, y: newPositionY });
     setScale(newScale);
-  }, [scale, position, isBackside, paperPixelSize]);
+  }, [scale, position, isBackside]);
 
-  // Event listeners
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
@@ -314,30 +366,13 @@ const Image3DWebGL = ({
     };
   }, [handleWheel]);
 
-  const handleTextureLoad = useCallback((size) => {
-    setImageAspectRatio(size.aspectRatio);
+  const handleTextureLoad = useCallback(() => {
     setIsLoaded(true);
   }, []);
 
-  const handlePaperSizeCalculated = useCallback((size) => {
-    setPaperPixelSize(size);
+  const handleHotspotPositionsUpdate = useCallback((positions) => {
+    setHotspotScreenPositions(positions);
   }, []);
-
-  // Calculate hotspot container style - matches the paper position and transforms
-  const hotspotLayerStyle = useMemo(() => {
-    return {
-      width: `${paperPixelSize.width}px`,
-      height: `${paperPixelSize.height}px`,
-      transform: `
-        perspective(1000px)
-        rotateX(${rotation.x}deg)
-        rotateY(${rotation.y}deg)
-        scale(${scale})
-        translate(${position.x / scale}px, ${-position.y / scale}px)
-      `,
-      transformStyle: 'preserve-3d',
-    };
-  }, [rotation, scale, position, paperPixelSize]);
 
   return (
     <div
@@ -364,77 +399,72 @@ const Image3DWebGL = ({
           onLoad={handleTextureLoad}
         >
           {(textures) => (
-            <>
-              <PaperMesh
-                frontTexture={textures.front}
-                backTexture={textures.back}
-                rotation={rotation}
-                aspectRatio={textures.aspectRatio}
-              />
-              <CameraController scale={scale} position={position} />
-              <PaperSizeReporter
-                aspectRatio={textures.aspectRatio}
-                onSizeCalculated={handlePaperSizeCalculated}
-              />
-            </>
+            <PaperMesh
+              frontTexture={textures.front}
+              backTexture={textures.back}
+              rotation={rotation}
+              scale={scale}
+              position={position}
+              aspectRatio={textures.aspectRatio}
+              hotspots={hotspots}
+              onHotspotPositionsUpdate={handleHotspotPositionsUpdate}
+            />
           )}
         </TextureLoader>
       </Canvas>
 
-      {/* HTML Hotspot overlay - positioned to match the paper */}
-      {isLoaded && hotspots.length > 0 && paperPixelSize.width > 0 && !isBackside && (
+      {/* HTML Hotspot overlay - positioned using projected screen coordinates */}
+      {hotspots.length > 0 && !isBackside && (
         <div className="image-3d-webgl-hotspot-layer">
-          <div
-            className="image-3d-webgl-hotspot-container"
-            style={hotspotLayerStyle}
-          >
-            {hotspots.map((hotspot, index) => {
-              const hotspotStyle = {
-                top: hotspot.top,
-                left: hotspot.left,
-                width: hotspot.width,
-                height: hotspot.height,
-                transform: hotspot.rotation ? `rotate(${hotspot.rotation})` : undefined,
-                ...(hotspot.debugColor && {
-                  background: `${hotspot.debugColor}66`,
-                  border: `2px solid ${hotspot.debugColor}`,
-                }),
-              };
+          {hotspots.map((hotspot, index) => {
+            const screenPos = hotspotScreenPositions[index];
+            if (!screenPos) return null;
 
-              if (hotspot.type === 'photo' && onPhotoClick) {
-                return (
-                  <div
-                    key={index}
-                    className="image-3d-webgl-hotspot"
-                    style={hotspotStyle}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      e.preventDefault();
-                      onPhotoClick(hotspot.photo);
-                    }}
-                    onMouseDown={(e) => e.stopPropagation()}
-                    title={hotspot.title || ''}
-                    role="button"
-                    tabIndex={0}
-                  />
-                );
-              }
+            const hotspotStyle = {
+              position: 'absolute',
+              left: `${screenPos.x}px`,
+              top: `${screenPos.y}px`,
+              width: `${Math.max(screenPos.width, 10)}px`,
+              height: `${Math.max(screenPos.height, 10)}px`,
+              clipPath: screenPos.clipPath,
+              WebkitClipPath: screenPos.clipPath,
+              // Debug colors (invisible in production)
+              background: 'transparent',
+            };
 
+            if (hotspot.type === 'photo' && onPhotoClick) {
               return (
-                <a
+                <div
                   key={index}
-                  href={hotspot.href}
-                  target={hotspot.target || '_blank'}
-                  rel="noopener noreferrer"
                   className="image-3d-webgl-hotspot"
                   style={hotspotStyle}
-                  onClick={(e) => e.stopPropagation()}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    e.preventDefault();
+                    onPhotoClick(hotspot.photo);
+                  }}
                   onMouseDown={(e) => e.stopPropagation()}
                   title={hotspot.title || ''}
+                  role="button"
+                  tabIndex={0}
                 />
               );
-            })}
-          </div>
+            }
+
+            return (
+              <a
+                key={index}
+                href={hotspot.href}
+                target={hotspot.target || '_blank'}
+                rel="noopener noreferrer"
+                className="image-3d-webgl-hotspot"
+                style={hotspotStyle}
+                onClick={(e) => e.stopPropagation()}
+                onMouseDown={(e) => e.stopPropagation()}
+                title={hotspot.title || ''}
+              />
+            );
+          })}
         </div>
       )}
     </div>
