@@ -253,25 +253,62 @@ const Image3DWebGL = ({
   alt,
   isActive = true,
   hotspots = [],
-  onPhotoClick
+  onPhotoClick,
+  // Controlled transform props (for shared transform in stacks)
+  transform,
+  onTransformChange,
 }) => {
   const containerRef = useRef(null);
   const [isDragging, setIsDragging] = useState(false);
-  const [rotation, setRotation] = useState({ x: 0, y: 0 });
-  const [scale, setScale] = useState(1);
-  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const [internalRotation, setInternalRotation] = useState({ x: 0, y: 0 });
+  const [internalScale, setInternalScale] = useState(1);
+  const [internalPosition, setInternalPosition] = useState({ x: 0, y: 0 });
   const [lastMouse, setLastMouse] = useState({ x: 0, y: 0 });
   const [isLoaded, setIsLoaded] = useState(false);
   const [hotspotScreenPositions, setHotspotScreenPositions] = useState([]);
 
-  // Reset when paper becomes inactive
-  useEffect(() => {
-    if (!isActive) {
-      setRotation({ x: 0, y: 0 });
-      setScale(1);
-      setPosition({ x: 0, y: 0 });
+  // Use controlled or internal state
+  const isControlled = transform !== undefined;
+  const rotation = isControlled ? transform.rotation : internalRotation;
+  const scale = isControlled ? transform.scale : internalScale;
+  const position = isControlled ? transform.position : internalPosition;
+
+  // State setters that work in both controlled and uncontrolled modes
+  const setRotation = useCallback((valueOrUpdater) => {
+    if (isControlled && onTransformChange) {
+      const newRotation = typeof valueOrUpdater === 'function'
+        ? valueOrUpdater(transform.rotation)
+        : valueOrUpdater;
+      onTransformChange({ ...transform, rotation: newRotation });
+    } else {
+      setInternalRotation(valueOrUpdater);
     }
-  }, [isActive]);
+  }, [isControlled, onTransformChange, transform]);
+
+  const setScale = useCallback((newScale) => {
+    if (isControlled && onTransformChange) {
+      onTransformChange({ ...transform, scale: newScale });
+    } else {
+      setInternalScale(newScale);
+    }
+  }, [isControlled, onTransformChange, transform]);
+
+  const setPosition = useCallback((newPosition) => {
+    if (isControlled && onTransformChange) {
+      onTransformChange({ ...transform, position: newPosition });
+    } else {
+      setInternalPosition(newPosition);
+    }
+  }, [isControlled, onTransformChange, transform]);
+
+  // Reset when paper becomes inactive (only in uncontrolled mode)
+  useEffect(() => {
+    if (!isActive && !isControlled) {
+      setInternalRotation({ x: 0, y: 0 });
+      setInternalScale(1);
+      setInternalPosition({ x: 0, y: 0 });
+    }
+  }, [isActive, isControlled]);
 
   // Check if viewing backside
   const isBackside = useMemo(() => {
@@ -298,7 +335,7 @@ const Image3DWebGL = ({
 
       setLastMouse({ x: e.clientX, y: e.clientY });
     }
-  }, [isDragging, lastMouse]);
+  }, [isDragging, lastMouse, setRotation]);
 
   const handleMouseUp = useCallback(() => {
     setIsDragging(false);
@@ -353,7 +390,7 @@ const Image3DWebGL = ({
 
     setPosition({ x: newPositionX, y: newPositionY });
     setScale(newScale);
-  }, [scale, position, isBackside]);
+  }, [scale, position, isBackside, setScale, setPosition]);
 
   useEffect(() => {
     const container = containerRef.current;
