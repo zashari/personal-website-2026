@@ -1,6 +1,12 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import Image3DWebGL from './Image3DWebGL';
 import './ProjectStack.css';
+
+const DEFAULT_TRANSFORM = {
+  rotation: { x: 0, y: 0 },
+  scale: 1,
+  position: { x: 0, y: 0 },
+};
 
 const ProjectStack = ({ pages, currentPage, navigationDirection }) => {
   const totalPages = Object.keys(pages).length;
@@ -13,10 +19,18 @@ const ProjectStack = ({ pages, currentPage, navigationDirection }) => {
     return [...allPages.slice(1), allPages[0]];
   });
 
+  // Shared transform state for the entire stack
+  const [stackTransform, setStackTransform] = useState(DEFAULT_TRANSFORM);
+
   const [animatingPage, setAnimatingPage] = useState(null);
   const [slideDirection, setSlideDirection] = useState(null); // 'right' | 'left'
   const [animationPhase, setAnimationPhase] = useState(null); // 'slide-out' | 'slide-back'
   const prevPageRef = useRef(currentPage);
+
+  // Reset transform when page changes
+  const handleTransformChange = useCallback((newTransform) => {
+    setStackTransform(newTransform);
+  }, []);
 
   useEffect(() => {
     const prevPage = prevPageRef.current;
@@ -26,6 +40,9 @@ const ProjectStack = ({ pages, currentPage, navigationDirection }) => {
       // Use navigation direction from props (not calculated from page numbers)
       // 'next' -> slide from right, 'prev' -> slide from left
       const direction = navigationDirection === 'next' ? 'right' : 'left';
+
+      // Reset transform when changing pages
+      setStackTransform(DEFAULT_TRANSFORM);
 
       // Phase 1: Slide out (stays behind)
       setAnimatingPage(incomingPage);
@@ -122,6 +139,8 @@ const ProjectStack = ({ pages, currentPage, navigationDirection }) => {
               backImageSrc={pageData.back}
               alt={pageData.alt}
               isActive={isTopOfStack}
+              transform={stackTransform}
+              onTransformChange={isTopOfStack ? handleTransformChange : undefined}
             />
           </div>
         );
