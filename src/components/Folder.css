@@ -34,7 +34,7 @@
 /* Folder 1 (Personal Info) - Front-most */
 .folder-1 {
   z-index: 4;
-  bottom: -45vh; /* Base: lower position for bigger screens */
+  bottom: -30vh; /* Base position for larger screens */
 }
 
 .folder-1:hover .folder-preview {
@@ -44,7 +44,7 @@
 /* Folder 2 (Professional Info) - Middle-front */
 .folder-2 {
   z-index: 3;
-  bottom: -22vh; /* Base: lower position for bigger screens */
+  bottom: -7vh; /* Base position for larger screens */
 }
 
 .folder-2 .folder-preview {
@@ -58,7 +58,7 @@
 /* Folder 3 (Projects) - Middle-back */
 .folder-3 {
   z-index: 2;
-  bottom: -2vh; /* Base: lower position for bigger screens */
+  bottom: 13vh; /* Base position for larger screens */
 }
 
 .folder-3 .folder-preview {
@@ -118,13 +118,13 @@
 /* Tall screens (large monitors, 1440p+) */
 @media (min-height: 1100px) {
   .folder-1 {
-    bottom: -28vh;
+    bottom: -13vh;
   }
   .folder-2 {
-    bottom: 2vh;
+    bottom: 17vh;
   }
   .folder-3 {
-    bottom: 25vh;
+    bottom: 40vh;
   }
   .folder-preview {
     top: -12vh;
@@ -149,13 +149,13 @@
 /* Very tall screens (4K) */
 @media (min-height: 1600px) {
   .folder-1 {
-    bottom: -30vh;
+    bottom: -15vh;
   }
   .folder-2 {
-    bottom: 4vh;
+    bottom: 19vh;
   }
   .folder-3 {
-    bottom: 28vh;
+    bottom: 43vh;
   }
 }
 
