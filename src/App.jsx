@@ -67,7 +67,39 @@ function App() {
     2: {
       front: '/assets/paper-professional-info.png',
       back: '/assets/paper-professional-info-back.png',
-      alt: 'Professional Info'
+      alt: 'Professional Info',
+      hotspots: [
+        {
+          top: '0.5%',
+          left: '62.5%',
+          width: '19%',
+          height: '13.5%',
+          rotation: '0deg',
+          type: 'photo',
+          photo: {
+            front: '/assets/professional-paper-photo-2-front.png',
+            back: '/assets/professional-paper-photo-2-back.png',
+            alt: 'Photo 2',
+          },
+          title: 'Photo 2',
+          debugColor: 'red',
+        },
+        {
+          top: '2.1%',
+          left: '76.4%',
+          width: '21.2%',
+          height: '15.5%',
+          rotation: '15deg',
+          type: 'photo',
+          photo: {
+            front: '/assets/professional-paper-photo-1-front.png',
+            back: '/assets/professional-paper-photo-1-back.png',
+            alt: 'Photo 1',
+          },
+          title: 'Photo 1',
+          debugColor: 'blue',
+        },
+      ],
     },
     3: {
       pages: {

@@ -16,7 +16,8 @@
 .image-3d-wrapper {
   transform-style: preserve-3d;
   transition: transform 0.1s ease-out;
-  will-change: transform;
+  /* Force high quality rendering */
+  -webkit-font-smoothing: subpixel-antialiased;
 }
 
 .image-3d-card {
@@ -35,6 +36,9 @@
   align-items: center;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
+  /* Prevent quality loss during transforms */
+  -webkit-filter: blur(0px);
+  filter: blur(0px);
 }
 
 .image-3d-face-front {
@@ -60,6 +64,17 @@
   user-select: none;
   -webkit-user-drag: none;
   pointer-events: none;
+  /* Prevent blurry rendering during 3D transforms */
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -webkit-transform: perspective(1px) translateZ(0);
+  transform: perspective(1px) translateZ(0);
+  /* Reset any blur filter */
+  -webkit-filter: blur(0px);
+  filter: blur(0px);
+  /* Ensure best quality rendering */
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
 }
 
 .image-3d-hotspot {
