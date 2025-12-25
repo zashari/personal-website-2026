@@ -1,0 +1,86 @@
+.project-stack-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: visible;
+}
+
+.project-page {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Page is in the stack - visible at center */
+.project-page.in-stack {
+  transform: translateX(0) scale(1);
+  opacity: 1;
+}
+
+/* Page is hidden behind - same position but lower z-index */
+.project-page.hidden-behind {
+  transform: translateX(0) scale(1);
+  opacity: 1;
+  pointer-events: none;
+}
+
+/* Phase 1: Slide out to right (stays behind) */
+.project-page.slide-out-right {
+  animation: slideOutRight 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/* Phase 1: Slide out to left (stays behind) */
+.project-page.slide-out-left {
+  animation: slideOutLeft 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/* Phase 2: Slide back from right to center (now on top) */
+.project-page.slide-back-right {
+  animation: slideBackFromRight 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/* Phase 2: Slide back from left to center (now on top) */
+.project-page.slide-back-left {
+  animation: slideBackFromLeft 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes slideOutRight {
+  0% {
+    transform: translateX(0) scale(1);
+  }
+  100% {
+    transform: translateX(60%) scale(1);
+  }
+}
+
+@keyframes slideOutLeft {
+  0% {
+    transform: translateX(0) scale(1);
+  }
+  100% {
+    transform: translateX(-60%) scale(1);
+  }
+}
+
+@keyframes slideBackFromRight {
+  0% {
+    transform: translateX(60%) scale(1);
+  }
+  100% {
+    transform: translateX(0) scale(1);
+  }
+}
+
+@keyframes slideBackFromLeft {
+  0% {
+    transform: translateX(-60%) scale(1);
+  }
+  100% {
+    transform: translateX(0) scale(1);
+  }
+}
