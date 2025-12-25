@@ -145,19 +145,22 @@ const Modal = ({ isOpen, onClose, imageSrc, backImageSrc, alt, activeFolder, cur
           />
         )}
       </div>
-      <div className="modal-guide-container">
-        {getNavigationGuide() && (
-          <div className="modal-guide-text">
-            {getNavigationGuide()}
+      {/* Hide parent guide when photo modal is open */}
+      {!activePhoto && (
+        <div className="modal-guide-container">
+          {getNavigationGuide() && (
+            <div className="modal-guide-text">
+              {getNavigationGuide()}
+            </div>
+          )}
+          <div
+            className={`modal-close-text ${isMobile ? 'modal-close-text--tappable' : ''}`}
+            onClick={isMobile ? (e) => { e.stopPropagation(); onClose(); } : undefined}
+          >
+            {getCloseGuide()}
           </div>
-        )}
-        <div
-          className={`modal-close-text ${isMobile ? 'modal-close-text--tappable' : ''}`}
-          onClick={isMobile ? (e) => { e.stopPropagation(); onClose(); } : undefined}
-        >
-          {getCloseGuide()}
         </div>
-      </div>
+      )}
 
       {/* Nested Photo Modal */}
       {activePhoto && (
