@@ -45,6 +45,11 @@
   transform: rotateY(180deg);
 }
 
+.image-3d-img-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
 .image-3d-img {
   max-width: 90vw;
   max-height: 90vh;
@@ -55,5 +60,11 @@
   user-select: none;
   -webkit-user-drag: none;
   pointer-events: none;
+}
+
+.image-3d-hotspot {
+  position: absolute;
+  cursor: pointer;
+  pointer-events: auto;
 }
 

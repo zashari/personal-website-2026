@@ -1,7 +1,7 @@
 import { useRef, useState, useEffect } from 'react';
 import './Image3D.css';
 
-const Image3D = ({ imageSrc, backImageSrc, alt, isActive = true }) => {
+const Image3D = ({ imageSrc, backImageSrc, alt, isActive = true, hotspots = [], onPhotoClick }) => {
   const containerRef = useRef(null);
   const imageRef = useRef(null);
   const wrapperRef = useRef(null);
@@ -242,13 +242,64 @@ const Image3D = ({ imageSrc, backImageSrc, alt, isActive = true }) => {
       >
         <div className="image-3d-card">
           <div className="image-3d-face image-3d-face-front">
-            <img 
-              ref={imageRef}
-              src={imageSrc} 
-              alt={alt} 
-              className="image-3d-img"
-              draggable={false}
-            />
+            <div className="image-3d-img-wrapper">
+              <img
+                ref={imageRef}
+                src={imageSrc}
+                alt={alt}
+                className="image-3d-img"
+                draggable={false}
+              />
+              {/* Clickable hotspots - positioned relative to image */}
+              {hotspots.map((hotspot, index) => {
+                const hotspotStyle = {
+                  top: hotspot.top,
+                  left: hotspot.left,
+                  width: hotspot.width,
+                  height: hotspot.height,
+                  transform: hotspot.rotation ? `rotate(${hotspot.rotation})` : undefined,
+                  ...(hotspot.debugColor && {
+                    background: `${hotspot.debugColor}66`,
+                    borderColor: hotspot.debugColor,
+                  }),
+                };
+
+                // Photo type hotspot - opens nested modal
+                if (hotspot.type === 'photo' && onPhotoClick) {
+                  return (
+                    <div
+                      key={index}
+                      className="image-3d-hotspot"
+                      style={hotspotStyle}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        e.preventDefault();
+                        onPhotoClick(hotspot.photo);
+                      }}
+                      onMouseDown={(e) => e.stopPropagation()}
+                      title={hotspot.title || ''}
+                      role="button"
+                      tabIndex={0}
+                    />
+                  );
+                }
+
+                // Regular link hotspot
+                return (
+                  <a
+                    key={index}
+                    href={hotspot.href}
+                    target={hotspot.target || '_blank'}
+                    rel="noopener noreferrer"
+                    className="image-3d-hotspot"
+                    style={hotspotStyle}
+                    onClick={(e) => e.stopPropagation()}
+                    onMouseDown={(e) => e.stopPropagation()}
+                    title={hotspot.title || ''}
+                  />
+                );
+              })}
+            </div>
           </div>
           {backImageSrc && (
             <div className="image-3d-face image-3d-face-back">
