@@ -7,6 +7,8 @@ import './FlipBook3D.css';
 // Single page component with front and back textures
 const Page = ({ frontImage, backImage, position, flipAngle = 0, isLeftPage = false }) => {
   const meshRef = useRef();
+  const frontMatRef = useRef();
+  const backMatRef = useRef();
   const [frontTexture, setFrontTexture] = useState(null);
   const [backTexture, setBackTexture] = useState(null);
 
@@ -15,17 +17,41 @@ const Page = ({ frontImage, backImage, position, flipAngle = 0, isLeftPage = fal
     const loader = new THREE.TextureLoader();
     
     if (frontImage) {
-      loader.load(frontImage, (texture) => {
-        texture.flipY = false;
-        setFrontTexture(texture);
-      });
+      loader.load(
+        frontImage,
+        (texture) => {
+          texture.flipY = false;
+          texture.colorSpace = THREE.SRGBColorSpace;
+          setFrontTexture(texture);
+          if (frontMatRef.current) {
+            frontMatRef.current.map = texture;
+            frontMatRef.current.needsUpdate = true;
+          }
+        },
+        undefined,
+        (error) => {
+          console.error('Error loading front texture:', error);
+        }
+      );
     }
     
     if (backImage) {
-      loader.load(backImage, (texture) => {
-        texture.flipY = false;
-        setBackTexture(texture);
-      });
+      loader.load(
+        backImage,
+        (texture) => {
+          texture.flipY = false;
+          texture.colorSpace = THREE.SRGBColorSpace;
+          setBackTexture(texture);
+          if (backMatRef.current) {
+            backMatRef.current.map = texture;
+            backMatRef.current.needsUpdate = true;
+          }
+        },
+        undefined,
+        (error) => {
+          console.error('Error loading back texture:', error);
+        }
+      );
     }
   }, [frontImage, backImage]);
 
@@ -37,27 +63,36 @@ const Page = ({ frontImage, backImage, position, flipAngle = 0, isLeftPage = fal
     }
   });
 
-  const materials = useMemo(() => {
-    const frontMat = new THREE.MeshStandardMaterial({
+  // Create materials
+  const frontMaterial = useMemo(() => {
+    const mat = new THREE.MeshStandardMaterial({
       map: frontTexture,
       side: THREE.FrontSide,
       transparent: true,
     });
-    
-    const backMat = new THREE.MeshStandardMaterial({
+    frontMatRef.current = mat;
+    return mat;
+  }, [frontTexture]);
+
+  const backMaterial = useMemo(() => {
+    const mat = new THREE.MeshStandardMaterial({
       map: backTexture,
       side: THREE.BackSide,
       transparent: true,
     });
-    
-    return [frontMat, backMat];
-  }, [frontTexture, backTexture]);
+    backMatRef.current = mat;
+    return mat;
+  }, [backTexture]);
+
+  // Page dimensions - adjust to match typical paper aspect ratio
+  const pageWidth = 1;
+  const pageHeight = 1.4;
 
   return (
     <mesh ref={meshRef} position={position}>
-      <boxGeometry args={[1, 1.4, 0.01]} />
-      <primitive object={materials[0]} attach="material-0" />
-      <primitive object={materials[1]} attach="material-1" />
+      <boxGeometry args={[pageWidth, pageHeight, 0.01]} />
+      <primitive object={frontMaterial} attach="material-0" />
+      <primitive object={backMaterial} attach="material-1" />
     </mesh>
   );
 };
@@ -66,6 +101,11 @@ const Page = ({ frontImage, backImage, position, flipAngle = 0, isLeftPage = fal
 const BookScene = ({ pages, currentPage, onPageChange }) => {
   const [flipProgress, setFlipProgress] = useState(0);
   const previousPageRef = useRef(currentPage);
+
+  // Initialize previousPageRef
+  useEffect(() => {
+    previousPageRef.current = currentPage;
+  }, []);
 
   useEffect(() => {
     if (previousPageRef.current !== currentPage) {
@@ -94,23 +134,23 @@ const BookScene = ({ pages, currentPage, onPageChange }) => {
       };
       
       animate();
-    } else {
-      // Reset flip progress when page doesn't change
-      setFlipProgress(0);
     }
   }, [currentPage]);
 
-  const page1 = pages[0];
-  const page2 = pages[1];
+  const page1 = pages?.[0];
+  const page2 = pages?.[1];
+
+  if (!page1 || !page2) {
+    return null;
+  }
 
   // Calculate flip angle: 
   // When currentPage = 1: flipAngle = 0 (show page 1)
   // When currentPage = 2: flipAngle = PI (flip to show page 2)
   // During animation: flipAngle interpolates from 0 to PI
   const targetFlipAngle = currentPage === 1 ? 0 : Math.PI;
-  const flipAngle = previousPageRef.current === currentPage 
-    ? targetFlipAngle 
-    : targetFlipAngle * flipProgress;
+  const isAnimating = previousPageRef.current !== currentPage;
+  const flipAngle = isAnimating ? targetFlipAngle * flipProgress : targetFlipAngle;
 
   return (
     <>
@@ -127,8 +167,8 @@ const BookScene = ({ pages, currentPage, onPageChange }) => {
       
       {/* Page 1 - Left page (flips from left edge) */}
       <Page
-        frontImage={page1?.front}
-        backImage={page1?.back}
+        frontImage={page1.front}
+        backImage={page1.back}
         position={[-0.5, 0, 0]}
         flipAngle={flipAngle}
         isLeftPage={true}
@@ -136,8 +176,8 @@ const BookScene = ({ pages, currentPage, onPageChange }) => {
       
       {/* Page 2 - Right page (stays in place, becomes visible when page 1 flips) */}
       <Page
-        frontImage={page2?.front}
-        backImage={page2?.back}
+        frontImage={page2.front}
+        backImage={page2.back}
         position={[0.5, 0, 0]}
         flipAngle={0}
         isLeftPage={false}
@@ -159,9 +199,31 @@ const BookScene = ({ pages, currentPage, onPageChange }) => {
 
 // Main FlipBook3D component
 const FlipBook3D = ({ pages, currentPage, onPageChange }) => {
+  if (!pages || pages.length < 2) {
+    return (
+      <div className="flipbook-3d-container">
+        <div style={{ color: 'white', textAlign: 'center', padding: '20px' }}>
+          Loading pages...
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="flipbook-3d-container">
-      <Canvas>
+      <Canvas
+        gl={{ 
+          antialias: true, 
+          alpha: true,
+          preserveDrawingBuffer: false,
+          powerPreference: "high-performance"
+        }}
+        dpr={[1, 2]}
+        camera={{ position: [0, 0, 3.5], fov: 45 }}
+        onCreated={(state) => {
+          state.gl.setClearColor('#000000', 0);
+        }}
+      >
         <PerspectiveCamera makeDefault position={[0, 0, 3.5]} fov={45} />
         <BookScene pages={pages} currentPage={currentPage} onPageChange={onPageChange} />
       </Canvas>
