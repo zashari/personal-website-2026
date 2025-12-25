@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
 import Image3D from './Image3D';
+import ProjectStack from './ProjectStack';
 import './Modal.css';
 
-const Modal = ({ isOpen, onClose, imageSrc, backImageSrc, alt, activeFolder, currentPage, onPageChange }) => {
+const Modal = ({ isOpen, onClose, imageSrc, backImageSrc, alt, activeFolder, currentPage, onPageChange, folderPages, navigationDirection }) => {
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (!isOpen) return;
@@ -10,10 +11,10 @@ const Modal = ({ isOpen, onClose, imageSrc, backImageSrc, alt, activeFolder, cur
       if (e.key === 'Escape') {
         onClose();
       } else if (activeFolder === 3) {
-        // Handle page navigation for Folder 3
-        if (e.key === 'ArrowRight' && currentPage < 2) {
+        // Handle page navigation for Folder 3 (circular - both directions always work)
+        if (e.key === 'ArrowRight') {
           onPageChange('next');
-        } else if (e.key === 'ArrowLeft' && currentPage > 1) {
+        } else if (e.key === 'ArrowLeft') {
           onPageChange('prev');
         }
       }
@@ -33,18 +34,23 @@ const Modal = ({ isOpen, onClose, imageSrc, backImageSrc, alt, activeFolder, cur
 
   if (!isOpen) return null;
 
-  // Create a unique key that changes when page changes to reset Image3D state
-  const imageKey = activeFolder === 3 ? `folder-3-page-${currentPage}` : `folder-${activeFolder}`;
-
   return (
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-        <Image3D 
-          key={imageKey}
-          imageSrc={imageSrc} 
-          backImageSrc={backImageSrc} 
-          alt={alt} 
-        />
+        {activeFolder === 3 && folderPages ? (
+          <ProjectStack
+            pages={folderPages}
+            currentPage={currentPage}
+            navigationDirection={navigationDirection}
+          />
+        ) : (
+          <Image3D
+            key={`folder-${activeFolder}`}
+            imageSrc={imageSrc}
+            backImageSrc={backImageSrc}
+            alt={alt}
+          />
+        )}
       </div>
       <div className="modal-guide-container">
         {activeFolder === 3 && (

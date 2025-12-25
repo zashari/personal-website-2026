@@ -7,6 +7,7 @@ function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeFolder, setActiveFolder] = useState(null);
   const [currentPage, setCurrentPage] = useState(1); // For Folder 3 pages
+  const [navigationDirection, setNavigationDirection] = useState(null); // 'next' | 'prev'
 
   const folderImages = {
     1: {
@@ -38,6 +39,7 @@ function App() {
   const handleFolderClick = (folderNumber) => {
     setActiveFolder(folderNumber);
     setCurrentPage(1); // Reset to page 1 when opening Folder 3
+    setNavigationDirection(null); // Reset navigation direction
     setIsModalOpen(true);
   };
 
@@ -49,10 +51,15 @@ function App() {
 
   const handlePageChange = (direction) => {
     if (activeFolder === 3) {
-      if (direction === 'next' && currentPage < 2) {
-        setCurrentPage(2);
-      } else if (direction === 'prev' && currentPage > 1) {
-        setCurrentPage(1);
+      const totalPages = Object.keys(folderImages[3].pages).length;
+      setNavigationDirection(direction);
+
+      if (direction === 'next') {
+        // Circular: 1 -> 2 -> ... -> n -> 1
+        setCurrentPage(prev => (prev % totalPages) + 1);
+      } else if (direction === 'prev') {
+        // Circular: 1 -> n -> n-1 -> ... -> 2 -> 1
+        setCurrentPage(prev => ((prev - 2 + totalPages) % totalPages) + 1);
       }
     }
   };
@@ -97,6 +104,8 @@ function App() {
         activeFolder={activeFolder}
         currentPage={currentPage}
         onPageChange={handlePageChange}
+        folderPages={activeFolder === 3 ? folderImages[3].pages : null}
+        navigationDirection={navigationDirection}
       />
     </div>
   );

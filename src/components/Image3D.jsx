@@ -1,7 +1,7 @@
 import { useRef, useState, useEffect } from 'react';
 import './Image3D.css';
 
-const Image3D = ({ imageSrc, backImageSrc, alt }) => {
+const Image3D = ({ imageSrc, backImageSrc, alt, isActive = true }) => {
   const containerRef = useRef(null);
   const imageRef = useRef(null);
   const wrapperRef = useRef(null);
@@ -11,6 +11,15 @@ const Image3D = ({ imageSrc, backImageSrc, alt }) => {
   const [scale, setScale] = useState(1);
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [lastMouse, setLastMouse] = useState({ x: 0, y: 0 });
+
+  // Reset rotation, scale, and position when paper becomes inactive (goes to back)
+  useEffect(() => {
+    if (!isActive) {
+      setRotation({ x: 0, y: 0 });
+      setScale(1);
+      setPosition({ x: 0, y: 0 });
+    }
+  }, [isActive]);
 
   const handleMouseDown = (e) => {
     if (e.button === 0) { // Left mouse button
