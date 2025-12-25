@@ -55,8 +55,9 @@
 }
 
 .image-3d-img {
-  max-width: 90vw;
-  max-height: 90vh;
+  /* Responsive with constraints */
+  max-width: min(90vw, 1600px);
+  max-height: min(90vh, 900px);
   width: auto;
   height: auto;
   object-fit: contain;
@@ -83,3 +84,10 @@
   pointer-events: auto;
 }
 
+/* Small screens */
+@media (max-width: 768px) {
+  .image-3d-img {
+    max-width: 95vw;
+    max-height: 80vh;
+  }
+}

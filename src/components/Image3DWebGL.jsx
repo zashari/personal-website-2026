@@ -341,6 +341,91 @@ const Image3DWebGL = ({
     setIsDragging(false);
   }, []);
 
+  // Touch support for mobile
+  const [lastTouch, setLastTouch] = useState({ x: 0, y: 0 });
+  const [lastPinchDistance, setLastPinchDistance] = useState(null);
+
+  const getTouchDistance = (touches) => {
+    if (touches.length < 2) return null;
+    const dx = touches[0].clientX - touches[1].clientX;
+    const dy = touches[0].clientY - touches[1].clientY;
+    return Math.sqrt(dx * dx + dy * dy);
+  };
+
+  const getTouchCenter = (touches) => {
+    if (touches.length < 2) return null;
+    return {
+      x: (touches[0].clientX + touches[1].clientX) / 2,
+      y: (touches[0].clientY + touches[1].clientY) / 2,
+    };
+  };
+
+  const handleTouchStart = useCallback((e) => {
+    if (e.touches.length === 1) {
+      // Single finger - start rotation
+      setIsDragging(true);
+      setLastTouch({ x: e.touches[0].clientX, y: e.touches[0].clientY });
+    } else if (e.touches.length === 2) {
+      // Two fingers - start pinch zoom
+      setIsDragging(false);
+      setLastPinchDistance(getTouchDistance(e.touches));
+    }
+  }, []);
+
+  const handleTouchMove = useCallback((e) => {
+    e.preventDefault();
+
+    if (e.touches.length === 1 && isDragging) {
+      // Single finger - rotate
+      const touch = e.touches[0];
+      const deltaX = touch.clientX - lastTouch.x;
+      const deltaY = touch.clientY - lastTouch.y;
+
+      setRotation(prev => ({
+        x: prev.x + deltaY * 0.5,
+        y: prev.y + deltaX * 0.5
+      }));
+
+      setLastTouch({ x: touch.clientX, y: touch.clientY });
+    } else if (e.touches.length === 2 && lastPinchDistance !== null) {
+      // Two fingers - pinch zoom
+      const newDistance = getTouchDistance(e.touches);
+      if (newDistance) {
+        const pinchScale = newDistance / lastPinchDistance;
+        const newScale = Math.max(0.5, Math.min(3, scale * pinchScale));
+
+        // Get pinch center for zoom-to-point
+        const container = containerRef.current;
+        if (container) {
+          const containerRect = container.getBoundingClientRect();
+          const containerCenterX = containerRect.left + containerRect.width / 2;
+          const containerCenterY = containerRect.top + containerRect.height / 2;
+
+          const touchCenter = getTouchCenter(e.touches);
+          const touchX = touchCenter.x - containerCenterX;
+          const touchY = touchCenter.y - containerCenterY;
+          const adjustedTouchX = isBackside ? -touchX : touchX;
+
+          const pointX = (adjustedTouchX - position.x) / scale;
+          const pointY = (touchY - position.y) / scale;
+
+          const newPositionX = adjustedTouchX - pointX * newScale;
+          const newPositionY = touchY - pointY * newScale;
+
+          setPosition({ x: newPositionX, y: newPositionY });
+        }
+
+        setScale(newScale);
+        setLastPinchDistance(newDistance);
+      }
+    }
+  }, [isDragging, lastTouch, lastPinchDistance, scale, position, isBackside, setRotation, setScale, setPosition]);
+
+  const handleTouchEnd = useCallback(() => {
+    setIsDragging(false);
+    setLastPinchDistance(null);
+  }, []);
+
   const handleWheel = useCallback((e) => {
     e.preventDefault();
 
@@ -376,11 +461,13 @@ const Image3DWebGL = ({
     if (!container) return;
 
     container.addEventListener('wheel', handleWheel, { passive: false });
+    container.addEventListener('touchmove', handleTouchMove, { passive: false });
 
     return () => {
       container.removeEventListener('wheel', handleWheel);
+      container.removeEventListener('touchmove', handleTouchMove);
     };
-  }, [handleWheel]);
+  }, [handleWheel, handleTouchMove]);
 
   const handleTextureLoad = useCallback(() => {
     setIsLoaded(true);
@@ -398,6 +485,8 @@ const Image3DWebGL = ({
       onMouseMove={handleMouseMove}
       onMouseUp={handleMouseUp}
       onMouseLeave={handleMouseUp}
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
     >
       <Canvas
         camera={{ position: [0, 0, 5], fov: 50 }}

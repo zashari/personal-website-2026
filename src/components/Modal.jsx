@@ -1,9 +1,60 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState, useCallback, useRef } from 'react';
 import Image3DWebGL from './Image3DWebGL';
 import ProjectStack from './ProjectStack';
 import './Modal.css';
 
 const Modal = ({ isOpen, onClose, imageSrc, backImageSrc, alt, activeFolder, currentPage, onPageChange, folderPages, navigationDirection, hotspots, activePhoto, onPhotoClick, onClosePhoto }) => {
+  // Touch swipe detection for folder-3 navigation
+  const touchStartRef = useRef({ x: 0, y: 0 });
+  const swipeDetectedRef = useRef(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Detect mobile device
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.matchMedia('(max-width: 768px)').matches || 'ontouchstart' in window);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  const handleTouchStart = useCallback((e) => {
+    swipeDetectedRef.current = false;
+    touchStartRef.current = {
+      x: e.touches[0].clientX,
+      y: e.touches[0].clientY,
+    };
+  }, []);
+
+  const handleTouchEnd = useCallback((e) => {
+    if (activeFolder !== 3 || activePhoto) return;
+
+    const touchEnd = {
+      x: e.changedTouches[0].clientX,
+      y: e.changedTouches[0].clientY,
+    };
+
+    const deltaX = touchEnd.x - touchStartRef.current.x;
+    const deltaY = touchEnd.y - touchStartRef.current.y;
+
+    // Only trigger swipe if horizontal movement is significant and greater than vertical
+    const minSwipeDistance = 50;
+    if (Math.abs(deltaX) > minSwipeDistance && Math.abs(deltaX) > Math.abs(deltaY)) {
+      e.preventDefault();
+      e.stopPropagation();
+      swipeDetectedRef.current = true;
+
+      if (deltaX > 0) {
+        // Swipe right -> previous page
+        onPageChange('prev');
+      } else {
+        // Swipe left -> next page
+        onPageChange('next');
+      }
+    }
+  }, [activeFolder, activePhoto, onPageChange]);
+
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (!isOpen) return;
@@ -40,9 +91,43 @@ const Modal = ({ isOpen, onClose, imageSrc, backImageSrc, alt, activeFolder, cur
 
   if (!isOpen) return null;
 
+  // Guide text based on device type
+  const getNavigationGuide = () => {
+    if (activeFolder === 3) {
+      return isMobile
+        ? 'Swipe left/right to navigate pages.'
+        : 'Press [←] [→] to navigate pages.';
+    }
+    return null;
+  };
+
+  const getCloseGuide = () => {
+    return isMobile
+      ? 'Tap here to close.'
+      : 'Press [esc] to close.';
+  };
+
+  const getPhotoCloseGuide = () => {
+    return isMobile
+      ? 'Tap here to close photo.'
+      : 'Press [esc] to close photo.';
+  };
+
   return (
     <div className="modal-overlay" onClick={onClose}>
-      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+      <div
+        className="modal-content"
+        onClick={(e) => {
+          e.stopPropagation();
+          // Block ghost clicks after swipe
+          if (swipeDetectedRef.current) {
+            swipeDetectedRef.current = false;
+            e.preventDefault();
+          }
+        }}
+        onTouchStart={activeFolder === 3 ? handleTouchStart : undefined}
+        onTouchEnd={activeFolder === 3 ? handleTouchEnd : undefined}
+      >
         {activeFolder === 3 && folderPages ? (
           <ProjectStack
             pages={folderPages}
@@ -61,12 +146,17 @@ const Modal = ({ isOpen, onClose, imageSrc, backImageSrc, alt, activeFolder, cur
         )}
       </div>
       <div className="modal-guide-container">
-        {activeFolder === 3 && (
+        {getNavigationGuide() && (
           <div className="modal-guide-text">
-            Press [←] [→] to navigate pages.
+            {getNavigationGuide()}
           </div>
         )}
-        <div className="modal-close-text">Press [esc] to close.</div>
+        <div
+          className={`modal-close-text ${isMobile ? 'modal-close-text--tappable' : ''}`}
+          onClick={isMobile ? (e) => { e.stopPropagation(); onClose(); } : undefined}
+        >
+          {getCloseGuide()}
+        </div>
       </div>
 
       {/* Nested Photo Modal */}
@@ -80,7 +170,12 @@ const Modal = ({ isOpen, onClose, imageSrc, backImageSrc, alt, activeFolder, cur
             />
           </div>
           <div className="modal-guide-container">
-            <div className="modal-close-text">Press [esc] to close photo.</div>
+            <div
+              className={`modal-close-text ${isMobile ? 'modal-close-text--tappable' : ''}`}
+              onClick={isMobile ? (e) => { e.stopPropagation(); onClosePhoto(); } : undefined}
+            >
+              {getPhotoCloseGuide()}
+            </div>
           </div>
         </div>
       )}
@@ -89,4 +184,3 @@ const Modal = ({ isOpen, onClose, imageSrc, backImageSrc, alt, activeFolder, cur
 };
 
 export default Modal;
-
