@@ -3,15 +3,21 @@ import Image3D from './Image3D';
 import ProjectStack from './ProjectStack';
 import './Modal.css';
 
-const Modal = ({ isOpen, onClose, imageSrc, backImageSrc, alt, activeFolder, currentPage, onPageChange, folderPages, navigationDirection }) => {
+const Modal = ({ isOpen, onClose, imageSrc, backImageSrc, alt, activeFolder, currentPage, onPageChange, folderPages, navigationDirection, hotspots, activePhoto, onPhotoClick, onClosePhoto }) => {
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (!isOpen) return;
 
       if (e.key === 'Escape') {
-        onClose();
-      } else if (activeFolder === 3) {
+        // If photo modal is open, close it first
+        if (activePhoto) {
+          onClosePhoto();
+        } else {
+          onClose();
+        }
+      } else if (activeFolder === 3 && !activePhoto) {
         // Handle page navigation for Folder 3 (circular - both directions always work)
+        // Only when photo modal is not open
         if (e.key === 'ArrowRight') {
           onPageChange('next');
         } else if (e.key === 'ArrowLeft') {
@@ -30,7 +36,7 @@ const Modal = ({ isOpen, onClose, imageSrc, backImageSrc, alt, activeFolder, cur
       document.removeEventListener('keydown', handleKeyDown);
       document.body.style.overflow = 'unset';
     };
-  }, [isOpen, onClose, activeFolder, currentPage, onPageChange]);
+  }, [isOpen, onClose, activeFolder, currentPage, onPageChange, activePhoto, onClosePhoto]);
 
   if (!isOpen) return null;
 
@@ -49,6 +55,8 @@ const Modal = ({ isOpen, onClose, imageSrc, backImageSrc, alt, activeFolder, cur
             imageSrc={imageSrc}
             backImageSrc={backImageSrc}
             alt={alt}
+            hotspots={hotspots}
+            onPhotoClick={onPhotoClick}
           />
         )}
       </div>
@@ -60,6 +68,22 @@ const Modal = ({ isOpen, onClose, imageSrc, backImageSrc, alt, activeFolder, cur
         )}
         <div className="modal-close-text">Press [esc] to close.</div>
       </div>
+
+      {/* Nested Photo Modal */}
+      {activePhoto && (
+        <div className="photo-modal-overlay" onClick={onClosePhoto}>
+          <div className="photo-modal-content" onClick={(e) => e.stopPropagation()}>
+            <Image3D
+              imageSrc={activePhoto.front}
+              backImageSrc={activePhoto.back}
+              alt={activePhoto.alt}
+            />
+          </div>
+          <div className="modal-guide-container">
+            <div className="modal-close-text">Press [esc] to close photo.</div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

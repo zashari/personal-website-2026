@@ -8,17 +8,98 @@ function App() {
   const [activeFolder, setActiveFolder] = useState(null);
   const [currentPage, setCurrentPage] = useState(1); // For Folder 3 pages
   const [navigationDirection, setNavigationDirection] = useState(null); // 'next' | 'prev'
+  const [activePhoto, setActivePhoto] = useState(null); // For photo popup
 
   const folderImages = {
     1: {
       front: '/assets/paper-personal-info.png',
       back: '/assets/paper-personal-info-back.png',
-      alt: 'Personal Info'
+      alt: 'Personal Info',
+      hotspots: [
+        {
+          top: '26.5%',
+          left: '26%',
+          width: '22%',
+          height: '2.8%',
+          href: 'https://wa.me/6281248777317',
+          title: 'WhatsApp',
+        },
+        {
+          top: '26.5%',
+          left: '57%',
+          width: '30%',
+          height: '2.8%',
+          href: 'mailto:izzat.zaky@gmail.com',
+          title: 'Email',
+        },
+        {
+          top: '-2%',
+          left: '62.5%',
+          width: '25.5%',
+          height: '20.2%',
+          rotation: '0deg',
+          type: 'photo',
+          photo: {
+            front: '/assets/personal-paper-photo-2-front.png',
+            back: '/assets/personal-paper-photo-2-back.png',
+            alt: 'Photo 2',
+          },
+          title: 'Photo 2',
+          debugColor: 'red',
+        },
+        {
+          top: '6%',
+          left: '75%',
+          width: '24%',
+          height: '17%',
+          rotation: '7.12deg',
+          type: 'photo',
+          photo: {
+            front: '/assets/personal-paper-photo-1-front.png',
+            back: '/assets/personal-paper-photo-1-back.png',
+            alt: 'Photo 1',
+          },
+          title: 'Photo 1',
+          debugColor: 'blue',
+        },
+      ],
     },
     2: {
       front: '/assets/paper-professional-info.png',
       back: '/assets/paper-professional-info-back.png',
-      alt: 'Professional Info'
+      alt: 'Professional Info',
+      hotspots: [
+        {
+          top: '0.5%',
+          left: '62.5%',
+          width: '19%',
+          height: '13.5%',
+          rotation: '0deg',
+          type: 'photo',
+          photo: {
+            front: '/assets/professional-paper-photo-2-front.png',
+            back: '/assets/professional-paper-photo-2-back.png',
+            alt: 'Photo 2',
+          },
+          title: 'Photo 2',
+          debugColor: 'red',
+        },
+        {
+          top: '2.1%',
+          left: '76.4%',
+          width: '21.2%',
+          height: '15.5%',
+          rotation: '15deg',
+          type: 'photo',
+          photo: {
+            front: '/assets/professional-paper-photo-1-front.png',
+            back: '/assets/professional-paper-photo-1-back.png',
+            alt: 'Photo 1',
+          },
+          title: 'Photo 1',
+          debugColor: 'blue',
+        },
+      ],
     },
     3: {
       pages: {
@@ -47,6 +128,15 @@ function App() {
     setIsModalOpen(false);
     setActiveFolder(null);
     setCurrentPage(1); // Reset page when closing
+    setActivePhoto(null); // Reset photo when closing
+  };
+
+  const handlePhotoClick = (photo) => {
+    setActivePhoto(photo);
+  };
+
+  const handleClosePhoto = () => {
+    setActivePhoto(null);
   };
 
   const handlePageChange = (direction) => {
@@ -106,6 +196,10 @@ function App() {
         onPageChange={handlePageChange}
         folderPages={activeFolder === 3 ? folderImages[3].pages : null}
         navigationDirection={navigationDirection}
+        hotspots={currentImages.hotspots || []}
+        activePhoto={activePhoto}
+        onPhotoClick={handlePhotoClick}
+        onClosePhoto={handleClosePhoto}
       />
     </div>
   );
