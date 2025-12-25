@@ -344,49 +344,28 @@ const Image3DWebGL = ({
   const handleWheel = useCallback((e) => {
     e.preventDefault();
 
+    const container = containerRef.current;
+    if (!container) return;
+
     const delta = e.deltaY > 0 ? 0.9 : 1.1;
     const newScale = Math.max(0.5, Math.min(3, scale * delta));
-
-    if (newScale <= 1) {
-      setPosition({ x: 0, y: 0 });
-      setScale(newScale);
-      return;
-    }
-
-    const container = containerRef.current;
-    if (!container) {
-      setScale(newScale);
-      return;
-    }
 
     const containerRect = container.getBoundingClientRect();
     const containerCenterX = containerRect.left + containerRect.width / 2;
     const containerCenterY = containerRect.top + containerRect.height / 2;
 
+    // Cursor position relative to container center
     const mouseX = e.clientX - containerCenterX;
     const mouseY = e.clientY - containerCenterY;
     const adjustedMouseX = isBackside ? -mouseX : mouseX;
 
-    const baseWidth = containerRect.width * 0.85;
-    const baseHeight = containerRect.height * 0.85;
-
-    const scaledWidth = baseWidth * newScale;
-    const scaledHeight = baseHeight * newScale;
-
-    const containerWidth = containerRect.width;
-    const containerHeight = containerRect.height;
-
+    // Calculate the point on the paper that's under the cursor (in paper coordinates)
     const pointX = (adjustedMouseX - position.x) / scale;
     const pointY = (mouseY - position.y) / scale;
 
-    let newPositionX = adjustedMouseX - pointX * newScale;
-    let newPositionY = mouseY - pointY * newScale;
-
-    const maxOffsetX = Math.max(0, (scaledWidth - containerWidth) / 2);
-    const maxOffsetY = Math.max(0, (scaledHeight - containerHeight) / 2);
-
-    newPositionX = Math.max(-maxOffsetX, Math.min(maxOffsetX, newPositionX));
-    newPositionY = Math.max(-maxOffsetY, Math.min(maxOffsetY, newPositionY));
+    // Calculate new position to keep that point under the cursor (no clamping)
+    const newPositionX = adjustedMouseX - pointX * newScale;
+    const newPositionY = mouseY - pointY * newScale;
 
     setPosition({ x: newPositionX, y: newPositionY });
     setScale(newScale);
