@@ -15,7 +15,7 @@
   height: auto;
   background-color: transparent;
   position: absolute;
-  top: -100px;
+  top: -10.7vh; /* -100px at 934px baseline */
   left: 0;
   z-index: 1;
   transition: top 0.3s ease;
@@ -34,38 +34,186 @@
 /* Folder 1 (Personal Info) - Front-most */
 .folder-1 {
   z-index: 4;
-  bottom: -150px;
+  bottom: -45vh; /* Base: lower position for bigger screens */
 }
 
 .folder-1:hover .folder-preview {
-  top: -150px;
+  top: -16vh;
 }
 
 /* Folder 2 (Professional Info) - Middle-front */
 .folder-2 {
   z-index: 3;
-  bottom: 100px;
+  bottom: -22vh; /* Base: lower position for bigger screens */
 }
 
 .folder-2 .folder-preview {
-  top: -50px;
+  top: -5.4vh;
 }
 
 .folder-2:hover .folder-preview {
-  top: -100px;
+  top: -10.7vh;
 }
 
 /* Folder 3 (Projects) - Middle-back */
 .folder-3 {
   z-index: 2;
-  bottom: 300px;
+  bottom: -2vh; /* Base: lower position for bigger screens */
 }
 
 .folder-3 .folder-preview {
-  top: -60px;
+  top: -6.4vh;
 }
 
 .folder-3:hover .folder-preview {
-  top: -110px;
+  top: -11.8vh;
 }
 
+/* Responsive adjustments for different screen heights */
+
+/* Small/narrow screens (under 850px height) */
+@media (max-height: 850px) {
+  .folder-1 {
+    bottom: -10vh;
+  }
+  .folder-2 {
+    bottom: 12vh;
+  }
+  .folder-3 {
+    bottom: 32vh;
+  }
+  .folder-preview {
+    top: -8vh;
+  }
+  .folder-1:hover .folder-preview {
+    top: -12vh;
+  }
+  .folder-2 .folder-preview {
+    top: -4vh;
+  }
+  .folder-2:hover .folder-preview {
+    top: -8vh;
+  }
+  .folder-3 .folder-preview {
+    top: -5vh;
+  }
+  .folder-3:hover .folder-preview {
+    top: -9vh;
+  }
+}
+
+/* Very small height screens */
+@media (max-height: 650px) {
+  .folder-1 {
+    bottom: -2vh;
+  }
+  .folder-2 {
+    bottom: 15vh;
+  }
+  .folder-3 {
+    bottom: 30vh;
+  }
+}
+
+/* Tall screens (large monitors, 1440p+) */
+@media (min-height: 1100px) {
+  .folder-1 {
+    bottom: -28vh;
+  }
+  .folder-2 {
+    bottom: 2vh;
+  }
+  .folder-3 {
+    bottom: 25vh;
+  }
+  .folder-preview {
+    top: -12vh;
+  }
+  .folder-1:hover .folder-preview {
+    top: -18vh;
+  }
+  .folder-2 .folder-preview {
+    top: -6vh;
+  }
+  .folder-2:hover .folder-preview {
+    top: -12vh;
+  }
+  .folder-3 .folder-preview {
+    top: -7vh;
+  }
+  .folder-3:hover .folder-preview {
+    top: -13vh;
+  }
+}
+
+/* Very tall screens (4K) */
+@media (min-height: 1600px) {
+  .folder-1 {
+    bottom: -30vh;
+  }
+  .folder-2 {
+    bottom: 4vh;
+  }
+  .folder-3 {
+    bottom: 28vh;
+  }
+}
+
+/* Mobile screens - scale up and crop right side */
+@media (max-width: 768px) {
+  .folder {
+    width: 180vw; /* Scale up width */
+    left: -10vw; /* Shift left to keep labels visible */
+    transform-origin: left center;
+  }
+
+  .folder-1 {
+    bottom: -5vh;
+  }
+  .folder-2 {
+    bottom: 18vh;
+  }
+  .folder-3 {
+    bottom: 38vh;
+  }
+
+  .folder-preview {
+    top: -6vh;
+  }
+  .folder-1:hover .folder-preview,
+  .folder-1:active .folder-preview {
+    top: -10vh;
+  }
+  .folder-2 .folder-preview {
+    top: -4vh;
+  }
+  .folder-2:hover .folder-preview,
+  .folder-2:active .folder-preview {
+    top: -7vh;
+  }
+  .folder-3 .folder-preview {
+    top: -4vh;
+  }
+  .folder-3:hover .folder-preview,
+  .folder-3:active .folder-preview {
+    top: -7vh;
+  }
+}
+
+/* Very narrow mobile screens */
+@media (max-width: 480px) {
+  .folder {
+    width: 220vw; /* Even larger scale */
+    left: -5vw;
+  }
+
+  .folder-1 {
+    bottom: -2vh;
+  }
+  .folder-2 {
+    bottom: 20vh;
+  }
+  .folder-3 {
+    bottom: 40vh;
+  }
+}

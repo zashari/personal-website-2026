@@ -14,8 +14,9 @@
 
 .modal-content {
   position: relative;
-  width: 90vw;
-  height: 90vh;
+  /* Responsive sizing with constraints */
+  width: min(90vw, 1800px);
+  height: min(90vh, 1000px);
   background-color: transparent;
   cursor: default;
   pointer-events: auto;
@@ -30,27 +31,45 @@
 
 .modal-guide-container {
   position: fixed;
-  bottom: 20px;
-  right: 20px;
+  bottom: clamp(12px, 3vh, 30px);
+  right: clamp(12px, 3vw, 30px);
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  gap: 8px;
+  gap: clamp(4px, 1vh, 12px);
   pointer-events: none;
+  z-index: 10001; /* Above all modal content */
 }
 
 .modal-guide-text {
   font-family: 'JMH Typewriter', monospace;
   color: #ffffff;
   font-weight: bold;
-  font-size: 16px;
+  font-size: clamp(12px, 1.5vw, 18px);
 }
 
 .modal-close-text {
   font-family: 'JMH Typewriter', monospace;
   color: #ffffff;
   font-weight: bold;
-  font-size: 16px;
+  font-size: clamp(12px, 1.5vw, 18px);
+}
+
+.modal-close-text--tappable {
+  pointer-events: auto;
+  cursor: pointer;
+  padding: 12px 20px;
+  background-color: rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  transition: background-color 0.2s ease;
+  touch-action: manipulation; /* Disable double-tap zoom for faster taps */
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+
+.modal-close-text--tappable:active {
+  background-color: rgba(255, 255, 255, 0.3);
 }
 
 /* Nested Photo Modal */
@@ -70,11 +89,42 @@
 
 .photo-modal-content {
   position: relative;
-  width: 90vw;
-  height: 90vh;
+  /* Responsive sizing with constraints */
+  width: min(90vw, 1800px);
+  height: min(90vh, 1000px);
   background-color: transparent;
   cursor: default;
   pointer-events: auto;
 }
 
+/* Responsive adjustments for small screens */
+@media (max-width: 768px) {
+  .modal-content,
+  .photo-modal-content {
+    width: 100vw;
+    height: 100vh;
+  }
 
+  .modal-guide-container {
+    bottom: 15px;
+    right: auto;
+    left: 50%;
+    transform: translateX(-50%);
+    align-items: center;
+  }
+
+  .modal-guide-text,
+  .modal-close-text {
+    font-size: 14px;
+    text-align: center;
+  }
+}
+
+/* Responsive adjustments for very large screens */
+@media (min-width: 2560px) {
+  .modal-content,
+  .photo-modal-content {
+    max-width: 2000px;
+    max-height: 1200px;
+  }
+}
