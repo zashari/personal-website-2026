@@ -72,6 +72,34 @@
   background-color: rgba(255, 255, 255, 0.3);
 }
 
+/* Mobile navigation buttons for folder-3 */
+.modal-nav-buttons {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  pointer-events: auto;
+}
+
+.modal-nav-btn {
+  font-family: 'JMH Typewriter', monospace;
+  font-size: 18px;
+  font-weight: bold;
+  color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+  padding: 12px 20px;
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  transition: background-color 0.2s ease;
+}
+
+.modal-nav-btn:active {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
 /* Nested Photo Modal */
 .photo-modal-overlay {
   position: fixed;
