@@ -392,7 +392,15 @@ const Image3DWebGL = ({
       const newDistance = getTouchDistance(e.touches);
       if (newDistance) {
         const pinchScale = newDistance / lastPinchDistance;
-        const newScale = Math.max(0.5, Math.min(3, scale * pinchScale));
+        const newScale = Math.max(1, Math.min(3, scale * pinchScale));
+
+        // Reset to center when at initial scale (1)
+        if (newScale <= 1) {
+          setPosition({ x: 0, y: 0 });
+          setScale(1);
+          setLastPinchDistance(newDistance);
+          return;
+        }
 
         // Get pinch center for zoom-to-point
         const container = containerRef.current;
@@ -433,7 +441,14 @@ const Image3DWebGL = ({
     if (!container) return;
 
     const delta = e.deltaY > 0 ? 0.9 : 1.1;
-    const newScale = Math.max(0.5, Math.min(3, scale * delta));
+    const newScale = Math.max(1, Math.min(3, scale * delta));
+
+    // Reset to center when at initial scale (1)
+    if (newScale <= 1) {
+      setPosition({ x: 0, y: 0 });
+      setScale(1);
+      return;
+    }
 
     const containerRect = container.getBoundingClientRect();
     const containerCenterX = containerRect.left + containerRect.width / 2;
