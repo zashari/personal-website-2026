@@ -301,6 +301,16 @@ const Image3DWebGL = ({
     }
   }, [isControlled, onTransformChange, transform]);
 
+  // Combined setter for position and scale to avoid race conditions in controlled mode
+  const setPositionAndScale = useCallback((newPosition, newScale) => {
+    if (isControlled && onTransformChange) {
+      onTransformChange({ ...transform, position: newPosition, scale: newScale });
+    } else {
+      setInternalPosition(newPosition);
+      setInternalScale(newScale);
+    }
+  }, [isControlled, onTransformChange, transform]);
+
   // Reset when paper becomes inactive (only in uncontrolled mode)
   useEffect(() => {
     if (!isActive && !isControlled) {
@@ -396,8 +406,7 @@ const Image3DWebGL = ({
 
         // Reset to center when at initial scale (1)
         if (newScale <= 1) {
-          setPosition({ x: 0, y: 0 });
-          setScale(1);
+          setPositionAndScale({ x: 0, y: 0 }, 1);
           setLastPinchDistance(newDistance);
           return;
         }
@@ -420,14 +429,16 @@ const Image3DWebGL = ({
           const newPositionX = adjustedTouchX - pointX * newScale;
           const newPositionY = touchY - pointY * newScale;
 
-          setPosition({ x: newPositionX, y: newPositionY });
+          // Use combined setter to avoid race conditions in controlled mode
+          setPositionAndScale({ x: newPositionX, y: newPositionY }, newScale);
+        } else {
+          setPositionAndScale(position, newScale);
         }
 
-        setScale(newScale);
         setLastPinchDistance(newDistance);
       }
     }
-  }, [isDragging, lastTouch, lastPinchDistance, scale, position, isBackside, setRotation, setScale, setPosition]);
+  }, [isDragging, lastTouch, lastPinchDistance, scale, position, isBackside, setRotation, setPositionAndScale]);
 
   const handleTouchEnd = useCallback(() => {
     setIsDragging(false);
@@ -445,8 +456,7 @@ const Image3DWebGL = ({
 
     // Reset to center when at initial scale (1)
     if (newScale <= 1) {
-      setPosition({ x: 0, y: 0 });
-      setScale(1);
+      setPositionAndScale({ x: 0, y: 0 }, 1);
       return;
     }
 
@@ -467,9 +477,9 @@ const Image3DWebGL = ({
     const newPositionX = adjustedMouseX - pointX * newScale;
     const newPositionY = mouseY - pointY * newScale;
 
-    setPosition({ x: newPositionX, y: newPositionY });
-    setScale(newScale);
-  }, [scale, position, isBackside, setScale, setPosition]);
+    // Use combined setter to avoid race conditions in controlled mode
+    setPositionAndScale({ x: newPositionX, y: newPositionY }, newScale);
+  }, [scale, position, isBackside, setPositionAndScale]);
 
   useEffect(() => {
     const container = containerRef.current;
