@@ -105,13 +105,13 @@ const Modal = ({ isOpen, onClose, imageSrc, backImageSrc, alt, activeFolder, cur
 
   const getCloseGuide = () => {
     return isMobile
-      ? 'Tap here to close.'
+      ? 'Exit'
       : 'Press [esc] to close.';
   };
 
   const getPhotoCloseGuide = () => {
     return isMobile
-      ? 'Tap here to close photo.'
+      ? 'Exit'
       : 'Press [esc] to close photo.';
   };
 
