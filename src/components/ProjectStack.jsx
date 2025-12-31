@@ -25,6 +25,7 @@ const ProjectStack = ({ pages, currentPage, navigationDirection, onLoadComplete 
   const [animatingPage, setAnimatingPage] = useState(null);
   const [slideDirection, setSlideDirection] = useState(null); // 'right' | 'left'
   const [animationPhase, setAnimationPhase] = useState(null); // 'slide-out' | 'slide-back'
+  const [slideOffset, setSlideOffset] = useState(0); // Current translateX percentage
   const prevPageRef = useRef(currentPage);
 
   // Reset transform when page changes
@@ -40,6 +41,7 @@ const ProjectStack = ({ pages, currentPage, navigationDirection, onLoadComplete 
       // Use navigation direction from props (not calculated from page numbers)
       // 'next' -> slide from right, 'prev' -> slide from left
       const direction = navigationDirection === 'next' ? 'right' : 'left';
+      const offsetValue = direction === 'right' ? 60 : -60;
 
       // Reset transform when changing pages
       setStackTransform(DEFAULT_TRANSFORM);
@@ -48,8 +50,17 @@ const ProjectStack = ({ pages, currentPage, navigationDirection, onLoadComplete 
       setAnimatingPage(incomingPage);
       setSlideDirection(direction);
       setAnimationPhase('slide-out');
+      // Start at center, will animate to offset
+      setSlideOffset(0);
 
-      // Phase 2: At midpoint, update stack order
+      // Trigger the slide-out animation after a frame
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          setSlideOffset(offsetValue);
+        });
+      });
+
+      // Phase 2: At midpoint, update stack order and start slide back
       const midpointTimer = setTimeout(() => {
         setAnimationPhase('slide-back');
         // Circular carousel: move previous page to back, incoming page to top
@@ -61,6 +72,8 @@ const ProjectStack = ({ pages, currentPage, navigationDirection, onLoadComplete 
           // Prev page goes to back (start of array), incoming goes to top (end of array)
           return [prevPage, ...withoutBoth, incomingPage];
         });
+        // Slide back to center
+        setSlideOffset(0);
       }, 400); // Half of the animation (0.4s)
 
       // Clear animation state after complete
@@ -68,6 +81,7 @@ const ProjectStack = ({ pages, currentPage, navigationDirection, onLoadComplete 
         setAnimatingPage(null);
         setSlideDirection(null);
         setAnimationPhase(null);
+        setSlideOffset(0);
       }, 800);
 
       prevPageRef.current = currentPage;
@@ -81,7 +95,7 @@ const ProjectStack = ({ pages, currentPage, navigationDirection, onLoadComplete 
   // Get the page data for rendering
   const getPageData = (pageNum) => pages[pageNum];
 
-  // Determine z-index and animation classes for each page
+  // Determine z-index, class, and inline style for each page
   const getPageStyle = (pageNum) => {
     const stackIndex = stack.indexOf(pageNum);
     const isInStack = stackIndex !== -1;
@@ -92,13 +106,15 @@ const ProjectStack = ({ pages, currentPage, navigationDirection, onLoadComplete 
         // Phase 1: Sliding out, stays behind current top
         return {
           zIndex: 0, // Behind everything
-          className: `project-page slide-out-${slideDirection}`
+          className: 'project-page animating',
+          transform: `translateX(${slideOffset}%)`
         };
       } else if (animationPhase === 'slide-back') {
         // Phase 2: Sliding back, now on top
         return {
           zIndex: stack.length + 1,
-          className: `project-page slide-back-${slideDirection}`
+          className: 'project-page animating',
+          transform: `translateX(${slideOffset}%)`
         };
       }
     }
@@ -106,14 +122,16 @@ const ProjectStack = ({ pages, currentPage, navigationDirection, onLoadComplete 
     if (isInStack) {
       return {
         zIndex: stackIndex + 1,
-        className: 'project-page in-stack'
+        className: 'project-page in-stack',
+        transform: 'translateX(0)'
       };
     }
 
     // Page not yet in stack and not animating
     return {
       zIndex: 0,
-      className: 'project-page hidden-behind'
+      className: 'project-page hidden-behind',
+      transform: 'translateX(0)'
     };
   };
 
@@ -123,7 +141,7 @@ const ProjectStack = ({ pages, currentPage, navigationDirection, onLoadComplete 
       {Object.keys(pages).map((pageKey) => {
         const pageNum = parseInt(pageKey);
         const pageData = getPageData(pageNum);
-        const { zIndex, className } = getPageStyle(pageNum);
+        const { zIndex, className, transform } = getPageStyle(pageNum);
 
         // Page is active (interactive) only when it's on top of the stack
         const isTopOfStack = stack[stack.length - 1] === pageNum;
@@ -132,7 +150,7 @@ const ProjectStack = ({ pages, currentPage, navigationDirection, onLoadComplete 
           <div
             key={`page-${pageNum}`}
             className={className}
-            style={{ zIndex }}
+            style={{ zIndex, transform }}
           >
             <Image3DWebGL
               imageSrc={pageData.front}
