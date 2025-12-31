@@ -8,6 +8,30 @@ const Modal = ({ isOpen, onClose, imageSrc, backImageSrc, alt, activeFolder, cur
   const touchStartRef = useRef({ x: 0, y: 0 });
   const swipeDetectedRef = useRef(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isPhotoLoading, setIsPhotoLoading] = useState(true);
+
+  // Reset loading state when modal opens or folder changes
+  useEffect(() => {
+    if (isOpen) {
+      setIsLoading(true);
+    }
+  }, [isOpen, activeFolder]);
+
+  // Reset photo loading state when photo changes
+  useEffect(() => {
+    if (activePhoto) {
+      setIsPhotoLoading(true);
+    }
+  }, [activePhoto]);
+
+  const handleLoadComplete = useCallback(() => {
+    setIsLoading(false);
+  }, []);
+
+  const handlePhotoLoadComplete = useCallback(() => {
+    setIsPhotoLoading(false);
+  }, []);
 
   // Detect mobile device
   useEffect(() => {
@@ -130,11 +154,21 @@ const Modal = ({ isOpen, onClose, imageSrc, backImageSrc, alt, activeFolder, cur
         onTouchStart={activeFolder === 3 ? handleTouchStart : undefined}
         onTouchEnd={activeFolder === 3 ? handleTouchEnd : undefined}
       >
+        {/* Loading Indicator */}
+        {isLoading && (
+          <div className="modal-loading">
+            <span className="modal-loading-text">Loading</span>
+            <span className="modal-loading-dots">
+              <span>.</span><span>.</span><span>.</span>
+            </span>
+          </div>
+        )}
         {activeFolder === 3 && folderPages ? (
           <ProjectStack
             pages={folderPages}
             currentPage={currentPage}
             navigationDirection={navigationDirection}
+            onLoadComplete={handleLoadComplete}
           />
         ) : (
           <Image3DWebGL
@@ -144,6 +178,7 @@ const Modal = ({ isOpen, onClose, imageSrc, backImageSrc, alt, activeFolder, cur
             alt={alt}
             hotspots={hotspots}
             onPhotoClick={onPhotoClick}
+            onLoadComplete={handleLoadComplete}
           />
         )}
       </div>
@@ -194,10 +229,20 @@ const Modal = ({ isOpen, onClose, imageSrc, backImageSrc, alt, activeFolder, cur
       {activePhoto && (
         <div className="photo-modal-overlay" onClick={onClosePhoto}>
           <div className="photo-modal-content" onClick={(e) => e.stopPropagation()}>
+            {/* Photo Loading Indicator */}
+            {isPhotoLoading && (
+              <div className="modal-loading">
+                <span className="modal-loading-text">Loading</span>
+                <span className="modal-loading-dots">
+                  <span>.</span><span>.</span><span>.</span>
+                </span>
+              </div>
+            )}
             <Image3DWebGL
               imageSrc={activePhoto.front}
               backImageSrc={activePhoto.back}
               alt={activePhoto.alt}
+              onLoadComplete={handlePhotoLoadComplete}
             />
           </div>
           <div className="modal-guide-container">

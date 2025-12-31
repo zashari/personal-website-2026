@@ -100,6 +100,64 @@
   background-color: rgba(255, 255, 255, 0.3);
 }
 
+/* Loading Indicator */
+.modal-loading {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.modal-loading-text {
+  font-family: 'JMH Typewriter', monospace;
+  font-size: clamp(16px, 2vw, 24px);
+  font-weight: bold;
+  color: #ffffff;
+  letter-spacing: 2px;
+}
+
+.modal-loading-dots {
+  display: flex;
+  gap: 2px;
+}
+
+.modal-loading-dots span {
+  font-family: 'JMH Typewriter', monospace;
+  font-size: clamp(16px, 2vw, 24px);
+  font-weight: bold;
+  color: #ffffff;
+  opacity: 0;
+  animation: loadingDot 1.4s infinite;
+}
+
+.modal-loading-dots span:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.modal-loading-dots span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.modal-loading-dots span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes loadingDot {
+  0%, 20% {
+    opacity: 0;
+  }
+  40% {
+    opacity: 1;
+  }
+  60%, 100% {
+    opacity: 1;
+  }
+}
+
 /* Nested Photo Modal */
 .photo-modal-overlay {
   position: fixed;

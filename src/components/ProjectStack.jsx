@@ -8,7 +8,7 @@ const DEFAULT_TRANSFORM = {
   position: { x: 0, y: 0 },
 };
 
-const ProjectStack = ({ pages, currentPage, navigationDirection }) => {
+const ProjectStack = ({ pages, currentPage, navigationDirection, onLoadComplete }) => {
   const totalPages = Object.keys(pages).length;
 
   // Initialize stack with all pages in order (page 1 on top initially)
@@ -141,6 +141,7 @@ const ProjectStack = ({ pages, currentPage, navigationDirection }) => {
               isActive={isTopOfStack}
               transform={stackTransform}
               onTransformChange={isTopOfStack ? handleTransformChange : undefined}
+              onLoadComplete={isTopOfStack ? onLoadComplete : undefined}
             />
           </div>
         );
