@@ -22,8 +22,7 @@ const ProjectStack = ({ pages, currentPage, navigationDirection, onLoadComplete 
   // Shared transform state for the entire stack
   const [stackTransform, setStackTransform] = useState(DEFAULT_TRANSFORM);
 
-  const [animatingInPage, setAnimatingInPage] = useState(null);
-  const [animatingOutPage, setAnimatingOutPage] = useState(null);
+  const [animatingPage, setAnimatingPage] = useState(null);
   const [slideDirection, setSlideDirection] = useState(null); // 'right' | 'left'
   const [animationPhase, setAnimationPhase] = useState(null); // 'slide-out' | 'slide-back'
   const prevPageRef = useRef(currentPage);
@@ -38,22 +37,19 @@ const ProjectStack = ({ pages, currentPage, navigationDirection, onLoadComplete 
 
     if (prevPage !== currentPage && navigationDirection) {
       const incomingPage = currentPage;
-      const outgoingPage = prevPage;
       // Use navigation direction from props (not calculated from page numbers)
-      // 'next' -> incoming slides from right, outgoing slides to left
-      // 'prev' -> incoming slides from left, outgoing slides to right
+      // 'next' -> slide from right, 'prev' -> slide from left
       const direction = navigationDirection === 'next' ? 'right' : 'left';
 
       // Reset transform when changing pages
       setStackTransform(DEFAULT_TRANSFORM);
 
-      // Phase 1: Both pages animate - outgoing slides away, incoming slides in from behind
-      setAnimatingInPage(incomingPage);
-      setAnimatingOutPage(outgoingPage);
+      // Phase 1: Slide out (stays behind)
+      setAnimatingPage(incomingPage);
       setSlideDirection(direction);
       setAnimationPhase('slide-out');
 
-      // Phase 2: At midpoint, update stack order and continue animation
+      // Phase 2: At midpoint, update stack order
       const midpointTimer = setTimeout(() => {
         setAnimationPhase('slide-back');
         // Circular carousel: move previous page to back, incoming page to top
@@ -61,16 +57,15 @@ const ProjectStack = ({ pages, currentPage, navigationDirection, onLoadComplete 
           // Remove incoming page from its current position
           const withoutIncoming = prev.filter(p => p !== incomingPage);
           // Remove prev page from its current position
-          const withoutBoth = withoutIncoming.filter(p => p !== outgoingPage);
+          const withoutBoth = withoutIncoming.filter(p => p !== prevPage);
           // Prev page goes to back (start of array), incoming goes to top (end of array)
-          return [outgoingPage, ...withoutBoth, incomingPage];
+          return [prevPage, ...withoutBoth, incomingPage];
         });
       }, 400); // Half of the animation (0.4s)
 
       // Clear animation state after complete
       const completeTimer = setTimeout(() => {
-        setAnimatingInPage(null);
-        setAnimatingOutPage(null);
+        setAnimatingPage(null);
         setSlideDirection(null);
         setAnimationPhase(null);
       }, 800);
@@ -90,41 +85,20 @@ const ProjectStack = ({ pages, currentPage, navigationDirection, onLoadComplete 
   const getPageStyle = (pageNum) => {
     const stackIndex = stack.indexOf(pageNum);
     const isInStack = stackIndex !== -1;
-    const isAnimatingIn = animatingInPage === pageNum;
-    const isAnimatingOut = animatingOutPage === pageNum;
+    const isAnimating = animatingPage === pageNum;
 
-    // Incoming page animation
-    if (isAnimatingIn && slideDirection) {
+    if (isAnimating && slideDirection) {
       if (animationPhase === 'slide-out') {
-        // Phase 1: Incoming page slides out from center (behind current top)
+        // Phase 1: Sliding out, stays behind current top
         return {
-          zIndex: 0,
+          zIndex: 0, // Behind everything
           className: `project-page slide-out-${slideDirection}`
         };
       } else if (animationPhase === 'slide-back') {
-        // Phase 2: Incoming page slides back to center (now on top)
+        // Phase 2: Sliding back, now on top
         return {
           zIndex: stack.length + 1,
           className: `project-page slide-back-${slideDirection}`
-        };
-      }
-    }
-
-    // Outgoing page animation
-    if (isAnimatingOut && slideDirection) {
-      // Outgoing slides in opposite direction
-      const outDirection = slideDirection === 'right' ? 'left' : 'right';
-      if (animationPhase === 'slide-out') {
-        // Phase 1: Outgoing page stays on top, slides away
-        return {
-          zIndex: stack.length + 2,
-          className: `project-page slide-away-${outDirection}`
-        };
-      } else if (animationPhase === 'slide-back') {
-        // Phase 2: Outgoing page continues sliding away (now behind)
-        return {
-          zIndex: 0,
-          className: `project-page slide-away-continue-${outDirection}`
         };
       }
     }
