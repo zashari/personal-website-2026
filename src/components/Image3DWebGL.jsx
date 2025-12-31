@@ -254,6 +254,7 @@ const Image3DWebGL = ({
   isActive = true,
   hotspots = [],
   onPhotoClick,
+  onLoadComplete,
   // Controlled transform props (for shared transform in stacks)
   transform,
   onTransformChange,
@@ -496,7 +497,10 @@ const Image3DWebGL = ({
 
   const handleTextureLoad = useCallback(() => {
     setIsLoaded(true);
-  }, []);
+    if (onLoadComplete) {
+      onLoadComplete();
+    }
+  }, [onLoadComplete]);
 
   const handleHotspotPositionsUpdate = useCallback((positions) => {
     setHotspotScreenPositions(positions);
