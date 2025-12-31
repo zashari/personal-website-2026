@@ -36,7 +36,8 @@ const Modal = ({ isOpen, onClose, imageSrc, backImageSrc, alt, activeFolder, cur
   // Detect mobile device
   useEffect(() => {
     const checkMobile = () => {
-      setIsMobile(window.matchMedia('(max-width: 768px)').matches || 'ontouchstart' in window);
+      // Only use screen width for mobile detection (touchscreen desktops should remain desktop)
+      setIsMobile(window.matchMedia('(max-width: 768px)').matches);
     };
     checkMobile();
     window.addEventListener('resize', checkMobile);
