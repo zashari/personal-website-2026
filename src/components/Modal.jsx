@@ -28,7 +28,8 @@ const Modal = ({ isOpen, onClose, imageSrc, backImageSrc, alt, activeFolder, cur
   }, []);
 
   const handleTouchEnd = useCallback((e) => {
-    if (activeFolder !== 3 || activePhoto) return;
+    // Disable swipe navigation on mobile for folder-3 (use buttons instead)
+    if (activeFolder !== 3 || activePhoto || isMobile) return;
 
     const touchEnd = {
       x: e.changedTouches[0].clientX,
@@ -53,7 +54,7 @@ const Modal = ({ isOpen, onClose, imageSrc, backImageSrc, alt, activeFolder, cur
         onPageChange('next');
       }
     }
-  }, [activeFolder, activePhoto, onPageChange]);
+  }, [activeFolder, activePhoto, isMobile, onPageChange]);
 
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -94,8 +95,9 @@ const Modal = ({ isOpen, onClose, imageSrc, backImageSrc, alt, activeFolder, cur
   // Guide text based on device type
   const getNavigationGuide = () => {
     if (activeFolder === 3) {
+      // On mobile, we use buttons instead of swipe, so no text guide needed
       return isMobile
-        ? 'Swipe left/right to navigate pages.'
+        ? null
         : 'Press [←] [→] to navigate pages.';
     }
     return null;
@@ -153,12 +155,38 @@ const Modal = ({ isOpen, onClose, imageSrc, backImageSrc, alt, activeFolder, cur
               {getNavigationGuide()}
             </div>
           )}
-          <div
-            className={`modal-close-text ${isMobile ? 'modal-close-text--tappable' : ''}`}
-            onClick={isMobile ? (e) => { e.stopPropagation(); onClose(); } : undefined}
-          >
-            {getCloseGuide()}
-          </div>
+          {/* Mobile navigation buttons for folder-3 */}
+          {isMobile && activeFolder === 3 ? (
+            <div className="modal-nav-buttons">
+              <button
+                className="modal-nav-btn"
+                onClick={(e) => { e.stopPropagation(); onPageChange('prev'); }}
+                aria-label="Previous page"
+              >
+                &lt;
+              </button>
+              <div
+                className="modal-close-text modal-close-text--tappable"
+                onClick={(e) => { e.stopPropagation(); onClose(); }}
+              >
+                {getCloseGuide()}
+              </div>
+              <button
+                className="modal-nav-btn"
+                onClick={(e) => { e.stopPropagation(); onPageChange('next'); }}
+                aria-label="Next page"
+              >
+                &gt;
+              </button>
+            </div>
+          ) : (
+            <div
+              className={`modal-close-text ${isMobile ? 'modal-close-text--tappable' : ''}`}
+              onClick={isMobile ? (e) => { e.stopPropagation(); onClose(); } : undefined}
+            >
+              {getCloseGuide()}
+            </div>
+          )}
         </div>
       )}
 
