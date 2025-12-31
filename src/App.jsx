@@ -1,14 +1,53 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Beams, Folder, Modal } from './components';
 import { FOLDERS, BEAMS_CONFIG } from './constants/folders';
 import './App.css';
 
+// Images to preload for initial page load
+const PRELOAD_IMAGES = [
+  '/assets/folder-1-cover.png',
+  '/assets/folder-1-preview-home.png',
+  '/assets/folder-2-cover.png',
+  '/assets/folder-2-preview-home.png',
+  '/assets/folder-3-cover.png',
+  '/assets/folder-3-preview-home.png',
+];
+
 function App() {
+  const [isLoading, setIsLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeFolder, setActiveFolder] = useState(null);
   const [currentPage, setCurrentPage] = useState(1); // For Folder 3 pages
   const [navigationDirection, setNavigationDirection] = useState(null); // 'next' | 'prev'
   const [activePhoto, setActivePhoto] = useState(null); // For photo popup
+
+  // Preload images on mount
+  useEffect(() => {
+    let isMounted = true;
+
+    const preloadImages = async () => {
+      const promises = PRELOAD_IMAGES.map((src) => {
+        return new Promise((resolve) => {
+          const img = new Image();
+          img.onload = resolve;
+          img.onerror = resolve; // Resolve even on error to not block loading
+          img.src = src;
+        });
+      });
+
+      await Promise.all(promises);
+
+      if (isMounted) {
+        setIsLoading(false);
+      }
+    };
+
+    preloadImages();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   const folderImages = {
     1: {
@@ -158,15 +197,29 @@ function App() {
 
   const getCurrentImages = () => {
     if (!activeFolder) return folderImages[1];
-    
+
     if (activeFolder === 3) {
       return folderImages[3].pages[currentPage];
     }
-    
+
     return folderImages[activeFolder];
   };
 
   const currentImages = getCurrentImages();
+
+  // Show loading screen while preloading images
+  if (isLoading) {
+    return (
+      <div className="app-loading">
+        <div className="app-loading-content">
+          <span className="app-loading-text">Loading</span>
+          <span className="app-loading-dots">
+            <span>.</span><span>.</span><span>.</span>
+          </span>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="app">
@@ -208,4 +261,3 @@ function App() {
 }
 
 export default App;
-

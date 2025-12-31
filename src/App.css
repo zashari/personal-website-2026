@@ -1,3 +1,69 @@
+/* Initial Loading Screen */
+.app-loading {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #000000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 99999;
+}
+
+.app-loading-content {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.app-loading-text {
+  font-family: 'JMH Typewriter', monospace;
+  font-size: clamp(18px, 3vw, 28px);
+  font-weight: bold;
+  color: #ffffff;
+  letter-spacing: 2px;
+}
+
+.app-loading-dots {
+  display: flex;
+  gap: 2px;
+}
+
+.app-loading-dots span {
+  font-family: 'JMH Typewriter', monospace;
+  font-size: clamp(18px, 3vw, 28px);
+  font-weight: bold;
+  color: #ffffff;
+  opacity: 0;
+  animation: appLoadingDot 1.4s infinite;
+}
+
+.app-loading-dots span:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.app-loading-dots span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.app-loading-dots span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes appLoadingDot {
+  0%, 20% {
+    opacity: 0;
+  }
+  40% {
+    opacity: 1;
+  }
+  60%, 100% {
+    opacity: 1;
+  }
+}
+
 .app {
   width: 100vw;
   height: 100vh;
