@@ -1,5 +1,7 @@
 const COOKIE = "learning_gate";
 const COOKIE_PATH = "/learning";
+const SESSION_MAX_AGE = 30 * 24 * 60 * 60; // seconds
+const CLOCK_SKEW = 5 * 60; // seconds of tolerance for a login time slightly in the future
 
 function loginHtml(redirect, error) {
   const err = error ? `<p style="color:#b42318;font-size:13px;margin:0 0 12px">${error}</p>` : "";
@@ -18,7 +20,7 @@ button:hover{background:#274fb9}
 </style></head><body>
 <form class="card" method="post" action="/learning/__auth">
 <h1>ML Reboot</h1>
-<p>Enter the site password to open your learning dashboard. This session ends when you close the browser.</p>
+<p>Enter the site password to open your learning dashboard. You will stay signed in on this browser for 30 days.</p>
 ${err}
 <label for="p">Password</label>
 <input id="p" name="password" type="password" autocomplete="current-password" required autofocus/>
@@ -48,23 +50,27 @@ async function hmacSign(secret, data) {
   return [...new Uint8Array(sig)].map((b) => b.toString(16).padStart(2, "0")).join("");
 }
 
+// Session token: "<nonce>.<issuedAt>.<hmac>", where issuedAt (unix seconds) is covered by the
+// signature so it cannot be altered. Tokens without an issuedAt (the old format) are rejected.
 async function issueSession(env) {
-  const nonce = crypto.randomUUID();
-  const sig = await hmacSign(env.SESSION_SECRET, nonce);
-  return `${nonce}.${sig}`;
+  const payload = `${crypto.randomUUID()}.${Math.floor(Date.now() / 1000)}`;
+  const sig = await hmacSign(env.SESSION_SECRET, payload);
+  return `${payload}.${sig}`;
 }
 
 async function verifySession(env, token) {
   if (!token || !env.SESSION_SECRET) return false;
   const i = token.lastIndexOf(".");
   if (i < 1) return false;
-  const nonce = token.slice(0, i);
+  const payload = token.slice(0, i);
   const sig = token.slice(i + 1);
-  const expected = await hmacSign(env.SESSION_SECRET, nonce);
-  if (sig.length !== expected.length) return false;
-  let ok = 0;
-  for (let j = 0; j < sig.length; j++) ok |= sig.charCodeAt(j) ^ expected.charCodeAt(j);
-  return ok === 0;
+  const expected = await hmacSign(env.SESSION_SECRET, payload);
+  if (!timingSafeEqual(sig, expected)) return false;
+
+  const parts = payload.split(".");
+  if (parts.length !== 2 || !/^\d+$/.test(parts[1])) return false;
+  const age = Math.floor(Date.now() / 1000) - Number(parts[1]);
+  return age >= -CLOCK_SKEW && age <= SESSION_MAX_AGE;
 }
 
 function timingSafeEqual(a, b) {
@@ -74,11 +80,30 @@ function timingSafeEqual(a, b) {
   return ok === 0;
 }
 
+// Every sign-in attempt counts against LOGIN_LIMITER (5 per minute per IP, see wrangler.toml).
+// Keyed by IP so an attacker hitting the form cannot lock out the owner from another network.
+async function isLoginAllowed(request, env) {
+  if (!env.LOGIN_LIMITER) {
+    console.warn("LOGIN_LIMITER binding missing; sign-in attempts are not rate limited");
+    return true;
+  }
+  const ip = request.headers.get("CF-Connecting-IP") || "unknown";
+  const { success } = await env.LOGIN_LIMITER.limit({ key: `login:${ip}` });
+  return success;
+}
+
 async function handleAuth(request, env) {
   const form = await request.formData();
   const password = String(form.get("password") || "");
   const redirect = String(form.get("redirect") || "/learning/");
   const safeRedirect = redirect.startsWith("/learning") ? redirect : "/learning/";
+
+  if (!(await isLoginAllowed(request, env))) {
+    return new Response(loginHtml(safeRedirect, "Too many attempts. Wait a minute and try again."), {
+      status: 429,
+      headers: { "content-type": "text/html; charset=utf-8", "retry-after": "60" },
+    });
+  }
 
   if (!timingSafeEqual(password, env.LEARNING_PASSWORD || "")) {
     return new Response(loginHtml(safeRedirect, "Wrong password. Try again."), {
@@ -92,7 +117,7 @@ async function handleAuth(request, env) {
     status: 302,
     headers: {
       Location: safeRedirect,
-      "Set-Cookie": `${COOKIE}=${encodeURIComponent(session)}; Path=${COOKIE_PATH}; HttpOnly; Secure; SameSite=Lax`,
+      "Set-Cookie": `${COOKIE}=${encodeURIComponent(session)}; Path=${COOKIE_PATH}; Max-Age=${SESSION_MAX_AGE}; HttpOnly; Secure; SameSite=Lax`,
     },
   });
 }
