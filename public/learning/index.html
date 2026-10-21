@@ -6,13 +6,13 @@
 <meta name="theme-color" content="#e6efe0" media="(prefers-color-scheme: light)" />
 <meta name="theme-color" content="#172018" media="(prefers-color-scheme: dark)" />
 <title>ML Reboot, epoch 0/16</title>
-<meta name="description" content="A 16-week machine learning comeback, tracked like a training run: one loss curve, daily lessons, checkpoints and logged hours, synced to the cloud." />
+<meta name="description" content="A 16-week machine learning comeback, tracked like a training run: one learning curve, daily lessons, checkpoints and logged hours, synced to the cloud." />
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23e6efe0'/%3E%3Cpath d='M5 6c4 7 8 11 12 13s7 3 10 7' fill='none' stroke='%2323271f' stroke-width='3' stroke-linecap='round'/%3E%3Ccircle cx='17' cy='19' r='4' fill='%23ff4f8b' stroke='%2323271f' stroke-width='2'/%3E%3C/svg%3E" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700;800&family=Shantell+Sans:wght@400;600&display=swap" />
 <style>
-/* Layout: an engineering computation pad. Each view is a sheet with a pad header block; wide screens get a margin column, phones get a bottom tab bar. The loss curve is the only loud element. */
+/* Layout: an engineering computation pad. Each view is a sheet with a pad header block; wide screens get a margin column, phones get a bottom tab bar. The learning curve is the only loud element. */
 :root {
   --pad: #e6efe0;
   --sheet: #f0f5ec;
@@ -126,6 +126,14 @@ main > * { min-width: 0; }
 
 /* Chart */
 .chartbox { overflow-x: auto; min-width: 0; max-width: 100%; }
+.legend { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 14px; color: var(--ink-soft); }
+.legend li { display: flex; align-items: center; gap: 8px; }
+.score { display: flex; align-items: center; gap: 10px; }
+.score b { font-size: 40px; font-weight: 800; letter-spacing: -0.03em; line-height: 1; }
+.score span { font-size: 14px; line-height: 1.3; color: var(--ink-soft); }
+.score em { font-style: normal; font-weight: 700; color: var(--ink); }
+.score em[data-tone="behind"] { color: var(--bad); }
+.score em[data-tone="ahead"] { color: var(--ok); }
 .chartbox svg { display: block; width: 100%; min-width: 540px; height: auto; }
 @media (prefers-reduced-motion: no-preference) {
   .drawn { stroke-dasharray: var(--len); stroke-dashoffset: var(--len); animation: draw 1.1s ease-out 0.15s forwards; }
@@ -357,8 +365,9 @@ document.addEventListener('visibilitychange',()=>{if(document.visibilityState===
 const boolCount=obj=>Object.values(obj||{}).filter(Boolean).length;
 function weekChecks(n){const w=week(n);const tasks=w.tasks.filter((t,i)=>state.tasks[wkey(n,i)]).length;const days=w.days.filter((t,i)=>state.days[wkey(n,i)]).length;return{tasks,days,percent:Math.round((tasks+days)/12*100)}}
 const weekFraction=n=>{const c=weekChecks(n);return(c.tasks+c.days)/12};
-function remainingThrough(n){let s=0;for(let i=1;i<=n;i++)s+=weekFraction(i);return 1-s/16}
-const remainingAll=()=>remainingThrough(16);
+/* Share of the whole curriculum learned (sessions + tasks), counting weeks 1..n. Rises from 0 to 1. */
+function learnedThrough(n){let s=0;for(let i=1;i<=n;i++)s+=weekFraction(i);return s/16}
+const learnedAll=()=>learnedThrough(16);
 function weekHours(n){return state.logs.filter(x=>Number(x.week)===Number(n)).reduce((a,x)=>a+(Number(x.hours)||0),0)}
 const totalHours=()=>state.logs.reduce((a,l)=>a+(Number(l.hours)||0),0);
 function weekStatus(n){const x=weekChecks(n);return x.percent===100?'Complete':x.percent>0?`${x.percent}%`:'Not started'}
@@ -366,7 +375,9 @@ const milestoneDone=m=>m.criteria.filter((_,i)=>state.milestones[wkey(m.week,i)]
 const completedMilestone=m=>milestoneDone(m)===m.criteria.length;
 const lessonCount=(n,d)=>lesson(n,d).topics.filter((_,i)=>!!state.lessonTopics[`${n}:${d}:${i}`]).length;
 function splitTopic(t){const i=t.indexOf(' — ');return i>=0?[t.slice(0,i),t.slice(i+3)]:[t,'']}
-function pace(){const done=(1-remainingAll())*16,gap=CAL.elapsed-done;if(CAL.status==='before')return'run starts '+dayDate(DATA.start);if(gap>0.6){const w=Math.max(1,Math.round(gap));return`about ${w} week${w>1?'s':''} behind plan`}if(gap<-0.6)return'ahead of plan';return'right on plan'}
+/* Plain-language comparison with the plan, in weeks of work. */
+function pace(){const done=learnedAll()*16,gap=CAL.elapsed-done;if(CAL.status==='before')return done>0?'ahead of the start':'starts '+dayDate(DATA.start);if(gap>0.6){const w=Math.max(1,Math.round(gap));return`${w} week${w>1?'s':''} behind plan`}if(gap<-0.6){const w=Math.max(1,Math.round(-gap));return`${w} week${w>1?'s':''} ahead of plan`}return'on plan'}
+const pct=v=>`${Math.round(v*100)}%`;
 
 /* Shared pieces */
 const tickSvg='<svg viewBox="0 0 18 18" aria-hidden="true"><path class="tickpath" d="M3 9.5 L7.5 14 L15 4" fill="none" stroke="var(--pen)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
@@ -375,43 +386,63 @@ function padhead(subject,date,sheet,stepper){return `<div class="padhead"><div><
 function weekSelect(id){return `<select class="input" id="${id}" data-select-week aria-label="Choose study week">${DATA.weeks.map(w=>`<option value="${w.n}" ${w.n===ui.week?'selected':''}>Week ${w.n}: ${esc(w.title)}</option>`).join('')}</select>`}
 function boxnote(title,text,cls=''){return `<div class="boxnote ${cls}"><b>${esc(title)}</b><p>${esc(text)}</p></div>`}
 
+/* Learning curve: share of the curriculum learned, rising from 0% to 100% over 16 weeks, against the plan line. */
+function chartLegend(){
+  return `<ul class="legend" aria-hidden="true">
+    <li><svg width="28" height="10"><line x1="1" y1="5" x2="27" y2="5" stroke="var(--ink)" stroke-width="3" stroke-linecap="round"/></svg>Your progress</li>
+    <li><svg width="28" height="10"><line x1="1" y1="5" x2="27" y2="5" stroke="var(--plan)" stroke-width="2" stroke-dasharray="5 4"/></svg>Plan, if every week is finished on time</li>
+    <li><svg width="14" height="14"><circle cx="7" cy="7" r="5" fill="var(--marker)" stroke="var(--ink)" stroke-width="1.5"/></svg>Today</li>
+    <li><svg width="22" height="22"><circle cx="11" cy="11" r="9" fill="var(--sheet)" stroke="var(--ink)" stroke-width="1.5"/><text x="11" y="14.5" text-anchor="middle" font-size="9" font-weight="700" fill="var(--ink)" font-family="Schibsted Grotesk, system-ui, sans-serif">C1</text></svg>Checkpoint</li>
+  </ul>`;
+}
 function chart(){
-  const X=w=>48+w*40.75,Y=p=>20+(1-p)*240;
-  const el=Math.min(16,Math.max(0,CAL.elapsed)),nowRem=remainingAll();
-  const pts=[[0,1]];for(let n=1;n<=Math.floor(el)&&n<16;n++)pts.push([n,remainingThrough(n)]);
-  pts.push([el,nowRem]);
+  const L=64,R=700,T=30,B=250,X=w=>L+w*(R-L)/16,Y=p=>B-p*(B-T);
+  const el=Math.min(16,Math.max(0,CAL.elapsed)),now=learnedAll();
+  const pts=[[0,0]];for(let n=1;n<=Math.floor(el)&&n<16;n++)pts.push([n,learnedThrough(n)]);
+  pts.push([el,now]);
   const poly=pts.map(([w,p])=>`${X(w).toFixed(1)},${Y(p).toFixed(1)}`).join(' ');
   let len=0;for(let i=1;i<pts.length;i++)len+=Math.hypot(X(pts[i][0])-X(pts[i-1][0]),Y(pts[i][1])-Y(pts[i-1][1]));
-  const cx=X(el),cy=Y(nowRem),right=cx<470,below=cy<96,tx=right?cx+70:cx-70,ty=below?cy+52:cy-46,anchor=right?'start':'end',sx=right?1:-1,vy=below?-1:1;
-  const ax=cx+9*sx,ay=cy-10*vy,sy=below?ty-18:ty+4;const curveTo=`M ${tx-6*sx} ${sy} C ${tx-24*sx} ${sy+6*vy}, ${cx+24*sx} ${cy-28*vy}, ${ax} ${ay}`;
+  const cx=X(el),cy=Y(now);
+  // Note sits up-right of the dot, or down-left when the dot is near the top or right edge.
+  const right=cx<470,up=cy>110,tx=right?cx+64:cx-64,ty=up?cy-58:cy+46,anchor=right?'start':'end',sx=right?1:-1,vy=up?1:-1;
+  const ax=cx+9*sx,ay=cy-10*vy,sy=up?ty+26:ty-18;
+  const curveTo=`M ${tx-6*sx} ${sy} C ${tx-24*sx} ${sy+6*vy}, ${cx+24*sx} ${cy-28*vy}, ${ax} ${ay}`;
   const head=`M ${ax} ${ay} l ${1*sx} ${-11*vy} M ${ax} ${ay} l ${10*sx} ${-4*vy}`;
   const curW=CAL.status==='during'?CAL.week:null;
-  const cps=DATA.milestones.map((m,i)=>`<circle cx="${X(m.week)}" cy="298" r="11" fill="${completedMilestone(m)?'var(--marker-wash)':'var(--sheet)'}" stroke="var(--ink)" stroke-width="1.5"/><text x="${X(m.week)}" y="302" fill="var(--ink)">C${i+1}</text>`).join('');
-  const line1=CAL.status==='before'?`you're here: ${Math.round(nowRem*100)}% left,`:`you're here: ${Math.round(nowRem*100)}% left,`;
-  const label=`Remaining curriculum. The plan falls from 100 percent at week 0 to 0 percent at week 16. You have ${Math.round(nowRem*100)} percent left, ${pace()}.`;
-  return `<div class="chartbox" role="img" aria-label="${esc(label)}" data-focus="${(cx/720).toFixed(3)}"><svg viewBox="0 0 720 316" xmlns="http://www.w3.org/2000/svg">
-    <rect x="48" y="20" width="652" height="240" fill="var(--sheet)"/>
-    <g stroke="var(--grid)" stroke-width="1">${[0.25,0.5,0.75,1].map(p=>`<line x1="48" y1="${Y(p)}" x2="700" y2="${Y(p)}"/>`).join('')}</g>
-    ${curW?`<rect x="${X(curW-1)}" y="20" width="40.75" height="240" fill="var(--marker-wash)" opacity="0.6"/>`:''}
-    <line x1="48" y1="260" x2="700" y2="260" stroke="var(--ink)" stroke-width="2"/><line x1="48" y1="20" x2="48" y2="260" stroke="var(--ink)" stroke-width="2"/>
-    <g font-family="Schibsted Grotesk, system-ui, sans-serif" font-size="12" fill="var(--ink-soft)" text-anchor="end"><text x="40" y="24">100%</text><text x="40" y="84">75%</text><text x="40" y="144">50%</text><text x="40" y="204">25%</text><text x="40" y="264">0%</text></g>
-    <g font-family="Schibsted Grotesk, system-ui, sans-serif" font-size="12" fill="var(--ink-soft)" text-anchor="middle">${[1,3,5,7,9,11,13,15].map(w=>`<text x="${X(w)}" y="280">W${w}</text>`).join('')}</g>
-    <line x1="48" y1="20" x2="700" y2="260" stroke="var(--plan)" stroke-width="2" stroke-dasharray="6 6"/>
-    <text x="604" y="216" font-family="Schibsted Grotesk, system-ui, sans-serif" font-size="12" fill="var(--plan)">plan</text>
-    ${pts.length>1?`<polyline class="${drawn?'':'drawn'}" style="--len:${Math.ceil(len)+2}" points="${poly}" fill="none" stroke="var(--ink)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>`:''}
+  const cps=DATA.milestones.map((m,i)=>`<circle cx="${X(m.week)}" cy="296" r="11" fill="${completedMilestone(m)?'var(--marker-wash)':'var(--sheet)'}" stroke="var(--ink)" stroke-width="1.5"/><text x="${X(m.week)}" y="300" fill="var(--ink)">C${i+1}</text>`).join('');
+  const empty=now===0;
+  const emptyMsg=CAL.status==='before'?['Your line starts here on '+dayDate(DATA.start)+'.','Finish a session or task to draw it.']:['No sessions or tasks finished yet.','Tick one off and your line starts rising.'];
+  const label=`Curriculum learned so far: ${pct(now)}. The plan rises from 0 percent at week 0 to 100 percent at week 16. You are ${pace()}.`;
+  return `${chartLegend()}<div class="chartbox" role="img" aria-label="${esc(label)}" data-focus="${(cx/720).toFixed(3)}"><svg viewBox="0 0 720 330" xmlns="http://www.w3.org/2000/svg">
+    <rect x="${L}" y="${T}" width="${R-L}" height="${B-T}" fill="var(--sheet)"/>
+    <g stroke="var(--grid)" stroke-width="1">${[0.25,0.5,0.75,1].map(p=>`<line x1="${L}" y1="${Y(p)}" x2="${R}" y2="${Y(p)}"/>`).join('')}</g>
+    ${curW?`<rect x="${X(curW-1)}" y="${T}" width="${(R-L)/16}" height="${B-T}" fill="var(--marker-wash)" opacity="0.6"/>`:''}
+    <line x1="${L}" y1="${B}" x2="${R}" y2="${B}" stroke="var(--ink)" stroke-width="2"/><line x1="${L}" y1="${T}" x2="${L}" y2="${B}" stroke="var(--ink)" stroke-width="2"/>
+    <g font-family="Schibsted Grotesk, system-ui, sans-serif" font-size="12" fill="var(--ink-soft)" text-anchor="end">${[0,0.25,0.5,0.75,1].map(p=>`<text x="${L-8}" y="${Y(p)+4}">${p*100}%</text>`).join('')}</g>
+    <text transform="translate(16 ${(T+B)/2}) rotate(-90)" text-anchor="middle" font-family="Schibsted Grotesk, system-ui, sans-serif" font-size="12" font-weight="700" fill="var(--ink)">Curriculum learned</text>
+    <g font-family="Schibsted Grotesk, system-ui, sans-serif" font-size="12" fill="var(--ink-soft)" text-anchor="middle">${[1,3,5,7,9,11,13,15].map(w=>`<text x="${X(w)-(R-L)/32}" y="268">W${w}</text>`).join('')}</g>
+    <text x="${R}" y="268" text-anchor="end" font-family="Schibsted Grotesk, system-ui, sans-serif" font-size="12" font-weight="700" fill="var(--ink)">Week</text>
+    <line x1="${L}" y1="${B}" x2="${R}" y2="${T}" stroke="var(--plan)" stroke-width="2" stroke-dasharray="6 6"/>
+    ${pts.length>1&&!empty?`<polyline class="${drawn?'':'drawn'}" style="--len:${Math.ceil(len)+2}" points="${poly}" fill="none" stroke="var(--ink)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>`:''}
     <circle cx="${cx}" cy="${cy}" r="7" fill="var(--marker)" stroke="var(--ink)" stroke-width="2"/>
-    <path d="${curveTo}" fill="none" stroke="var(--ink)" stroke-width="2" stroke-linecap="round"/><path d="${head}" fill="none" stroke="var(--ink)" stroke-width="2" stroke-linecap="round"/>
-    <g font-family="Shantell Sans, cursive" font-size="16" fill="var(--ink)" text-anchor="${anchor}"><text x="${tx}" y="${ty}">${esc(line1)}</text><text x="${tx}" y="${ty+20}">${esc(pace())}</text></g>
+    ${empty?`<g font-family="Shantell Sans, cursive" font-size="16" fill="var(--ink)"><text x="${L+90}" y="${B-78}">${esc(emptyMsg[0])}</text><text x="${L+90}" y="${B-56}">${esc(emptyMsg[1])}</text></g><path d="M ${L+84} ${B-62} C ${L+50} ${B-58}, ${cx+30} ${cy-30}, ${cx+9} ${cy-10}" fill="none" stroke="var(--ink)" stroke-width="2" stroke-linecap="round"/><path d="M ${cx+9} ${cy-10} l 1 -11 M ${cx+9} ${cy-10} l 10 -4" fill="none" stroke="var(--ink)" stroke-width="2" stroke-linecap="round"/>`
+      :`<path d="${curveTo}" fill="none" stroke="var(--ink)" stroke-width="2" stroke-linecap="round"/><path d="${head}" fill="none" stroke="var(--ink)" stroke-width="2" stroke-linecap="round"/>
+    <g font-family="Shantell Sans, cursive" font-size="16" fill="var(--ink)" text-anchor="${anchor}"><text x="${tx}" y="${ty}">you: ${pct(now)} learned,</text><text x="${tx}" y="${ty+20}">${esc(pace())}</text></g>`}
     <g font-family="Schibsted Grotesk, system-ui, sans-serif" font-size="11" font-weight="700" text-anchor="middle">${cps}</g>
   </svg></div>`;
 }
-
+/* One-line answer to "how am I doing", shown next to the chart title. */
+function progressSummary(){
+  const now=learnedAll(),p=pace();
+  const tone=/behind/.test(p)?'behind':/ahead/.test(p)?'ahead':'on';
+  return `<div class="score"><b class="num">${pct(now)}</b><span>learned<br><em data-tone="${tone}">${esc(p)}</em></span></div>`;
+}
 function hoursMargin(n){
   const h=weekHours(n);
   return `<div class="block"><h3>Log study time</h3>
     <div class="num"><b>${fmt(h)}</b> <span class="soft">of ${DATA.coreHours} core hours in week ${n}</span></div>
     <div class="meter" aria-hidden="true"><span style="width:${Math.min(100,h/20*100)}%"></span><em style="left:${DATA.coreHours/20*100}%"></em></div>
-    <p class="soft small">The tick marks the ${DATA.coreHours} hour core. Aim for ${DATA.weeklyTarget}, stretch to 20.</p>
+    <p class="soft small">The tick is the ${DATA.coreHours} hour weekly minimum. Good week: ${DATA.weeklyTarget} hours. Stretch: 20.</p>
     <div class="btnrow">${[0.5,1,1.5,2].map(v=>`<button class="btn small line" data-quicklog="${v}">+ ${v} h</button>`).join('')}</div></div>`;
 }
 function checkpointBlock(m,compact){
@@ -443,7 +474,7 @@ function pageToday(){
   ${intro}
   <div class="sheet">
     <div class="main">
-      <div class="block"><div class="rowhead"><h2>Remaining curriculum</h2><span class="soft small">Week ${CAL.status==='before'?0:CAL.week} of 16 on the calendar</span></div>${chart()}</div>
+      <div class="block"><div class="rowhead"><div><h2>Learning curve</h2><p class="soft small">${CAL.status==='before'?`Week 1 starts ${dayDate(DATA.start)}`:CAL.status==='after'?'All 16 weeks are done on the calendar':`Calendar week ${CAL.week} of 16`}. The line rises each time you finish a session or a practical task.</p></div>${progressSummary()}</div>${chart()}</div>
       <div class="block">
         <div class="rowhead"><h2>${sessLabel}: ${esc(l.title)}</h2><span class="soft small">${weekdays[d]}, ${done} of ${l.topics.length} topics, about ${l.recommendedMinutes} min</span></div>
         <div class="checks">${l.topics.map((t,i)=>{const[h,x]=splitTopic(t);return check(`data-lesson-topic="${n}:${d}:${i}"`,state.lessonTopics[`${n}:${d}:${i}`],`<b>${esc(h)}</b>${x?`<small>${esc(x)}</small>`:''}`)}).join('')}</div>
@@ -519,7 +550,7 @@ function weekDetail(w){
   </div>`;
 }
 function pageRoadmap(){
-  const nowRem=remainingAll();
+  const now=learnedAll();
   const phases=DATA.phases.filter(p=>ui.filter==='all'||p.id===ui.filter).map(p=>{
     const ws=DATA.weeks.filter(w=>w.phase===p.id&&weekMatches(w));if(!ws.length)return'';
     const all=DATA.weeks.filter(w=>w.phase===p.id),pc=Math.round(all.reduce((a,w)=>a+weekFraction(w.n),0)/all.length*100);
@@ -533,8 +564,8 @@ function pageRoadmap(){
     return `<section class="phase"><div class="phase-head"><div class="rowhead"><h2>${esc(p.name)}</h2><span class="soft small num">Weeks ${all[0].n} to ${all[all.length-1].n}, ${pc}% done</span></div><p class="soft small">${esc(p.desc)}</p></div>${items}</section>`;
   }).join('');
   return `
-  <div class="pagehead"><div><h1>16-week roadmap</h1><p class="soft">${Math.round((1-nowRem)*100)}% of the curriculum done, ${esc(pace())}.</p></div></div>
-  <div class="sheet single"><div class="main">${chart()}<p class="soft small">Read it like a loss curve: the line drops as you finish sessions and tasks. C1 to C5 are checkpoints you pass with evidence, not with calendar time.</p></div></div>
+  <div class="pagehead"><div><h1>16-week roadmap</h1><p class="soft">${pct(now)} of the curriculum learned, ${esc(pace())}.</p></div></div>
+  <div class="sheet single"><div class="main">${chart()}<p class="soft small">Each of the 192 sessions and tasks moves the line up about half a percent. Below the dashed plan line means behind schedule, above it means ahead. C1 to C5 are checkpoints you pass with evidence, not with calendar time.</p></div></div>
   <div class="sheet single"><div class="main" style="gap:0">
     <div class="filters"><div class="field"><label for="roadSearch">Search weeks, lessons and keywords</label><input class="input" type="search" id="roadSearch" value="${esc(ui.query)}" placeholder="SHAP, attention, calibration"/></div><div class="field"><label for="phaseFilter">Phase</label><select class="input" id="phaseFilter"><option value="all">All phases</option>${DATA.phases.map(p=>`<option value="${p.id}" ${ui.filter===p.id?'selected':''}>${esc(p.name)}</option>`).join('')}</select></div></div>
     ${phases||'<p class="empty" style="padding-top:20px">nothing matches that search. try a broader word.</p>'}
@@ -639,8 +670,8 @@ function renderNav(){
   const active=ui.page==='lesson'?(ui.returnPage==='hours'?'hours':ui.returnPage==='roadmap'?'roadmap':'today'):ui.page;
   $('tabs').innerHTML=PAGES.map(([id,label])=>`<button class="tab" data-page="${id}" ${active===id?'aria-current="page"':''}>${label}</button>`).join('');
   $('bottomnav').innerHTML=PAGES.map(([id,label])=>`<button data-page="${id}" ${active===id?'aria-current="page"':''}>${svgIcon(ICONS[id])}${label}</button>`).join('');
-  const loss=remainingAll().toFixed(3),epoch=CAL.status==='before'?0:CAL.week;
-  document.title=`ML Reboot, epoch ${epoch}/16, loss ${loss}`;
+  const acc=learnedAll().toFixed(3),epoch=CAL.status==='before'?0:CAL.week;
+  document.title=`ML Reboot, epoch ${epoch}/16, acc ${acc}`;
 }
 function render(){
   renderNav();
