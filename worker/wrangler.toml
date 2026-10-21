@@ -3,7 +3,8 @@
 # The main site (zashari.website) is served by GitHub Pages from this repo's
 # dist/. This Worker only sits in front of /learning*: it shows a password page,
 # issues an HMAC-signed session cookie, proxies authenticated page requests to
-# GitHub Pages, and stores dashboard progress in KV (GET/PUT /learning/api/progress).
+# GitHub Pages, stores dashboard progress (GET/PUT /learning/api/progress) and
+# rate limits sign-in, both in the LearningStore Durable Object.
 #
 # Deploy from this directory with `npm run deploy`. Deploying this Worker does
 # not touch the GitHub Pages site; the route below is the only traffic it sees.
@@ -24,21 +25,21 @@ routes = [
   { pattern = "zashari.website/learning*", zone_name = "zashari.website" },
 ]
 
-# Holds a single key, progress:v1, with the whole dashboard state.
+# Single SQLite-backed Durable Object instance ("main") holding dashboard progress and
+# sign-in attempt counts (5 per minute per IP). SQLite backend is required on the Free plan.
+[[durable_objects.bindings]]
+name = "LEARNING"
+class_name = "LearningStore"
+
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["LearningStore"]
+
+# Legacy progress store (key progress:v1). Read only, once, to import into the Durable Object
+# if it starts empty; nothing writes here anymore.
 [[kv_namespaces]]
 binding = "LEARNING_PROGRESS"
 id = "e5110708ca3b49a58b07e49e4079a94c"
-
-# Brute-force guard for POST /learning/__auth: 5 sign-in attempts per minute per IP.
-# Counts are per Cloudflare location and approximate, which is fine for slowing guessing.
-# namespace_id is an arbitrary account-unique integer.
-[[ratelimits]]
-name = "LOGIN_LIMITER"
-namespace_id = "1001"
-
-  [ratelimits.simple]
-  limit = 5
-  period = 60
 
 # Secrets (NOT in this file; set with `npx wrangler secret put <NAME>`):
 #   LEARNING_PASSWORD  the password typed on the sign-in page

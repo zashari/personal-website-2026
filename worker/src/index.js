@@ -1,3 +1,5 @@
+import { DurableObject } from "cloudflare:workers";
+
 const COOKIE = "learning_gate";
 const COOKIE_PATH = "/learning";
 const SESSION_MAX_AGE = 30 * 24 * 60 * 60; // seconds
@@ -80,16 +82,107 @@ function timingSafeEqual(a, b) {
   return ok === 0;
 }
 
-// Every sign-in attempt counts against LOGIN_LIMITER (5 per minute per IP, see wrangler.toml).
-// Keyed by IP so an attacker hitting the form cannot lock out the owner from another network.
-async function isLoginAllowed(request, env) {
-  if (!env.LOGIN_LIMITER) {
-    console.warn("LOGIN_LIMITER binding missing; sign-in attempts are not rate limited");
+// Durable Object holding everything that needs exact, consistent state: dashboard progress and
+// sign-in attempt counts. There is a single instance ("main"); SQLite calls are synchronous, so
+// each method's read-check-write runs atomically without interleaving with other requests.
+const STORE_NAME = "main";
+const LOGIN_LIMIT = 5; // attempts per IP...
+const LOGIN_WINDOW = 60; // ...per this many seconds
+
+// Pre-Durable-Object progress lived in KV under this key; it is imported once if the store is empty.
+const LEGACY_PROGRESS_KEY = "progress:v1";
+
+export class LearningStore extends DurableObject {
+  constructor(ctx, env) {
+    super(ctx, env);
+    this.sql = ctx.storage.sql;
+    this.sql.exec(`CREATE TABLE IF NOT EXISTS progress (
+      id INTEGER PRIMARY KEY CHECK (id = 1),
+      updated_at INTEGER NOT NULL,
+      state TEXT NOT NULL
+    )`);
+    this.sql.exec(`CREATE TABLE IF NOT EXISTS login_attempts (
+      ip TEXT PRIMARY KEY,
+      window_start INTEGER NOT NULL,
+      count INTEGER NOT NULL
+    )`);
+    ctx.blockConcurrencyWhile(() => this.importLegacyProgress());
+  }
+
+  readProgress() {
+    return this.sql.exec("SELECT updated_at, state FROM progress WHERE id = 1").toArray()[0] || null;
+  }
+
+  writeProgress(updatedAt, stateJson) {
+    this.sql.exec(
+      `INSERT INTO progress (id, updated_at, state) VALUES (1, ?, ?)
+       ON CONFLICT(id) DO UPDATE SET updated_at = excluded.updated_at, state = excluded.state`,
+      updatedAt,
+      stateJson
+    );
+  }
+
+  // Runs before any request is delivered. Must not throw, or the object is reset; a failed import
+  // is logged and retried the next time the object starts, as long as no progress has been saved.
+  async importLegacyProgress() {
+    try {
+      if (this.readProgress() || !this.env.LEARNING_PROGRESS) return;
+      const raw = await this.env.LEARNING_PROGRESS.get(LEGACY_PROGRESS_KEY);
+      if (!raw) return;
+      const legacy = JSON.parse(raw);
+      if (!legacy || typeof legacy.state !== "object" || legacy.state === null) return;
+      this.writeProgress(Number(legacy.updatedAt) || Date.now(), JSON.stringify(legacy.state));
+      console.log("Imported legacy progress from KV", { updatedAt: legacy.updatedAt });
+    } catch (err) {
+      console.error("Legacy progress import from KV failed", err);
+    }
+  }
+
+  getProgress() {
+    const row = this.readProgress();
+    if (!row) return { exists: false };
+    return { exists: true, updatedAt: row.updated_at, state: JSON.parse(row.state) };
+  }
+
+  // Newest copy wins: a write older than the stored copy is rejected and the stored copy returned.
+  putProgress(updatedAt, state) {
+    const row = this.readProgress();
+    if (row && row.updated_at > updatedAt) {
+      return { conflict: true, updatedAt: row.updated_at, state: JSON.parse(row.state) };
+    }
+    this.writeProgress(updatedAt, JSON.stringify(state));
+    return { ok: true, updatedAt };
+  }
+
+  // Fixed window per IP, starting at its first attempt. Returns false once the IP has used up its
+  // attempts in the current window.
+  allowLoginAttempt(ip) {
+    const now = Math.floor(Date.now() / 1000);
+    this.sql.exec("DELETE FROM login_attempts WHERE window_start <= ?", now - LOGIN_WINDOW);
+    const row = this.sql.exec("SELECT count FROM login_attempts WHERE ip = ?", ip).toArray()[0];
+    if (!row) {
+      this.sql.exec("INSERT INTO login_attempts (ip, window_start, count) VALUES (?, ?, 1)", ip, now);
+      return true;
+    }
+    if (row.count >= LOGIN_LIMIT) return false;
+    this.sql.exec("UPDATE login_attempts SET count = count + 1 WHERE ip = ?", ip);
     return true;
   }
+}
+
+const store = (env) => env.LEARNING.getByName(STORE_NAME);
+
+// Keyed by IP so an attacker hitting the form cannot lock out the owner from another network.
+// If the store is unreachable (e.g. free-tier quota exhausted), the attempt is allowed so the owner
+// is never locked out of their own dashboard; the password check still applies.
+async function isLoginAllowed(request, env) {
   const ip = request.headers.get("CF-Connecting-IP") || "unknown";
-  const { success } = await env.LOGIN_LIMITER.limit({ key: `login:${ip}` });
-  return success;
+  try {
+    return await store(env).allowLoginAttempt(ip);
+  } catch (err) {
+    console.error("Login rate limiter unavailable; allowing attempt", err);
+    return true;
+  }
 }
 
 async function handleAuth(request, env) {
@@ -122,8 +215,6 @@ async function handleAuth(request, env) {
   });
 }
 
-// Single-user progress store: the whole dashboard state lives under one KV key.
-const PROGRESS_KEY = "progress:v1";
 const MAX_PROGRESS_BYTES = 512 * 1024;
 
 function jsonResponse(data, status = 200) {
@@ -134,18 +225,16 @@ function jsonResponse(data, status = 200) {
 }
 
 async function handleProgress(request, env) {
-  if (!env.LEARNING_PROGRESS) {
+  if (!env.LEARNING) {
     return jsonResponse({ error: "Progress storage is not configured." }, 500);
   }
 
   if (request.method === "GET") {
-    const raw = await env.LEARNING_PROGRESS.get(PROGRESS_KEY);
-    if (!raw) return jsonResponse({ exists: false });
     try {
-      const parsed = JSON.parse(raw);
-      return jsonResponse({ exists: true, updatedAt: parsed.updatedAt || 0, state: parsed.state });
-    } catch {
-      return jsonResponse({ error: "Stored progress is corrupt." }, 500);
+      return jsonResponse(await store(env).getProgress());
+    } catch (err) {
+      console.error("Progress read failed", err);
+      return jsonResponse({ error: "Progress storage unavailable." }, 503);
     }
   }
 
@@ -165,27 +254,17 @@ async function handleProgress(request, env) {
     }
     const updatedAt = Number(body.updatedAt) || Date.now();
 
-    // Newest copy wins: reject writes older than what is stored and hand back the stored copy.
-    const existingRaw = await env.LEARNING_PROGRESS.get(PROGRESS_KEY);
-    if (existingRaw) {
-      try {
-        const existing = JSON.parse(existingRaw);
-        if ((existing.updatedAt || 0) > updatedAt) {
-          return jsonResponse(
-            { error: "conflict", updatedAt: existing.updatedAt, state: existing.state },
-            409
-          );
-        }
-      } catch {
-        // Corrupt stored value: overwrite it with the incoming state.
-      }
+    let result;
+    try {
+      result = await store(env).putProgress(updatedAt, body.state);
+    } catch (err) {
+      console.error("Progress write failed", err);
+      return jsonResponse({ error: "Progress storage unavailable." }, 503);
     }
-
-    await env.LEARNING_PROGRESS.put(
-      PROGRESS_KEY,
-      JSON.stringify({ version: 1, updatedAt, state: body.state })
-    );
-    return jsonResponse({ ok: true, updatedAt });
+    if (result.conflict) {
+      return jsonResponse({ error: "conflict", updatedAt: result.updatedAt, state: result.state }, 409);
+    }
+    return jsonResponse(result);
   }
 
   return jsonResponse({ error: "Method not allowed." }, 405);
