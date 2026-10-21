@@ -1,0 +1,36 @@
+# Password gate + progress API for zashari.website/learning
+#
+# The main site (zashari.website) is served by GitHub Pages from this repo's
+# dist/. This Worker only sits in front of /learning*: it shows a password page,
+# issues an HMAC-signed session cookie, proxies authenticated page requests to
+# GitHub Pages, and stores dashboard progress in KV (GET/PUT /learning/api/progress).
+#
+# Deploy from this directory with `npm run deploy`. Deploying this Worker does
+# not touch the GitHub Pages site; the route below is the only traffic it sees.
+
+name = "zashari-learning-gate"
+main = "src/index.js"
+compatibility_date = "2024-12-01"
+
+# Izzat.zaky@gmail.com's Account, which owns the zashari.website zone.
+account_id = "0984ee92f4e9b386886a277044b9959a"
+
+# The Worker must only be reachable through the route below. Leaving these
+# unset would make `wrangler deploy` enable a public *.workers.dev URL.
+workers_dev = false
+preview_urls = false
+
+routes = [
+  { pattern = "zashari.website/learning*", zone_name = "zashari.website" },
+]
+
+# Holds a single key, progress:v1, with the whole dashboard state.
+[[kv_namespaces]]
+binding = "LEARNING_PROGRESS"
+id = "e5110708ca3b49a58b07e49e4079a94c"
+
+# Secrets (NOT in this file; set with `npx wrangler secret put <NAME>`):
+#   LEARNING_PASSWORD  the password typed on the sign-in page
+#   SESSION_SECRET     HMAC key for the session cookie; rotating it signs out every device
+#
+# For `npm run dev`, put local values for both in a .dev.vars file (gitignored).
