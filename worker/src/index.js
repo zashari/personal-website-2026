@@ -12,8 +12,7 @@ function loginHtml(redirect, error) {
 <html lang="en"><head>
 <meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
 <title>ML Reboot, resume from checkpoint</title>
-<meta name="theme-color" content="#e6efe0" media="(prefers-color-scheme: light)"/>
-<meta name="theme-color" content="#172018" media="(prefers-color-scheme: dark)"/>
+<meta name="theme-color" content="#550000"/>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23e6efe0'/%3E%3Cpath d='M5 6c4 7 8 11 12 13s7 3 10 7' fill='none' stroke='%2323271f' stroke-width='3' stroke-linecap='round'/%3E%3Ccircle cx='17' cy='19' r='4' fill='%23ff4f8b' stroke='%2323271f' stroke-width='2'/%3E%3C/svg%3E"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;600;700;800&family=Shantell+Sans:wght@400&display=swap"/>
@@ -21,7 +20,7 @@ function loginHtml(redirect, error) {
 :root{--pad:#e6efe0;--sheet:#f0f5ec;--grid:#c6d8bd;--ink:#23271f;--ink-soft:#4b5645;--pen:#2340a0;--pen-ink:#f0f5ec;--marker:#ff4f8b;--bad:#b3264f;color-scheme:light}
 @media (prefers-color-scheme: dark){:root{--pad:#172018;--sheet:#1d271e;--grid:#263526;--ink:#e2eadc;--ink-soft:#a9b8a2;--pen:#93a9ff;--pen-ink:#111a2e;--marker:#ff6fa0;--bad:#ff8fb0;color-scheme:dark}}
 *{box-sizing:border-box}
-body{margin:0;min-height:100vh;display:grid;place-items:center;padding:24px 16px;font:400 16px/1.55 "Schibsted Grotesk","Segoe UI",system-ui,sans-serif;color:var(--ink);background-color:var(--pad);background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:24px 24px;background-position:-1px -1px}
+body{margin:0;min-height:100vh;display:grid;place-items:center;padding:24px 16px;font:400 16px/1.55 "Schibsted Grotesk","Segoe UI",system-ui,sans-serif;color:var(--ink);background-color:#550000;background-image:linear-gradient(rgba(255,255,255,.32) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.32) 1px,transparent 1px);background-size:24px 24px;background-position:-1px -1px}
 form{width:min(440px,100%);background:var(--sheet);border:2px solid var(--ink)}
 .head{display:grid;grid-template-columns:minmax(0,1fr) auto;border-bottom:2px solid var(--ink)}
 .head div{padding:10px 14px}.head div+div{border-left:1px solid var(--ink)}
@@ -47,7 +46,7 @@ ${err}
 <input id="p" name="password" type="password" autocomplete="current-password" required autofocus/></div>
 <input type="hidden" name="redirect" value="${redirect.replace(/"/g, "&quot;")}"/>
 <button type="submit">Resume training</button>
-<p class="hand">the loss curve is waiting.</p>
+<p class="hand">your learning curve is waiting.</p>
 </div>
 </form></body></html>`;
 }
