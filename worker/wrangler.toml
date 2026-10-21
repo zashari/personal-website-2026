@@ -29,6 +29,17 @@ routes = [
 binding = "LEARNING_PROGRESS"
 id = "e5110708ca3b49a58b07e49e4079a94c"
 
+# Brute-force guard for POST /learning/__auth: 5 sign-in attempts per minute per IP.
+# Counts are per Cloudflare location and approximate, which is fine for slowing guessing.
+# namespace_id is an arbitrary account-unique integer.
+[[ratelimits]]
+name = "LOGIN_LIMITER"
+namespace_id = "1001"
+
+  [ratelimits.simple]
+  limit = 5
+  period = 60
+
 # Secrets (NOT in this file; set with `npx wrangler secret put <NAME>`):
 #   LEARNING_PASSWORD  the password typed on the sign-in page
 #   SESSION_SECRET     HMAC key for the session cookie; rotating it signs out every device
