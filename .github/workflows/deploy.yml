@@ -3,6 +3,9 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: [main]
+    # The Cloudflare Worker is deployed separately with wrangler; changes to it never touch the Pages site.
+    paths-ignore:
+      - 'worker/**'
   workflow_dispatch:
 
 permissions:
