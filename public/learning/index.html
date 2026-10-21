@@ -3,8 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<meta name="theme-color" content="#e6efe0" media="(prefers-color-scheme: light)" />
-<meta name="theme-color" content="#172018" media="(prefers-color-scheme: dark)" />
+<meta name="theme-color" content="#550000" />
 <title>ML Reboot, epoch 0/16</title>
 <meta name="description" content="A 16-week machine learning comeback, tracked like a training run: one learning curve, daily lessons, checkpoints and logged hours, synced to the cloud." />
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23e6efe0'/%3E%3Cpath d='M5 6c4 7 8 11 12 13s7 3 10 7' fill='none' stroke='%2323271f' stroke-width='3' stroke-linecap='round'/%3E%3Ccircle cx='17' cy='19' r='4' fill='%23ff4f8b' stroke='%2323271f' stroke-width='2'/%3E%3C/svg%3E" />
@@ -18,8 +17,15 @@
   --sheet: #f0f5ec;
   --grid: #c6d8bd;
   --rule: #a9c09f;
-  --ink: #23271f;
-  --ink-soft: #4b5645;
+  --ink-paper: #23271f;
+  --ink-soft-paper: #4b5645;
+  --ink: var(--ink-paper);
+  --ink-soft: var(--ink-soft-paper);
+  /* The desk the pad sheets lie on: deep maroon with a white grid. */
+  --desk: #550000;
+  --desk-grid: rgba(255, 255, 255, 0.32);
+  --on-desk: #ffffff;
+  --on-desk-soft: #f3d9d9;
   --pen: #2340a0;
   --pen-ink: #f0f5ec;
   --marker: #ff4f8b;
@@ -33,7 +39,7 @@
 }
 @media (prefers-color-scheme: dark) {
   :root {
-    --pad: #172018; --sheet: #1d271e; --grid: #263526; --rule: #3c5139; --ink: #e2eadc; --ink-soft: #a9b8a2;
+    --pad: #172018; --sheet: #1d271e; --grid: #263526; --rule: #3c5139; --ink-paper: #e2eadc; --ink-soft-paper: #a9b8a2;
     --pen: #93a9ff; --pen-ink: #111a2e; --marker: #ff6fa0; --marker-wash: #5e2139; --plan: #8aa682; --ok: #7fd49a; --bad: #ff8fb0;
     color-scheme: dark;
   }
@@ -43,8 +49,8 @@
 html { -webkit-text-size-adjust: 100%; }
 body {
   margin: 0;
-  background-color: var(--pad);
-  background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-color: var(--desk);
+  background-image: linear-gradient(var(--desk-grid) 1px, transparent 1px), linear-gradient(90deg, var(--desk-grid) 1px, transparent 1px);
   background-size: 24px 24px;
   background-position: -1px -1px;
   color: var(--ink);
@@ -93,6 +99,12 @@ p { margin: 0; max-width: 70ch; }
 
 main { max-width: 1200px; margin: 0 auto; padding-inline: 16px; padding-block: 24px 56px; display: grid; grid-template-columns: minmax(0, 1fr); gap: 20px; }
 main > * { min-width: 0; }
+/* Anything placed straight on the desk reads in white; paper surfaces switch back to pencil ink. */
+main { --ink: var(--on-desk); --ink-soft: var(--on-desk-soft); color: var(--ink); }
+main :focus-visible { outline-color: var(--on-desk); }
+main .crumbs button { color: var(--on-desk); }
+.sheet, .padhead, .index, .flash, .subtabs, .input { --ink: var(--ink-paper); --ink-soft: var(--ink-soft-paper); color: var(--ink); }
+.sheet :focus-visible, .padhead :focus-visible, .index :focus-visible, .flash:focus-visible, .subtabs :focus-visible, .input:focus-visible { outline-color: var(--pen); }
 
 /* Pad header block, the boxes printed on a computation pad */
 .padhead { display: grid; grid-template-columns: minmax(0, 2.2fr) minmax(0, 1fr) minmax(0, 1fr); border: 2px solid var(--ink); background: var(--sheet); }
@@ -186,6 +198,18 @@ main > * { min-width: 0; }
 
 /* Boxed notes for required output and exit criteria */
 .boxnote { border: 2px dashed var(--ink); padding: 12px 14px; display: grid; gap: 4px; }
+.today { display: grid; gap: 14px; padding: 20px; border: 2px solid var(--ink); background: var(--pad); }
+.kicker { font-weight: 700; font-size: 15px; }
+.big-title { font-size: clamp(24px, 3vw, 32px); font-weight: 800; letter-spacing: -0.02em; }
+.btn.big { min-height: 52px; padding-inline: 24px; font-size: 17px; }
+.deliver { font-weight: 700; font-size: 17px; max-width: 60ch; }
+.deeper { border-top: 2px solid var(--ink); padding-top: 18px; gap: 22px; }
+.help { border-top: 2px solid var(--ink); padding-top: 14px; }
+.help summary { cursor: pointer; font-weight: 700; min-height: 44px; display: flex; align-items: center; }
+.help dl { margin: 6px 0 0; display: grid; grid-template-columns: minmax(120px, 180px) minmax(0, 1fr); gap: 10px 18px; }
+.help dt { font-weight: 700; }
+.help dd { margin: 0; color: var(--ink-soft); }
+@media (max-width: 600px) { .help dl { grid-template-columns: minmax(0, 1fr); } .help dd { margin-bottom: 6px; } }
 .boxnote b { font-size: 14px; }
 .boxnote.exit { border-color: var(--marker); }
 .boxnote p { font-size: 15px; }
@@ -312,7 +336,7 @@ const CHEV_L='<path d="M15 5l-7 7 7 7"/>',CHEV_R='<path d="M9 5l7 7-7 7"/>',TICK
 const weekdays=['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
 const hoursByDay=[2,2,2,2,2,5];
 const studyHours=['Theory & mathematics','Implementation','Project work','Evaluation & review','Research & reading','Other'];
-const newState=()=>({tasks:{},days:{},milestones:{},logs:[],notes:{},answers:{},flash:{},lessonTopics:{},dayNotes:{}});
+const newState=()=>({tasks:{},days:{},milestones:{},logs:[],notes:{},answers:{},flash:{},lessonTopics:{},dayNotes:{},exercises:{}});
 function load(){try{const s=JSON.parse(localStorage.getItem(STORE));return s&&typeof s==='object'?{...newState(),...s}:newState()}catch(e){return newState()}}
 let state=load();
 
@@ -355,7 +379,7 @@ const CLOUD_META=STORE+':cloud-meta';let cloudUpdatedAt=0;try{cloudUpdatedAt=Num
 let cloudTimer=null,cloudInFlight=false,cloudDirty=false,cloudPaused=false,cloudConflictNotified=false;
 function persistCloudMeta(){try{localStorage.setItem(CLOUD_META,JSON.stringify({updatedAt:cloudUpdatedAt}))}catch(e){}}
 function setCloudUpdatedAt(ts){cloudUpdatedAt=Number(ts)||Date.now();persistCloudMeta()}
-function stateHasProgress(s){return !!(Object.values(s.tasks||{}).some(Boolean)||Object.values(s.days||{}).some(Boolean)||Object.values(s.milestones||{}).some(Boolean)||(s.logs||[]).length||Object.keys(s.notes||{}).length||Object.keys(s.answers||{}).length||Object.keys(s.flash||{}).length||Object.keys(s.lessonTopics||{}).length||Object.keys(s.dayNotes||{}).length)}
+function stateHasProgress(s){return !!(Object.values(s.tasks||{}).some(Boolean)||Object.values(s.days||{}).some(Boolean)||Object.values(s.milestones||{}).some(Boolean)||(s.logs||[]).length||Object.keys(s.notes||{}).length||Object.keys(s.answers||{}).length||Object.keys(s.flash||{}).length||Object.keys(s.lessonTopics||{}).length||Object.keys(s.dayNotes||{}).length||Object.values(s.exercises||{}).some(Boolean))}
 function scheduleCloudSync(){if(cloudPaused)return;cloudUpdatedAt=Date.now();persistCloudMeta();cloudDirty=true;setSync('saving','Saving');clearTimeout(cloudTimer);cloudTimer=setTimeout(pushCloudProgress,1500)}
 async function pushCloudProgress(){if(cloudPaused||cloudInFlight||!cloudDirty)return;cloudInFlight=true;const payload={version:1,updatedAt:cloudUpdatedAt,state};try{const r=await fetch('/learning/api/progress',{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload),keepalive:true});if(r.status===401){cloudPaused=true;setSync('paused','Sign in again to sync');notify('Cloud sync paused. Reload and sign in again to resume syncing.');return}if(r.status===409){const data=await r.json().catch(()=>null);if(data&&data.state){state={...newState(),...data.state};setCloudUpdatedAt(data.updatedAt||Date.now());try{localStorage.setItem(STORE,JSON.stringify(state))}catch(e){}cloudDirty=false;setSync('saved','Saved to cloud');render();if(!cloudConflictNotified){cloudConflictNotified=true;notify('Progress updated from another session, so this page refreshed to the latest copy.')}}return}if(!r.ok)throw new Error('Cloud sync failed with status '+r.status);cloudDirty=false;setSync('saved','Saved to cloud')}catch(e){console.error('Cloud sync failed',e);setSync('error','Saved on this device only')}finally{cloudInFlight=false}}
 async function syncCloudOnLoad(){try{const r=await fetch('/learning/api/progress',{headers:{Accept:'application/json'}});if(r.status===401){cloudPaused=true;setSync('paused','Sign in again to sync');return}if(!r.ok){setSync('error','Saved on this device only');return}const data=await r.json();if(data.exists&&data.state){if((data.updatedAt||0)>cloudUpdatedAt||!stateHasProgress(state)){state={...newState(),...data.state};setCloudUpdatedAt(data.updatedAt||Date.now());try{localStorage.setItem(STORE,JSON.stringify(state))}catch(e){}render();notify('Progress synced from cloud.')}else if(stateHasProgress(state)){cloudDirty=true;await pushCloudProgress()}}else if(stateHasProgress(state)){if(!cloudUpdatedAt)setCloudUpdatedAt(Date.now());cloudDirty=true;await pushCloudProgress();notify('Existing progress backed up to cloud.')}if(!cloudDirty&&!cloudPaused)setSync('saved','Saved to cloud')}catch(e){console.error('Cloud sync on load failed',e);setSync('error','Saved on this device only')}}
@@ -453,43 +477,69 @@ function checkpointBlock(m,compact){
     <div class="btnrow"><button class="btn small line" data-action="askCheckpoint" data-which="${m.week}">Copy assessment prompt</button></div></div>`;
 }
 
-/* Today */
+/* Weekly project: the week's required output and the 6 steps toward it. The steps are week-level, not tied to a day. */
+function weeklyProject(n,opts={}){
+  const w=week(n),done=weekChecks(n).tasks,H=opts.small?'h3':'h2';
+  return `<div class="block">
+    <div class="rowhead"><${H}>${opts.title||"This week's project"}</${H}><span class="soft small">${done} of ${w.tasks.length} steps, due ${dayDate(addDays(w.start,5))}</span></div>
+    <p class="deliver">${esc(w.deliverable)}</p>
+    <p class="soft small">Six steps toward that output. They are not tied to a day: do them in any order alongside your daily sessions.</p>
+    <div class="checks">${w.tasks.map((t,i)=>check(`data-task="${n}:${i}"`,state.tasks[wkey(n,i)],esc(t))).join('')}</div>
+    ${boxnote('Done when',w.passTest,'exit')}
+  </div>`;
+}
+function help(){
+  return `<details class="help" id="help"><summary>How this dashboard works</summary><dl>
+    <dt>Session</dt><dd>One lesson a day, Monday to Saturday. Monday to Friday take 2 hours, Saturday 5. Sunday is rest.</dd>
+    <dt>Topics and exercises</dt><dd>What a session contains. Topics are what you learn, exercises are what you build. Both live on the session page.</dd>
+    <dt>Weekly project</dt><dd>The one output each week builds toward. Its 6 steps are not tied to a day; finish them in any order before Saturday ends.</dd>
+    <dt>Checkpoint</dt><dd>An exam in weeks 3, 7, 11, 13 and 16. You pass it with evidence, not by waiting for the date.</dd>
+    <dt>Learning curve</dt><dd>Every finished session and project step moves your line up. Below the dashed plan line means behind, above it means ahead.</dd>
+  </dl></details>`;
+}
+function dayStrip(n){
+  const w=week(n);
+  return `<div class="days num">${w.days.map((t,i)=>{const done=state.days[wkey(n,i)],today=CAL.status==='during'&&n===CAL.week&&i===CAL.day&&!CAL.sunday;return `<button class="day ${done?'done':''} ${today?'today':''}" data-open-day="${n}:${i}" aria-label="${weekdays[i]}: ${esc(t)}${done?', done':''}${today?', today':''}">${weekdays[i].slice(0,3)}<span>${done?'done':hoursByDay[i]+'h'}</span></button>`}).join('')}</div>`;
+}
+
+/* Today: one primary action first, then the week, then the curve */
 function nextSession(n){
   if(CAL.status==='during'&&n===CAL.week&&!CAL.sunday)return{d:CAL.day,today:true};
   const w=week(n),d=w.days.findIndex((_,i)=>!state.days[wkey(n,i)]);
   return{d:d<0?0:d,today:false};
 }
 function pageToday(){
-  const n=ui.week,w=week(n),{d,today}=nextSession(n),l=lesson(n,d),done=lessonCount(n,d);
+  const n=ui.week,w=week(n),{d,today}=nextSession(n),l=lesson(n,d),done=lessonCount(n,d),exDone=exerciseCount(n,d),sessionDone=!!state.days[dayKey(n,d)];
   const m=DATA.milestones.find(x=>!completedMilestone(x))||DATA.milestones[DATA.milestones.length-1];
   const date=today?dayDate(todayLocal()):`${shortDate(w.start)} to ${shortDate(w.end)}`;
-  let intro='';
-  if(CAL.status==='before')intro=`<p class="hand">the run starts ${dayDate(DATA.start)}, ${CAL.daysToStart} day${CAL.daysToStart>1?'s':''} to go. week 1 is open if you want a head start.</p>`;
-  else if(CAL.status==='after')intro='<p class="hand">all 16 weeks are behind you. finish whatever is still open, then go defend that capstone.</p>';
-  else if(CAL.sunday&&n===CAL.week)intro='<p class="hand">sunday is rest. flashcards only if you feel like it.</p>';
-  else if(n!==CAL.week&&CAL.status==='during')intro=`<p class="hand">you are looking at week ${n}. the calendar says week ${CAL.week}.</p>`;
-  const sessLabel=today?'Today':CAL.sunday&&n===CAL.week?'Up next':'Next session';
+  let note='';
+  if(CAL.status==='before')note=`<p class="hand">the run starts ${dayDate(DATA.start)}, ${CAL.daysToStart} day${CAL.daysToStart>1?'s':''} to go. week 1 is open if you want a head start.</p>`;
+  else if(CAL.status==='after')note='<p class="hand">all 16 weeks are behind you. finish whatever is still open, then go defend that capstone.</p>';
+  else if(CAL.sunday&&n===CAL.week)note='<p class="hand">sunday is rest. flashcards only if you feel like it.</p>';
+  else if(n!==CAL.week&&CAL.status==='during')note=`<p class="hand">you are looking at week ${n}. the calendar says week ${CAL.week}.</p>`;
+  const kicker=today?`Today, ${weekdays[d]}, ${hoursByDay[d]} hours`:`${CAL.status==='before'&&n===1?'First session':'Next session'}, ${weekdays[d]} ${shortDate(addDays(w.start,d))}, ${hoursByDay[d]} hours`;
+  const cta=sessionDone?'Review this session':done||exDone?'Continue session':today?"Start today's session":'Start this session';
+  const progress=sessionDone?'Session done':`${done} of ${l.topics.length} topics, ${exDone} of ${l.exercises.length} exercises`;
+  const frac=sessionDone?1:(done+exDone)/(l.topics.length+l.exercises.length);
   return `
-  ${padhead(w.title,date,`${pad2(n)} of 16`,true)}
-  ${intro}
+  ${padhead(w.title,date,`Week ${pad2(n)} of 16`,true)}
+  ${note}
   <div class="sheet">
     <div class="main">
-      <div class="block"><div class="rowhead"><div><h2>Learning curve</h2><p class="soft small">${CAL.status==='before'?`Week 1 starts ${dayDate(DATA.start)}`:CAL.status==='after'?'All 16 weeks are done on the calendar':`Calendar week ${CAL.week} of 16`}. The line rises each time you finish a session or a practical task.</p></div>${progressSummary()}</div>${chart()}</div>
+      <section class="today" aria-labelledby="todayTitle">
+        <div class="rowhead"><span class="kicker">${esc(kicker)}</span>${progressSummary()}</div>
+        <h2 id="todayTitle" class="big-title">${esc(l.title)}</h2>
+        <div class="block"><span class="soft small">${progress}, about ${l.recommendedMinutes} min</span><div class="meter" aria-hidden="true"><span style="width:${frac*100}%"></span></div></div>
+        <div class="btnrow"><button class="btn big" data-open-day="${n}:${d}">${cta}</button></div>
+      </section>
       <div class="block">
-        <div class="rowhead"><h2>${sessLabel}: ${esc(l.title)}</h2><span class="soft small">${weekdays[d]}, ${done} of ${l.topics.length} topics, about ${l.recommendedMinutes} min</span></div>
-        <div class="checks">${l.topics.map((t,i)=>{const[h,x]=splitTopic(t);return check(`data-lesson-topic="${n}:${d}:${i}"`,state.lessonTopics[`${n}:${d}:${i}`],`<b>${esc(h)}</b>${x?`<small>${esc(x)}</small>`:''}`)}).join('')}</div>
-        <div class="btnrow"><button class="btn" data-open-day="${n}:${d}">Open full lesson</button><button class="btn line" data-toggle-day="${n}:${d}">${state.days[dayKey(n,d)]?'Mark session not done':'Mark session done'}</button></div>
+        <div class="rowhead"><h2>This week's sessions</h2><span class="soft small num">${weekChecks(n).days} of 6 done</span></div>
+        ${dayStrip(n)}
+        <p class="soft small">One session a day. Tap a day to open its lesson. Sunday is rest.</p>
       </div>
-      <div class="block">
-        <div class="rowhead"><h2>This week</h2><span class="soft small num">${weekChecks(n).days} of 6 sessions</span></div>
-        <div class="days num">${w.days.map((t,i)=>`<button class="day ${state.days[wkey(n,i)]?'done':''} ${CAL.status==='during'&&n===CAL.week&&i===CAL.day&&!CAL.sunday?'today':''}" data-open-day="${n}:${i}" aria-label="${weekdays[i]}: ${esc(t)}${state.days[wkey(n,i)]?', done':''}">${weekdays[i].slice(0,3)}<span>${hoursByDay[i]}h</span></button>`).join('')}</div>
-        <p class="soft small">Monday to Friday 2 hours, Saturday 5 hours, Sunday rest.</p>
-      </div>
-      <div class="block">
-        <div class="rowhead"><h2>Practical tasks</h2><span class="soft small num">${weekChecks(n).tasks} of ${w.tasks.length} done</span></div>
-        <div class="checks">${w.tasks.map((t,i)=>check(`data-task="${n}:${i}"`,state.tasks[wkey(n,i)],esc(t))).join('')}</div>
-        <div class="cols2">${boxnote('Required output',w.deliverable)}${boxnote('Exit criterion',w.passTest,'exit')}</div>
-      </div>
+      ${weeklyProject(n)}
+      <div class="block"><div class="rowhead"><div><h2>Learning curve</h2><p class="soft small">${CAL.status==='before'?`Week 1 starts ${dayDate(DATA.start)}`:CAL.status==='after'?'All 16 weeks are done on the calendar':`Calendar week ${CAL.week} of 16`}. Every finished session or project step moves the line up.</p></div></div>${chart()}</div>
+      ${help()}
     </div>
     <aside class="margin" aria-label="Margin">
       ${hoursMargin(n)}
@@ -499,34 +549,42 @@ function pageToday(){
   </div>`;
 }
 
-/* Daily lesson */
+/* Session page: learn, do, finish, then go deeper */
+const exerciseKey=(n,d,i)=>`${n}:${d}:${i}`;
+const exerciseCount=(n,d)=>lesson(n,d).exercises.filter((_,i)=>!!(state.exercises||{})[exerciseKey(n,d,i)]).length;
 function pageLesson(){
-  const n=ui.week,d=ui.lessonDay,w=week(n),l=lesson(n,d),p=pById(w.phase),isDone=!!state.days[dayKey(n,d)],done=lessonCount(n,d);
+  const n=ui.week,d=ui.lessonDay,w=week(n),l=lesson(n,d),p=pById(w.phase),isDone=!!state.days[dayKey(n,d)],done=lessonCount(n,d),exDone=exerciseCount(n,d);
   const links=(arr,type)=>arr.map((q,i)=>`<a href="${esc(type==='YouTube'?youtubeLink(q):googleLink(q))}" target="_blank" rel="noopener noreferrer"><b>${type==='YouTube'?(i===0?'Find a full tutorial':'Find a coding walkthrough'):(i===0?'Research the topic':'Find docs and worked examples')}</b><span>${esc(q)}</span></a>`).join('');
   const back=ui.returnPage==='roadmap'?'Back to roadmap':ui.returnPage==='hours'?'Back to hours':'Back to Today';
   return `
-  <div class="crumbs"><button data-action="backLesson">${back}</button><span class="soft">${esc(p.name)}, week ${n}, ${weekdays[d]}</span></div>
-  ${padhead(l.title,`${dayDate(addDays(w.start,d))}, ${hoursByDay[d]} h`,`${pad2(n)} of 16, day ${d+1} of 6`)}
+  <div class="crumbs"><button data-action="backLesson">${back}</button><span class="soft">${esc(p.name)}, week ${n}, ${weekdays[d]} session</span></div>
+  ${padhead(l.title,`${dayDate(addDays(w.start,d))}, ${hoursByDay[d]} hours`,`Week ${pad2(n)}, session ${d+1} of 6`)}
   <div class="sheet">
     <div class="main">
-      <div class="block"><div class="rowhead"><h2>Syllabus</h2><span class="soft small num">${done} of ${l.topics.length} topics, about ${l.recommendedMinutes} min</span></div>
-        <p class="soft small">Tick a topic only when you can explain and apply it without copying a solution.</p>
+      <div class="block"><div class="rowhead"><h2>1. Learn the topics</h2><span class="soft small num">${done} of ${l.topics.length}</span></div>
+        <p class="soft small">Tick a topic when you can explain and apply it without copying a solution.</p>
         <div class="checks">${l.topics.map((t,i)=>{const[h,x]=splitTopic(t);return check(`data-lesson-topic="${n}:${d}:${i}"`,state.lessonTopics[`${n}:${d}:${i}`],`<b>${esc(h)}</b>${x?`<small>${esc(x)}</small>`:''}`)}).join('')}</div></div>
-      <div class="block"><h2>Exercises</h2><ol class="numbered">${l.exercises.map(t=>`<li><span>${esc(t)}</span></li>`).join('')}</ol>${d===5?boxnote('Saturday deliverable',w.deliverable):''}</div>
-      <div class="block"><h2>Closed-book recall</h2><p class="soft small">Close your notes. Explain aloud or write a short derivation.</p><ol class="numbered">${l.review.map(q=>`<li><span>${esc(q)}</span></li>`).join('')}</ol></div>
-      <div class="block"><div class="rowhead"><h2>Keywords</h2><button class="btn small line" data-action="copyKeywords">Copy all keywords</button></div>
-        <div class="chips">${l.keywords.map(t=>`<a class="chip" href="${esc(googleLink(t+' '+p.name+' tutorial explanation'))}" target="_blank" rel="noopener noreferrer">${esc(t)}</a>`).join('')}</div></div>
-      <div class="block"><h2>Research</h2>
-        <div class="searchrow"><label class="sr-only" for="topicSearchInput">Search a concept</label><input class="input" type="search" id="topicSearchInput" value="${esc(l.keywords.slice(0,2).join(' '))}" placeholder="Any concept, algorithm or paper"/><button class="btn small line" data-action="searchGoogle">Search Google</button><button class="btn small line" data-action="searchYouTube">Search YouTube</button></div>
-        <div class="cols2"><div class="block"><h3>Articles and docs</h3><div class="links">${links(l.google,'Google')}</div></div><div class="block"><h3>Videos</h3><div class="links">${links(l.youtube,'YouTube')}</div></div></div>
-        <div class="block"><h3>References for ${esc(p.name)}</h3><div class="links">${DATA.resources.filter(r=>r.phase===p.id).map(r=>`<a href="${esc(r.url)}" target="_blank" rel="noopener noreferrer"><b>${esc(r.name)}</b><span>${esc(r.description)}</span></a>`).join('')}</div></div></div>
+      <div class="block"><div class="rowhead"><h2>2. Do the exercises</h2><span class="soft small num">${exDone} of ${l.exercises.length}</span></div>
+        <div class="checks">${l.exercises.map((t,i)=>check(`data-exercise="${exerciseKey(n,d,i)}"`,(state.exercises||{})[exerciseKey(n,d,i)],esc(t))).join('')}</div>
+        ${d===5?boxnote("Today is also the weekly project deadline",w.deliverable,'exit'):''}</div>
+      <div class="block"><h2>3. Finish the session</h2>
+        <p class="soft small">Marking it done moves your learning curve. It also happens on its own once every topic and exercise is ticked.</p>
+        <div class="btnrow"><button class="btn ${isDone?'line':''}" data-action="toggleLesson">${isDone?'Mark session not done':'Mark session done'}</button><button class="btn line" data-action="logLesson">Log hours</button></div></div>
+      <div class="block deeper"><h2>Go deeper</h2>
+        <div class="block"><h3>Closed-book recall</h3><p class="soft small">Close your notes. Explain aloud or write a short derivation.</p><ol class="numbered">${l.review.map(q=>`<li><span>${esc(q)}</span></li>`).join('')}</ol></div>
+        <div class="block"><div class="rowhead"><h3>Keywords</h3><button class="btn small line" data-action="copyKeywords">Copy all keywords</button></div>
+          <div class="chips">${l.keywords.map(t=>`<a class="chip" href="${esc(googleLink(t+' '+p.name+' tutorial explanation'))}" target="_blank" rel="noopener noreferrer">${esc(t)}</a>`).join('')}</div></div>
+        <div class="block"><h3>Research</h3>
+          <div class="searchrow"><label class="sr-only" for="topicSearchInput">Search a concept</label><input class="input" type="search" id="topicSearchInput" value="${esc(l.keywords.slice(0,2).join(' '))}" placeholder="Any concept, algorithm or paper"/><button class="btn small line" data-action="searchGoogle">Search Google</button><button class="btn small line" data-action="searchYouTube">Search YouTube</button></div>
+          <div class="cols2"><div class="block"><h3>Articles and docs</h3><div class="links">${links(l.google,'Google')}</div></div><div class="block"><h3>Videos</h3><div class="links">${links(l.youtube,'YouTube')}</div></div></div>
+          <div class="block"><h3>References for ${esc(p.name)}</h3><div class="links">${DATA.resources.filter(r=>r.phase===p.id).map(r=>`<a href="${esc(r.url)}" target="_blank" rel="noopener noreferrer"><b>${esc(r.name)}</b><span>${esc(r.description)}</span></a>`).join('')}</div></div></div>
+      </div>
     </div>
     <aside class="margin" aria-label="Margin">
-      <div class="block"><h3>Session</h3><p class="soft small">${isDone?'Marked done.':'Not marked done yet.'}</p>
-        <div class="btnrow"><button class="btn ${isDone?'line':''}" data-action="toggleLesson">${isDone?'Mark session not done':'Mark session done'}</button><button class="btn line" data-action="logLesson">Log hours</button></div></div>
+      <div class="block"><h3>This week's project</h3><p class="soft small">${weekChecks(n).tasks} of 6 steps done, due ${dayDate(addDays(w.start,5))}.</p><div class="btnrow"><button class="btn small line" data-week-today="${n}">See the project steps</button></div></div>
       <div class="block"><h3><label for="daynote">Notes for this session</label></h3><textarea class="note" id="daynote" data-daynote="${n}:${d}" placeholder="definitions, equations, links worth keeping">${esc(state.dayNotes[dayKey(n,d)]||'')}</textarea></div>
       <div class="block"><h3>Week ${n} sessions</h3><div class="sessions">${w.days.map((t,i)=>`<button data-open-day="${n}:${i}" aria-current="${i===d}"><span class="small soft">${weekdays[i].slice(0,3)}</span><span class="small">${esc(t)}</span>${state.days[wkey(n,i)]?svgIcon(TICK_ICON,18):''}</button>`).join('')}</div>
-        <div class="btnrow"><button class="btn small line" data-lesson-switch="-1" ${n===1&&d===0?'disabled':''}>Previous lesson</button><button class="btn small" data-lesson-switch="1" ${n===16&&d===5?'disabled':''}>Next lesson</button></div></div>
+        <div class="btnrow"><button class="btn small line" data-lesson-switch="-1" ${n===1&&d===0?'disabled':''}>Previous session</button><button class="btn small" data-lesson-switch="1" ${n===16&&d===5?'disabled':''}>Next session</button></div></div>
     </aside>
   </div>`;
 }
@@ -542,9 +600,8 @@ function weekDetail(w){
   return `<div class="body">
     <p>${esc(w.goal)}</p>
     <div class="chips">${w.concepts.map(c=>`<span class="chip">${esc(c)}</span>`).join('')}</div>
-    <div class="block"><h3>Daily sessions</h3><div>${w.days.map((t,i)=>`<div class="dayrow">${check(`data-day="${n}:${i}"`,state.days[wkey(n,i)],'',`${weekdays[i]} session done`)}<span class="small soft">${weekdays[i].slice(0,3)}</span><button class="linkbtn" data-open-day="${n}:${i}">${esc(t)}</button></div>`).join('')}</div></div>
-    <div class="block"><h3>Practical tasks</h3><div class="checks">${w.tasks.map((t,i)=>check(`data-task="${n}:${i}"`,state.tasks[wkey(n,i)],esc(t))).join('')}</div></div>
-    <div class="cols2">${boxnote('Required output',w.deliverable)}${boxnote('Exit criterion',w.passTest,'exit')}</div>
+    <div class="block"><div class="rowhead"><h3>Daily sessions</h3><span class="soft small num">${weekChecks(n).days} of 6 done</span></div><div>${w.days.map((t,i)=>`<div class="dayrow">${check(`data-day="${n}:${i}"`,state.days[wkey(n,i)],'',`${weekdays[i]} session done`)}<span class="small soft">${weekdays[i].slice(0,3)}</span><button class="linkbtn" data-open-day="${n}:${i}">${esc(t)}</button></div>`).join('')}</div></div>
+    ${weeklyProject(n,{small:true,title:'Weekly project'})}
     ${w.stretch?boxnote('Optional stretch, 2.5 to 5 extra hours',w.stretch):''}
     <div class="btnrow"><button class="btn small" data-week-today="${n}">Open on Today</button><button class="btn small line" data-week-practice="${n}">Practice week ${n}</button></div>
   </div>`;
@@ -565,7 +622,7 @@ function pageRoadmap(){
   }).join('');
   return `
   <div class="pagehead"><div><h1>16-week roadmap</h1><p class="soft">${pct(now)} of the curriculum learned, ${esc(pace())}.</p></div></div>
-  <div class="sheet single"><div class="main">${chart()}<p class="soft small">Each of the 192 sessions and tasks moves the line up about half a percent. Below the dashed plan line means behind schedule, above it means ahead. C1 to C5 are checkpoints you pass with evidence, not with calendar time.</p></div></div>
+  <div class="sheet single"><div class="main">${chart()}<p class="soft small">Each week has 6 daily sessions and a weekly project with 6 steps. Each of those 192 items moves the line up about half a percent. Below the dashed plan line means behind schedule, above it means ahead. C1 to C5 are checkpoints you pass with evidence, not with calendar time.</p></div></div>
   <div class="sheet single"><div class="main" style="gap:0">
     <div class="filters"><div class="field"><label for="roadSearch">Search weeks, lessons and keywords</label><input class="input" type="search" id="roadSearch" value="${esc(ui.query)}" placeholder="SHAP, attention, calibration"/></div><div class="field"><label for="phaseFilter">Phase</label><select class="input" id="phaseFilter"><option value="all">All phases</option>${DATA.phases.map(p=>`<option value="${p.id}" ${ui.filter===p.id?'selected':''}>${esc(p.name)}</option>`).join('')}</select></div></div>
     ${phases||'<p class="empty" style="padding-top:20px">nothing matches that search. try a broader word.</p>'}
@@ -733,10 +790,10 @@ document.addEventListener('click',e=>{
 });
 document.addEventListener('change',e=>{
   const t=e.target,ds=t.dataset;
-  if(ds.lessonTopic){
-    state.lessonTopics[ds.lessonTopic]=t.checked;
-    const[n,d]=ds.lessonTopic.split(':').map(Number);
-    if(t.checked&&lessonCount(n,d)===lesson(n,d).topics.length&&!state.days[dayKey(n,d)]){state.days[dayKey(n,d)]=true;notify(`All topics ticked, so the ${weekdays[d]} session is marked done.`)}
+  if(ds.lessonTopic||ds.exercise){
+    if(ds.lessonTopic)state.lessonTopics[ds.lessonTopic]=t.checked;else (state.exercises=state.exercises||{})[ds.exercise]=t.checked;
+    const[n,d]=(ds.lessonTopic||ds.exercise).split(':').map(Number),l=lesson(n,d);
+    if(t.checked&&lessonCount(n,d)===l.topics.length&&exerciseCount(n,d)===l.exercises.length&&!state.days[dayKey(n,d)]){state.days[dayKey(n,d)]=true;notify(`Every topic and exercise is ticked, so the ${weekdays[d]} session is marked done.`)}
     save();render();return;
   }
   if(ds.task||ds.day||ds.mile){const kind=ds.task?'tasks':ds.day?'days':'milestones';const[n,i]=(ds.task||ds.day||ds.mile).split(':');state[kind][wkey(n,i)]=t.checked;save();render();return}
