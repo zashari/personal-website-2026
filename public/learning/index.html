@@ -6,43 +6,37 @@
 <meta name="theme-color" content="#550000" />
 <title>ML Reboot, epoch 0/16</title>
 <meta name="description" content="A 16-week machine learning comeback, tracked like a training run: one learning curve, daily lessons, checkpoints and logged hours, synced to the cloud." />
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23e6efe0'/%3E%3Cpath d='M5 6c4 7 8 11 12 13s7 3 10 7' fill='none' stroke='%2323271f' stroke-width='3' stroke-linecap='round'/%3E%3Ccircle cx='17' cy='19' r='4' fill='%23ff4f8b' stroke='%2323271f' stroke-width='2'/%3E%3C/svg%3E" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23e3dac9'/%3E%3Cpath d='M5 6c4 7 8 11 12 13s7 3 10 7' fill='none' stroke='%2323271f' stroke-width='3' stroke-linecap='round'/%3E%3Ccircle cx='17' cy='19' r='4' fill='%23ff4f8b' stroke='%2323271f' stroke-width='2'/%3E%3C/svg%3E" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700;800&family=Shantell+Sans:wght@400;600&display=swap" />
 <style>
 /* Layout: an engineering computation pad. Each view is a sheet with a pad header block; wide screens get a margin column, phones get a bottom tab bar. The learning curve is the only loud element. */
 :root {
-  --pad: #e6efe0;
-  --sheet: #f0f5ec;
-  --grid: #c6d8bd;
-  --rule: #a9c09f;
+  /* Paper: every sheet, card and input is the same cream stock. */
+  --pad: #e3dac9;
+  --sheet: #e3dac9;
+  --grid: #cdc1a9;
+  --rule: #a8987b;
   --ink-paper: #23271f;
   --ink-soft-paper: #4b5645;
   --ink: var(--ink-paper);
   --ink-soft: var(--ink-soft-paper);
-  /* The desk the pad sheets lie on: deep maroon with a white grid. */
+  /* The desk the sheets lie on: deep maroon with a white grid. */
   --desk: #550000;
   --desk-grid: rgba(255, 255, 255, 0.32);
   --on-desk: #ffffff;
   --on-desk-soft: #f3d9d9;
   --pen: #2340a0;
-  --pen-ink: #f0f5ec;
+  --pen-ink: #f5f0e6;
   --marker: #ff4f8b;
   --marker-wash: #ffc6d9;
-  --plan: #5f7659;
-  --ok: #1f7a3d;
+  --plan: #4a5e44;
+  --ok: #176130;
   --bad: #b3264f;
   --font-ui: "Schibsted Grotesk", "Segoe UI", system-ui, sans-serif;
   --font-hand: "Shantell Sans", "Segoe Print", "Comic Neue", cursive;
   color-scheme: light;
-}
-@media (prefers-color-scheme: dark) {
-  :root {
-    --pad: #172018; --sheet: #1d271e; --grid: #263526; --rule: #3c5139; --ink-paper: #e2eadc; --ink-soft-paper: #a9b8a2;
-    --pen: #93a9ff; --pen-ink: #111a2e; --marker: #ff6fa0; --marker-wash: #5e2139; --plan: #8aa682; --ok: #7fd49a; --bad: #ff8fb0;
-    color-scheme: dark;
-  }
 }
 
 * { box-sizing: border-box; }
