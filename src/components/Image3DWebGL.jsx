@@ -16,7 +16,13 @@ const PaperMesh = ({
   onHotspotPositionsUpdate,
 }) => {
   const groupRef = useRef();
-  const { viewport, camera, size } = useThree();
+  const lastHotspotKeyRef = useRef('');
+  const { viewport, camera, size, invalidate } = useThree();
+
+  // The canvas renders on demand, so request a frame whenever the paper moves.
+  useEffect(() => {
+    invalidate();
+  }, [rotation, scale, position, hotspots, invalidate]);
 
   // Calculate plane size to fit viewport while maintaining aspect ratio
   const planeSize = useMemo(() => {
@@ -163,7 +169,12 @@ const PaperMesh = ({
         };
       });
 
-      onHotspotPositionsUpdate(positions);
+      // Only push to React when the projected hotspots actually moved
+      const key = positions.map((p) => `${p.x.toFixed(1)},${p.y.toFixed(1)},${p.width.toFixed(1)},${p.height.toFixed(1)},${p.visible}`).join('|');
+      if (key !== lastHotspotKeyRef.current) {
+        lastHotspotKeyRef.current = key;
+        onHotspotPositionsUpdate(positions);
+      }
     }
   });
 
@@ -520,11 +531,11 @@ const Image3DWebGL = ({
       onTouchEnd={handleTouchEnd}
     >
       <Canvas
+        frameloop="demand"
         camera={{ position: [0, 0, 5], fov: 50 }}
         gl={{
           antialias: true,
           alpha: true,
-          preserveDrawingBuffer: true,
           powerPreference: 'high-performance'
         }}
         dpr={Math.min(window.devicePixelRatio, 2)}
