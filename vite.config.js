@@ -1,9 +1,11 @@
 import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
+import react, { reactCompilerPreset } from '@vitejs/plugin-react';
+import babel from '@rolldown/plugin-babel';
 import path from 'path';
 
 export default defineConfig({
-  plugins: [react()],
+  // React Compiler (stable 1.0) memoizes components and hooks automatically.
+  plugins: [react(), babel({ presets: [reactCompilerPreset()] })],
   resolve: {
     alias: {
       '@': path.resolve(import.meta.dirname, './src'),
