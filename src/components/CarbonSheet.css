@@ -1,0 +1,28 @@
+.carbon-sheet {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-color: #141828;
+  overflow: hidden;
+}
+
+.carbon-sheet-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Wax catching the light; --sheen-x/--sheen-y follow the pointer (CarbonSheet.jsx) */
+.carbon-sheet-sheen {
+  --sheen-x: 42%;
+  --sheen-y: 28%;
+  background: radial-gradient(
+    ellipse 55% 38% at var(--sheen-x) var(--sheen-y),
+    rgba(120, 135, 190, 0.13),
+    rgba(120, 135, 190, 0.05) 45%,
+    rgba(120, 135, 190, 0) 75%
+  );
+  mix-blend-mode: screen;
+}

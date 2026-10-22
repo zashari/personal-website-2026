@@ -21,15 +21,3 @@ export const FOLDERS = [
 
 // Folders span 100vw, 180vw at <=768px and 220vw at <=480px (see Folder.css).
 export const FOLDER_IMAGE_SIZES = '(max-width: 480px) 220vw, (max-width: 768px) 180vw, 100vw';
-
-// Beams background configuration (preserved for easy revert)
-export const BEAMS_CONFIG = {
-  beamWidth: 10,
-  beamHeight: 30,
-  beamNumber: 12,
-  lightColor: '#ffffff',
-  speed: 7,
-  noiseIntensity: 0.5,
-  scale: 0.2,
-  rotation: 30,
-};

@@ -1,8 +1,12 @@
-import { useState, useCallback, useRef } from 'react';
-import { Beams, Folder, Modal } from './components';
-import { FOLDERS, BEAMS_CONFIG } from './constants/folders';
+import { useState, useCallback, useRef, lazy, Suspense } from 'react';
+import { CarbonSheet, Folder } from './components';
+import { FOLDERS } from './constants/folders';
 import { textureImage } from './constants/images';
 import './App.css';
+
+// The paper viewer pulls in three.js, so it loads after the folders are on screen.
+const loadModal = () => import('./components/Modal');
+const Modal = lazy(loadModal);
 
 // Every folder has a cover and a preview image; the loading screen stays up until all of them settle.
 const FOLDER_IMAGE_COUNT = FOLDERS.reduce((n, folder) => n + (folder.previewImage ? 2 : 1), 0);
@@ -117,6 +121,18 @@ const folderImages = {
   }
 };
 
+// Shown only if a folder is opened before the paper viewer has finished downloading.
+const ModalChunkLoading = () => (
+  <div className="app-loading app-loading--overlay">
+    <div className="app-loading-content">
+      <span className="app-loading-text">Loading</span>
+      <span className="app-loading-dots">
+        <span>.</span><span>.</span><span>.</span>
+      </span>
+    </div>
+  </div>
+);
+
 function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -130,6 +146,7 @@ function App() {
     settledImagesRef.current += 1;
     if (settledImagesRef.current >= FOLDER_IMAGE_COUNT) {
       setIsLoading(false);
+      loadModal().catch((error) => console.error('Failed to prefetch the paper viewer', error));
     }
   }, []);
 
@@ -196,12 +213,7 @@ function App() {
         </div>
       )}
 
-      {/* Beams background */}
-      {!isLoading && (
-        <div className="beams-container">
-          <Beams {...BEAMS_CONFIG} />
-        </div>
-      )}
+      {!isLoading && <CarbonSheet />}
 
       <div className="container">
         {FOLDERS.map((folder) => (
@@ -216,22 +228,26 @@ function App() {
         ))}
       </div>
 
-      <Modal
-        isOpen={isModalOpen}
-        onClose={handleCloseModal}
-        imageSrc={currentImages.front}
-        backImageSrc={currentImages.back}
-        alt={currentImages.alt}
-        activeFolder={activeFolder}
-        currentPage={currentPage}
-        onPageChange={handlePageChange}
-        folderPages={activeFolder === 3 ? folderImages[3].pages : null}
-        navigationDirection={navigationDirection}
-        hotspots={currentImages.hotspots || []}
-        activePhoto={activePhoto}
-        onPhotoClick={handlePhotoClick}
-        onClosePhoto={handleClosePhoto}
-      />
+      {isModalOpen && (
+        <Suspense fallback={<ModalChunkLoading />}>
+          <Modal
+            isOpen={isModalOpen}
+            onClose={handleCloseModal}
+            imageSrc={currentImages.front}
+            backImageSrc={currentImages.back}
+            alt={currentImages.alt}
+            activeFolder={activeFolder}
+            currentPage={currentPage}
+            onPageChange={handlePageChange}
+            folderPages={activeFolder === 3 ? folderImages[3].pages : null}
+            navigationDirection={navigationDirection}
+            hotspots={currentImages.hotspots || []}
+            activePhoto={activePhoto}
+            onPhotoClick={handlePhotoClick}
+            onClosePhoto={handleClosePhoto}
+          />
+        </Suspense>
+      )}
     </div>
   );
 }

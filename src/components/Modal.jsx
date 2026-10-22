@@ -7,7 +7,7 @@ const Modal = ({ isOpen, onClose, imageSrc, backImageSrc, alt, activeFolder, cur
   // Touch swipe detection for folder-3 navigation
   const touchStartRef = useRef({ x: 0, y: 0 });
   const swipeDetectedRef = useRef(false);
-  const [isMobile, setIsMobile] = useState(false);
+  const [isMobile, setIsMobile] = useState(() => window.matchMedia('(max-width: 768px)').matches);
   const [isLoading, setIsLoading] = useState(true);
   const [isPhotoLoading, setIsPhotoLoading] = useState(true);
 
