@@ -220,6 +220,7 @@ function App() {
           <Folder
             key={folder.number}
             folderNumber={folder.number}
+            label={folder.label}
             coverImage={folder.coverImage}
             previewImage={folder.previewImage}
             onCoverClick={folder.number === 1 || folder.number === 2 || folder.number === 3 ? () => handleFolderClick(folder.number) : undefined}

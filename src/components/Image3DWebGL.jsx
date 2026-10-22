@@ -591,7 +591,14 @@ const Image3DWebGL = ({
                     onPhotoClick(hotspot.photo);
                   }}
                   onMouseDown={(e) => e.stopPropagation()}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      onPhotoClick(hotspot.photo);
+                    }
+                  }}
                   title={hotspot.title || ''}
+                  aria-label={`Open ${hotspot.title || 'photo'}`}
                   role="button"
                   tabIndex={0}
                 />
@@ -609,6 +616,7 @@ const Image3DWebGL = ({
                 onClick={(e) => e.stopPropagation()}
                 onMouseDown={(e) => e.stopPropagation()}
                 title={hotspot.title || ''}
+                aria-label={hotspot.title}
               />
             );
           })}

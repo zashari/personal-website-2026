@@ -12,6 +12,18 @@
   cursor: pointer;
 }
 
+/* The dialogs take focus programmatically; they are not controls, so no ring */
+.modal-overlay:focus,
+.photo-modal-overlay:focus {
+  outline: none;
+}
+
+.modal-close-text--tappable:focus-visible,
+.modal-nav-btn:focus-visible {
+  outline: 2px solid #ffffff;
+  outline-offset: 3px;
+}
+
 .modal-content {
   position: relative;
   /* Responsive sizing with constraints */

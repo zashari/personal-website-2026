@@ -4,16 +4,19 @@ import { responsiveImage } from './images';
 export const FOLDERS = [
   {
     number: 3,
+    label: 'Projects',
     coverImage: { ...responsiveImage('folder-3-cover'), width: 3456, height: 934 },
     previewImage: { ...responsiveImage('folder-3-preview-home'), width: 1625, height: 541 },
   },
   {
     number: 2,
+    label: 'Professional info',
     coverImage: { ...responsiveImage('folder-2-cover'), width: 3456, height: 934 },
     previewImage: { ...responsiveImage('folder-2-preview-home'), width: 1683, height: 408 },
   },
   {
     number: 1,
+    label: 'Personal info',
     coverImage: { ...responsiveImage('folder-1-cover'), width: 3456, height: 926 },
     previewImage: { ...responsiveImage('folder-1-preview-home'), width: 1701, height: 380 },
   },

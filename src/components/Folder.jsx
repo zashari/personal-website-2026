@@ -20,7 +20,7 @@ const FolderPicture = ({ image, alt, className, onSettled, ...imgProps }) => (
   </picture>
 );
 
-const Folder = ({ folderNumber, coverImage, previewImage, onCoverClick, onImageSettled }) => {
+const Folder = ({ folderNumber, label, coverImage, previewImage, onCoverClick, onImageSettled }) => {
   const handleCoverClick = () => {
     if (onCoverClick) {
       onCoverClick();
@@ -32,19 +32,25 @@ const Folder = ({ folderNumber, coverImage, previewImage, onCoverClick, onImageS
       {previewImage && (
         <FolderPicture
           image={previewImage}
-          alt={`Folder ${folderNumber} Preview`}
+          alt=""
           className="folder-preview"
           onSettled={onImageSettled}
         />
       )}
-      <FolderPicture
-        image={coverImage}
-        alt={`Folder ${folderNumber}`}
-        className="folder-cover"
-        onSettled={onImageSettled}
+      <button
+        type="button"
+        className="folder-cover-button"
         onClick={handleCoverClick}
+        aria-label={`Open ${label}`}
         style={{ cursor: onCoverClick ? 'pointer' : 'default' }}
-      />
+      >
+        <FolderPicture
+          image={coverImage}
+          alt=""
+          className="folder-cover"
+          onSettled={onImageSettled}
+        />
+      </button>
     </div>
   );
 };
