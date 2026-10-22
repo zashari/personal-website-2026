@@ -1,6 +1,7 @@
 import { useRef, useState, useEffect, useMemo, useCallback } from 'react';
 import { Canvas, useThree, useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
+import { textureUrl } from '../constants/images';
 import './Image3DWebGL.css';
 
 // Paper mesh component that renders inside the Canvas
@@ -15,7 +16,13 @@ const PaperMesh = ({
   onHotspotPositionsUpdate,
 }) => {
   const groupRef = useRef();
-  const { viewport, camera, size } = useThree();
+  const lastHotspotKeyRef = useRef('');
+  const { viewport, camera, size, invalidate } = useThree();
+
+  // The canvas renders on demand, so request a frame whenever the paper moves.
+  useEffect(() => {
+    invalidate();
+  }, [rotation, scale, position, hotspots, invalidate]);
 
   // Calculate plane size to fit viewport while maintaining aspect ratio
   const planeSize = useMemo(() => {
@@ -162,7 +169,12 @@ const PaperMesh = ({
         };
       });
 
-      onHotspotPositionsUpdate(positions);
+      // Only push to React when the projected hotspots actually moved
+      const key = positions.map((p) => `${p.x.toFixed(1)},${p.y.toFixed(1)},${p.width.toFixed(1)},${p.height.toFixed(1)},${p.visible}`).join('|');
+      if (key !== lastHotspotKeyRef.current) {
+        lastHotspotKeyRef.current = key;
+        onHotspotPositionsUpdate(positions);
+      }
     }
   });
 
@@ -188,7 +200,8 @@ const TextureLoader = ({ frontSrc, backSrc, children, onLoad }) => {
     const loader = new THREE.TextureLoader();
     let disposed = false;
 
-    const loadTexture = (src, flipHorizontal = false) => {
+    const loadTexture = async (source, flipHorizontal = false) => {
+      const src = await textureUrl(source);
       return new Promise((resolve, reject) => {
         loader.load(
           src,
@@ -518,11 +531,11 @@ const Image3DWebGL = ({
       onTouchEnd={handleTouchEnd}
     >
       <Canvas
+        frameloop="demand"
         camera={{ position: [0, 0, 5], fov: 50 }}
         gl={{
           antialias: true,
           alpha: true,
-          preserveDrawingBuffer: true,
           powerPreference: 'high-performance'
         }}
         dpr={Math.min(window.devicePixelRatio, 2)}
@@ -578,7 +591,14 @@ const Image3DWebGL = ({
                     onPhotoClick(hotspot.photo);
                   }}
                   onMouseDown={(e) => e.stopPropagation()}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      onPhotoClick(hotspot.photo);
+                    }
+                  }}
                   title={hotspot.title || ''}
+                  aria-label={`Open ${hotspot.title || 'photo'}`}
                   role="button"
                   tabIndex={0}
                 />
@@ -596,6 +616,7 @@ const Image3DWebGL = ({
                 onClick={(e) => e.stopPropagation()}
                 onMouseDown={(e) => e.stopPropagation()}
                 title={hotspot.title || ''}
+                aria-label={hotspot.title}
               />
             );
           })}

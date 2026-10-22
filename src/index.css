@@ -1,3 +1,20 @@
+/* JMH Typewriter, subset to printable ASCII. Self-hosted so visitors without the font installed see it too. */
+@font-face {
+  font-family: 'JMH Typewriter';
+  src: url('./assets/fonts/jmh-typewriter-400.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: block;
+}
+
+@font-face {
+  font-family: 'JMH Typewriter';
+  src: url('./assets/fonts/jmh-typewriter-700.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: block;
+}
+
 /* Reset and base styles */
 * {
   margin: 0;
@@ -7,14 +24,18 @@
 
 html {
   overflow: hidden;
+  overflow: clip;
   height: 100vh;
+  height: 100dvh;
 }
 
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
   background-color: #000000;
   overflow: hidden;
+  overflow: clip;
   height: 100vh;
+  height: 100dvh;
   width: 100vw;
   margin: 0;
   padding: 0;
@@ -23,6 +44,7 @@ body {
 #root {
   width: 100vw;
   height: 100vh;
+  height: 100dvh;
 }
 
 /* Container - relative positioning for absolute children */
@@ -30,7 +52,9 @@ body {
   position: relative;
   width: 100vw;
   height: 100vh;
+  height: 100dvh;
   overflow: hidden;
+  overflow: clip;
   background-color: transparent;
   margin: 0;
   z-index: 1;

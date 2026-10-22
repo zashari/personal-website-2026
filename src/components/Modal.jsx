@@ -6,8 +6,10 @@ import './Modal.css';
 const Modal = ({ isOpen, onClose, imageSrc, backImageSrc, alt, activeFolder, currentPage, onPageChange, folderPages, navigationDirection, hotspots, activePhoto, onPhotoClick, onClosePhoto }) => {
   // Touch swipe detection for folder-3 navigation
   const touchStartRef = useRef({ x: 0, y: 0 });
+  const overlayRef = useRef(null);
+  const photoOverlayRef = useRef(null);
   const swipeDetectedRef = useRef(false);
-  const [isMobile, setIsMobile] = useState(false);
+  const [isMobile, setIsMobile] = useState(() => window.matchMedia('(max-width: 768px)').matches);
   const [isLoading, setIsLoading] = useState(true);
   const [isPhotoLoading, setIsPhotoLoading] = useState(true);
 
@@ -43,6 +45,28 @@ const Modal = ({ isOpen, onClose, imageSrc, backImageSrc, alt, activeFolder, cur
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
+
+  // Move focus into the dialog when it opens. Hand it back to the folder on close only when the
+  // folder was opened from the keyboard; a mouse user would otherwise get a focus ring and a peek.
+  // preventScroll keeps the clipped folder scene from shifting.
+  useEffect(() => {
+    if (!isOpen) return undefined;
+    const opener = document.activeElement;
+    const openedFromKeyboard = opener?.matches?.(':focus-visible') ?? false;
+    overlayRef.current?.focus({ preventScroll: true });
+    return () => {
+      if (openedFromKeyboard) opener.focus({ preventScroll: true });
+    };
+  }, [isOpen]);
+
+  useEffect(() => {
+    if (!activePhoto) return undefined;
+    photoOverlayRef.current?.focus({ preventScroll: true });
+    return () => {
+      // Skip when the whole viewer is closing; the effect above restores focus then.
+      if (overlayRef.current?.isConnected) overlayRef.current.focus({ preventScroll: true });
+    };
+  }, [activePhoto]);
 
   const handleTouchStart = useCallback((e) => {
     swipeDetectedRef.current = false;
@@ -134,6 +158,19 @@ const Modal = ({ isOpen, onClose, imageSrc, backImageSrc, alt, activeFolder, cur
       : 'Press [esc] to close.';
   };
 
+  // The phone "Exit" labels act as buttons; give them button semantics and keyboard activation.
+  const tappable = (action) => ({
+    role: 'button',
+    tabIndex: 0,
+    onClick: (e) => { e.stopPropagation(); action(); },
+    onKeyDown: (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        action();
+      }
+    },
+  });
+
   const getPhotoCloseGuide = () => {
     return isMobile
       ? 'Exit'
@@ -141,7 +178,15 @@ const Modal = ({ isOpen, onClose, imageSrc, backImageSrc, alt, activeFolder, cur
   };
 
   return (
-    <div className="modal-overlay" onClick={onClose}>
+    <div
+      ref={overlayRef}
+      className="modal-overlay"
+      onClick={onClose}
+      role="dialog"
+      aria-modal="true"
+      aria-label={activeFolder === 3 ? `Projects, page ${currentPage}` : alt}
+      tabIndex={-1}
+    >
       <div
         className="modal-content"
         onClick={(e) => {
@@ -203,7 +248,7 @@ const Modal = ({ isOpen, onClose, imageSrc, backImageSrc, alt, activeFolder, cur
               </button>
               <div
                 className="modal-close-text modal-close-text--tappable"
-                onClick={(e) => { e.stopPropagation(); onClose(); }}
+                {...tappable(onClose)}
               >
                 {getCloseGuide()}
               </div>
@@ -218,7 +263,7 @@ const Modal = ({ isOpen, onClose, imageSrc, backImageSrc, alt, activeFolder, cur
           ) : (
             <div
               className={`modal-close-text ${isMobile ? 'modal-close-text--tappable' : ''}`}
-              onClick={isMobile ? (e) => { e.stopPropagation(); onClose(); } : undefined}
+              {...(isMobile ? tappable(onClose) : {})}
             >
               {getCloseGuide()}
             </div>
@@ -228,7 +273,15 @@ const Modal = ({ isOpen, onClose, imageSrc, backImageSrc, alt, activeFolder, cur
 
       {/* Nested Photo Modal */}
       {activePhoto && (
-        <div className="photo-modal-overlay" onClick={onClosePhoto}>
+        <div
+          ref={photoOverlayRef}
+          className="photo-modal-overlay"
+          onClick={onClosePhoto}
+          role="dialog"
+          aria-modal="true"
+          aria-label={activePhoto.alt}
+          tabIndex={-1}
+        >
           <div className="photo-modal-content" onClick={(e) => e.stopPropagation()}>
             {/* Photo Loading Indicator */}
             {isPhotoLoading && (
@@ -249,7 +302,7 @@ const Modal = ({ isOpen, onClose, imageSrc, backImageSrc, alt, activeFolder, cur
           <div className="modal-guide-container">
             <div
               className={`modal-close-text ${isMobile ? 'modal-close-text--tappable' : ''}`}
-              onClick={isMobile ? (e) => { e.stopPropagation(); onClosePhoto(); } : undefined}
+              {...(isMobile ? tappable(onClosePhoto) : {})}
             >
               {getPhotoCloseGuide()}
             </div>

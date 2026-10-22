@@ -1,17 +1,137 @@
-import { useState, useEffect } from 'react';
-import { Beams, Folder, Modal } from './components';
-import { FOLDERS, BEAMS_CONFIG } from './constants/folders';
+import { useState, useCallback, useRef, lazy, Suspense } from 'react';
+import { CarbonSheet, Folder } from './components';
+import { FOLDERS } from './constants/folders';
+import { textureImage } from './constants/images';
 import './App.css';
 
-// Images to preload for initial page load
-const PRELOAD_IMAGES = [
-  '/assets/folder-1-cover.png',
-  '/assets/folder-1-preview-home.png',
-  '/assets/folder-2-cover.png',
-  '/assets/folder-2-preview-home.png',
-  '/assets/folder-3-cover.png',
-  '/assets/folder-3-preview-home.png',
-];
+// The paper viewer pulls in three.js, so it loads after the folders are on screen.
+const loadModal = () => import('./components/Modal');
+const Modal = lazy(loadModal);
+
+// Every folder has a cover and a preview image; the loading screen stays up until all of them settle.
+const FOLDER_IMAGE_COUNT = FOLDERS.reduce((n, folder) => n + (folder.previewImage ? 2 : 1), 0);
+
+// Texture sources are created once here so their identity is stable across renders.
+const folderImages = {
+  1: {
+    front: textureImage('paper-personal-info'),
+    back: textureImage('paper-personal-info-back'),
+    alt: 'Personal Info',
+    hotspots: [
+      {
+        top: '26.5%',
+        left: '26%',
+        width: '22%',
+        height: '2.8%',
+        href: 'https://wa.me/6281248777317',
+        title: 'WhatsApp',
+        debugColor: 'green',
+      },
+      {
+        top: '26.5%',
+        left: '57%',
+        width: '30%',
+        height: '2.8%',
+        href: 'mailto:izzat.zaky@gmail.com',
+        title: 'Email',
+        debugColor: 'orange',
+      },
+      {
+        top: '-2%',
+        left: '62.5%',
+        width: '25.5%',
+        height: '20.2%',
+        rotation: '0deg',
+        type: 'photo',
+        photo: {
+          front: textureImage('personal-paper-photo-2-front'),
+          back: textureImage('personal-paper-photo-2-back'),
+          alt: 'Photo 2',
+        },
+        title: 'Photo 2',
+        debugColor: 'red',
+      },
+      {
+        top: '6%',
+        left: '75%',
+        width: '24%',
+        height: '17%',
+        rotation: '7.12deg',
+        type: 'photo',
+        photo: {
+          front: textureImage('personal-paper-photo-1-front'),
+          back: textureImage('personal-paper-photo-1-back'),
+          alt: 'Photo 1',
+        },
+        title: 'Photo 1',
+        debugColor: 'blue',
+      },
+    ],
+  },
+  2: {
+    front: textureImage('paper-professional-info'),
+    back: textureImage('paper-professional-info-back'),
+    alt: 'Professional Info',
+    hotspots: [
+      {
+        top: '0.5%',
+        left: '62.5%',
+        width: '19%',
+        height: '13.5%',
+        rotation: '0deg',
+        type: 'photo',
+        photo: {
+          front: textureImage('professional-paper-photo-2-front'),
+          back: textureImage('professional-paper-photo-2-back'),
+          alt: 'Photo 2',
+        },
+        title: 'Photo 2',
+        debugColor: 'red',
+      },
+      {
+        top: '2.1%',
+        left: '76.4%',
+        width: '21.2%',
+        height: '15.5%',
+        rotation: '15deg',
+        type: 'photo',
+        photo: {
+          front: textureImage('professional-paper-photo-1-front'),
+          back: textureImage('professional-paper-photo-1-back'),
+          alt: 'Photo 1',
+        },
+        title: 'Photo 1',
+        debugColor: 'blue',
+      },
+    ],
+  },
+  3: {
+    pages: {
+      1: {
+        front: textureImage('paper-projects-page-1'),
+        back: textureImage('paper-projects-page-1-back'),
+        alt: 'Projects - Page 1'
+      },
+      2: {
+        front: textureImage('paper-projects-page-2'),
+        back: textureImage('paper-projects-page-2-back'),
+        alt: 'Projects - Page 2'
+      }
+    }
+  }
+};
+
+// Shown only if a folder is opened before the paper viewer has finished downloading.
+const ModalChunkLoading = () => (
+  <div className="app-loading app-loading--overlay">
+    <div className="app-loading-content">
+      <span className="app-loading-text">Loading</span>
+      <span className="app-loading-dots">
+        <span>.</span><span>.</span><span>.</span>
+      </span>
+    </div>
+  </div>
+);
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -21,142 +141,14 @@ function App() {
   const [navigationDirection, setNavigationDirection] = useState(null); // 'next' | 'prev'
   const [activePhoto, setActivePhoto] = useState(null); // For photo popup
 
-  // Preload images on mount
-  useEffect(() => {
-    let isMounted = true;
-
-    const preloadImages = async () => {
-      const promises = PRELOAD_IMAGES.map((src) => {
-        return new Promise((resolve) => {
-          const img = new Image();
-          img.onload = resolve;
-          img.onerror = resolve; // Resolve even on error to not block loading
-          img.src = src;
-        });
-      });
-
-      await Promise.all(promises);
-
-      if (isMounted) {
-        setIsLoading(false);
-      }
-    };
-
-    preloadImages();
-
-    return () => {
-      isMounted = false;
-    };
-  }, []);
-
-  const folderImages = {
-    1: {
-      front: '/assets/paper-personal-info.png',
-      back: '/assets/paper-personal-info-back.png',
-      alt: 'Personal Info',
-      hotspots: [
-        {
-          top: '26.5%',
-          left: '26%',
-          width: '22%',
-          height: '2.8%',
-          href: 'https://wa.me/6281248777317',
-          title: 'WhatsApp',
-          debugColor: 'green',
-        },
-        {
-          top: '26.5%',
-          left: '57%',
-          width: '30%',
-          height: '2.8%',
-          href: 'mailto:izzat.zaky@gmail.com',
-          title: 'Email',
-          debugColor: 'orange',
-        },
-        {
-          top: '-2%',
-          left: '62.5%',
-          width: '25.5%',
-          height: '20.2%',
-          rotation: '0deg',
-          type: 'photo',
-          photo: {
-            front: '/assets/personal-paper-photo-2-front.png',
-            back: '/assets/personal-paper-photo-2-back.png',
-            alt: 'Photo 2',
-          },
-          title: 'Photo 2',
-          debugColor: 'red',
-        },
-        {
-          top: '6%',
-          left: '75%',
-          width: '24%',
-          height: '17%',
-          rotation: '7.12deg',
-          type: 'photo',
-          photo: {
-            front: '/assets/personal-paper-photo-1-front.png',
-            back: '/assets/personal-paper-photo-1-back.png',
-            alt: 'Photo 1',
-          },
-          title: 'Photo 1',
-          debugColor: 'blue',
-        },
-      ],
-    },
-    2: {
-      front: '/assets/paper-professional-info.png',
-      back: '/assets/paper-professional-info-back.png',
-      alt: 'Professional Info',
-      hotspots: [
-        {
-          top: '0.5%',
-          left: '62.5%',
-          width: '19%',
-          height: '13.5%',
-          rotation: '0deg',
-          type: 'photo',
-          photo: {
-            front: '/assets/professional-paper-photo-2-front.png',
-            back: '/assets/professional-paper-photo-2-back.png',
-            alt: 'Photo 2',
-          },
-          title: 'Photo 2',
-          debugColor: 'red',
-        },
-        {
-          top: '2.1%',
-          left: '76.4%',
-          width: '21.2%',
-          height: '15.5%',
-          rotation: '15deg',
-          type: 'photo',
-          photo: {
-            front: '/assets/professional-paper-photo-1-front.png',
-            back: '/assets/professional-paper-photo-1-back.png',
-            alt: 'Photo 1',
-          },
-          title: 'Photo 1',
-          debugColor: 'blue',
-        },
-      ],
-    },
-    3: {
-      pages: {
-        1: {
-          front: '/assets/paper-projects-page-1.png',
-          back: '/assets/paper-projects-page-1-back.png',
-          alt: 'Projects - Page 1'
-        },
-        2: {
-          front: '/assets/paper-projects-page-2.png',
-          back: '/assets/paper-projects-page-2-back.png',
-          alt: 'Projects - Page 2'
-        }
-      }
+  const settledImagesRef = useRef(0);
+  const handleImageSettled = useCallback(() => {
+    settledImagesRef.current += 1;
+    if (settledImagesRef.current >= FOLDER_IMAGE_COUNT) {
+      setIsLoading(false);
+      loadModal().catch((error) => console.error('Failed to prefetch the paper viewer', error));
     }
-  };
+  }, []);
 
   const handleFolderClick = (folderNumber) => {
     setActiveFolder(folderNumber);
@@ -207,55 +199,56 @@ function App() {
 
   const currentImages = getCurrentImages();
 
-  // Show loading screen while preloading images
-  if (isLoading) {
-    return (
-      <div className="app-loading">
-        <div className="app-loading-content">
-          <span className="app-loading-text">Loading</span>
-          <span className="app-loading-dots">
-            <span>.</span><span>.</span><span>.</span>
-          </span>
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div className="app">
-      {/* Beams background */}
-      <div className="beams-container">
-        <Beams {...BEAMS_CONFIG} />
-      </div>
+      {/* Loading screen covers the folders while their images load underneath */}
+      {isLoading && (
+        <div className="app-loading">
+          <div className="app-loading-content">
+            <span className="app-loading-text">Loading</span>
+            <span className="app-loading-dots">
+              <span>.</span><span>.</span><span>.</span>
+            </span>
+          </div>
+        </div>
+      )}
+
+      {!isLoading && <CarbonSheet />}
 
       <div className="container">
         {FOLDERS.map((folder) => (
           <Folder
             key={folder.number}
             folderNumber={folder.number}
+            label={folder.label}
             coverImage={folder.coverImage}
             previewImage={folder.previewImage}
             onCoverClick={folder.number === 1 || folder.number === 2 || folder.number === 3 ? () => handleFolderClick(folder.number) : undefined}
+            onImageSettled={handleImageSettled}
           />
         ))}
       </div>
 
-      <Modal
-        isOpen={isModalOpen}
-        onClose={handleCloseModal}
-        imageSrc={currentImages.front}
-        backImageSrc={currentImages.back}
-        alt={currentImages.alt}
-        activeFolder={activeFolder}
-        currentPage={currentPage}
-        onPageChange={handlePageChange}
-        folderPages={activeFolder === 3 ? folderImages[3].pages : null}
-        navigationDirection={navigationDirection}
-        hotspots={currentImages.hotspots || []}
-        activePhoto={activePhoto}
-        onPhotoClick={handlePhotoClick}
-        onClosePhoto={handleClosePhoto}
-      />
+      {isModalOpen && (
+        <Suspense fallback={<ModalChunkLoading />}>
+          <Modal
+            isOpen={isModalOpen}
+            onClose={handleCloseModal}
+            imageSrc={currentImages.front}
+            backImageSrc={currentImages.back}
+            alt={currentImages.alt}
+            activeFolder={activeFolder}
+            currentPage={currentPage}
+            onPageChange={handlePageChange}
+            folderPages={activeFolder === 3 ? folderImages[3].pages : null}
+            navigationDirection={navigationDirection}
+            hotspots={currentImages.hotspots || []}
+            activePhoto={activePhoto}
+            onPhotoClick={handlePhotoClick}
+            onClosePhoto={handleClosePhoto}
+          />
+        </Suspense>
+      )}
     </div>
   );
 }
