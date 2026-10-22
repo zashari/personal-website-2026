@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import { FOLDER_IMAGE_SIZES } from '../constants/folders';
 import './Folder.css';
 
@@ -20,21 +19,6 @@ const FolderPicture = ({ image, alt, className, onSettled, ...imgProps }) => (
     />
   </picture>
 );
-
-const imageShape = PropTypes.shape({
-  avif: PropTypes.string.isRequired,
-  webp: PropTypes.string.isRequired,
-  fallback: PropTypes.string.isRequired,
-  width: PropTypes.number.isRequired,
-  height: PropTypes.number.isRequired,
-});
-
-FolderPicture.propTypes = {
-  image: imageShape.isRequired,
-  alt: PropTypes.string.isRequired,
-  className: PropTypes.string.isRequired,
-  onSettled: PropTypes.func,
-};
 
 const Folder = ({ folderNumber, coverImage, previewImage, onCoverClick, onImageSettled }) => {
   const handleCoverClick = () => {
@@ -63,14 +47,6 @@ const Folder = ({ folderNumber, coverImage, previewImage, onCoverClick, onImageS
       />
     </div>
   );
-};
-
-Folder.propTypes = {
-  folderNumber: PropTypes.number.isRequired,
-  coverImage: imageShape.isRequired,
-  previewImage: imageShape,
-  onCoverClick: PropTypes.func,
-  onImageSettled: PropTypes.func,
 };
 
 export default Folder;
