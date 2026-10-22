@@ -8,6 +8,11 @@
   /* Do NOT use overflow: hidden - it will clip the baked shadows */
 }
 
+/* <picture> wrappers must not add a box; the img inside is what gets positioned */
+.folder picture {
+  display: contents;
+}
+
 /* Folder preview images - positioned behind cover */
 .folder-preview {
   display: block;

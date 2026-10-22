@@ -1,6 +1,7 @@
 import { useRef, useState, useEffect, useMemo, useCallback } from 'react';
 import { Canvas, useThree, useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
+import { textureUrl } from '../constants/images';
 import './Image3DWebGL.css';
 
 // Paper mesh component that renders inside the Canvas
@@ -188,7 +189,8 @@ const TextureLoader = ({ frontSrc, backSrc, children, onLoad }) => {
     const loader = new THREE.TextureLoader();
     let disposed = false;
 
-    const loadTexture = (src, flipHorizontal = false) => {
+    const loadTexture = async (source, flipHorizontal = false) => {
+      const src = await textureUrl(source);
       return new Promise((resolve, reject) => {
         loader.load(
           src,
