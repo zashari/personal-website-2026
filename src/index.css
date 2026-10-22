@@ -1,3 +1,20 @@
+/* JMH Typewriter, subset to printable ASCII. Self-hosted so visitors without the font installed see it too. */
+@font-face {
+  font-family: 'JMH Typewriter';
+  src: url('./assets/fonts/jmh-typewriter-400.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: block;
+}
+
+@font-face {
+  font-family: 'JMH Typewriter';
+  src: url('./assets/fonts/jmh-typewriter-700.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: block;
+}
+
 /* Reset and base styles */
 * {
   margin: 0;
