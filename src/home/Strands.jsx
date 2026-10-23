@@ -1,5 +1,6 @@
 // Strands by React Bits (https://reactbits.dev/animations/strands), JS + CSS variant from
-// https://reactbits.dev/r/Strands-JS-CSS.json. Local change: the respectReducedMotion prop (default true, as upstream).
+// https://reactbits.dev/r/Strands-JS-CSS.json. Local changes: the respectReducedMotion prop (default true, as upstream)
+// and the clear prop (0 = upstream dark glass, 1 = clear see-through glass when lightMode is off; eased on change).
 import { useEffect, useRef } from 'react';
 import './Strands.css';
 
@@ -41,6 +42,7 @@ uniform float uIntro;
 uniform float uPulse;
 uniform float uLight;
 uniform float uOpacity;
+uniform float uClear;
 
 out vec4 fragColor;
 
@@ -241,6 +243,7 @@ void main() {
     float ring = exp(-pow((r - 0.985) / 0.011, 2.0));
     float hzk = 0.25 + 0.7 * pow(max(0.0, -d.x * 0.6 + d.y * 0.8), 2.0) + pow(max(0.0, d.x * 0.8 - d.y * 0.6), 2.0);
     float haze = exp(-pow((1.0 - r) / 0.09, 2.0)) * hzk * 0.13 * uRim;
+    vec3 glow = col * (1.0 + 0.1 * bend * uRim) + ring * key * uRim * (1.0 + 0.4 * level) + haze * vec3(1.0, 1.02, 1.04);
     vec3 orb;
     if (uLight > 0.5) {
       float lz = dot(d * r, vec2(-0.55, 0.83));
@@ -253,12 +256,26 @@ void main() {
       float edge = exp(-pow((1.0 - r) / (0.01 + 1.2 * px), 2.0));
       orb *= 1.0 - 0.12 * edge;
     } else {
-      orb = vec3(0.04) + col * (1.0 + 0.1 * bend * uRim) + ring * key * uRim * (1.0 + 0.4 * level) + haze * vec3(1.0, 1.02, 1.04);
-      orb = grade(clamp(orb, 0.0, 1.0));
+      orb = grade(clamp(vec3(0.04) + glow, 0.0, 1.0));
     }
     float inside = clamp((1.0 - rho) / px + 0.5, 0.0, 1.0) * appear;
     vec3 rgb = orb * inside;
-    fragColor = vec4(rgb, max(inside * mix(0.92, 1.0, uLight), max(max(rgb.r, rgb.g), rgb.b))) * uOpacity;
+    vec4 outC = vec4(rgb, max(inside * mix(0.92, 1.0, uLight), max(max(rgb.r, rgb.g), rgb.b)));
+    if (uClear > 0.0 && uLight < 0.5) {
+      // Clear glass: no body, only a faint cool tint that thickens toward the rim, the strands, and a white highlight,
+      // so the page shows through the sphere.
+      vec3 g = grade(clamp(glow, 0.0, 1.0));
+      float lz = dot(d * r, vec2(-0.55, 0.83));
+      float tintA = 0.03 + 0.28 * pow(smoothstep(0.55, 1.0, r), 2.0) + 0.04 * (0.5 - 0.5 * lz);
+      vec4 c = vec4(vec3(0.16, 0.17, 0.21) * tintA, tintA);
+      float ga = max(g.r, max(g.g, g.b));
+      c = vec4(g, ga) + c * (1.0 - ga);
+      float spec = exp(-pow((r - 0.955) / 0.03, 2.0)) * pow(max(0.0, dot(d, vec2(-0.55, 0.83))), 3.0);
+      float sa = clamp(spec * 0.9 * uRim, 0.0, 1.0);
+      c = vec4(vec3(sa), sa) + c * (1.0 - sa);
+      outC = mix(outC, c * inside, uClear);
+    }
+    fragColor = outC * uOpacity;
   } else {
     float span = 0.5 * res.x / min(res.x, res.y);
     vec2 u = p * (0.78 / span) + vec2(0.0, -0.15);
@@ -346,6 +363,7 @@ export default function Strands({
   clickPulse = true,
   intro = true,
   lightMode = false,
+  clear = 0,
   maxDevicePixelRatio = 2,
   respectReducedMotion = true,
   className = '',
@@ -380,6 +398,7 @@ export default function Strands({
     clickPulse,
     intro,
     lightMode,
+    clear,
     maxDevicePixelRatio,
     respectReducedMotion
   };
@@ -424,7 +443,8 @@ export default function Strands({
       'uIntro',
       'uPulse',
       'uLight',
-      'uOpacity'
+      'uOpacity',
+      'uClear'
     ];
     const setup = () => {
       const next = createProgram(gl);
@@ -461,6 +481,7 @@ export default function Strands({
       pulseV: 0,
       introStart: -1,
       intro: propsRef.current.intro ? 0 : 1,
+      clear: propsRef.current.clear,
       visible: typeof IntersectionObserver === 'undefined',
       lost: false,
       raf: 0,
@@ -540,6 +561,7 @@ export default function Strands({
       gl.uniform1f(loc.uPulse, st.pulse);
       gl.uniform1f(loc.uLight, p.lightMode ? 1 : 0);
       gl.uniform1f(loc.uOpacity, p.opacity);
+      gl.uniform1f(loc.uClear, st.clear);
       gl.clear(gl.COLOR_BUFFER_BIT);
       gl.drawArrays(gl.TRIANGLES, 0, 3);
     };
@@ -557,6 +579,7 @@ export default function Strands({
       } else {
         st.intro = 1;
       }
+      st.clear += (p.clear - st.clear) * (1 - Math.exp(-dt / 0.2));
       st.hover += (st.hoverTarget - st.hover) * (1 - Math.exp(-dt / (st.hoverTarget > st.hover ? 0.25 : 0.6)));
       for (let i = 0; i < 2; i++) st.lean[i] += (st.leanTarget[i] - st.lean[i]) * (1 - Math.exp(-dt / 0.35));
       st.pulseV += (-170 * st.pulse - 14 * st.pulseV) * dt;

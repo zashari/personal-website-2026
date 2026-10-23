@@ -3,6 +3,7 @@ import { BRAND, MODES, NAME, NAV, PHOTO_ALT, ROLES, SOCIALS, TOUCH_LABEL } from 
 import spiral from './assets/golden-spiral.svg';
 import photoAvif from './assets/images/photo.avif';
 import photoWebp from './assets/images/photo.webp';
+import SphereLens, { LENS_SUPPORTED } from './SphereLens';
 import Strands from './Strands';
 
 // Frames for the hover reel, in file order (01, 02, ...), each as an AVIF and WebP pair.
@@ -224,11 +225,22 @@ const SPHERES = {
 };
 const SPHERE_FADE_MS = 450; // matches .home-spheres transition in home.css
 
-// Spheres always use Strands' dark glass, in both colour modes (lightMode stays off).
-function SphereLayer({ front, state, variant }) {
+// Spheres use Strands' dark glass in dark mode and clear glass in light mode (lightMode stays off); SphereLens
+// bends the page behind them in both modes.
+const SPHERE_CLEAR = { light: 1, dark: 0 };
+
+function SphereLayer({ front, state, variant, theme }) {
   if (state === 'off') return null;
+  const lens = LENS_SUPPORTED;
   return (
-    <div className="home-spheres" data-state={state} data-front={front || undefined} aria-hidden="true">
+    <div
+      className="home-spheres"
+      data-state={state}
+      data-front={front || undefined}
+      data-lens={lens || undefined}
+      aria-hidden="true"
+    >
+      {!front && lens && <SphereLens />}
       {SPHERES[variant].filter((s) => !!s.front === front).map((s) => {
         const box = s.d / 0.84;
         return (
@@ -237,7 +249,7 @@ function SphereLayer({ front, state, variant }) {
             className="home-sphere"
             style={{ left: s.x - box / 2, top: s.y - box / 2, width: box, height: box, '--depth': s.depth }}
           >
-            <Strands respectReducedMotion={false} />
+            <Strands respectReducedMotion={false} clear={SPHERE_CLEAR[theme]} />
           </div>
         );
       })}
@@ -455,13 +467,13 @@ export default function HomeApp() {
           draggable={false}
         />
 
-        {!isPhone && <SphereLayer front={false} state={sphereState} variant={layout?.variant ?? 'wide'} />}
+        {!isPhone && <SphereLayer front={false} state={sphereState} variant={layout?.variant ?? 'wide'} theme={theme} />}
 
         {!isPhone && <TouchMe {...pos.touch} pressed={spheresOn} onToggle={toggleSpheres} />}
 
         <PhotoReel />
 
-        {!isPhone && <SphereLayer front state={sphereState} variant={layout?.variant ?? 'wide'} />}
+        {!isPhone && <SphereLayer front state={sphereState} variant={layout?.variant ?? 'wide'} theme={theme} />}
 
         <ul className="home-socials">
           {SOCIALS.map((s) => (
