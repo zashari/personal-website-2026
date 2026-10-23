@@ -24,6 +24,7 @@ export default function Paper3D({ front, back, aspect, label, isActive = true, t
   const pinch = useRef(null);
   const [box, setBox] = useState({ width: 0, height: 0 });
   const [internal, setInternal] = useState(DEFAULT_TRANSFORM);
+  const [ready, setReady] = useState(false);
 
   const controlled = transform !== undefined;
   const current = controlled ? transform : internal;
@@ -53,12 +54,15 @@ export default function Paper3D({ front, back, aspect, label, isActive = true, t
     return () => observer.disconnect();
   }, []);
 
-  // Report "loaded" once the fonts and every image on both faces have decoded, so the sheet appears whole.
+  // Keep the sheet hidden behind the dialog's Loading text until the fonts and every image on both faces
+  // have decoded, as the WebGL viewer did, so it never appears half drawn.
   useEffect(() => {
     let cancelled = false;
     const images = [...sheetRef.current.querySelectorAll('img')];
     Promise.all([document.fonts.ready, ...images.map((img) => img.decode().catch(() => {}))]).then(() => {
-      if (!cancelled) onLoadComplete?.();
+      if (cancelled) return;
+      setReady(true);
+      onLoadComplete?.();
     });
     return () => { cancelled = true; };
   }, [onLoadComplete]);
@@ -144,7 +148,7 @@ export default function Paper3D({ front, back, aspect, label, isActive = true, t
       onPointerUp={onPointerUp}
       onPointerCancel={onPointerUp}
     >
-      <div ref={sheetRef} className={`paper3d-sheet${baseWidth ? '' : ' is-measuring'}`} style={sheetStyle} role="document" aria-label={label}>
+      <div ref={sheetRef} className={`paper3d-sheet${baseWidth && ready ? '' : ' is-measuring'}`} style={sheetStyle} role="document" aria-label={label}>
         <div className="paper3d-face" aria-hidden={isBackside}>{front}</div>
         <div className="paper3d-face paper3d-face--back" aria-hidden={!isBackside}>{back}</div>
       </div>
