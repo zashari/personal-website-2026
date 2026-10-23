@@ -8,6 +8,10 @@ export const ISSUE = {
   disciplines: ['AI', 'Software', 'MLOps'],
   hint: 'Scroll to turn the page',
   sectionLabel: 'Selected work, a book of projects',
+  // Phones and tablets held upright: the book is turned sideways; these offer the pages upright and back.
+  turnHint: 'Turn your phone sideways to read',
+  uprightView: 'Read upright',
+  bookView: 'Back to the book',
 };
 
 export const PROJECTS = {
