@@ -19,4 +19,10 @@ export const SOCIALS = [
   { key: 'instagram', label: 'Instagram', href: 'https://www.instagram.com/a.zakyashari' },
 ];
 
+// Colour mode switch at the bottom: first option sits bottom-left, second bottom-right.
+export const MODES = [
+  { key: 'dark', label: 'DARK' },
+  { key: 'light', label: 'LIGHT' },
+];
+
 export const PHOTO_ALT = 'Zaky Ashari walking away from the arumi coffee stand at night';

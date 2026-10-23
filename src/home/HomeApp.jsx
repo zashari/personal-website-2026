@@ -1,5 +1,5 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
-import { BRAND, NAME, NAV, PHOTO_ALT, ROLES, SOCIALS } from './content';
+import { BRAND, MODES, NAME, NAV, PHOTO_ALT, ROLES, SOCIALS } from './content';
 import spiral from './assets/golden-spiral.svg';
 import photoAvif from './assets/images/photo.avif';
 import photoWebp from './assets/images/photo.webp';
@@ -177,17 +177,20 @@ function NavItem({ id, title, label, href, children }) {
 }
 
 // Fits the stage's focus box into the window below the header, centred, and picks the arrangement by the shape of
-// that space. Width always fits; height may not, and then the page grows and scrolls. Re-runs when the window or the
-// header (which wraps on phones and grows as fonts load) changes size.
-function useStageLayout(headerRef) {
+// that space. Width always fits; height may not, and then the page grows and scrolls. In the tall arrangement the
+// socials sit above the colour-mode switch instead of beside it, so its height is kept clear. Re-runs when the window,
+// the header (which wraps on phones and grows as fonts load) or the switch changes size.
+function useStageLayout(headerRef, footerRef) {
   const [layout, setLayout] = useState(null);
   useLayoutEffect(() => {
     const header = headerRef.current;
+    const footer = footerRef.current;
     const update = () => {
       const top = header.offsetTop + header.offsetHeight;
       const width = document.documentElement.clientWidth;
-      const height = Math.max(window.innerHeight - top, 1);
-      const variant = width >= height ? 'wide' : 'tall';
+      const variant = width >= window.innerHeight - top ? 'wide' : 'tall';
+      const reserved = variant === 'tall' ? footer.offsetHeight : 0;
+      const height = Math.max(window.innerHeight - top - reserved, 1);
       const { focus } = LAYOUTS[variant];
       const scale = Math.min(width / focus.width, Math.max(height / focus.height, MIN_SCALE));
       const spare = Math.max(height - focus.height * scale, 0);
@@ -196,24 +199,76 @@ function useStageLayout(headerRef) {
         scale,
         x: (width - focus.width * scale) / 2 - focus.x * scale,
         y: top + spare / 2 - focus.y * scale,
-        pageHeight: top + spare + focus.height * scale,
+        pageHeight: top + spare + focus.height * scale + reserved,
       });
     };
     update();
     const observer = new ResizeObserver(update);
     observer.observe(header);
+    observer.observe(footer);
     window.addEventListener('resize', update);
     return () => {
       observer.disconnect();
       window.removeEventListener('resize', update);
     };
-  }, [headerRef]);
+  }, [headerRef, footerRef]);
   return layout;
+}
+
+// Light is the default. The choice is kept per browser; home/index.html applies it before first paint, so this only
+// reads what is already on <html> and writes changes back.
+const THEME_KEY = 'zashari-home-theme';
+const THEME_COLOR = { light: '#dbd5c9', dark: '#202020' };
+
+const THEME_FADE_MS = 600; // matches --theme-time in home.css
+
+function useTheme() {
+  const [theme, setThemeState] = useState(() => (document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light'));
+  const fadeTimer = useRef(null);
+  const setTheme = (next) => {
+    const root = document.documentElement;
+    root.classList.add('theme-switching');
+    clearTimeout(fadeTimer.current);
+    fadeTimer.current = setTimeout(() => root.classList.remove('theme-switching'), THEME_FADE_MS);
+    setThemeState(next);
+  };
+  useEffect(() => () => clearTimeout(fadeTimer.current), []);
+  useEffect(() => {
+    document.documentElement.dataset.theme = theme;
+    document.querySelector('meta[name="theme-color"]')?.setAttribute('content', THEME_COLOR[theme]);
+    try {
+      localStorage.setItem(THEME_KEY, theme);
+    } catch {
+      // Storage can be blocked (private mode, site data off); the mode then lasts for this visit only.
+    }
+  }, [theme]);
+  return [theme, setTheme];
+}
+
+function ModeSwitch({ theme, onChange, footerRef }) {
+  return (
+    <div className="home-mode" ref={footerRef} role="group" aria-label="Colour mode">
+      {MODES.map((mode) => (
+        <button
+          key={mode.key}
+          type="button"
+          className="home-mode-option"
+          aria-pressed={theme === mode.key}
+          onClick={() => onChange(mode.key)}
+        >
+          <span className="home-mode-label">{mode.label}</span>
+          <span className="home-mode-line" aria-hidden="true" />
+        </button>
+      ))}
+    </div>
+  );
 }
 
 export default function HomeApp() {
   const headerRef = useRef(null);
-  const layout = useStageLayout(headerRef);
+  const footerRef = useRef(null);
+  const layout = useStageLayout(headerRef, footerRef);
+  const [theme, setTheme] = useTheme();
   const pos = LAYOUTS[layout?.variant ?? 'wide'];
 
   return (
@@ -287,6 +342,8 @@ export default function HomeApp() {
           </div>
         </nav>
       </header>
+
+      <ModeSwitch theme={theme} onChange={setTheme} footerRef={footerRef} />
     </main>
   );
 }

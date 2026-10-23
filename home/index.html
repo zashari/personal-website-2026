@@ -11,6 +11,17 @@
     <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48.png">
     <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png">
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    <!-- Apply the saved colour mode before first paint (light by default); src/home/HomeApp.jsx owns it afterwards. -->
+    <script>
+        try {
+            if (localStorage.getItem('zashari-home-theme') === 'dark') {
+                document.documentElement.dataset.theme = 'dark';
+                document.querySelector('meta[name="theme-color"]').content = '#202020';
+            }
+        } catch {
+            // Storage blocked (private mode, site data off): stay on the light default.
+        }
+    </script>
 </head>
 <body>
     <div id="root"></div>
