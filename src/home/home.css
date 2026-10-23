@@ -215,6 +215,29 @@ body {
   position: absolute;
 }
 
+/* Focus lens (useSphereFocus in HomeApp.jsx, which sets the radius --focus-r), ShapeBlur's defaults: softness 0.7
+   (full blur inside 30% of the radius, fading out to its edge), blur 16px. A sibling of the sphere, not a child, so its backdrop
+   holds the sphere and the page behind it. --focus-power fades it in and out. */
+.home-sphere-focus {
+  position: absolute;
+  pointer-events: none;
+  opacity: var(--focus-power, 0);
+  transform: translate(calc(var(--repel-x, 0px) * var(--depth, 1)), calc(var(--repel-y, 0px) * var(--depth, 1)));
+  clip-path: circle(42%);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  mask-image: radial-gradient(
+    circle var(--focus-r) at var(--focus-x, 50%) var(--focus-y, 50%),
+    #000 30%,
+    rgb(0 0 0 / 0.5) 65%,
+    transparent
+  );
+}
+
+.home-spheres:not([data-state='on']) .home-sphere-focus {
+  visibility: hidden;
+}
+
 /* The front sphere lies over the photo; let the pointer through so the photo's hover reel still works there. */
 .home-spheres[data-front] .home-sphere {
   pointer-events: none;
