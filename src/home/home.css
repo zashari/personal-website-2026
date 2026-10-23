@@ -165,12 +165,45 @@ body {
   visibility: hidden;
 }
 
-/* "TOUCH ME" and its sparkle: the 58 px sparkle with the label level beside it, 133 x 58 overall. */
+/* "TOUCH ME" and its sparkle: the 58 px sparkle with the label level beside it, 133 x 58 overall. It is one button
+   that turns the spheres on and off. */
 .home-touch {
   position: absolute;
   width: 132.8px;
   height: 58px;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
   color: var(--accent);
+  cursor: pointer;
+}
+
+.home-touch:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 6px;
+}
+
+/* Strands spheres (see SPHERES in HomeApp.jsx): fade in and out as a layer; each sphere box is placed in Figma px. */
+.home-spheres {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.45s ease;
+  pointer-events: none;
+}
+
+.home-spheres[data-state='on'] {
+  opacity: 1;
+}
+
+.home-sphere {
+  position: absolute;
+  pointer-events: auto;
+}
+
+/* The front sphere lies over the photo; let the pointer through so the photo's hover reel still works there. */
+.home-spheres[data-front] .home-sphere {
   pointer-events: none;
 }
 

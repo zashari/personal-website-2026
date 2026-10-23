@@ -3,6 +3,7 @@ import { BRAND, MODES, NAME, NAV, PHOTO_ALT, ROLES, SOCIALS, TOUCH_LABEL } from 
 import spiral from './assets/golden-spiral.svg';
 import photoAvif from './assets/images/photo.avif';
 import photoWebp from './assets/images/photo.webp';
+import Strands from './Strands';
 
 // Frames for the hover reel, in file order (01, 02, ...), each as an AVIF and WebP pair.
 const REEL_URLS = import.meta.glob('./assets/images/reel/*.{avif,webp}', { eager: true, query: '?url', import: 'default' });
@@ -179,9 +180,9 @@ const SPARKLE_PATHS = [
 // top is 0.85 px below the metric value (21.4): Chrome sets these capitals that much higher than Figma does.
 const TOUCH_TEXT_OFFSET = { left: 68.4, top: 22.25 };
 
-function TouchMe({ x, y }) {
+function TouchMe({ x, y, pressed, onToggle }) {
   return (
-    <div className="home-touch" style={{ left: x, top: y }} aria-hidden="true">
+    <button type="button" className="home-touch" style={{ left: x, top: y }} aria-pressed={pressed} onClick={onToggle}>
       <svg className="home-touch-sparkle" width="58" height="58" viewBox="0 0 58 58">
         <g className="home-touch-spin">
           {SPARKLE_PATHS.map((d) => (
@@ -192,8 +193,60 @@ function TouchMe({ x, y }) {
       <span className="home-touch-label" style={TOUCH_TEXT_OFFSET}>
         {TOUCH_LABEL}
       </span>
+    </button>
+  );
+}
+
+// Strands spheres scattered over the artwork while TOUCH ME is on, after the reference layout: one cut by the top edge
+// behind the photo, one on the left edge, one over the photo's lower-left corner (under the name), one cut by the
+// bottom edge, one behind the photo's lower right, one on the right edge. Centre (x, y) and sphere diameter d are in
+// Figma px; Strands draws its sphere at 84% of its box, so each box is d / 0.84 square.
+const SPHERES = [
+  { id: 'top', x: 930, y: 70, d: 300 },
+  { id: 'left', x: 40, y: 680, d: 300 },
+  { id: 'bottom', x: 560, y: 1110, d: 300 },
+  { id: 'right-low', x: 1210, y: 880, d: 300 },
+  { id: 'right-edge', x: 1960, y: 400, d: 300 },
+  // Kept below the name's cap height so the white 'Zaky' stays legible over the light-mode glass.
+  { id: 'front', x: 735, y: 720, d: 300, front: true },
+];
+const SPHERE_FADE_MS = 450; // matches .home-spheres transition in home.css
+
+function SphereLayer({ front, state, lightMode }) {
+  if (state === 'off') return null;
+  return (
+    <div className="home-spheres" data-state={state} data-front={front || undefined} aria-hidden="true">
+      {SPHERES.filter((s) => !!s.front === front).map((s) => {
+        const box = s.d / 0.84;
+        return (
+          <div key={s.id} className="home-sphere" style={{ left: s.x - box / 2, top: s.y - box / 2, width: box, height: box }}>
+            <Strands lightMode={lightMode} respectReducedMotion={false} />
+          </div>
+        );
+      })}
     </div>
   );
+}
+
+// off -> entering (mounted, transparent) -> on (faded in) -> leaving (fading out) -> off (unmounted, WebGL freed).
+// The visitor starts and stops the spheres themselves, so they move even under reduced motion.
+function useSpheres() {
+  const [state, setState] = useState('off');
+  const timer = useRef(null);
+  useEffect(() => {
+    if (state === 'entering') {
+      const raf = requestAnimationFrame(() => requestAnimationFrame(() => setState('on')));
+      return () => cancelAnimationFrame(raf);
+    }
+    if (state === 'leaving') {
+      timer.current = setTimeout(() => setState('off'), SPHERE_FADE_MS);
+      return () => clearTimeout(timer.current);
+    }
+    return undefined;
+  }, [state]);
+  const on = state === 'entering' || state === 'on';
+  const toggle = () => setState(on ? 'leaving' : 'entering');
+  return [state, on, toggle];
 }
 
 function NavItem({ id, title, label, href, children }) {
@@ -300,6 +353,7 @@ export default function HomeApp() {
   const footerRef = useRef(null);
   const layout = useStageLayout(headerRef, footerRef);
   const [theme, setTheme] = useTheme();
+  const [sphereState, spheresOn, toggleSpheres] = useSpheres();
   const pos = LAYOUTS[layout?.variant ?? 'wide'];
 
   return (
@@ -324,9 +378,13 @@ export default function HomeApp() {
           draggable={false}
         />
 
-        <TouchMe {...pos.touch} />
+        <SphereLayer front={false} state={sphereState} lightMode={theme === 'light'} />
+
+        <TouchMe {...pos.touch} pressed={spheresOn} onToggle={toggleSpheres} />
 
         <PhotoReel />
+
+        <SphereLayer front state={sphereState} lightMode={theme === 'light'} />
 
         <ul className="home-socials">
           {SOCIALS.map((s) => (
