@@ -1,0 +1,120 @@
+[
+  {
+    "family": "David Libre",
+    "style": "Regular",
+    "weight": 400,
+    "sizes": [
+      10,
+      20
+    ],
+    "usedIn": [
+      "personal-info.front",
+      "professional-info.front",
+      "projects-page-1.front",
+      "projects-page-2.front"
+    ],
+    "layers": 8
+  },
+  {
+    "family": "Fira Code",
+    "style": "SemiBold",
+    "weight": 600,
+    "sizes": [
+      15,
+      25,
+      30,
+      400
+    ],
+    "usedIn": [
+      "assets",
+      "home"
+    ],
+    "layers": 15
+  },
+  {
+    "family": "JMH Typewriter",
+    "style": "Regular",
+    "weight": 400,
+    "sizes": [
+      8,
+      9,
+      10,
+      12,
+      16
+    ],
+    "usedIn": [
+      "personal-info.front",
+      "professional-info.front",
+      "projects-page-1.front",
+      "projects-page-2.front"
+    ],
+    "layers": 71
+  },
+  {
+    "family": "JMH Typewriter",
+    "style": "Bold",
+    "weight": 700,
+    "sizes": [
+      8,
+      9,
+      10,
+      12,
+      16,
+      30
+    ],
+    "usedIn": [
+      "personal-info.front",
+      "professional-info.front",
+      "projects-page-1.front",
+      "projects-page-2.front"
+    ],
+    "layers": 35
+  },
+  {
+    "family": "JMH Typewriter",
+    "style": "Black",
+    "weight": 900,
+    "sizes": [
+      8,
+      16,
+      40
+    ],
+    "usedIn": [
+      "personal-info.front",
+      "professional-info.front"
+    ],
+    "layers": 7
+  },
+  {
+    "family": "Royal Brand",
+    "style": "Regular",
+    "weight": 400,
+    "sizes": [
+      15,
+      18,
+      20,
+      30
+    ],
+    "usedIn": [
+      "assets"
+    ],
+    "layers": 10
+  },
+  {
+    "family": "Times New Normal",
+    "style": "Regular",
+    "weight": 400,
+    "sizes": [
+      12,
+      14,
+      16
+    ],
+    "usedIn": [
+      "personal-info.front",
+      "professional-info.front",
+      "projects-page-1.front",
+      "projects-page-2.front"
+    ],
+    "layers": 36
+  }
+]

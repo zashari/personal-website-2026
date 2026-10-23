@@ -1,0 +1,1871 @@
+{
+  "id": "1:2",
+  "name": "home",
+  "size": {
+    "w": 1728,
+    "h": 1117
+  },
+  "nodes": [
+    {
+      "id": "1:2",
+      "name": "home",
+      "type": "FRAME",
+      "path": "",
+      "box": {
+        "x": 0,
+        "y": 0,
+        "w": 1728,
+        "h": 1117
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#ababab"
+        }
+      ]
+    },
+    {
+      "id": "4:97",
+      "name": "folder-4-fix",
+      "type": "GROUP",
+      "path": "home",
+      "box": {
+        "x": 2,
+        "y": 132,
+        "w": 1728.42,
+        "h": 439
+      },
+      "cornerRadii": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "effects": [
+        {
+          "type": "DROP_SHADOW",
+          "radius": 19,
+          "showShadowBehindNode": false,
+          "color": "#000000",
+          "alpha": 1,
+          "offset": {
+            "x": 1,
+            "y": -4
+          }
+        },
+        {
+          "type": "NOISE",
+          "noiseSize": 0.5,
+          "density": 1,
+          "color": "#000000",
+          "alpha": 0.25
+        }
+      ]
+    },
+    {
+      "id": "68:415",
+      "name": "folder-4-preview-home",
+      "type": "GROUP",
+      "path": "home / folder-4-fix",
+      "box": {
+        "x": 16,
+        "y": 149,
+        "w": 1714.42,
+        "h": 207
+      }
+    },
+    {
+      "id": "68:409",
+      "name": "empty-paper-2",
+      "type": "RECTANGLE",
+      "path": "home / folder-4-fix / folder-4-preview-home",
+      "box": {
+        "x": 70,
+        "y": 149,
+        "w": 1657.58,
+        "h": 175
+      },
+      "rotationDeg": -90,
+      "size": {
+        "w": 175,
+        "h": 1657.58
+      },
+      "fills": [
+        {
+          "type": "IMAGE",
+          "imageRef": "4f180512d0672936105a7206e4c6237940c35997",
+          "scaleMode": "STRETCH",
+          "imageTransform": [
+            [
+              0.1496,
+              0,
+              0.8504
+            ],
+            [
+              0,
+              1,
+              0
+            ]
+          ]
+        }
+      ],
+      "effects": [
+        {
+          "type": "DROP_SHADOW",
+          "radius": 4,
+          "showShadowBehindNode": false,
+          "color": "#000000",
+          "alpha": 0.25,
+          "offset": {
+            "x": 0,
+            "y": -4
+          }
+        }
+      ]
+    },
+    {
+      "id": "68:411",
+      "name": "empty-paper-1",
+      "type": "RECTANGLE",
+      "path": "home / folder-4-fix / folder-4-preview-home",
+      "box": {
+        "x": 33,
+        "y": 162,
+        "w": 1695.47,
+        "h": 179
+      },
+      "rotationDeg": -90,
+      "size": {
+        "w": 179,
+        "h": 1695.47
+      },
+      "fills": [
+        {
+          "type": "IMAGE",
+          "imageRef": "4f180512d0672936105a7206e4c6237940c35997",
+          "scaleMode": "STRETCH",
+          "imageTransform": [
+            [
+              0.1496,
+              0,
+              0.8504
+            ],
+            [
+              0,
+              1,
+              0
+            ]
+          ]
+        }
+      ],
+      "effects": [
+        {
+          "type": "DROP_SHADOW",
+          "radius": 4,
+          "showShadowBehindNode": false,
+          "color": "#000000",
+          "alpha": 0.25,
+          "offset": {
+            "x": 0,
+            "y": -4
+          }
+        }
+      ]
+    },
+    {
+      "id": "68:413",
+      "name": "empty-paper-0",
+      "type": "RECTANGLE",
+      "path": "home / folder-4-fix / folder-4-preview-home",
+      "box": {
+        "x": 16,
+        "y": 175,
+        "w": 1714.42,
+        "h": 181
+      },
+      "rotationDeg": -90,
+      "size": {
+        "w": 181,
+        "h": 1714.42
+      },
+      "fills": [
+        {
+          "type": "IMAGE",
+          "imageRef": "4f180512d0672936105a7206e4c6237940c35997",
+          "scaleMode": "STRETCH",
+          "imageTransform": [
+            [
+              0.1496,
+              0,
+              0.8504
+            ],
+            [
+              0,
+              1,
+              0
+            ]
+          ]
+        }
+      ],
+      "effects": [
+        {
+          "type": "DROP_SHADOW",
+          "radius": 4,
+          "showShadowBehindNode": false,
+          "color": "#000000",
+          "alpha": 0.25,
+          "offset": {
+            "x": 0,
+            "y": -4
+          }
+        }
+      ]
+    },
+    {
+      "id": "69:423",
+      "name": "folder-4-cover",
+      "type": "GROUP",
+      "path": "home / folder-4-fix",
+      "box": {
+        "x": 2,
+        "y": 132,
+        "w": 1728,
+        "h": 439
+      },
+      "cornerRadii": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "4:98",
+      "name": "Group 4",
+      "type": "GROUP",
+      "path": "home / folder-4-fix / folder-4-cover",
+      "box": {
+        "x": 2,
+        "y": 132,
+        "w": 1728,
+        "h": 439
+      },
+      "cornerRadii": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "effects": [
+        {
+          "type": "DROP_SHADOW",
+          "radius": 14,
+          "showShadowBehindNode": false,
+          "color": "#000000",
+          "alpha": 0.8,
+          "offset": {
+            "x": 2,
+            "y": -10
+          }
+        }
+      ]
+    },
+    {
+      "id": "4:99",
+      "name": "Rectangle 1",
+      "type": "RECTANGLE",
+      "path": "home / folder-4-fix / folder-4-cover / Group 4",
+      "box": {
+        "x": 2,
+        "y": 193,
+        "w": 1728,
+        "h": 378
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#61604e"
+        }
+      ]
+    },
+    {
+      "id": "4:100",
+      "name": "Rectangle 3",
+      "type": "VECTOR",
+      "path": "home / folder-4-fix / folder-4-cover / Group 4",
+      "box": {
+        "x": 278,
+        "y": 132,
+        "w": 326,
+        "h": 61
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#61604e"
+        }
+      ],
+      "cornerRadii": [
+        30,
+        30,
+        0,
+        0
+      ],
+      "svgPath": [
+        "M20.6518 17.2047C25.6046 6.70155 36.174 0 47.7863 0L278.506 0C293.042 0 305.398 10.467 309.463 24.423C312.046 33.2903 315.451 42.9705 319.608 50.5C321.91 54.6694 326 61 326 61L0 61L20.6518 17.2047Z"
+      ]
+    },
+    {
+      "id": "4:101",
+      "name": "texture",
+      "type": "VECTOR",
+      "path": "home / folder-4-fix / folder-4-cover / Group 4",
+      "box": {
+        "x": 2,
+        "y": 132,
+        "w": 1728,
+        "h": 439
+      },
+      "blendMode": "COLOR_BURN",
+      "fills": [
+        {
+          "type": "IMAGE",
+          "opacity": 0.7,
+          "imageRef": "2fa3789cf79291c4630a82fedc4781f915a44878",
+          "scaleMode": "STRETCH",
+          "imageTransform": [
+            [
+              0.8205,
+              0,
+              0.023
+            ],
+            [
+              0,
+              0.2605,
+              0.706
+            ]
+          ]
+        }
+      ],
+      "svgPath": [
+        "M1728 439L1728 61L602 61C602 61 596 57.5001 584.5 21.5001C577.647 0.0460129 547 0 547 0C547 0 339 0.500001 318.5 0.5C298.5 0.499999 276.5 61 276.5 61L0 61L0 433L1728 439Z"
+      ]
+    },
+    {
+      "id": "7:22",
+      "name": "text",
+      "type": "GROUP",
+      "path": "home / folder-4-fix / folder-4-cover",
+      "box": {
+        "x": 303,
+        "y": 139,
+        "w": 274,
+        "h": 54
+      }
+    },
+    {
+      "id": "7:23",
+      "type": "TEXT",
+      "path": "home / folder-4-fix / folder-4-cover / text",
+      "box": {
+        "x": 311,
+        "y": 154,
+        "w": 261,
+        "h": 39
+      },
+      "inkBox": {
+        "x": 310.06,
+        "y": 161.8,
+        "w": 262.91,
+        "h": 23.65
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#ececec"
+        }
+      ],
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 1,
+          "noiseSize": 0.30000001192092896,
+          "clipToShape": false
+        }
+      ],
+      "text": "██████████",
+      "style": {
+        "family": "Fira Code",
+        "style": "SemiBold",
+        "weight": 600,
+        "size": 30,
+        "lineHeightPx": 39.36,
+        "lineHeight": "auto",
+        "letterSpacing": 9,
+        "align": "CENTER"
+      },
+      "autoResize": "WIDTH_AND_HEIGHT",
+      "redactedBy": [
+        "7:27"
+      ],
+      "textLength": 10
+    },
+    {
+      "id": "7:24",
+      "name": "-001-",
+      "type": "TEXT",
+      "path": "home / folder-4-fix / folder-4-cover / text",
+      "box": {
+        "x": 513,
+        "y": 139,
+        "w": 45,
+        "h": 20
+      },
+      "inkBox": {
+        "x": 513.34,
+        "y": 142.4,
+        "w": 44.3,
+        "h": 12.82
+      },
+      "rotationDeg": 0,
+      "size": {
+        "w": 45,
+        "h": 20
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#a0a0a0"
+        }
+      ],
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 1,
+          "noiseSize": 0.30000001192092896,
+          "clipToShape": false
+        }
+      ],
+      "text": "-001-",
+      "style": {
+        "family": "Fira Code",
+        "style": "SemiBold",
+        "weight": 600,
+        "size": 15,
+        "lineHeightPx": 19.68,
+        "lineHeight": "auto",
+        "letterSpacing": 0,
+        "align": "LEFT"
+      },
+      "autoResize": "WIDTH_AND_HEIGHT"
+    },
+    {
+      "id": "7:30",
+      "name": "redacted",
+      "type": "GROUP",
+      "path": "home / folder-4-fix / folder-4-cover / text",
+      "box": {
+        "x": 303,
+        "y": 165,
+        "w": 274,
+        "h": 20
+      }
+    },
+    {
+      "id": "7:27",
+      "name": "Rectangle 4",
+      "type": "RECTANGLE",
+      "path": "home / folder-4-fix / folder-4-cover / text / redacted",
+      "box": {
+        "x": 303,
+        "y": 165,
+        "w": 274,
+        "h": 19
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#000000"
+        }
+      ],
+      "role": "redaction-mark"
+    },
+    {
+      "id": "7:28",
+      "type": "TEXT",
+      "path": "home / folder-4-fix / folder-4-cover / text / redacted",
+      "box": {
+        "x": 404,
+        "y": 165,
+        "w": 72,
+        "h": 20
+      },
+      "inkBox": {
+        "x": 404.1,
+        "y": 168.4,
+        "w": 72.36,
+        "h": 12.82
+      },
+      "rotationDeg": 0,
+      "size": {
+        "w": 72,
+        "h": 20
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#891414"
+        }
+      ],
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 1,
+          "noiseSize": 0.30000001192092896,
+          "clipToShape": false
+        }
+      ],
+      "text": "████████",
+      "style": {
+        "family": "Fira Code",
+        "style": "SemiBold",
+        "weight": 600,
+        "size": 15,
+        "lineHeightPx": 19.68,
+        "lineHeight": "auto",
+        "letterSpacing": 0,
+        "align": "LEFT"
+      },
+      "autoResize": "WIDTH_AND_HEIGHT",
+      "redactedBy": [
+        "7:27"
+      ],
+      "textLength": 8
+    },
+    {
+      "id": "7:25",
+      "name": "20260101-132303",
+      "type": "TEXT",
+      "path": "home / folder-4-fix / folder-4-cover / text",
+      "box": {
+        "x": 324,
+        "y": 139,
+        "w": 135,
+        "h": 20
+      },
+      "inkBox": {
+        "x": 323.7,
+        "y": 142.4,
+        "w": 135.02,
+        "h": 12.82
+      },
+      "rotationDeg": 0,
+      "size": {
+        "w": 135,
+        "h": 20
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#a0a0a0"
+        }
+      ],
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 1,
+          "noiseSize": 0.30000001192092896,
+          "clipToShape": false
+        }
+      ],
+      "text": "20260101-132303",
+      "style": {
+        "family": "Fira Code",
+        "style": "SemiBold",
+        "weight": 600,
+        "size": 15,
+        "lineHeightPx": 19.68,
+        "lineHeight": "auto",
+        "letterSpacing": 0,
+        "align": "LEFT"
+      },
+      "autoResize": "WIDTH_AND_HEIGHT"
+    },
+    {
+      "id": "4:90",
+      "name": "folder-3-fix",
+      "type": "GROUP",
+      "path": "home",
+      "box": {
+        "x": 0,
+        "y": 241.59,
+        "w": 1728,
+        "h": 541
+      },
+      "cornerRadii": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "effects": [
+        {
+          "type": "DROP_SHADOW",
+          "radius": 19,
+          "showShadowBehindNode": false,
+          "color": "#000000",
+          "alpha": 1,
+          "offset": {
+            "x": 1,
+            "y": -4
+          }
+        },
+        {
+          "type": "NOISE",
+          "noiseSize": 0.5,
+          "density": 1,
+          "color": "#000000",
+          "alpha": 0.25
+        }
+      ]
+    },
+    {
+      "id": "68:232",
+      "name": "folder-3-preview-home",
+      "type": "RECTANGLE",
+      "path": "home / folder-3-fix",
+      "box": {
+        "x": 17.36,
+        "y": 241.59,
+        "w": 1624.98,
+        "h": 541
+      },
+      "rotationDeg": -86.57,
+      "size": {
+        "w": 445.93,
+        "h": 1601.15
+      },
+      "fills": [
+        {
+          "type": "IMAGE",
+          "imageRef": "5f58192446ce1c4c1b0a46532e74cb96dccc0b07",
+          "scaleMode": "STRETCH",
+          "imageTransform": [
+            [
+              0.3616,
+              0,
+              0.6384
+            ],
+            [
+              0,
+              1,
+              0
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "69:422",
+      "name": "folder-3-cover",
+      "type": "GROUP",
+      "path": "home / folder-3-fix",
+      "box": {
+        "x": 0,
+        "y": 314,
+        "w": 1728,
+        "h": 439
+      },
+      "cornerRadii": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "4:91",
+      "name": "Group 3",
+      "type": "GROUP",
+      "path": "home / folder-3-fix / folder-3-cover",
+      "box": {
+        "x": 0,
+        "y": 314,
+        "w": 1728,
+        "h": 439
+      },
+      "cornerRadii": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "effects": [
+        {
+          "type": "DROP_SHADOW",
+          "radius": 14,
+          "showShadowBehindNode": false,
+          "color": "#000000",
+          "alpha": 0.5,
+          "offset": {
+            "x": 2,
+            "y": -10
+          }
+        }
+      ]
+    },
+    {
+      "id": "4:92",
+      "name": "Rectangle 1",
+      "type": "RECTANGLE",
+      "path": "home / folder-3-fix / folder-3-cover / Group 3",
+      "box": {
+        "x": 0,
+        "y": 375,
+        "w": 1728,
+        "h": 378
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#5b6066"
+        }
+      ]
+    },
+    {
+      "id": "4:93",
+      "name": "Rectangle 3",
+      "type": "VECTOR",
+      "path": "home / folder-3-fix / folder-3-cover / Group 3",
+      "box": {
+        "x": 105,
+        "y": 314,
+        "w": 326,
+        "h": 61
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#5b6066"
+        }
+      ],
+      "cornerRadii": [
+        30,
+        30,
+        0,
+        0
+      ],
+      "svgPath": [
+        "M20.6518 17.2047C25.6046 6.70155 36.174 0 47.7863 0L278.506 0C293.042 0 305.398 10.467 309.463 24.423C312.046 33.2903 315.451 42.9705 319.608 50.5C321.91 54.6694 326 61 326 61L0 61L20.6518 17.2047Z"
+      ]
+    },
+    {
+      "id": "4:94",
+      "name": "texture",
+      "type": "VECTOR",
+      "path": "home / folder-3-fix / folder-3-cover / Group 3",
+      "box": {
+        "x": 0,
+        "y": 314.11,
+        "w": 1728,
+        "h": 438.89
+      },
+      "blendMode": "COLOR_BURN",
+      "fills": [
+        {
+          "type": "IMAGE",
+          "opacity": 0.7,
+          "imageRef": "2fa3789cf79291c4630a82fedc4781f915a44878",
+          "scaleMode": "STRETCH",
+          "imageTransform": [
+            [
+              0.8205,
+              0,
+              0.1437
+            ],
+            [
+              0,
+              0.2605,
+              0.281
+            ]
+          ]
+        }
+      ],
+      "svgPath": [
+        "M1728 438.89L1728 60.8902L431 60.8902C431 60.8902 425.5 59.3902 412.5 20.3902C404.5 -3.60985 371 0.224899 371 0.224899C371 0.224899 166 0.224905 147 0.224899C128 0.224894 104.5 61.2249 104.5 61.2249L0 60.8902L7.86781e-05 438.89L1728 438.89Z"
+      ]
+    },
+    {
+      "id": "7:17",
+      "name": "text",
+      "type": "GROUP",
+      "path": "home / folder-3-fix / folder-3-cover",
+      "box": {
+        "x": 144,
+        "y": 321,
+        "w": 249,
+        "h": 54
+      },
+      "cornerRadii": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "7:18",
+      "name": "PROJECTS",
+      "type": "TEXT",
+      "path": "home / folder-3-fix / folder-3-cover / text",
+      "box": {
+        "x": 144,
+        "y": 336,
+        "w": 249,
+        "h": 39
+      },
+      "inkBox": {
+        "x": 145.48,
+        "y": 343.8,
+        "w": 247.2,
+        "h": 23.65
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#ececec"
+        }
+      ],
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 1,
+          "noiseSize": 0.30000001192092896,
+          "clipToShape": false
+        }
+      ],
+      "text": "PROJECTS",
+      "style": {
+        "family": "Fira Code",
+        "style": "SemiBold",
+        "weight": 600,
+        "size": 30,
+        "lineHeightPx": 39.36,
+        "lineHeight": "auto",
+        "letterSpacing": 15,
+        "align": "CENTER"
+      },
+      "autoResize": "WIDTH_AND_HEIGHT"
+    },
+    {
+      "id": "7:19",
+      "name": "-003-",
+      "type": "TEXT",
+      "path": "home / folder-3-fix / folder-3-cover / text",
+      "box": {
+        "x": 340,
+        "y": 321,
+        "w": 45,
+        "h": 20
+      },
+      "inkBox": {
+        "x": 340.34,
+        "y": 324.4,
+        "w": 44.3,
+        "h": 12.82
+      },
+      "rotationDeg": 0,
+      "size": {
+        "w": 45,
+        "h": 20
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#a0a0a0"
+        }
+      ],
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 1,
+          "noiseSize": 0.30000001192092896,
+          "clipToShape": false
+        }
+      ],
+      "text": "-003-",
+      "style": {
+        "family": "Fira Code",
+        "style": "SemiBold",
+        "weight": 600,
+        "size": 15,
+        "lineHeightPx": 19.68,
+        "lineHeight": "auto",
+        "letterSpacing": 0,
+        "align": "LEFT"
+      },
+      "autoResize": "WIDTH_AND_HEIGHT"
+    },
+    {
+      "id": "7:20",
+      "name": "20260123-011103",
+      "type": "TEXT",
+      "path": "home / folder-3-fix / folder-3-cover / text",
+      "box": {
+        "x": 151,
+        "y": 321,
+        "w": 135,
+        "h": 20
+      },
+      "inkBox": {
+        "x": 150.7,
+        "y": 324.4,
+        "w": 135.02,
+        "h": 12.82
+      },
+      "rotationDeg": 0,
+      "size": {
+        "w": 135,
+        "h": 20
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#a0a0a0"
+        }
+      ],
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 1,
+          "noiseSize": 0.30000001192092896,
+          "clipToShape": false
+        }
+      ],
+      "text": "20260123-011103",
+      "style": {
+        "family": "Fira Code",
+        "style": "SemiBold",
+        "weight": 600,
+        "size": 15,
+        "lineHeightPx": 19.68,
+        "lineHeight": "auto",
+        "letterSpacing": 0,
+        "align": "LEFT"
+      },
+      "autoResize": "WIDTH_AND_HEIGHT"
+    },
+    {
+      "id": "4:83",
+      "name": "folder-2-fix",
+      "type": "GROUP",
+      "path": "home",
+      "box": {
+        "x": 2,
+        "y": 399,
+        "w": 1728,
+        "h": 513
+      },
+      "cornerRadii": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "effects": [
+        {
+          "type": "DROP_SHADOW",
+          "radius": 19,
+          "showShadowBehindNode": false,
+          "color": "#000000",
+          "alpha": 1,
+          "offset": {
+            "x": 1,
+            "y": -4
+          }
+        },
+        {
+          "type": "NOISE",
+          "noiseSize": 0.5,
+          "density": 1,
+          "color": "#000000",
+          "alpha": 0.25
+        }
+      ]
+    },
+    {
+      "id": "46:5",
+      "name": "folder-2-preview-home",
+      "type": "GROUP",
+      "path": "home / folder-2-fix",
+      "box": {
+        "x": 22,
+        "y": 399,
+        "w": 1683,
+        "h": 408
+      }
+    },
+    {
+      "id": "46:2",
+      "name": "paper-professional-info 1",
+      "type": "RECTANGLE",
+      "path": "home / folder-2-fix / folder-2-preview-home",
+      "box": {
+        "x": 22,
+        "y": 403,
+        "w": 1683,
+        "h": 404
+      },
+      "rotationDeg": -90,
+      "size": {
+        "w": 404,
+        "h": 1683
+      },
+      "fills": [
+        {
+          "type": "IMAGE",
+          "imageRef": "5829b694e9df2c70089ccceaacdbf4c65676b300",
+          "scaleMode": "STRETCH",
+          "imageTransform": [
+            [
+              0.3325,
+              0,
+              0.6675
+            ],
+            [
+              0,
+              1,
+              0
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "46:3",
+      "name": "IMG_6600 4",
+      "type": "RECTANGLE",
+      "path": "home / folder-2-fix / folder-2-preview-home",
+      "box": {
+        "x": 70.36,
+        "y": 399,
+        "w": 315.82,
+        "h": 315.82
+      },
+      "rotationDeg": -75,
+      "size": {
+        "w": 257.87,
+        "h": 257.87
+      },
+      "fills": [
+        {
+          "type": "IMAGE",
+          "imageRef": "94812a94f2ae6af3393e734a818ffb117da19957",
+          "scaleMode": "FILL"
+        }
+      ],
+      "stroke": {
+        "paints": [
+          {
+            "type": "SOLID",
+            "color": "#f2f2f2"
+          }
+        ],
+        "weight": 5,
+        "align": "INSIDE"
+      }
+    },
+    {
+      "id": "69:421",
+      "name": "folder-2-cover",
+      "type": "GROUP",
+      "path": "home / folder-2-fix",
+      "box": {
+        "x": 2,
+        "y": 473,
+        "w": 1728,
+        "h": 439
+      },
+      "cornerRadii": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "4:84",
+      "name": "Group 2",
+      "type": "GROUP",
+      "path": "home / folder-2-fix / folder-2-cover",
+      "box": {
+        "x": 2,
+        "y": 473,
+        "w": 1728,
+        "h": 439
+      },
+      "cornerRadii": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "effects": [
+        {
+          "type": "DROP_SHADOW",
+          "radius": 14,
+          "showShadowBehindNode": false,
+          "color": "#000000",
+          "alpha": 0.5,
+          "offset": {
+            "x": 2,
+            "y": -10
+          }
+        }
+      ]
+    },
+    {
+      "id": "4:85",
+      "name": "Rectangle 1",
+      "type": "RECTANGLE",
+      "path": "home / folder-2-fix / folder-2-cover / Group 2",
+      "box": {
+        "x": 2,
+        "y": 534,
+        "w": 1728,
+        "h": 378
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#beb298"
+        }
+      ]
+    },
+    {
+      "id": "4:86",
+      "name": "Rectangle 3",
+      "type": "VECTOR",
+      "path": "home / folder-2-fix / folder-2-cover / Group 2",
+      "box": {
+        "x": 227,
+        "y": 473,
+        "w": 326,
+        "h": 61
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#beb298"
+        }
+      ],
+      "cornerRadii": [
+        30,
+        30,
+        0,
+        0
+      ],
+      "svgPath": [
+        "M20.6518 17.2047C25.6046 6.70155 36.174 0 47.7863 0L278.506 0C293.042 0 305.398 10.467 309.463 24.423C312.046 33.2903 315.451 42.9705 319.608 50.5C321.91 54.6694 326 61 326 61L0 61L20.6518 17.2047Z"
+      ]
+    },
+    {
+      "id": "4:87",
+      "name": "texture",
+      "type": "VECTOR",
+      "path": "home / folder-2-fix / folder-2-cover / Group 2",
+      "box": {
+        "x": 2,
+        "y": 473,
+        "w": 1728,
+        "h": 439
+      },
+      "blendMode": "COLOR_BURN",
+      "fills": [
+        {
+          "type": "IMAGE",
+          "opacity": 0.7,
+          "imageRef": "2fa3789cf79291c4630a82fedc4781f915a44878",
+          "scaleMode": "STRETCH",
+          "imageTransform": [
+            [
+              0.8205,
+              0,
+              0.0635
+            ],
+            [
+              0,
+              0.2605,
+              0.6211
+            ]
+          ]
+        }
+      ],
+      "svgPath": [
+        "M1728 439L1728 61L550 60.3347C550 60.3347 535.82 29.7962 532.5 19.8347C524.5 -4.16533 492 0.334718 492 0.334718C492 0.334718 287 0.334723 268 0.334718C249 0.334713 225.5 61.3347 225.5 61.3347L0 61.3347L0 438.335L1728 439Z"
+      ]
+    },
+    {
+      "id": "5:7",
+      "name": "text",
+      "type": "GROUP",
+      "path": "home / folder-2-fix / folder-2-cover",
+      "box": {
+        "x": 265,
+        "y": 480,
+        "w": 249,
+        "h": 62
+      },
+      "cornerRadii": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "5:8",
+      "name": "PROFESSIONAL",
+      "type": "TEXT",
+      "path": "home / folder-2-fix / folder-2-cover / text",
+      "box": {
+        "x": 265,
+        "y": 495,
+        "w": 249,
+        "h": 39
+      },
+      "inkBox": {
+        "x": 266.5,
+        "y": 502.81,
+        "w": 246.94,
+        "h": 23.64
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#ececec"
+        }
+      ],
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 1,
+          "noiseSize": 0.30000001192092896,
+          "clipToShape": false
+        }
+      ],
+      "text": "PROFESSIONAL",
+      "style": {
+        "family": "Fira Code",
+        "style": "SemiBold",
+        "weight": 600,
+        "size": 30,
+        "lineHeightPx": 39.36,
+        "lineHeight": "auto",
+        "letterSpacing": 3,
+        "align": "CENTER"
+      },
+      "autoResize": "WIDTH_AND_HEIGHT"
+    },
+    {
+      "id": "6:12",
+      "name": "INFO",
+      "type": "TEXT",
+      "path": "home / folder-2-fix / folder-2-cover / text",
+      "box": {
+        "x": 356,
+        "y": 509,
+        "w": 68,
+        "h": 33
+      },
+      "inkBox": {
+        "x": 357.39,
+        "y": 515.34,
+        "w": 66.57,
+        "h": 20.04
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#891414",
+          "opacity": 0.7
+        }
+      ],
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 1,
+          "noiseSize": 0.30000001192092896,
+          "clipToShape": false
+        }
+      ],
+      "text": "INFO",
+      "style": {
+        "family": "Fira Code",
+        "style": "SemiBold",
+        "weight": 600,
+        "size": 25,
+        "lineHeightPx": 32.8,
+        "lineHeight": "auto",
+        "letterSpacing": 2.5,
+        "align": "CENTER"
+      },
+      "autoResize": "WIDTH_AND_HEIGHT",
+      "runs": [
+        {
+          "text": "INF"
+        },
+        {
+          "text": "O",
+          "style": {
+            "fontSize": 25,
+            "letterSpacing": 0,
+            "fills": [
+              {
+                "type": "SOLID",
+                "color": "#891414",
+                "opacity": 0.7
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "5:9",
+      "name": "-002-",
+      "type": "TEXT",
+      "path": "home / folder-2-fix / folder-2-cover / text",
+      "box": {
+        "x": 462,
+        "y": 480,
+        "w": 45,
+        "h": 20
+      },
+      "inkBox": {
+        "x": 462.34,
+        "y": 483.4,
+        "w": 44.3,
+        "h": 12.82
+      },
+      "rotationDeg": 0,
+      "size": {
+        "w": 45,
+        "h": 20
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#0b0b0b"
+        }
+      ],
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 1,
+          "noiseSize": 0.30000001192092896,
+          "clipToShape": false
+        }
+      ],
+      "text": "-002-",
+      "style": {
+        "family": "Fira Code",
+        "style": "SemiBold",
+        "weight": 600,
+        "size": 15,
+        "lineHeightPx": 19.68,
+        "lineHeight": "auto",
+        "letterSpacing": 0,
+        "align": "LEFT"
+      },
+      "autoResize": "WIDTH_AND_HEIGHT"
+    },
+    {
+      "id": "5:10",
+      "name": "20260114-230252",
+      "type": "TEXT",
+      "path": "home / folder-2-fix / folder-2-cover / text",
+      "box": {
+        "x": 273,
+        "y": 480,
+        "w": 135,
+        "h": 20
+      },
+      "inkBox": {
+        "x": 272.7,
+        "y": 483.4,
+        "w": 134.98,
+        "h": 12.82
+      },
+      "rotationDeg": 0,
+      "size": {
+        "w": 135,
+        "h": 20
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#0b0b0b"
+        }
+      ],
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 1,
+          "noiseSize": 0.30000001192092896,
+          "clipToShape": false
+        }
+      ],
+      "text": "20260114-230252",
+      "style": {
+        "family": "Fira Code",
+        "style": "SemiBold",
+        "weight": 600,
+        "size": 15,
+        "lineHeightPx": 19.68,
+        "lineHeight": "auto",
+        "letterSpacing": 0,
+        "align": "LEFT"
+      },
+      "autoResize": "WIDTH_AND_HEIGHT"
+    },
+    {
+      "id": "4:76",
+      "name": "folder-1-fix",
+      "type": "GROUP",
+      "path": "home",
+      "box": {
+        "x": 0,
+        "y": 570,
+        "w": 1728,
+        "h": 547.01
+      },
+      "cornerRadii": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "effects": [
+        {
+          "type": "NOISE",
+          "noiseSize": 0.5,
+          "density": 1,
+          "color": "#000000",
+          "alpha": 0.25
+        }
+      ]
+    },
+    {
+      "id": "69:424",
+      "name": "folder-1-preview-home",
+      "type": "GROUP",
+      "path": "home / folder-1-fix",
+      "box": {
+        "x": 14,
+        "y": 570,
+        "w": 1700.82,
+        "h": 379.52
+      }
+    },
+    {
+      "id": "32:325",
+      "name": "paper-personal-info 1",
+      "type": "RECTANGLE",
+      "path": "home / folder-1-fix / folder-1-preview-home",
+      "box": {
+        "x": 14,
+        "y": 571,
+        "w": 1700.82,
+        "h": 378.52
+      },
+      "rotationDeg": -86.16,
+      "size": {
+        "w": 266.29,
+        "h": 1686.78
+      },
+      "fills": [
+        {
+          "type": "IMAGE",
+          "imageRef": "339ef950ef6e7c3d6d763cc5ec942b9612c556aa",
+          "scaleMode": "STRETCH",
+          "imageTransform": [
+            [
+              0.2215,
+              0,
+              0.7785
+            ],
+            [
+              0,
+              1,
+              0
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "46:6",
+      "name": "IMG_6600 2",
+      "type": "RECTANGLE",
+      "path": "home / folder-1-fix / folder-1-preview-home",
+      "box": {
+        "x": 98,
+        "y": 570,
+        "w": 342.16,
+        "h": 342.16
+      },
+      "rotationDeg": -78.18,
+      "size": {
+        "w": 289.06,
+        "h": 289.06
+      },
+      "fills": [
+        {
+          "type": "IMAGE",
+          "imageRef": "44f62151541a7deabd0012b9ff1cf78e833337bc",
+          "scaleMode": "FILL"
+        }
+      ],
+      "stroke": {
+        "paints": [
+          {
+            "type": "SOLID",
+            "color": "#f2f2f2"
+          }
+        ],
+        "weight": 10,
+        "align": "INSIDE"
+      }
+    },
+    {
+      "id": "46:8",
+      "name": "paperclip",
+      "type": "VECTOR",
+      "path": "home / folder-1-fix / folder-1-preview-home",
+      "box": {
+        "x": 24,
+        "y": 643,
+        "w": 209.11,
+        "h": 126.68
+      },
+      "rotationDeg": -73.73,
+      "size": {
+        "w": 74.75,
+        "h": 196.02
+      },
+      "fills": [
+        {
+          "type": "IMAGE",
+          "imageRef": "e0ac8cc36294a471ebe24345aa463ae039eacbdc",
+          "scaleMode": "STRETCH",
+          "imageTransform": [
+            [
+              0.2961,
+              0,
+              0.3631
+            ],
+            [
+              0,
+              0.7253,
+              0.0816
+            ]
+          ]
+        }
+      ],
+      "svgPath": [
+        "M5.58851e-08 1.73052e-06L53.6609 2.21248L55.6854 21.384L49.0107 23.1549L12.2512 46.1762L12.6995 144.04L56.9123 156.805L57.4954 47.4408L63.7155 1.46713L74.7497 196.022L5.58853e-08 196.022L5.58851e-08 1.73052e-06Z"
+      ]
+    },
+    {
+      "id": "69:420",
+      "name": "folder-1-cover",
+      "type": "GROUP",
+      "path": "home / folder-1-fix",
+      "box": {
+        "x": 0,
+        "y": 678,
+        "w": 1728,
+        "h": 439.01
+      },
+      "cornerRadii": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "4:77",
+      "name": "Group 1",
+      "type": "GROUP",
+      "path": "home / folder-1-fix / folder-1-cover",
+      "box": {
+        "x": 0,
+        "y": 678,
+        "w": 1728,
+        "h": 439.01
+      },
+      "cornerRadii": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "effects": [
+        {
+          "type": "DROP_SHADOW",
+          "radius": 14,
+          "showShadowBehindNode": false,
+          "color": "#000000",
+          "alpha": 0.8,
+          "offset": {
+            "x": 2,
+            "y": -10
+          }
+        }
+      ]
+    },
+    {
+      "id": "4:78",
+      "name": "Rectangle 1",
+      "type": "RECTANGLE",
+      "path": "home / folder-1-fix / folder-1-cover / Group 1",
+      "box": {
+        "x": 0,
+        "y": 739.01,
+        "w": 1728,
+        "h": 378
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#8e8878"
+        }
+      ]
+    },
+    {
+      "id": "4:79",
+      "name": "Rectangle 3",
+      "type": "VECTOR",
+      "path": "home / folder-1-fix / folder-1-cover / Group 1",
+      "box": {
+        "x": 119,
+        "y": 678.01,
+        "w": 326,
+        "h": 61
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#8e8878"
+        }
+      ],
+      "cornerRadii": [
+        30,
+        30,
+        0,
+        0
+      ],
+      "svgPath": [
+        "M20.6518 17.2047C25.6046 6.70155 36.174 0 47.7863 0L278.506 0C293.042 0 305.398 10.467 309.463 24.423C312.046 33.2903 315.451 42.9705 319.608 50.5C321.91 54.6694 326 61 326 61L0 61L20.6518 17.2047Z"
+      ]
+    },
+    {
+      "id": "4:80",
+      "name": "texture",
+      "type": "VECTOR",
+      "path": "home / folder-1-fix / folder-1-cover / Group 1",
+      "box": {
+        "x": 0,
+        "y": 678,
+        "w": 1728,
+        "h": 438.95
+      },
+      "blendMode": "COLOR_BURN",
+      "fills": [
+        {
+          "type": "IMAGE",
+          "opacity": 0.7,
+          "imageRef": "2fa3789cf79291c4630a82fedc4781f915a44878",
+          "scaleMode": "STRETCH",
+          "imageTransform": [
+            [
+              0.8205,
+              0,
+              0.1254
+            ],
+            [
+              0,
+              0.2605,
+              0.0003
+            ]
+          ]
+        }
+      ],
+      "svgPath": [
+        "M1728 438.952L1728 61.0201L444.5 61.0201C444.5 61.0201 436.388 50.6761 426 19.5111C419.167 -0.98888 385.5 0.0110907 385.5 0.0110907C385.5 0.0110907 164 -0.323055 154.5 2.67686C145 5.67677 119 61.0111 119 61.0111L0 61.0111L0 438.952L1728 438.952Z"
+      ]
+    },
+    {
+      "id": "5:6",
+      "name": "text",
+      "type": "GROUP",
+      "path": "home / folder-1-fix / folder-1-cover",
+      "box": {
+        "x": 147,
+        "y": 683,
+        "w": 270,
+        "h": 54
+      },
+      "cornerRadii": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "4:81",
+      "name": "PERSONAL INFO",
+      "type": "TEXT",
+      "path": "home / folder-1-fix / folder-1-cover / text",
+      "box": {
+        "x": 147,
+        "y": 698,
+        "w": 270,
+        "h": 39
+      },
+      "inkBox": {
+        "x": 148.51,
+        "y": 705.81,
+        "w": 268.5,
+        "h": 23.64
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#ececec"
+        }
+      ],
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 1,
+          "noiseSize": 0.30000001192092896,
+          "clipToShape": false
+        }
+      ],
+      "text": "PERSONAL INFO",
+      "style": {
+        "family": "Fira Code",
+        "style": "SemiBold",
+        "weight": 600,
+        "size": 30,
+        "lineHeightPx": 39.36,
+        "lineHeight": "auto",
+        "letterSpacing": 3,
+        "align": "CENTER"
+      },
+      "autoResize": "WIDTH_AND_HEIGHT"
+    },
+    {
+      "id": "5:2",
+      "name": "-001-",
+      "type": "TEXT",
+      "path": "home / folder-1-fix / folder-1-cover / text",
+      "box": {
+        "x": 354,
+        "y": 683,
+        "w": 45,
+        "h": 20
+      },
+      "inkBox": {
+        "x": 354.34,
+        "y": 686.4,
+        "w": 44.3,
+        "h": 12.82
+      },
+      "rotationDeg": 0,
+      "size": {
+        "w": 45,
+        "h": 20
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#0b0b0b"
+        }
+      ],
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 1,
+          "noiseSize": 0.30000001192092896,
+          "clipToShape": false
+        }
+      ],
+      "text": "-001-",
+      "style": {
+        "family": "Fira Code",
+        "style": "SemiBold",
+        "weight": 600,
+        "size": 15,
+        "lineHeightPx": 19.68,
+        "lineHeight": "auto",
+        "letterSpacing": 0,
+        "align": "LEFT"
+      },
+      "autoResize": "WIDTH_AND_HEIGHT"
+    },
+    {
+      "id": "5:4",
+      "name": "20260101-132303",
+      "type": "TEXT",
+      "path": "home / folder-1-fix / folder-1-cover / text",
+      "box": {
+        "x": 165,
+        "y": 683,
+        "w": 135,
+        "h": 20
+      },
+      "inkBox": {
+        "x": 164.7,
+        "y": 686.4,
+        "w": 135.02,
+        "h": 12.82
+      },
+      "rotationDeg": 0,
+      "size": {
+        "w": 135,
+        "h": 20
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#0b0b0b"
+        }
+      ],
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 1,
+          "noiseSize": 0.30000001192092896,
+          "clipToShape": false
+        }
+      ],
+      "text": "20260101-132303",
+      "style": {
+        "family": "Fira Code",
+        "style": "SemiBold",
+        "weight": 600,
+        "size": 15,
+        "lineHeightPx": 19.68,
+        "lineHeight": "auto",
+        "letterSpacing": 0,
+        "align": "LEFT"
+      },
+      "autoResize": "WIDTH_AND_HEIGHT"
+    }
+  ]
+}

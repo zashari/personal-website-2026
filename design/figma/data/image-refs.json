@@ -1,0 +1,137 @@
+{
+  "4e9f88fdaf65ed281ec3ea1e7f2dd99155e0b97f": [
+    "assets.json :: ASSETS / photos / personal-info / personal-paper-photo-2-front",
+    "sheets/personal-info.front.json :: paper-personal-info / Group 19 / photos / IMG_6601 1"
+  ],
+  "44f62151541a7deabd0012b9ff1cf78e833337bc": [
+    "assets.json :: ASSETS / photos / personal-info / personal-paper-photo-1-front",
+    "home.json :: home / folder-1-fix / folder-1-preview-home / IMG_6600 2",
+    "sheets/personal-info.front.json :: paper-personal-info / Group 19 / photos / IMG_6600 1"
+  ],
+  "ab6f1d6be66daa0f0053721cf52884e60806c238": [
+    "assets.json :: ASSETS / photos / professional-info / professional-paper-photo-2-front",
+    "sheets/professional-info.front.json :: paper-professional-info / photos / IMG_6601 2"
+  ],
+  "94812a94f2ae6af3393e734a818ffb117da19957": [
+    "assets.json :: ASSETS / photos / professional-info / professional-paper-photo-1-front",
+    "home.json :: home / folder-2-fix / folder-2-preview-home / IMG_6600 4",
+    "sheets/professional-info.front.json :: paper-professional-info / photos / IMG_6600 3"
+  ],
+  "2fa3789cf79291c4630a82fedc4781f915a44878": [
+    "assets.json :: ASSETS / texture",
+    "assets.json :: ASSETS / empty-paper / texture",
+    "home.json :: home / folder-4-fix / folder-4-cover / Group 4 / texture",
+    "home.json :: home / folder-3-fix / folder-3-cover / Group 3 / texture",
+    "home.json :: home / folder-2-fix / folder-2-cover / Group 2 / texture",
+    "home.json :: home / folder-1-fix / folder-1-cover / Group 1 / texture",
+    "sheets/personal-info.back.json :: paper-personal-info-back / Group 19 / texture",
+    "sheets/personal-info.front.json :: paper-personal-info / Group 19 / texture",
+    "sheets/professional-info.back.json :: paper-professional-info-back / texture",
+    "sheets/professional-info.front.json :: paper-professional-info / texture",
+    "sheets/projects-page-1.back.json :: paper-projects-page-1 / project-3 / CONTAINER / texture",
+    "sheets/projects-page-1.back.json :: paper-projects-page-1 / project-2 / CONTAINER / texture",
+    "sheets/projects-page-1.back.json :: paper-projects-page-1 / project-1 / CONTAINER / texture",
+    "sheets/projects-page-1.back.json :: paper-projects-page-1 / texture",
+    "sheets/projects-page-1.front.json :: paper-projects-page-1 / texture",
+    "sheets/projects-page-1.front.json :: paper-projects-page-1 / project-3 / CONTAINER / texture",
+    "sheets/projects-page-1.front.json :: paper-projects-page-1 / project-2 / CONTAINER / texture",
+    "sheets/projects-page-1.front.json :: paper-projects-page-1 / project-1 / CONTAINER / texture",
+    "sheets/projects-page-2.back.json :: paper-projects-page-2 / project-2 / CONTAINER / texture",
+    "sheets/projects-page-2.back.json :: paper-projects-page-2 / project-1 / CONTAINER / texture",
+    "sheets/projects-page-2.back.json :: paper-projects-page-2 / texture",
+    "sheets/projects-page-2.front.json :: paper-projects-page-2 / texture",
+    "sheets/projects-page-2.front.json :: paper-projects-page-2 / project-2 / CONTAINER / texture",
+    "sheets/projects-page-2.front.json :: paper-projects-page-2 / project-1 / CONTAINER / texture"
+  ],
+  "ebdf8584199a5bc3b7dfda3b9a35137d0ac314b6": [
+    "assets.json :: ASSETS / empty-paper / Intersect",
+    "sheets/personal-info.back.json :: paper-personal-info-back / Group 19 / Intersect",
+    "sheets/personal-info.front.json :: paper-personal-info / Group 19 / Intersect",
+    "sheets/professional-info.back.json :: paper-professional-info-back / Intersect",
+    "sheets/professional-info.front.json :: paper-professional-info / Intersect",
+    "sheets/projects-page-1.back.json :: paper-projects-page-1 / Intersect",
+    "sheets/projects-page-1.front.json :: paper-projects-page-1 / Intersect",
+    "sheets/projects-page-2.back.json :: paper-projects-page-2 / Intersect",
+    "sheets/projects-page-2.front.json :: paper-projects-page-2 / Intersect"
+  ],
+  "faa0767882438db5cffeb13dbfb0d2c1ebb37ed7": [
+    "assets.json :: ASSETS / web-logo / Gemini_Generated_Image_lpc89klpc89klpc8-removebg-preview 1"
+  ],
+  "67cd4af0e07c8f18ca85409bb4006ac673f7830d": [
+    "assets.json :: ASSETS / stapler",
+    "sheets/projects-page-1.front.json :: paper-projects-page-1 / project-3 / stapler / stapler",
+    "sheets/projects-page-1.front.json :: paper-projects-page-1 / project-3 / stapler / stapler",
+    "sheets/projects-page-1.front.json :: paper-projects-page-1 / project-2 / stapler / stapler",
+    "sheets/projects-page-1.front.json :: paper-projects-page-1 / project-2 / stapler / stapler",
+    "sheets/projects-page-1.front.json :: paper-projects-page-1 / project-1 / stapler / stapler",
+    "sheets/projects-page-1.front.json :: paper-projects-page-1 / project-1 / stapler / stapler",
+    "sheets/projects-page-2.front.json :: paper-projects-page-2 / project-2 / stapler / stapler",
+    "sheets/projects-page-2.front.json :: paper-projects-page-2 / project-2 / stapler / stapler",
+    "sheets/projects-page-2.front.json :: paper-projects-page-2 / project-1 / stapler / stapler",
+    "sheets/projects-page-2.front.json :: paper-projects-page-2 / project-1 / stapler / stapler"
+  ],
+  "4f180512d0672936105a7206e4c6237940c35997": [
+    "home.json :: home / folder-4-fix / folder-4-preview-home / empty-paper-2",
+    "home.json :: home / folder-4-fix / folder-4-preview-home / empty-paper-1",
+    "home.json :: home / folder-4-fix / folder-4-preview-home / empty-paper-0"
+  ],
+  "5f58192446ce1c4c1b0a46532e74cb96dccc0b07": [
+    "home.json :: home / folder-3-fix / folder-3-preview-home"
+  ],
+  "5829b694e9df2c70089ccceaacdbf4c65676b300": [
+    "home.json :: home / folder-2-fix / folder-2-preview-home / paper-professional-info 1"
+  ],
+  "339ef950ef6e7c3d6d763cc5ec942b9612c556aa": [
+    "home.json :: home / folder-1-fix / folder-1-preview-home / paper-personal-info 1"
+  ],
+  "e0ac8cc36294a471ebe24345aa463ae039eacbdc": [
+    "home.json :: home / folder-1-fix / folder-1-preview-home / paperclip",
+    "sheets/personal-info.back.json :: paper-personal-info-back / Group 19 / paperclip",
+    "sheets/personal-info.front.json :: paper-personal-info / Group 19 / photos / paperclip",
+    "sheets/professional-info.back.json :: paper-professional-info-back / paperclip",
+    "sheets/professional-info.back.json :: paper-professional-info-back / paperclip",
+    "sheets/professional-info.front.json :: paper-professional-info / photos / paperclip",
+    "sheets/professional-info.front.json :: paper-professional-info / photos / paperclip"
+  ],
+  "78d553e5eca54966c1e5301e2512d1e25caf0113": [
+    "references.json :: REFERENCES / Superficie conectada para educación 1"
+  ],
+  "475f484aabf103bc7b4aec5d426ad3a653a8b396": [
+    "references.json :: REFERENCES / download 1"
+  ],
+  "e154310d6895dad98b9f68b9f7ef920506dd46f3": [
+    "references.json :: REFERENCES / download (2) 1"
+  ],
+  "572c114c6540144c21662e0fc00fb83cee57c498": [
+    "references.json :: REFERENCES / download (1) 1"
+  ],
+  "369360cda2c126059949e89cbfcd8de825d314cd": [
+    "references.json :: REFERENCES / download (4)"
+  ],
+  "5a8913afaa294e01c361205d47f280d2bbbde6b3": [
+    "references.json :: REFERENCES / download (3)"
+  ],
+  "b8b414928e84bd2a029e62ba94e755c70c665baf": [
+    "references.json :: REFERENCES / TARGET DOSSIER"
+  ],
+  "3372f96880c32236ffb4b29248789ec89d8e3b60": [
+    "sheets/personal-info.front.json :: paper-personal-info / Group 19 / content / github",
+    "sheets/professional-info.front.json :: paper-professional-info / content / github"
+  ],
+  "14defb7ad02098c2ff5ee1b1ef1cc080fdbefd26": [
+    "sheets/professional-info.front.json :: paper-professional-info / photos / IMG_6600 2"
+  ],
+  "21df3e55dc195ad0900c69d78690dbe9966a1bec": [
+    "sheets/projects-page-1.front.json :: paper-projects-page-1 / project-3 / qr"
+  ],
+  "b0fc870704ce72d2031477acd39ab54d623e63bc": [
+    "sheets/projects-page-1.front.json :: paper-projects-page-1 / project-2 / qr",
+    "sheets/projects-page-1.front.json :: paper-projects-page-1 / project-1 / qr",
+    "sheets/projects-page-2.front.json :: paper-projects-page-2 / project-2 / qr",
+    "sheets/projects-page-2.front.json :: paper-projects-page-2 / project-1 / qr"
+  ],
+  "35bc4224d332d5e672143fa394b4cf36684879d0": [
+    "sheets/projects-page-1.front.json :: paper-projects-page-1 / header / image-removebg-preview 1",
+    "sheets/projects-page-2.front.json :: paper-projects-page-2 / header / image-removebg-preview 1"
+  ]
+}

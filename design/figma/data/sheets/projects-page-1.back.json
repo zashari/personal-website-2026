@@ -1,0 +1,471 @@
+{
+  "id": "77:1040",
+  "name": "paper-projects-page-1",
+  "size": {
+    "w": 645,
+    "h": 843.04
+  },
+  "nodes": [
+    {
+      "id": "77:1040",
+      "name": "paper-projects-page-1",
+      "type": "GROUP",
+      "path": "",
+      "box": {
+        "x": 0,
+        "y": 0,
+        "w": 645,
+        "h": 843.04
+      },
+      "rotationDeg": 180,
+      "size": {
+        "w": 645,
+        "h": 843.04
+      }
+    },
+    {
+      "id": "77:1067",
+      "name": "project-3",
+      "type": "GROUP",
+      "path": "paper-projects-page-1",
+      "box": {
+        "x": 0,
+        "y": 599.04,
+        "w": 582,
+        "h": 237
+      },
+      "effects": [
+        {
+          "type": "DROP_SHADOW",
+          "radius": 4,
+          "showShadowBehindNode": false,
+          "color": "#000000",
+          "alpha": 0.25,
+          "offset": {
+            "x": 1,
+            "y": 2
+          }
+        }
+      ]
+    },
+    {
+      "id": "77:1068",
+      "name": "Rectangle 18",
+      "type": "RECTANGLE",
+      "path": "paper-projects-page-1 / project-3",
+      "box": {
+        "x": 69,
+        "y": 599.04,
+        "w": 513,
+        "h": 237
+      },
+      "stroke": {
+        "paints": [
+          {
+            "type": "SOLID",
+            "color": "#000000"
+          }
+        ],
+        "weight": 1,
+        "align": "INSIDE",
+        "dashes": [
+          4,
+          4
+        ],
+        "cap": "ROUND"
+      }
+    },
+    {
+      "id": "77:1069",
+      "name": "CONTAINER",
+      "type": "GROUP",
+      "path": "paper-projects-page-1 / project-3",
+      "box": {
+        "x": 0,
+        "y": 599.04,
+        "w": 580,
+        "h": 236
+      }
+    },
+    {
+      "id": "77:1070",
+      "name": "Rectangle 17",
+      "type": "RECTANGLE",
+      "path": "paper-projects-page-1 / project-3 / CONTAINER",
+      "box": {
+        "x": 0,
+        "y": 599.04,
+        "w": 580,
+        "h": 236
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#ede3c9"
+        }
+      ]
+    },
+    {
+      "id": "77:1071",
+      "name": "texture",
+      "type": "RECTANGLE",
+      "path": "paper-projects-page-1 / project-3 / CONTAINER",
+      "box": {
+        "x": 0,
+        "y": 599.04,
+        "w": 580,
+        "h": 236
+      },
+      "rotationDeg": -180,
+      "size": {
+        "w": 580,
+        "h": 236
+      },
+      "blendMode": "LINEAR_BURN",
+      "fills": [
+        {
+          "type": "IMAGE",
+          "imageRef": "2fa3789cf79291c4630a82fedc4781f915a44878",
+          "scaleMode": "STRETCH",
+          "imageTransform": [
+            [
+              0.6874,
+              0,
+              0.2971
+            ],
+            [
+              0,
+              0.3496,
+              0.1166
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "77:1089",
+      "name": "project-2",
+      "type": "GROUP",
+      "path": "paper-projects-page-1",
+      "box": {
+        "x": 0,
+        "y": 360.04,
+        "w": 582,
+        "h": 237
+      },
+      "effects": [
+        {
+          "type": "DROP_SHADOW",
+          "radius": 4,
+          "showShadowBehindNode": false,
+          "color": "#000000",
+          "alpha": 0.25,
+          "offset": {
+            "x": 1,
+            "y": 2
+          }
+        }
+      ]
+    },
+    {
+      "id": "77:1090",
+      "name": "Rectangle 18",
+      "type": "RECTANGLE",
+      "path": "paper-projects-page-1 / project-2",
+      "box": {
+        "x": 69,
+        "y": 360.04,
+        "w": 513,
+        "h": 237
+      },
+      "stroke": {
+        "paints": [
+          {
+            "type": "SOLID",
+            "color": "#000000"
+          }
+        ],
+        "weight": 1,
+        "align": "INSIDE",
+        "dashes": [
+          4,
+          4
+        ],
+        "cap": "ROUND"
+      }
+    },
+    {
+      "id": "77:1091",
+      "name": "CONTAINER",
+      "type": "GROUP",
+      "path": "paper-projects-page-1 / project-2",
+      "box": {
+        "x": 0,
+        "y": 360.04,
+        "w": 580,
+        "h": 236
+      }
+    },
+    {
+      "id": "77:1092",
+      "name": "Rectangle 17",
+      "type": "RECTANGLE",
+      "path": "paper-projects-page-1 / project-2 / CONTAINER",
+      "box": {
+        "x": 0,
+        "y": 360.04,
+        "w": 580,
+        "h": 236
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#ede3c9"
+        }
+      ]
+    },
+    {
+      "id": "77:1093",
+      "name": "texture",
+      "type": "RECTANGLE",
+      "path": "paper-projects-page-1 / project-2 / CONTAINER",
+      "box": {
+        "x": 0,
+        "y": 360.04,
+        "w": 580,
+        "h": 236
+      },
+      "rotationDeg": -180,
+      "size": {
+        "w": 580,
+        "h": 236
+      },
+      "blendMode": "LINEAR_BURN",
+      "fills": [
+        {
+          "type": "IMAGE",
+          "imageRef": "2fa3789cf79291c4630a82fedc4781f915a44878",
+          "scaleMode": "STRETCH",
+          "imageTransform": [
+            [
+              0.6874,
+              0,
+              0.2971
+            ],
+            [
+              0,
+              0.3496,
+              0.1166
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "77:1111",
+      "name": "project-1",
+      "type": "GROUP",
+      "path": "paper-projects-page-1",
+      "box": {
+        "x": 0,
+        "y": 121.04,
+        "w": 582,
+        "h": 237
+      },
+      "effects": [
+        {
+          "type": "DROP_SHADOW",
+          "radius": 4,
+          "showShadowBehindNode": false,
+          "color": "#000000",
+          "alpha": 0.25,
+          "offset": {
+            "x": 1,
+            "y": 2
+          }
+        }
+      ]
+    },
+    {
+      "id": "77:1112",
+      "name": "Rectangle 18",
+      "type": "RECTANGLE",
+      "path": "paper-projects-page-1 / project-1",
+      "box": {
+        "x": 69,
+        "y": 121.04,
+        "w": 513,
+        "h": 237
+      },
+      "stroke": {
+        "paints": [
+          {
+            "type": "SOLID",
+            "color": "#000000"
+          }
+        ],
+        "weight": 1,
+        "align": "INSIDE",
+        "dashes": [
+          4,
+          4
+        ],
+        "cap": "ROUND"
+      }
+    },
+    {
+      "id": "77:1113",
+      "name": "CONTAINER",
+      "type": "GROUP",
+      "path": "paper-projects-page-1 / project-1",
+      "box": {
+        "x": 0,
+        "y": 121.04,
+        "w": 580,
+        "h": 236
+      }
+    },
+    {
+      "id": "77:1114",
+      "name": "Rectangle 17",
+      "type": "RECTANGLE",
+      "path": "paper-projects-page-1 / project-1 / CONTAINER",
+      "box": {
+        "x": 0,
+        "y": 121.04,
+        "w": 580,
+        "h": 236
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#ede3c9"
+        }
+      ]
+    },
+    {
+      "id": "77:1115",
+      "name": "texture",
+      "type": "RECTANGLE",
+      "path": "paper-projects-page-1 / project-1 / CONTAINER",
+      "box": {
+        "x": 0,
+        "y": 121.04,
+        "w": 580,
+        "h": 236
+      },
+      "rotationDeg": -180,
+      "size": {
+        "w": 580,
+        "h": 236
+      },
+      "blendMode": "LINEAR_BURN",
+      "fills": [
+        {
+          "type": "IMAGE",
+          "imageRef": "2fa3789cf79291c4630a82fedc4781f915a44878",
+          "scaleMode": "STRETCH",
+          "imageTransform": [
+            [
+              0.6874,
+              0,
+              0.2971
+            ],
+            [
+              0,
+              0.3496,
+              0.1166
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "77:1041",
+      "name": "Intersect",
+      "type": "BOOLEAN_OPERATION",
+      "path": "paper-projects-page-1",
+      "box": {
+        "x": 50,
+        "y": 0,
+        "w": 595,
+        "h": 840.59
+      },
+      "fills": [
+        {
+          "type": "IMAGE",
+          "imageRef": "ebdf8584199a5bc3b7dfda3b9a35137d0ac314b6",
+          "scaleMode": "FILL",
+          "filters": {
+            "temperature": 0.46000000834465027
+          }
+        }
+      ],
+      "booleanOperation": "INTERSECT",
+      "holes": {
+        "count": 20,
+        "diameter": 23,
+        "x": 607,
+        "ys": [
+          -4.21,
+          39.89,
+          83.99,
+          128.09,
+          172.2,
+          216.3,
+          260.4,
+          304.5,
+          348.61,
+          392.71,
+          436.81,
+          480.91,
+          525.02,
+          569.12,
+          613.22,
+          657.32,
+          701.43,
+          745.53,
+          789.63,
+          833.73
+        ]
+      }
+    },
+    {
+      "id": "77:1066",
+      "name": "texture",
+      "type": "RECTANGLE",
+      "path": "paper-projects-page-1",
+      "box": {
+        "x": 50,
+        "y": 0.04,
+        "w": 595,
+        "h": 843
+      },
+      "rotationDeg": -90,
+      "size": {
+        "w": 843,
+        "h": 595
+      },
+      "blendMode": "LINEAR_BURN",
+      "fills": [
+        {
+          "type": "IMAGE",
+          "imageRef": "2fa3789cf79291c4630a82fedc4781f915a44878",
+          "scaleMode": "STRETCH",
+          "imageTransform": [
+            [
+              0.9992,
+              0,
+              0.0004
+            ],
+            [
+              0,
+              0.8815,
+              0.1185
+            ]
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,243 @@
+{
+  "id": "77:613",
+  "name": "paper-personal-info-back",
+  "size": {
+    "w": 612.96,
+    "h": 861
+  },
+  "nodes": [
+    {
+      "id": "77:613",
+      "name": "paper-personal-info-back",
+      "type": "GROUP",
+      "path": "",
+      "box": {
+        "x": 0,
+        "y": 0,
+        "w": 612.96,
+        "h": 861
+      }
+    },
+    {
+      "id": "77:614",
+      "name": "Group 19",
+      "type": "GROUP",
+      "path": "paper-personal-info-back",
+      "box": {
+        "x": 0,
+        "y": 0,
+        "w": 612.96,
+        "h": 861
+      },
+      "rotationDeg": 180,
+      "size": {
+        "w": 612.96,
+        "h": 861
+      }
+    },
+    {
+      "id": "77:783",
+      "name": "photos",
+      "type": "GROUP",
+      "path": "paper-personal-info-back / Group 19",
+      "box": {
+        "x": 0,
+        "y": 1.72,
+        "w": 228.96,
+        "h": 207.2
+      }
+    },
+    {
+      "id": "77:784",
+      "name": "IMG_6601 1",
+      "type": "RECTANGLE",
+      "path": "paper-personal-info-back / Group 19 / photos",
+      "box": {
+        "x": 73.87,
+        "y": 1.72,
+        "w": 155.09,
+        "h": 155.09
+      },
+      "rotationDeg": 0,
+      "size": {
+        "w": 155.09,
+        "h": 155.09
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#ffffff"
+        }
+      ],
+      "stroke": {
+        "paints": [
+          {
+            "type": "SOLID",
+            "color": "#f2f2f2"
+          }
+        ],
+        "weight": 10,
+        "align": "INSIDE"
+      }
+    },
+    {
+      "id": "77:785",
+      "name": "IMG_6600 1",
+      "type": "RECTANGLE",
+      "path": "paper-personal-info-back / Group 19 / photos",
+      "box": {
+        "x": 0,
+        "y": 45.86,
+        "w": 163.05,
+        "h": 163.05
+      },
+      "rotationDeg": 7.12,
+      "size": {
+        "w": 146.08,
+        "h": 146.08
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#ffffff"
+        }
+      ],
+      "stroke": {
+        "paints": [
+          {
+            "type": "SOLID",
+            "color": "#f2f2f2"
+          }
+        ],
+        "weight": 10,
+        "align": "INSIDE"
+      }
+    },
+    {
+      "id": "77:615",
+      "name": "Intersect",
+      "type": "BOOLEAN_OPERATION",
+      "path": "paper-personal-info-back / Group 19",
+      "box": {
+        "x": 17.96,
+        "y": 17.98,
+        "w": 595,
+        "h": 840.59
+      },
+      "fills": [
+        {
+          "type": "IMAGE",
+          "imageRef": "ebdf8584199a5bc3b7dfda3b9a35137d0ac314b6",
+          "scaleMode": "FILL",
+          "filters": {
+            "temperature": 0.46000000834465027
+          }
+        }
+      ],
+      "booleanOperation": "INTERSECT",
+      "holes": {
+        "count": 20,
+        "diameter": 23,
+        "x": 574.96,
+        "ys": [
+          14.73,
+          58.78,
+          102.83,
+          146.88,
+          190.94,
+          234.99,
+          279.04,
+          323.09,
+          367.14,
+          411.19,
+          455.24,
+          499.29,
+          543.34,
+          587.4,
+          631.45,
+          675.5,
+          719.55,
+          763.6,
+          807.65,
+          851.7
+        ]
+      }
+    },
+    {
+      "id": "77:640",
+      "name": "texture",
+      "type": "RECTANGLE",
+      "path": "paper-personal-info-back / Group 19",
+      "box": {
+        "x": 17.61,
+        "y": 17.51,
+        "w": 595.35,
+        "h": 843.49
+      },
+      "rotationDeg": 90,
+      "size": {
+        "w": 843.49,
+        "h": 595.35
+      },
+      "blendMode": "LINEAR_BURN",
+      "fills": [
+        {
+          "type": "IMAGE",
+          "imageRef": "2fa3789cf79291c4630a82fedc4781f915a44878",
+          "scaleMode": "STRETCH",
+          "imageTransform": [
+            [
+              0.9992,
+              0,
+              0.0004
+            ],
+            [
+              0,
+              0.8815,
+              0.1185
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "77:786",
+      "name": "paperclip",
+      "type": "VECTOR",
+      "path": "paper-personal-info-back / Group 19",
+      "box": {
+        "x": 31.97,
+        "y": 0,
+        "w": 66.26,
+        "h": 107.86
+      },
+      "rotationDeg": 14.86,
+      "size": {
+        "w": 41.89,
+        "h": 100.48
+      },
+      "fills": [
+        {
+          "type": "IMAGE",
+          "imageRef": "e0ac8cc36294a471ebe24345aa463ae039eacbdc",
+          "scaleMode": "STRETCH",
+          "imageTransform": [
+            [
+              0.3272,
+              0,
+              0.3631
+            ],
+            [
+              0,
+              0.7332,
+              0.0816
+            ]
+          ]
+        }
+      ],
+      "svgPath": [
+        "M0 0L27.2129 1.12201L31.1012 10.0852L29.8032 24.7016L29.6062 78.5842L5.83265 70.9164L5.95607 16.7565L1.12047 18.0395L0 99.4079L33.8629 100.481L41.8056 23.0699L41.8934 21.4939L40.2847 50.3886L32.3118 0.744019L37.9076 99.4079L0 99.4079L0 0Z"
+      ]
+    }
+  ]
+}

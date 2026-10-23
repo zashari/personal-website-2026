@@ -1,0 +1,1047 @@
+{
+  "id": "87:11",
+  "name": "ASSETS",
+  "size": {
+    "w": 2495,
+    "h": 3077
+  },
+  "nodes": [
+    {
+      "id": "87:11",
+      "name": "ASSETS",
+      "type": "GROUP",
+      "path": "",
+      "box": {
+        "x": 0,
+        "y": 0,
+        "w": 2495,
+        "h": 3077
+      },
+      "cornerRadii": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "97:2",
+      "name": "photos",
+      "type": "GROUP",
+      "path": "ASSETS",
+      "box": {
+        "x": 0,
+        "y": 2403,
+        "w": 1519,
+        "h": 674
+      }
+    },
+    {
+      "id": "101:27",
+      "name": "personal-info",
+      "type": "GROUP",
+      "path": "ASSETS / photos",
+      "box": {
+        "x": 0,
+        "y": 2403,
+        "w": 707,
+        "h": 674
+      }
+    },
+    {
+      "id": "97:3",
+      "name": "personal-paper-photo-2-front",
+      "type": "RECTANGLE",
+      "path": "ASSETS / photos / personal-info",
+      "box": {
+        "x": 0,
+        "y": 2403,
+        "w": 320,
+        "h": 320
+      },
+      "rotationDeg": 0,
+      "size": {
+        "w": 320,
+        "h": 320
+      },
+      "fills": [
+        {
+          "type": "IMAGE",
+          "imageRef": "4e9f88fdaf65ed281ec3ea1e7f2dd99155e0b97f",
+          "scaleMode": "STRETCH",
+          "imageTransform": [
+            [
+              1,
+              0,
+              0
+            ],
+            [
+              0,
+              1,
+              0
+            ]
+          ]
+        }
+      ],
+      "stroke": {
+        "paints": [
+          {
+            "type": "SOLID",
+            "color": "#f2f2f2"
+          }
+        ],
+        "weight": 10,
+        "align": "INSIDE"
+      }
+    },
+    {
+      "id": "97:4",
+      "name": "personal-paper-photo-1-front",
+      "type": "RECTANGLE",
+      "path": "ASSETS / photos / personal-info",
+      "box": {
+        "x": 387,
+        "y": 2403,
+        "w": 320,
+        "h": 320
+      },
+      "fills": [
+        {
+          "type": "IMAGE",
+          "imageRef": "44f62151541a7deabd0012b9ff1cf78e833337bc",
+          "scaleMode": "FILL"
+        }
+      ],
+      "stroke": {
+        "paints": [
+          {
+            "type": "SOLID",
+            "color": "#f2f2f2"
+          }
+        ],
+        "weight": 10,
+        "align": "INSIDE"
+      }
+    },
+    {
+      "id": "97:12",
+      "name": "personal-paper-photo-2-back",
+      "type": "GROUP",
+      "path": "ASSETS / photos / personal-info",
+      "box": {
+        "x": 0,
+        "y": 2757,
+        "w": 320,
+        "h": 320
+      }
+    },
+    {
+      "id": "97:7",
+      "name": "personal-paper-photo-1-back",
+      "type": "RECTANGLE",
+      "path": "ASSETS / photos / personal-info / personal-paper-photo-2-back",
+      "box": {
+        "x": 0,
+        "y": 2757,
+        "w": 320,
+        "h": 320
+      },
+      "rotationDeg": 0,
+      "size": {
+        "w": 320,
+        "h": 320
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#ffffff"
+        }
+      ],
+      "stroke": {
+        "paints": [
+          {
+            "type": "SOLID",
+            "color": "#f2f2f2"
+          }
+        ],
+        "weight": 10,
+        "align": "INSIDE"
+      }
+    },
+    {
+      "id": "97:11",
+      "name": "Location: Train station",
+      "type": "TEXT",
+      "path": "ASSETS / photos / personal-info / personal-paper-photo-2-back",
+      "box": {
+        "x": 23,
+        "y": 2777,
+        "w": 254,
+        "h": 53
+      },
+      "inkBox": {
+        "x": 21,
+        "y": 2783.13,
+        "w": 258.74,
+        "h": 39.7
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#891414"
+        }
+      ],
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 2,
+          "noiseSize": 0.10000000149011612,
+          "clipToShape": false
+        }
+      ],
+      "text": "Location: Train station",
+      "style": {
+        "family": "Royal Brand",
+        "style": "Regular",
+        "weight": 400,
+        "size": 30,
+        "lineHeightPx": 52.87,
+        "lineHeight": "auto",
+        "letterSpacing": 0,
+        "align": "LEFT"
+      },
+      "autoResize": "WIDTH_AND_HEIGHT"
+    },
+    {
+      "id": "97:15",
+      "name": "10/11/2025",
+      "type": "TEXT",
+      "path": "ASSETS / photos / personal-info / personal-paper-photo-2-back",
+      "box": {
+        "x": 206,
+        "y": 3026,
+        "w": 99,
+        "h": 35
+      },
+      "inkBox": {
+        "x": 204,
+        "y": 3032.54,
+        "w": 100.69,
+        "h": 25.35
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#891414"
+        }
+      ],
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 2,
+          "noiseSize": 0.10000000149011612,
+          "clipToShape": false
+        }
+      ],
+      "text": "10/11/2025",
+      "style": {
+        "family": "Royal Brand",
+        "style": "Regular",
+        "weight": 400,
+        "size": 20,
+        "lineHeightPx": 35.24,
+        "lineHeight": "auto",
+        "letterSpacing": 0,
+        "align": "LEFT"
+      },
+      "autoResize": "WIDTH_AND_HEIGHT"
+    },
+    {
+      "id": "97:17",
+      "name": "subject was spotted at a train station. exact location unknown",
+      "type": "TEXT",
+      "path": "ASSETS / photos / personal-info / personal-paper-photo-2-back",
+      "box": {
+        "x": 23,
+        "y": 2938,
+        "w": 266,
+        "h": 70
+      },
+      "inkBox": {
+        "x": 18.56,
+        "y": 2941.73,
+        "w": 270.52,
+        "h": 62.15
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#891414"
+        }
+      ],
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 2,
+          "noiseSize": 0.10000000149011612,
+          "clipToShape": false
+        }
+      ],
+      "text": "subject was spotted at a train station.\nexact location unknown",
+      "style": {
+        "family": "Royal Brand",
+        "style": "Regular",
+        "weight": 400,
+        "size": 20,
+        "lineHeightPx": 35.24,
+        "lineHeight": "auto",
+        "letterSpacing": 0,
+        "align": "LEFT"
+      },
+      "autoResize": "WIDTH_AND_HEIGHT"
+    },
+    {
+      "id": "97:19",
+      "name": "personal-paper-photo-1-back",
+      "type": "GROUP",
+      "path": "ASSETS / photos / personal-info",
+      "box": {
+        "x": 387,
+        "y": 2757,
+        "w": 320,
+        "h": 320
+      }
+    },
+    {
+      "id": "97:8",
+      "name": "personal-paper-photo-1-back",
+      "type": "RECTANGLE",
+      "path": "ASSETS / photos / personal-info / personal-paper-photo-1-back",
+      "box": {
+        "x": 387,
+        "y": 2757,
+        "w": 320,
+        "h": 320
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#ffffff"
+        }
+      ],
+      "stroke": {
+        "paints": [
+          {
+            "type": "SOLID",
+            "color": "#f2f2f2"
+          }
+        ],
+        "weight": 10,
+        "align": "INSIDE"
+      }
+    },
+    {
+      "id": "97:20",
+      "name": "Location: 6.9169° S, 107.6086° E",
+      "type": "TEXT",
+      "path": "ASSETS / photos / personal-info / personal-paper-photo-1-back",
+      "box": {
+        "x": 410,
+        "y": 2777,
+        "w": 268,
+        "h": 53
+      },
+      "inkBox": {
+        "x": 408,
+        "y": 2783.81,
+        "w": 270.56,
+        "h": 39.02
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#891414"
+        }
+      ],
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 2,
+          "noiseSize": 0.10000000149011612,
+          "clipToShape": false
+        }
+      ],
+      "text": "Location: 6.9169° S, 107.6086° E",
+      "style": {
+        "family": "Royal Brand",
+        "style": "Regular",
+        "weight": 400,
+        "size": 30,
+        "lineHeightPx": 52.87,
+        "lineHeight": "auto",
+        "letterSpacing": 0,
+        "align": "LEFT"
+      },
+      "autoResize": "WIDTH_AND_HEIGHT",
+      "runs": [
+        {
+          "text": "Location: "
+        },
+        {
+          "text": "6.9169° S, 107.6086° E",
+          "style": {
+            "fontSize": 15
+          }
+        }
+      ]
+    },
+    {
+      "id": "97:21",
+      "name": "11/01/2025",
+      "type": "TEXT",
+      "path": "ASSETS / photos / personal-info / personal-paper-photo-1-back",
+      "box": {
+        "x": 593,
+        "y": 3026,
+        "w": 99,
+        "h": 35
+      },
+      "inkBox": {
+        "x": 591,
+        "y": 3032.54,
+        "w": 100.69,
+        "h": 25.35
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#891414"
+        }
+      ],
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 2,
+          "noiseSize": 0.10000000149011612,
+          "clipToShape": false
+        }
+      ],
+      "text": "11/01/2025",
+      "style": {
+        "family": "Royal Brand",
+        "style": "Regular",
+        "weight": 400,
+        "size": 20,
+        "lineHeightPx": 35.24,
+        "lineHeight": "auto",
+        "letterSpacing": 0,
+        "align": "LEFT"
+      },
+      "autoResize": "WIDTH_AND_HEIGHT"
+    },
+    {
+      "id": "97:22",
+      "name": "The subject always seems to wear headphones or a headset while commuting from Node A to Node B",
+      "type": "TEXT",
+      "path": "ASSETS / photos / personal-info / personal-paper-photo-1-back",
+      "box": {
+        "x": 410,
+        "y": 2890,
+        "w": 258,
+        "h": 96
+      },
+      "inkBox": {
+        "x": 407.47,
+        "y": 2893.08,
+        "w": 254.76,
+        "h": 94.71
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#891414"
+        }
+      ],
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 2,
+          "noiseSize": 0.10000000149011612,
+          "clipToShape": false
+        }
+      ],
+      "text": "The subject always seems to wear headphones or a headset while commuting from Node A to Node B",
+      "style": {
+        "family": "Royal Brand",
+        "style": "Regular",
+        "weight": 400,
+        "size": 18,
+        "lineHeightPx": 31.72,
+        "lineHeight": "auto",
+        "letterSpacing": 0,
+        "align": "LEFT"
+      },
+      "autoResize": "HEIGHT"
+    },
+    {
+      "id": "102:41",
+      "name": "professional-info",
+      "type": "GROUP",
+      "path": "ASSETS / photos",
+      "box": {
+        "x": 793,
+        "y": 2403,
+        "w": 726,
+        "h": 674
+      }
+    },
+    {
+      "id": "101:24",
+      "name": "professional-paper-photo-2-front",
+      "type": "RECTANGLE",
+      "path": "ASSETS / photos / professional-info",
+      "box": {
+        "x": 1199,
+        "y": 2403,
+        "w": 320,
+        "h": 320
+      },
+      "rotationDeg": 0,
+      "size": {
+        "w": 320,
+        "h": 320
+      },
+      "fills": [
+        {
+          "type": "IMAGE",
+          "imageRef": "ab6f1d6be66daa0f0053721cf52884e60806c238",
+          "scaleMode": "STRETCH",
+          "imageTransform": [
+            [
+              1,
+              0,
+              0
+            ],
+            [
+              0,
+              1,
+              0
+            ]
+          ]
+        }
+      ],
+      "stroke": {
+        "paints": [
+          {
+            "type": "SOLID",
+            "color": "#f2f2f2"
+          }
+        ],
+        "weight": 10,
+        "align": "INSIDE"
+      }
+    },
+    {
+      "id": "101:33",
+      "name": "professional-paper-photo-2-back",
+      "type": "GROUP",
+      "path": "ASSETS / photos / professional-info",
+      "box": {
+        "x": 1199,
+        "y": 2757,
+        "w": 320,
+        "h": 320
+      }
+    },
+    {
+      "id": "101:30",
+      "name": "professional-paper-photo-2-back",
+      "type": "RECTANGLE",
+      "path": "ASSETS / photos / professional-info / professional-paper-photo-2-back",
+      "box": {
+        "x": 1199,
+        "y": 2757,
+        "w": 320,
+        "h": 320
+      },
+      "rotationDeg": -180,
+      "size": {
+        "w": 320,
+        "h": 320
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#ffffff"
+        }
+      ],
+      "stroke": {
+        "paints": [
+          {
+            "type": "SOLID",
+            "color": "#f2f2f2"
+          }
+        ],
+        "weight": 10,
+        "align": "INSIDE"
+      }
+    },
+    {
+      "id": "102:37",
+      "name": "Footage captured via spy glasses shows the subject debating Deep Learning architectures for an Alzheimer's disease detection project with a friend.",
+      "type": "TEXT",
+      "path": "ASSETS / photos / professional-info / professional-paper-photo-2-back",
+      "box": {
+        "x": 1227,
+        "y": 2845,
+        "w": 264,
+        "h": 104
+      },
+      "inkBox": {
+        "x": 1224.66,
+        "y": 2849.83,
+        "w": 265.67,
+        "h": 94.47
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#891414"
+        }
+      ],
+      "text": "Footage captured via spy glasses shows the subject debating Deep Learning architectures for an Alzheimer's disease detection project with a friend.",
+      "style": {
+        "family": "Royal Brand",
+        "style": "Regular",
+        "weight": 400,
+        "size": 15,
+        "lineHeightPx": 26.43,
+        "lineHeight": "auto",
+        "letterSpacing": 0,
+        "align": "LEFT"
+      },
+      "autoResize": "HEIGHT"
+    },
+    {
+      "id": "102:39",
+      "name": "12/01/2025",
+      "type": "TEXT",
+      "path": "ASSETS / photos / professional-info / professional-paper-photo-2-back",
+      "box": {
+        "x": 1227,
+        "y": 3024,
+        "w": 78,
+        "h": 26
+      },
+      "inkBox": {
+        "x": 1227,
+        "y": 3030.65,
+        "w": 76.4,
+        "h": 16.01
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#891414"
+        }
+      ],
+      "text": "12/01/2025",
+      "style": {
+        "family": "Royal Brand",
+        "style": "Regular",
+        "weight": 400,
+        "size": 15,
+        "lineHeightPx": 26.43,
+        "lineHeight": "auto",
+        "letterSpacing": 0,
+        "align": "LEFT"
+      },
+      "autoResize": "WIDTH_AND_HEIGHT"
+    },
+    {
+      "id": "101:25",
+      "name": "professional-paper-photo-1-front",
+      "type": "RECTANGLE",
+      "path": "ASSETS / photos / professional-info",
+      "box": {
+        "x": 793,
+        "y": 2403,
+        "w": 320,
+        "h": 320
+      },
+      "rotationDeg": 0,
+      "size": {
+        "w": 320,
+        "h": 320
+      },
+      "fills": [
+        {
+          "type": "IMAGE",
+          "imageRef": "94812a94f2ae6af3393e734a818ffb117da19957",
+          "scaleMode": "FILL"
+        }
+      ],
+      "stroke": {
+        "paints": [
+          {
+            "type": "SOLID",
+            "color": "#f2f2f2"
+          }
+        ],
+        "weight": 10,
+        "align": "INSIDE"
+      }
+    },
+    {
+      "id": "101:32",
+      "name": "professional-paper-photo-1-back",
+      "type": "GROUP",
+      "path": "ASSETS / photos / professional-info",
+      "box": {
+        "x": 793,
+        "y": 2757,
+        "w": 320,
+        "h": 320
+      }
+    },
+    {
+      "id": "101:28",
+      "name": "professional-paper-photo-1-back",
+      "type": "RECTANGLE",
+      "path": "ASSETS / photos / professional-info / professional-paper-photo-1-back",
+      "box": {
+        "x": 793,
+        "y": 2757,
+        "w": 320,
+        "h": 320
+      },
+      "rotationDeg": 0,
+      "size": {
+        "w": 320,
+        "h": 320
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#ffffff"
+        }
+      ],
+      "stroke": {
+        "paints": [
+          {
+            "type": "SOLID",
+            "color": "#f2f2f2"
+          }
+        ],
+        "weight": 10,
+        "align": "INSIDE"
+      }
+    },
+    {
+      "id": "101:34",
+      "name": "The subject appears consistently relaxed when working in the casual attire described in the personal info. Photo taken by Undercover Agent PP, a 10-year veteran assigned to befriend the subject",
+      "type": "TEXT",
+      "path": "ASSETS / photos / professional-info / professional-paper-photo-1-back",
+      "box": {
+        "x": 821,
+        "y": 2790,
+        "w": 264,
+        "h": 130
+      },
+      "inkBox": {
+        "x": 820.49,
+        "y": 2794.07,
+        "w": 248.82,
+        "h": 126.35
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#891414"
+        }
+      ],
+      "text": "The subject appears consistently relaxed when working in the casual attire described in the personal info. Photo taken by Undercover Agent PP, a 10-year veteran assigned to befriend the subject",
+      "style": {
+        "family": "Royal Brand",
+        "style": "Regular",
+        "weight": 400,
+        "size": 15,
+        "lineHeightPx": 26.43,
+        "lineHeight": "auto",
+        "letterSpacing": 0,
+        "align": "LEFT"
+      },
+      "autoResize": "HEIGHT"
+    },
+    {
+      "id": "101:35",
+      "name": "11/30/2025",
+      "type": "TEXT",
+      "path": "ASSETS / photos / professional-info / professional-paper-photo-1-back",
+      "box": {
+        "x": 914,
+        "y": 3018,
+        "w": 78,
+        "h": 26
+      },
+      "inkBox": {
+        "x": 914,
+        "y": 3024.64,
+        "w": 76.87,
+        "h": 16.03
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#891414"
+        }
+      ],
+      "text": "11/30/2025",
+      "style": {
+        "family": "Royal Brand",
+        "style": "Regular",
+        "weight": 400,
+        "size": 15,
+        "lineHeightPx": 26.43,
+        "lineHeight": "auto",
+        "letterSpacing": 0,
+        "align": "LEFT"
+      },
+      "autoResize": "WIDTH_AND_HEIGHT"
+    },
+    {
+      "id": "3:50",
+      "name": "texture",
+      "type": "RECTANGLE",
+      "path": "ASSETS",
+      "box": {
+        "x": 0,
+        "y": 906,
+        "w": 1810,
+        "h": 1448
+      },
+      "fills": [
+        {
+          "type": "IMAGE",
+          "imageRef": "2fa3789cf79291c4630a82fedc4781f915a44878",
+          "scaleMode": "FILL"
+        }
+      ]
+    },
+    {
+      "id": "68:234",
+      "name": "empty-paper",
+      "type": "GROUP",
+      "path": "ASSETS",
+      "box": {
+        "x": 1900,
+        "y": 906,
+        "w": 595,
+        "h": 843
+      }
+    },
+    {
+      "id": "68:235",
+      "name": "Intersect",
+      "type": "BOOLEAN_OPERATION",
+      "path": "ASSETS / empty-paper",
+      "box": {
+        "x": 1900,
+        "y": 906.71,
+        "w": 595,
+        "h": 842
+      },
+      "fills": [
+        {
+          "type": "IMAGE",
+          "imageRef": "ebdf8584199a5bc3b7dfda3b9a35137d0ac314b6",
+          "scaleMode": "FILL",
+          "filters": {
+            "temperature": 0.46000000834465027
+          }
+        }
+      ],
+      "booleanOperation": "INTERSECT",
+      "holes": {
+        "count": 20,
+        "diameter": 23,
+        "x": 1915,
+        "ys": [
+          903.71,
+          947.71,
+          991.71,
+          1035.71,
+          1079.71,
+          1123.71,
+          1167.71,
+          1211.71,
+          1255.71,
+          1299.71,
+          1343.71,
+          1387.71,
+          1431.71,
+          1475.71,
+          1519.71,
+          1563.71,
+          1607.71,
+          1651.71,
+          1695.71,
+          1739.71
+        ]
+      }
+    },
+    {
+      "id": "68:402",
+      "name": "texture",
+      "type": "RECTANGLE",
+      "path": "ASSETS / empty-paper",
+      "box": {
+        "x": 1900,
+        "y": 906,
+        "w": 595,
+        "h": 843
+      },
+      "rotationDeg": 90,
+      "size": {
+        "w": 843,
+        "h": 595
+      },
+      "blendMode": "LINEAR_BURN",
+      "fills": [
+        {
+          "type": "IMAGE",
+          "imageRef": "2fa3789cf79291c4630a82fedc4781f915a44878",
+          "scaleMode": "STRETCH",
+          "imageTransform": [
+            [
+              0.9992,
+              0,
+              0.0004
+            ],
+            [
+              0,
+              0.8815,
+              0.1185
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "94:72",
+      "name": "web-logo",
+      "type": "GROUP",
+      "path": "ASSETS",
+      "box": {
+        "x": 2241,
+        "y": 2823,
+        "w": 254,
+        "h": 254
+      },
+      "cornerRadii": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "effects": [
+        {
+          "type": "LAYER_BLUR",
+          "radius": 2
+        }
+      ]
+    },
+    {
+      "id": "95:73",
+      "name": "Gemini_Generated_Image_lpc89klpc89klpc8-removebg-preview 1",
+      "type": "RECTANGLE",
+      "path": "ASSETS / web-logo",
+      "box": {
+        "x": 2241,
+        "y": 2823,
+        "w": 254,
+        "h": 254
+      },
+      "fills": [
+        {
+          "type": "IMAGE",
+          "imageRef": "faa0767882438db5cffeb13dbfb0d2c1ebb37ed7",
+          "scaleMode": "STRETCH",
+          "imageTransform": [
+            [
+              0.3752,
+              0,
+              0.3121
+            ],
+            [
+              0,
+              0.6883,
+              0.1553
+            ]
+          ]
+        }
+      ],
+      "cornerRadii": [
+        0,
+        70,
+        0,
+        70
+      ]
+    },
+    {
+      "id": "49:265",
+      "name": "stapler",
+      "type": "RECTANGLE",
+      "path": "ASSETS",
+      "box": {
+        "x": 1883,
+        "y": 2001,
+        "w": 612,
+        "h": 353
+      },
+      "fills": [
+        {
+          "type": "IMAGE",
+          "imageRef": "67cd4af0e07c8f18ca85409bb4006ac673f7830d",
+          "scaleMode": "FILL"
+        }
+      ]
+    },
+    {
+      "id": "87:7",
+      "name": "ASSETS",
+      "type": "TEXT",
+      "path": "ASSETS",
+      "box": {
+        "x": 0,
+        "y": 0,
+        "w": 1440,
+        "h": 525
+      },
+      "inkBox": {
+        "x": 0,
+        "y": 113.4,
+        "w": 1422.02,
+        "h": 288.6
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#ffffff"
+        }
+      ],
+      "text": "ASSETS",
+      "style": {
+        "family": "Fira Code",
+        "style": "SemiBold",
+        "weight": 600,
+        "size": 400,
+        "lineHeightPx": 524.8,
+        "lineHeight": "auto",
+        "letterSpacing": 0,
+        "align": "LEFT"
+      },
+      "autoResize": "WIDTH_AND_HEIGHT"
+    }
+  ]
+}

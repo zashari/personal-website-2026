@@ -1,0 +1,4718 @@
+{
+  "id": "10:105",
+  "name": "paper-personal-info",
+  "size": {
+    "w": 612.96,
+    "h": 860
+  },
+  "nodes": [
+    {
+      "id": "10:105",
+      "name": "paper-personal-info",
+      "type": "GROUP",
+      "path": "",
+      "box": {
+        "x": 0,
+        "y": 0,
+        "w": 612.96,
+        "h": 860
+      }
+    },
+    {
+      "id": "76:430",
+      "name": "Group 19",
+      "type": "GROUP",
+      "path": "paper-personal-info",
+      "box": {
+        "x": 0,
+        "y": 0,
+        "w": 612.96,
+        "h": 860
+      }
+    },
+    {
+      "id": "10:111",
+      "name": "Intersect",
+      "type": "BOOLEAN_OPERATION",
+      "path": "paper-personal-info / Group 19",
+      "box": {
+        "x": 0,
+        "y": 17.71,
+        "w": 595,
+        "h": 842
+      },
+      "fills": [
+        {
+          "type": "IMAGE",
+          "imageRef": "ebdf8584199a5bc3b7dfda3b9a35137d0ac314b6",
+          "scaleMode": "FILL",
+          "filters": {
+            "temperature": 0.46000000834465027
+          }
+        }
+      ],
+      "booleanOperation": "INTERSECT",
+      "holes": {
+        "count": 20,
+        "diameter": 23,
+        "x": 15,
+        "ys": [
+          14.71,
+          58.71,
+          102.71,
+          146.71,
+          190.71,
+          234.71,
+          278.71,
+          322.71,
+          366.71,
+          410.71,
+          454.71,
+          498.71,
+          542.71,
+          586.71,
+          630.71,
+          674.71,
+          718.71,
+          762.71,
+          806.71,
+          850.71
+        ]
+      }
+    },
+    {
+      "id": "46:10",
+      "name": "texture",
+      "type": "RECTANGLE",
+      "path": "paper-personal-info / Group 19",
+      "box": {
+        "x": 0,
+        "y": 17,
+        "w": 595,
+        "h": 843
+      },
+      "rotationDeg": 90,
+      "size": {
+        "w": 843,
+        "h": 595
+      },
+      "blendMode": "LINEAR_BURN",
+      "fills": [
+        {
+          "type": "IMAGE",
+          "imageRef": "2fa3789cf79291c4630a82fedc4781f915a44878",
+          "scaleMode": "STRETCH",
+          "imageTransform": [
+            [
+              0.9992,
+              0,
+              0.0004
+            ],
+            [
+              0,
+              0.8815,
+              0.1185
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "16:33",
+      "name": "content",
+      "type": "GROUP",
+      "path": "paper-personal-info / Group 19",
+      "box": {
+        "x": 57,
+        "y": 113,
+        "w": 516,
+        "h": 723
+      }
+    },
+    {
+      "id": "10:113",
+      "name": "Rectangle 13",
+      "type": "RECTANGLE",
+      "path": "paper-personal-info / Group 19 / content",
+      "box": {
+        "x": 57,
+        "y": 113,
+        "w": 516,
+        "h": 723
+      },
+      "stroke": {
+        "paints": [
+          {
+            "type": "SOLID",
+            "color": "#000000"
+          }
+        ],
+        "weight": 2,
+        "align": "INSIDE"
+      },
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 4,
+          "noiseSize": 0.10000000149011612,
+          "clipToShape": false
+        }
+      ]
+    },
+    {
+      "id": "30:141",
+      "name": "date",
+      "type": "GROUP",
+      "path": "paper-personal-info / Group 19 / content",
+      "box": {
+        "x": 402,
+        "y": 806,
+        "w": 154,
+        "h": 15
+      }
+    },
+    {
+      "id": "30:135",
+      "name": "Vector 21",
+      "type": "VECTOR",
+      "path": "paper-personal-info / Group 19 / content / date",
+      "box": {
+        "x": 427,
+        "y": 821,
+        "w": 129,
+        "h": 0
+      },
+      "rotationDeg": 0,
+      "size": {
+        "w": 129,
+        "h": 0
+      },
+      "stroke": {
+        "paints": [
+          {
+            "type": "SOLID",
+            "color": "#000000"
+          }
+        ],
+        "weight": 1,
+        "align": "CENTER",
+        "dashes": [
+          1,
+          3
+        ],
+        "cap": "ROUND"
+      },
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 1,
+          "noiseSize": 0.10000000149011612,
+          "clipToShape": false
+        }
+      ],
+      "svgPathOmitted": "complex brush path, see exports/"
+    },
+    {
+      "id": "30:137",
+      "name": "December 20th, 2025",
+      "type": "TEXT",
+      "path": "paper-personal-info / Group 19 / content / date",
+      "box": {
+        "x": 428,
+        "y": 806,
+        "w": 123,
+        "h": 15
+      },
+      "inkBox": {
+        "x": 427.26,
+        "y": 807.81,
+        "w": 123.71,
+        "h": 13.52
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#252525"
+        }
+      ],
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 1,
+          "noiseSize": 0.10000000149011612,
+          "clipToShape": false
+        }
+      ],
+      "text": "December 20th, 2025",
+      "style": {
+        "family": "JMH Typewriter",
+        "style": "Regular",
+        "weight": 400,
+        "size": 12,
+        "lineHeightPx": 15.42,
+        "lineHeight": "auto",
+        "letterSpacing": 0,
+        "align": "LEFT"
+      },
+      "autoResize": "WIDTH_AND_HEIGHT"
+    },
+    {
+      "id": "30:133",
+      "name": "Date:",
+      "type": "TEXT",
+      "path": "paper-personal-info / Group 19 / content / date",
+      "box": {
+        "x": 402,
+        "y": 808,
+        "w": 25,
+        "h": 13
+      },
+      "inkBox": {
+        "x": 401.06,
+        "y": 808.6,
+        "w": 26,
+        "h": 10.42
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#252525"
+        }
+      ],
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 1,
+          "noiseSize": 0.10000000149011612,
+          "clipToShape": false
+        }
+      ],
+      "text": "Date:",
+      "style": {
+        "family": "Times New Normal",
+        "style": "Regular",
+        "weight": 400,
+        "size": 12,
+        "lineHeightPx": 13.2,
+        "lineHeight": "auto",
+        "letterSpacing": 0,
+        "align": "LEFT"
+      },
+      "autoResize": "WIDTH_AND_HEIGHT"
+    },
+    {
+      "id": "30:150",
+      "name": "github",
+      "type": "RECTANGLE",
+      "path": "paper-personal-info / Group 19 / content",
+      "box": {
+        "x": 277,
+        "y": 748,
+        "w": 84,
+        "h": 84
+      },
+      "rotationDeg": 180,
+      "size": {
+        "w": 84,
+        "h": 84
+      },
+      "blendMode": "COLOR_BURN",
+      "fills": [
+        {
+          "type": "IMAGE",
+          "imageRef": "3372f96880c32236ffb4b29248789ec89d8e3b60",
+          "scaleMode": "FILL"
+        }
+      ],
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 1,
+          "noiseSize": 0.10000000149011612,
+          "clipToShape": false
+        }
+      ]
+    },
+    {
+      "id": "30:142",
+      "name": "status",
+      "type": "GROUP",
+      "path": "paper-personal-info / Group 19 / content",
+      "box": {
+        "x": 74,
+        "y": 803,
+        "w": 163,
+        "h": 21
+      },
+      "cornerRadii": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "30:147",
+      "name": "| APPROVED |",
+      "type": "TEXT",
+      "path": "paper-personal-info / Group 19 / content / status",
+      "box": {
+        "x": 113,
+        "y": 803,
+        "w": 124,
+        "h": 21
+      },
+      "inkBox": {
+        "x": 111.7,
+        "y": 803.59,
+        "w": 126.12,
+        "h": 19.2
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#891414"
+        }
+      ],
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 1,
+          "noiseSize": 0.10000000149011612,
+          "clipToShape": false
+        }
+      ],
+      "text": "| APPROVED |",
+      "style": {
+        "family": "JMH Typewriter",
+        "style": "Black",
+        "weight": 900,
+        "size": 16,
+        "lineHeightPx": 20.56,
+        "lineHeight": "auto",
+        "letterSpacing": 1.6,
+        "align": "LEFT"
+      },
+      "autoResize": "WIDTH_AND_HEIGHT"
+    },
+    {
+      "id": "30:145",
+      "name": "Status:",
+      "type": "TEXT",
+      "path": "paper-personal-info / Group 19 / content / status",
+      "box": {
+        "x": 74,
+        "y": 807,
+        "w": 33,
+        "h": 13
+      },
+      "inkBox": {
+        "x": 73.07,
+        "y": 807.59,
+        "w": 34.17,
+        "h": 10.44
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#252525"
+        }
+      ],
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 1,
+          "noiseSize": 0.10000000149011612,
+          "clipToShape": false
+        }
+      ],
+      "text": "Status:",
+      "style": {
+        "family": "Times New Normal",
+        "style": "Regular",
+        "weight": 400,
+        "size": 12,
+        "lineHeightPx": 13.2,
+        "lineHeight": "auto",
+        "letterSpacing": 0,
+        "align": "LEFT"
+      },
+      "autoResize": "WIDTH_AND_HEIGHT"
+    },
+    {
+      "id": "30:130",
+      "name": "separator",
+      "type": "VECTOR",
+      "path": "paper-personal-info / Group 19 / content",
+      "box": {
+        "x": 60,
+        "y": 744,
+        "w": 510,
+        "h": 0
+      },
+      "rotationDeg": 0,
+      "size": {
+        "w": 510,
+        "h": 0
+      },
+      "stroke": {
+        "paints": [
+          {
+            "type": "SOLID",
+            "color": "#000000"
+          }
+        ],
+        "weight": 2,
+        "align": "CENTER",
+        "dashes": [
+          1,
+          3
+        ],
+        "cap": "ROUND"
+      },
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 4,
+          "noiseSize": 0.10000000149011612,
+          "clipToShape": false
+        }
+      ],
+      "svgPathOmitted": "complex brush path, see exports/"
+    },
+    {
+      "id": "30:28",
+      "name": "table",
+      "type": "GROUP",
+      "path": "paper-personal-info / Group 19 / content",
+      "box": {
+        "x": 88,
+        "y": 408,
+        "w": 455,
+        "h": 329
+      }
+    },
+    {
+      "id": "30:30",
+      "name": "row-1",
+      "type": "GROUP",
+      "path": "paper-personal-info / Group 19 / content / table",
+      "box": {
+        "x": 88,
+        "y": 440,
+        "w": 455,
+        "h": 39
+      },
+      "cornerRadii": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "30:24",
+      "name": "PSYCH",
+      "type": "TEXT",
+      "path": "paper-personal-info / Group 19 / content / table / row-1",
+      "box": {
+        "x": 88,
+        "y": 440,
+        "w": 31,
+        "h": 13
+      },
+      "inkBox": {
+        "x": 87.21,
+        "y": 441.62,
+        "w": 31.67,
+        "h": 9.58
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#252525"
+        }
+      ],
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 1,
+          "noiseSize": 0.10000000149011612,
+          "clipToShape": false
+        }
+      ],
+      "text": "PSYCH",
+      "style": {
+        "family": "JMH Typewriter",
+        "style": "Regular",
+        "weight": 400,
+        "size": 10,
+        "lineHeightPx": 12.85,
+        "lineHeight": "auto",
+        "letterSpacing": 0,
+        "align": "LEFT"
+      },
+      "autoResize": "WIDTH_AND_HEIGHT"
+    },
+    {
+      "id": "30:26",
+      "name": "STABLE",
+      "type": "TEXT",
+      "path": "paper-personal-info / Group 19 / content / table / row-1",
+      "box": {
+        "x": 178,
+        "y": 440,
+        "w": 38,
+        "h": 13
+      },
+      "inkBox": {
+        "x": 177.21,
+        "y": 441.62,
+        "w": 38.6,
+        "h": 9.65
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#252525"
+        }
+      ],
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 1,
+          "noiseSize": 0.10000000149011612,
+          "clipToShape": false
+        }
+      ],
+      "text": "STABLE",
+      "style": {
+        "family": "JMH Typewriter",
+        "style": "Regular",
+        "weight": 400,
+        "size": 10,
+        "lineHeightPx": 12.85,
+        "lineHeight": "auto",
+        "letterSpacing": 0,
+        "align": "LEFT"
+      },
+      "autoResize": "WIDTH_AND_HEIGHT"
+    },
+    {
+      "id": "30:33",
+      "name": "AVOID SMALL TALK",
+      "type": "TEXT",
+      "path": "paper-personal-info / Group 19 / content / table / row-1",
+      "box": {
+        "x": 444,
+        "y": 440,
+        "w": 99,
+        "h": 13
+      },
+      "inkBox": {
+        "x": 443.21,
+        "y": 441.62,
+        "w": 99.99,
+        "h": 9.65
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#252525"
+        }
+      ],
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 1,
+          "noiseSize": 0.10000000149011612,
+          "clipToShape": false
+        }
+      ],
+      "text": "AVOID SMALL TALK",
+      "style": {
+        "family": "JMH Typewriter",
+        "style": "Regular",
+        "weight": 400,
+        "size": 10,
+        "lineHeightPx": 12.85,
+        "lineHeight": "auto",
+        "letterSpacing": 0,
+        "align": "LEFT"
+      },
+      "autoResize": "WIDTH_AND_HEIGHT"
+    },
+    {
+      "id": "30:31",
+      "name": "Subject displays \"Developer Persona.\" Social Firewall enabled.",
+      "type": "TEXT",
+      "path": "paper-personal-info / Group 19 / content / table / row-1",
+      "box": {
+        "x": 254,
+        "y": 440,
+        "w": 175,
+        "h": 39
+      },
+      "inkBox": {
+        "x": 253.21,
+        "y": 441.04,
+        "w": 148.24,
+        "h": 36.69
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#252525"
+        }
+      ],
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 1,
+          "noiseSize": 0.10000000149011612,
+          "clipToShape": false
+        }
+      ],
+      "text": "Subject displays \"Developer Persona.\" Social Firewall enabled.",
+      "style": {
+        "family": "JMH Typewriter",
+        "style": "Regular",
+        "weight": 400,
+        "size": 10,
+        "lineHeightPx": 12.85,
+        "lineHeight": "auto",
+        "letterSpacing": 0,
+        "align": "LEFT"
+      },
+      "autoResize": "HEIGHT"
+    },
+    {
+      "id": "30:35",
+      "name": "row-2",
+      "type": "GROUP",
+      "path": "paper-personal-info / Group 19 / content / table",
+      "box": {
+        "x": 88,
+        "y": 485,
+        "w": 447,
+        "h": 65
+      },
+      "cornerRadii": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "30:36",
+      "name": "ATTIRE",
+      "type": "TEXT",
+      "path": "paper-personal-info / Group 19 / content / table / row-2",
+      "box": {
+        "x": 88,
+        "y": 485,
+        "w": 38,
+        "h": 13
+      },
+      "inkBox": {
+        "x": 87.21,
+        "y": 486.73,
+        "w": 39.3,
+        "h": 9.53
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#252525"
+        }
+      ],
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 1,
+          "noiseSize": 0.10000000149011612,
+          "clipToShape": false
+        }
+      ],
+      "text": "ATTIRE",
+      "style": {
+        "family": "JMH Typewriter",
+        "style": "Regular",
+        "weight": 400,
+        "size": 10,
+        "lineHeightPx": 12.85,
+        "lineHeight": "auto",
+        "letterSpacing": 0,
+        "align": "LEFT"
+      },
+      "autoResize": "WIDTH_AND_HEIGHT"
+    },
+    {
+      "id": "30:37",
+      "name": "CASUAL",
+      "type": "TEXT",
+      "path": "paper-personal-info / Group 19 / content / table / row-2",
+      "box": {
+        "x": 178,
+        "y": 485,
+        "w": 39,
+        "h": 13
+      },
+      "inkBox": {
+        "x": 177.21,
+        "y": 486.62,
+        "w": 39.75,
+        "h": 9.58
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#252525"
+        }
+      ],
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 1,
+          "noiseSize": 0.10000000149011612,
+          "clipToShape": false
+        }
+      ],
+      "text": "CASUAL",
+      "style": {
+        "family": "JMH Typewriter",
+        "style": "Regular",
+        "weight": 400,
+        "size": 10,
+        "lineHeightPx": 12.85,
+        "lineHeight": "auto",
+        "letterSpacing": 0,
+        "align": "LEFT"
+      },
+      "autoResize": "WIDTH_AND_HEIGHT"
+    },
+    {
+      "id": "30:38",
+      "name": "NO FORMAL WEAR",
+      "type": "TEXT",
+      "path": "paper-personal-info / Group 19 / content / table / row-2",
+      "box": {
+        "x": 444,
+        "y": 485,
+        "w": 91,
+        "h": 13
+      },
+      "inkBox": {
+        "x": 443.21,
+        "y": 486.62,
+        "w": 91.8,
+        "h": 9.54
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#252525"
+        }
+      ],
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 1,
+          "noiseSize": 0.10000000149011612,
+          "clipToShape": false
+        }
+      ],
+      "text": "NO FORMAL WEAR",
+      "style": {
+        "family": "JMH Typewriter",
+        "style": "Regular",
+        "weight": 400,
+        "size": 10,
+        "lineHeightPx": 12.85,
+        "lineHeight": "auto",
+        "letterSpacing": 0,
+        "align": "LEFT"
+      },
+      "autoResize": "WIDTH_AND_HEIGHT"
+    },
+    {
+      "id": "30:59",
+      "name": "PERFORMATIVE WANNABE DETECTED !!",
+      "type": "TEXT",
+      "path": "paper-personal-info / Group 19 / content / table / row-2",
+      "box": {
+        "x": 444,
+        "y": 498,
+        "w": 87,
+        "h": 20
+      },
+      "inkBox": {
+        "x": 443.17,
+        "y": 499.09,
+        "w": 88.13,
+        "h": 18.12
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#891414"
+        }
+      ],
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 1,
+          "noiseSize": 0.10000000149011612,
+          "clipToShape": false
+        }
+      ],
+      "text": "PERFORMATIVE\nWANNABE DETECTED !!",
+      "style": {
+        "family": "JMH Typewriter",
+        "style": "Regular",
+        "weight": 400,
+        "size": 8,
+        "lineHeightPx": 10.28,
+        "lineHeight": "auto",
+        "letterSpacing": 0,
+        "align": "LEFT"
+      },
+      "autoResize": "WIDTH_AND_HEIGHT"
+    },
+    {
+      "id": "30:39",
+      "name": "Prefers loose trousers/jeans and leather shoes; rejects sneakers and skinny jeans. Wears wired headset with sweaters, henleys, or cropped shirts.",
+      "type": "TEXT",
+      "path": "paper-personal-info / Group 19 / content / table / row-2",
+      "box": {
+        "x": 254,
+        "y": 485,
+        "w": 175,
+        "h": 65
+      },
+      "inkBox": {
+        "x": 253.21,
+        "y": 486.06,
+        "w": 172.81,
+        "h": 64.21
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#252525"
+        }
+      ],
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 1,
+          "noiseSize": 0.10000000149011612,
+          "clipToShape": false
+        }
+      ],
+      "text": "Prefers loose trousers/jeans and leather shoes; rejects sneakers and skinny jeans. Wears wired headset with sweaters, henleys, or cropped shirts.",
+      "style": {
+        "family": "JMH Typewriter",
+        "style": "Regular",
+        "weight": 400,
+        "size": 10,
+        "lineHeightPx": 12.85,
+        "lineHeight": "auto",
+        "letterSpacing": 0,
+        "align": "LEFT"
+      },
+      "autoResize": "HEIGHT"
+    },
+    {
+      "id": "30:41",
+      "name": "row-3",
+      "type": "GROUP",
+      "path": "paper-personal-info / Group 19 / content / table",
+      "box": {
+        "x": 88,
+        "y": 556,
+        "w": 440,
+        "h": 78
+      }
+    },
+    {
+      "id": "30:42",
+      "name": "OPS / HABIT",
+      "type": "TEXT",
+      "path": "paper-personal-info / Group 19 / content / table / row-3",
+      "box": {
+        "x": 88,
+        "y": 556,
+        "w": 32,
+        "h": 26
+      },
+      "inkBox": {
+        "x": 87.21,
+        "y": 557.06,
+        "w": 32.92,
+        "h": 23.2
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#252525"
+        }
+      ],
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 1,
+          "noiseSize": 0.10000000149011612,
+          "clipToShape": false
+        }
+      ],
+      "text": "OPS / \nHABIT",
+      "style": {
+        "family": "JMH Typewriter",
+        "style": "Regular",
+        "weight": 400,
+        "size": 10,
+        "lineHeightPx": 12.85,
+        "lineHeight": "auto",
+        "letterSpacing": 0,
+        "align": "LEFT"
+      },
+      "autoResize": "WIDTH_AND_HEIGHT"
+    },
+    {
+      "id": "30:43",
+      "name": "REMOTE",
+      "type": "TEXT",
+      "path": "paper-personal-info / Group 19 / content / table / row-3",
+      "box": {
+        "x": 178,
+        "y": 556,
+        "w": 40,
+        "h": 13
+      },
+      "inkBox": {
+        "x": 177.21,
+        "y": 557.62,
+        "w": 40.85,
+        "h": 9.65
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#252525"
+        }
+      ],
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 1,
+          "noiseSize": 0.10000000149011612,
+          "clipToShape": false
+        }
+      ],
+      "text": "REMOTE",
+      "style": {
+        "family": "JMH Typewriter",
+        "style": "Regular",
+        "weight": 400,
+        "size": 10,
+        "lineHeightPx": 12.85,
+        "lineHeight": "auto",
+        "letterSpacing": 0,
+        "align": "LEFT"
+      },
+      "autoResize": "WIDTH_AND_HEIGHT"
+    },
+    {
+      "id": "30:44",
+      "name": "DO NOT DISTURB",
+      "type": "TEXT",
+      "path": "paper-personal-info / Group 19 / content / table / row-3",
+      "box": {
+        "x": 444,
+        "y": 556,
+        "w": 84,
+        "h": 13
+      },
+      "inkBox": {
+        "x": 443.21,
+        "y": 557.62,
+        "w": 84.79,
+        "h": 9.65
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#252525"
+        }
+      ],
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 1,
+          "noiseSize": 0.10000000149011612,
+          "clipToShape": false
+        }
+      ],
+      "text": "DO NOT DISTURB",
+      "style": {
+        "family": "JMH Typewriter",
+        "style": "Regular",
+        "weight": 400,
+        "size": 10,
+        "lineHeightPx": 12.85,
+        "lineHeight": "auto",
+        "letterSpacing": 0,
+        "align": "LEFT"
+      },
+      "autoResize": "WIDTH_AND_HEIGHT"
+    },
+    {
+      "id": "30:45",
+      "type": "TEXT",
+      "path": "paper-personal-info / Group 19 / content / table / row-3",
+      "box": {
+        "x": 254,
+        "y": 556,
+        "w": 175,
+        "h": 78
+      },
+      "inkBox": {
+        "x": 253.21,
+        "y": 557.06,
+        "w": 174.45,
+        "h": 77.49
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#252525"
+        }
+      ],
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 1,
+          "noiseSize": 0.10000000149011612,
+          "clipToShape": false
+        }
+      ],
+      "text": "Works 7 days/week from REDACTED (Cafe) with no weekend downtime. Rejects office environments for high-velocity remote work. This subject seems highly productive",
+      "style": {
+        "family": "JMH Typewriter",
+        "style": "Regular",
+        "weight": 400,
+        "size": 10,
+        "lineHeightPx": 12.85,
+        "lineHeight": "auto",
+        "letterSpacing": 0,
+        "align": "LEFT"
+      },
+      "autoResize": "HEIGHT",
+      "redactedBy": [
+        "30:121",
+        "30:122",
+        "30:123"
+      ],
+      "textLength": 160
+    },
+    {
+      "id": "30:127",
+      "name": "Group 12",
+      "type": "GROUP",
+      "path": "paper-personal-info / Group 19 / content / table / row-3",
+      "box": {
+        "x": 253.79,
+        "y": 572.92,
+        "w": 50.67,
+        "h": 5.76
+      }
+    },
+    {
+      "id": "30:121",
+      "name": "Vector 27",
+      "type": "VECTOR",
+      "path": "paper-personal-info / Group 19 / content / table / row-3 / Group 12",
+      "box": {
+        "x": 253.79,
+        "y": 572.92,
+        "w": 50.01,
+        "h": 1.48
+      },
+      "stroke": {
+        "paints": [
+          {
+            "type": "SOLID",
+            "color": "#3e3e3e"
+          }
+        ],
+        "weight": 6,
+        "align": "CENTER",
+        "cap": "ROUND"
+      },
+      "svgPathOmitted": "complex brush path, see exports/",
+      "role": "redaction-mark"
+    },
+    {
+      "id": "30:122",
+      "name": "Vector 28",
+      "type": "VECTOR",
+      "path": "paper-personal-info / Group 19 / content / table / row-3 / Group 12",
+      "box": {
+        "x": 254.92,
+        "y": 576.39,
+        "w": 49.54,
+        "h": 2.29
+      },
+      "stroke": {
+        "paints": [
+          {
+            "type": "SOLID",
+            "color": "#3e3e3e"
+          }
+        ],
+        "weight": 6,
+        "align": "CENTER",
+        "cap": "ROUND"
+      },
+      "svgPathOmitted": "complex brush path, see exports/",
+      "role": "redaction-mark"
+    },
+    {
+      "id": "30:123",
+      "name": "Vector 29",
+      "type": "VECTOR",
+      "path": "paper-personal-info / Group 19 / content / table / row-3 / Group 12",
+      "box": {
+        "x": 284.86,
+        "y": 575.15,
+        "w": 17.05,
+        "h": 1.52
+      },
+      "stroke": {
+        "paints": [
+          {
+            "type": "SOLID",
+            "color": "#3e3e3e"
+          }
+        ],
+        "weight": 6,
+        "align": "CENTER",
+        "cap": "ROUND"
+      },
+      "svgPathOmitted": "complex brush path, see exports/",
+      "role": "redaction-mark"
+    },
+    {
+      "id": "30:47",
+      "name": "row-4",
+      "type": "GROUP",
+      "path": "paper-personal-info / Group 19 / content / table",
+      "box": {
+        "x": 88,
+        "y": 640,
+        "w": 417,
+        "h": 39
+      },
+      "cornerRadii": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "30:48",
+      "name": "GAMING",
+      "type": "TEXT",
+      "path": "paper-personal-info / Group 19 / content / table / row-4",
+      "box": {
+        "x": 88,
+        "y": 640,
+        "w": 40,
+        "h": 13
+      },
+      "inkBox": {
+        "x": 87.21,
+        "y": 641.73,
+        "w": 40.61,
+        "h": 9.46
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#252525"
+        }
+      ],
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 1,
+          "noiseSize": 0.10000000149011612,
+          "clipToShape": false
+        }
+      ],
+      "text": "GAMING",
+      "style": {
+        "family": "JMH Typewriter",
+        "style": "Regular",
+        "weight": 400,
+        "size": 10,
+        "lineHeightPx": 12.85,
+        "lineHeight": "auto",
+        "letterSpacing": 0,
+        "align": "LEFT"
+      },
+      "autoResize": "WIDTH_AND_HEIGHT"
+    },
+    {
+      "id": "30:49",
+      "name": "LOCKED",
+      "type": "TEXT",
+      "path": "paper-personal-info / Group 19 / content / table / row-4",
+      "box": {
+        "x": 178,
+        "y": 640,
+        "w": 38,
+        "h": 13
+      },
+      "inkBox": {
+        "x": 177.21,
+        "y": 641.62,
+        "w": 39.4,
+        "h": 9.58
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#252525"
+        }
+      ],
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 1,
+          "noiseSize": 0.10000000149011612,
+          "clipToShape": false
+        }
+      ],
+      "text": "LOCKED",
+      "style": {
+        "family": "JMH Typewriter",
+        "style": "Regular",
+        "weight": 400,
+        "size": 10,
+        "lineHeightPx": 12.85,
+        "lineHeight": "auto",
+        "letterSpacing": 0,
+        "align": "LEFT"
+      },
+      "autoResize": "WIDTH_AND_HEIGHT"
+    },
+    {
+      "id": "30:50",
+      "name": "LOYAL CODE",
+      "type": "TEXT",
+      "path": "paper-personal-info / Group 19 / content / table / row-4",
+      "box": {
+        "x": 444,
+        "y": 640,
+        "w": 61,
+        "h": 13
+      },
+      "inkBox": {
+        "x": 443.21,
+        "y": 641.62,
+        "w": 62.06,
+        "h": 9.58
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#252525"
+        }
+      ],
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 1,
+          "noiseSize": 0.10000000149011612,
+          "clipToShape": false
+        }
+      ],
+      "text": "LOYAL CODE",
+      "style": {
+        "family": "JMH Typewriter",
+        "style": "Regular",
+        "weight": 400,
+        "size": 10,
+        "lineHeightPx": 12.85,
+        "lineHeight": "auto",
+        "letterSpacing": 0,
+        "align": "LEFT"
+      },
+      "autoResize": "WIDTH_AND_HEIGHT"
+    },
+    {
+      "id": "30:51",
+      "name": "Restricted to Fortnite & Mobile Legends. Auto-declines all other games.",
+      "type": "TEXT",
+      "path": "paper-personal-info / Group 19 / content / table / row-4",
+      "box": {
+        "x": 254,
+        "y": 640,
+        "w": 175,
+        "h": 39
+      },
+      "inkBox": {
+        "x": 253.21,
+        "y": 641.49,
+        "w": 175.65,
+        "h": 38.06
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#252525"
+        }
+      ],
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 1,
+          "noiseSize": 0.10000000149011612,
+          "clipToShape": false
+        }
+      ],
+      "text": "Restricted to Fortnite & Mobile Legends. Auto-declines all other games.",
+      "style": {
+        "family": "JMH Typewriter",
+        "style": "Regular",
+        "weight": 400,
+        "size": 10,
+        "lineHeightPx": 12.85,
+        "lineHeight": "auto",
+        "letterSpacing": 0,
+        "align": "LEFT"
+      },
+      "autoResize": "HEIGHT"
+    },
+    {
+      "id": "30:53",
+      "name": "row-5",
+      "type": "GROUP",
+      "path": "paper-personal-info / Group 19 / content / table",
+      "box": {
+        "x": 88,
+        "y": 685,
+        "w": 426,
+        "h": 52
+      }
+    },
+    {
+      "id": "30:54",
+      "name": "LAST SEEN",
+      "type": "TEXT",
+      "path": "paper-personal-info / Group 19 / content / table / row-5",
+      "box": {
+        "x": 88,
+        "y": 685,
+        "w": 26,
+        "h": 26
+      },
+      "inkBox": {
+        "x": 87.21,
+        "y": 686.62,
+        "w": 27.29,
+        "h": 22.54
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#252525"
+        }
+      ],
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 1,
+          "noiseSize": 0.10000000149011612,
+          "clipToShape": false
+        }
+      ],
+      "text": "LAST\nSEEN",
+      "style": {
+        "family": "JMH Typewriter",
+        "style": "Regular",
+        "weight": 400,
+        "size": 10,
+        "lineHeightPx": 12.85,
+        "lineHeight": "auto",
+        "letterSpacing": 0,
+        "align": "LEFT"
+      },
+      "autoResize": "WIDTH_AND_HEIGHT"
+    },
+    {
+      "id": "30:55",
+      "name": "ACTIVE",
+      "type": "TEXT",
+      "path": "paper-personal-info / Group 19 / content / table / row-5",
+      "box": {
+        "x": 178,
+        "y": 685,
+        "w": 38,
+        "h": 13
+      },
+      "inkBox": {
+        "x": 177.21,
+        "y": 686.62,
+        "w": 38.62,
+        "h": 9.65
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#252525"
+        }
+      ],
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 1,
+          "noiseSize": 0.10000000149011612,
+          "clipToShape": false
+        }
+      ],
+      "text": "ACTIVE",
+      "style": {
+        "family": "JMH Typewriter",
+        "style": "Regular",
+        "weight": 400,
+        "size": 10,
+        "lineHeightPx": 12.85,
+        "lineHeight": "auto",
+        "letterSpacing": 0,
+        "align": "LEFT"
+      },
+      "autoResize": "WIDTH_AND_HEIGHT"
+    },
+    {
+      "id": "30:56",
+      "name": "APPROACH W/ CAUTION",
+      "type": "TEXT",
+      "path": "paper-personal-info / Group 19 / content / table / row-5",
+      "box": {
+        "x": 444,
+        "y": 685,
+        "w": 70,
+        "h": 26
+      },
+      "inkBox": {
+        "x": 443.21,
+        "y": 686.06,
+        "w": 67.12,
+        "h": 23.2
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#252525"
+        }
+      ],
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 1,
+          "noiseSize": 0.10000000149011612,
+          "clipToShape": false
+        }
+      ],
+      "text": "APPROACH W/ \nCAUTION",
+      "style": {
+        "family": "JMH Typewriter",
+        "style": "Regular",
+        "weight": 400,
+        "size": 10,
+        "lineHeightPx": 12.85,
+        "lineHeight": "auto",
+        "letterSpacing": 0,
+        "align": "LEFT"
+      },
+      "autoResize": "WIDTH_AND_HEIGHT"
+    },
+    {
+      "id": "30:57",
+      "type": "TEXT",
+      "path": "paper-personal-info / Group 19 / content / table / row-5",
+      "box": {
+        "x": 254,
+        "y": 685,
+        "w": 175,
+        "h": 52
+      },
+      "inkBox": {
+        "x": 253.21,
+        "y": 686.49,
+        "w": 164.71,
+        "h": 51.06
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#252525"
+        }
+      ],
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 1,
+          "noiseSize": 0.10000000149011612,
+          "clipToShape": false
+        }
+      ],
+      "text": "Spotted at REDACTED building some code [No further details available]. Deep work mode engaged via wired headphones.",
+      "style": {
+        "family": "JMH Typewriter",
+        "style": "Regular",
+        "weight": 400,
+        "size": 10,
+        "lineHeightPx": 12.85,
+        "lineHeight": "auto",
+        "letterSpacing": 0,
+        "align": "LEFT"
+      },
+      "autoResize": "HEIGHT",
+      "redactedBy": [
+        "30:124",
+        "30:125",
+        "30:126"
+      ],
+      "textLength": 115
+    },
+    {
+      "id": "30:128",
+      "name": "Group 13",
+      "type": "GROUP",
+      "path": "paper-personal-info / Group 19 / content / table / row-5",
+      "box": {
+        "x": 311.38,
+        "y": 687.89,
+        "w": 52.39,
+        "h": 7.5
+      }
+    },
+    {
+      "id": "30:124",
+      "name": "Vector 30",
+      "type": "VECTOR",
+      "path": "paper-personal-info / Group 19 / content / table / row-5 / Group 13",
+      "box": {
+        "x": 314.41,
+        "y": 691.29,
+        "w": 47.74,
+        "h": 1.52
+      },
+      "stroke": {
+        "paints": [
+          {
+            "type": "SOLID",
+            "color": "#3e3e3e"
+          }
+        ],
+        "weight": 6,
+        "align": "CENTER",
+        "cap": "ROUND"
+      },
+      "svgPathOmitted": "complex brush path, see exports/",
+      "role": "redaction-mark"
+    },
+    {
+      "id": "30:125",
+      "name": "Vector 31",
+      "type": "VECTOR",
+      "path": "paper-personal-info / Group 19 / content / table / row-5 / Group 13",
+      "box": {
+        "x": 311.38,
+        "y": 687.89,
+        "w": 50.77,
+        "h": 2.64
+      },
+      "stroke": {
+        "paints": [
+          {
+            "type": "SOLID",
+            "color": "#3e3e3e"
+          }
+        ],
+        "weight": 6,
+        "align": "CENTER",
+        "cap": "ROUND"
+      },
+      "svgPathOmitted": "complex brush path, see exports/",
+      "role": "redaction-mark"
+    },
+    {
+      "id": "30:126",
+      "name": "Vector 32",
+      "type": "VECTOR",
+      "path": "paper-personal-info / Group 19 / content / table / row-5 / Group 13",
+      "box": {
+        "x": 313.27,
+        "y": 693.94,
+        "w": 50.49,
+        "h": 1.45
+      },
+      "stroke": {
+        "paints": [
+          {
+            "type": "SOLID",
+            "color": "#3e3e3e"
+          }
+        ],
+        "weight": 6,
+        "align": "CENTER",
+        "cap": "ROUND"
+      },
+      "svgPathOmitted": "complex brush path, see exports/",
+      "role": "redaction-mark"
+    },
+    {
+      "id": "30:29",
+      "name": "columns",
+      "type": "GROUP",
+      "path": "paper-personal-info / Group 19 / content / table",
+      "box": {
+        "x": 88,
+        "y": 408,
+        "w": 416,
+        "h": 15
+      },
+      "cornerRadii": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "30:12",
+      "name": "CATEGORY",
+      "type": "TEXT",
+      "path": "paper-personal-info / Group 19 / content / table / columns",
+      "box": {
+        "x": 88,
+        "y": 408,
+        "w": 60,
+        "h": 15
+      },
+      "inkBox": {
+        "x": 87.26,
+        "y": 410.15,
+        "w": 60.79,
+        "h": 11.14
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#252525"
+        }
+      ],
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 1,
+          "noiseSize": 0.10000000149011612,
+          "clipToShape": false
+        }
+      ],
+      "text": "CATEGORY",
+      "style": {
+        "family": "JMH Typewriter",
+        "style": "Bold",
+        "weight": 700,
+        "size": 12,
+        "lineHeightPx": 15.42,
+        "lineHeight": "auto",
+        "letterSpacing": 0,
+        "align": "LEFT"
+      },
+      "autoResize": "WIDTH_AND_HEIGHT"
+    },
+    {
+      "id": "30:16",
+      "name": "STATUS",
+      "type": "TEXT",
+      "path": "paper-personal-info / Group 19 / content / table / columns",
+      "box": {
+        "x": 178,
+        "y": 408,
+        "w": 44,
+        "h": 15
+      },
+      "inkBox": {
+        "x": 177.26,
+        "y": 410.15,
+        "w": 45.03,
+        "h": 11.14
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#252525"
+        }
+      ],
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 1,
+          "noiseSize": 0.10000000149011612,
+          "clipToShape": false
+        }
+      ],
+      "text": "STATUS",
+      "style": {
+        "family": "JMH Typewriter",
+        "style": "Bold",
+        "weight": 700,
+        "size": 12,
+        "lineHeightPx": 15.42,
+        "lineHeight": "auto",
+        "letterSpacing": 0,
+        "align": "LEFT"
+      },
+      "autoResize": "WIDTH_AND_HEIGHT"
+    },
+    {
+      "id": "30:20",
+      "name": "OBSERVATION / DETAILS",
+      "type": "TEXT",
+      "path": "paper-personal-info / Group 19 / content / table / columns",
+      "box": {
+        "x": 254,
+        "y": 408,
+        "w": 146,
+        "h": 15
+      },
+      "inkBox": {
+        "x": 253.27,
+        "y": 409.53,
+        "w": 146.55,
+        "h": 12.93
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#252525"
+        }
+      ],
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 1,
+          "noiseSize": 0.10000000149011612,
+          "clipToShape": false
+        }
+      ],
+      "text": "OBSERVATION / DETAILS",
+      "style": {
+        "family": "JMH Typewriter",
+        "style": "Bold",
+        "weight": 700,
+        "size": 12,
+        "lineHeightPx": 15.42,
+        "lineHeight": "auto",
+        "letterSpacing": 0,
+        "align": "LEFT"
+      },
+      "autoResize": "WIDTH_AND_HEIGHT"
+    },
+    {
+      "id": "30:22",
+      "name": "PROTOCOL",
+      "type": "TEXT",
+      "path": "paper-personal-info / Group 19 / content / table / columns",
+      "box": {
+        "x": 444,
+        "y": 408,
+        "w": 60,
+        "h": 15
+      },
+      "inkBox": {
+        "x": 443.27,
+        "y": 410.15,
+        "w": 60.92,
+        "h": 11.14
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#252525"
+        }
+      ],
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 1,
+          "noiseSize": 0.10000000149011612,
+          "clipToShape": false
+        }
+      ],
+      "text": "PROTOCOL",
+      "style": {
+        "family": "JMH Typewriter",
+        "style": "Bold",
+        "weight": 700,
+        "size": 12,
+        "lineHeightPx": 15.42,
+        "lineHeight": "auto",
+        "letterSpacing": 0,
+        "align": "LEFT"
+      },
+      "autoResize": "WIDTH_AND_HEIGHT"
+    },
+    {
+      "id": "28:4",
+      "name": "SUBJECT SUMMARY",
+      "type": "TEXT",
+      "path": "paper-personal-info / Group 19 / content",
+      "box": {
+        "x": 246,
+        "y": 385,
+        "w": 138,
+        "h": 18
+      },
+      "inkBox": {
+        "x": 245.1,
+        "y": 385.75,
+        "w": 138.84,
+        "h": 13.25
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#252525"
+        }
+      ],
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 1,
+          "noiseSize": 0.10000000149011612,
+          "clipToShape": false
+        }
+      ],
+      "text": "SUBJECT SUMMARY",
+      "style": {
+        "family": "Times New Normal",
+        "style": "Regular",
+        "weight": 400,
+        "size": 16,
+        "lineHeightPx": 17.6,
+        "lineHeight": "auto",
+        "letterSpacing": 0,
+        "align": "LEFT"
+      },
+      "autoResize": "WIDTH_AND_HEIGHT"
+    },
+    {
+      "id": "28:8",
+      "name": "separator",
+      "type": "VECTOR",
+      "path": "paper-personal-info / Group 19 / content",
+      "box": {
+        "x": 60,
+        "y": 378,
+        "w": 510,
+        "h": 0
+      },
+      "rotationDeg": 0,
+      "size": {
+        "w": 510,
+        "h": 0
+      },
+      "stroke": {
+        "paints": [
+          {
+            "type": "SOLID",
+            "color": "#000000"
+          }
+        ],
+        "weight": 2,
+        "align": "CENTER",
+        "dashes": [
+          1,
+          3
+        ],
+        "cap": "ROUND"
+      },
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 4,
+          "noiseSize": 0.10000000149011612,
+          "clipToShape": false
+        }
+      ],
+      "svgPathOmitted": "complex brush path, see exports/"
+    },
+    {
+      "id": "19:114",
+      "name": "education",
+      "type": "GROUP",
+      "path": "paper-personal-info / Group 19 / content",
+      "box": {
+        "x": 79,
+        "y": 292,
+        "w": 472,
+        "h": 69
+      },
+      "cornerRadii": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "19:123",
+      "name": "binus",
+      "type": "GROUP",
+      "path": "paper-personal-info / Group 19 / content / education",
+      "box": {
+        "x": 100,
+        "y": 319,
+        "w": 314,
+        "h": 21
+      },
+      "cornerRadii": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "19:119",
+      "name": "[2021-2025]",
+      "type": "TEXT",
+      "path": "paper-personal-info / Group 19 / content / education / binus",
+      "box": {
+        "x": 100,
+        "y": 319,
+        "w": 82,
+        "h": 21
+      },
+      "inkBox": {
+        "x": 99.34,
+        "y": 321.75,
+        "w": 82.81,
+        "h": 14.48
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#252525"
+        }
+      ],
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 1,
+          "noiseSize": 0.10000000149011612,
+          "clipToShape": false
+        }
+      ],
+      "text": "[2021-2025]",
+      "style": {
+        "family": "JMH Typewriter",
+        "style": "Regular",
+        "weight": 400,
+        "size": 16,
+        "lineHeightPx": 20.56,
+        "lineHeight": "auto",
+        "letterSpacing": 0,
+        "align": "LEFT"
+      },
+      "autoResize": "WIDTH_AND_HEIGHT"
+    },
+    {
+      "id": "19:121",
+      "name": "Computer Science, BINUS University",
+      "type": "TEXT",
+      "path": "paper-personal-info / Group 19 / content / education / binus",
+      "box": {
+        "x": 186,
+        "y": 322,
+        "w": 228,
+        "h": 15
+      },
+      "inkBox": {
+        "x": 185.26,
+        "y": 324.14,
+        "w": 229.04,
+        "h": 13.74
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#252525"
+        }
+      ],
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 1,
+          "noiseSize": 0.10000000149011612,
+          "clipToShape": false
+        }
+      ],
+      "text": "Computer Science, BINUS University",
+      "style": {
+        "family": "JMH Typewriter",
+        "style": "Regular",
+        "weight": 400,
+        "size": 12,
+        "lineHeightPx": 15.42,
+        "lineHeight": "auto",
+        "letterSpacing": 0,
+        "align": "LEFT"
+      },
+      "autoResize": "WIDTH_AND_HEIGHT"
+    },
+    {
+      "id": "19:126",
+      "name": "binus",
+      "type": "GROUP",
+      "path": "paper-personal-info / Group 19 / content / education",
+      "box": {
+        "x": 100,
+        "y": 340,
+        "w": 451,
+        "h": 21
+      },
+      "cornerRadii": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "19:127",
+      "name": "[2019-2021]",
+      "type": "TEXT",
+      "path": "paper-personal-info / Group 19 / content / education / binus",
+      "box": {
+        "x": 100,
+        "y": 340,
+        "w": 82,
+        "h": 21
+      },
+      "inkBox": {
+        "x": 99.34,
+        "y": 342.75,
+        "w": 82.59,
+        "h": 14.67
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#252525"
+        }
+      ],
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 1,
+          "noiseSize": 0.10000000149011612,
+          "clipToShape": false
+        }
+      ],
+      "text": "[2019-2021]",
+      "style": {
+        "family": "JMH Typewriter",
+        "style": "Regular",
+        "weight": 400,
+        "size": 16,
+        "lineHeightPx": 20.56,
+        "lineHeight": "auto",
+        "letterSpacing": 0,
+        "align": "LEFT"
+      },
+      "autoResize": "WIDTH_AND_HEIGHT"
+    },
+    {
+      "id": "19:128",
+      "name": "Computer Network & Engineering, Telkom Vocational Sch.",
+      "type": "TEXT",
+      "path": "paper-personal-info / Group 19 / content / education / binus",
+      "box": {
+        "x": 186,
+        "y": 343,
+        "w": 365,
+        "h": 15
+      },
+      "inkBox": {
+        "x": 185.26,
+        "y": 345.04,
+        "w": 366.17,
+        "h": 14.02
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#252525"
+        }
+      ],
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 1,
+          "noiseSize": 0.10000000149011612,
+          "clipToShape": false
+        }
+      ],
+      "text": "Computer Network & Engineering, Telkom Vocational Sch.",
+      "style": {
+        "family": "JMH Typewriter",
+        "style": "Regular",
+        "weight": 400,
+        "size": 12,
+        "lineHeightPx": 15.42,
+        "lineHeight": "auto",
+        "letterSpacing": 0,
+        "align": "LEFT"
+      },
+      "autoResize": "WIDTH_AND_HEIGHT"
+    },
+    {
+      "id": "19:115",
+      "name": "EDUCATION",
+      "type": "TEXT",
+      "path": "paper-personal-info / Group 19 / content / education",
+      "box": {
+        "x": 79,
+        "y": 292,
+        "w": 83,
+        "h": 18
+      },
+      "inkBox": {
+        "x": 78.18,
+        "y": 292.75,
+        "w": 84.3,
+        "h": 13.25
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#252525"
+        }
+      ],
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 1,
+          "noiseSize": 0.10000000149011612,
+          "clipToShape": false
+        }
+      ],
+      "text": "EDUCATION",
+      "style": {
+        "family": "Times New Normal",
+        "style": "Regular",
+        "weight": 400,
+        "size": 16,
+        "lineHeightPx": 17.6,
+        "lineHeight": "auto",
+        "letterSpacing": 0,
+        "align": "LEFT"
+      },
+      "autoResize": "WIDTH_AND_HEIGHT"
+    },
+    {
+      "id": "18:97",
+      "name": "separator",
+      "type": "VECTOR",
+      "path": "paper-personal-info / Group 19 / content",
+      "box": {
+        "x": 60,
+        "y": 275,
+        "w": 510,
+        "h": 0
+      },
+      "rotationDeg": 0,
+      "size": {
+        "w": 510,
+        "h": 0
+      },
+      "stroke": {
+        "paints": [
+          {
+            "type": "SOLID",
+            "color": "#000000"
+          }
+        ],
+        "weight": 2,
+        "align": "CENTER",
+        "dashes": [
+          1,
+          3
+        ],
+        "cap": "ROUND"
+      },
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 4,
+          "noiseSize": 0.10000000149011612,
+          "clipToShape": false
+        }
+      ],
+      "svgPathOmitted": "complex brush path, see exports/"
+    },
+    {
+      "id": "19:100",
+      "name": "section-1",
+      "type": "GROUP",
+      "path": "paper-personal-info / Group 19 / content",
+      "box": {
+        "x": 70,
+        "y": 122,
+        "w": 494,
+        "h": 136
+      }
+    },
+    {
+      "id": "23:2",
+      "name": "contact",
+      "type": "GROUP",
+      "path": "paper-personal-info / Group 19 / content / section-1",
+      "box": {
+        "x": 70,
+        "y": 225,
+        "w": 481,
+        "h": 33
+      }
+    },
+    {
+      "id": "19:111",
+      "name": "Rectangle 16",
+      "type": "VECTOR",
+      "path": "paper-personal-info / Group 19 / content / section-1 / contact",
+      "box": {
+        "x": 70,
+        "y": 225,
+        "w": 481,
+        "h": 33
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#f0e849",
+          "opacity": 0.5
+        }
+      ],
+      "svgPath": [
+        "M5.5 1.47372L481 0L474 33L0 33L5.5 1.47372Z"
+      ]
+    },
+    {
+      "id": "19:101",
+      "name": "phone-num",
+      "type": "GROUP",
+      "path": "paper-personal-info / Group 19 / content / section-1 / contact",
+      "box": {
+        "x": 79,
+        "y": 230,
+        "w": 221,
+        "h": 21
+      }
+    },
+    {
+      "id": "19:102",
+      "name": "Phone Num:",
+      "type": "TEXT",
+      "path": "paper-personal-info / Group 19 / content / section-1 / contact / phone-num",
+      "box": {
+        "x": 79,
+        "y": 233,
+        "w": 81,
+        "h": 18
+      },
+      "inkBox": {
+        "x": 78.43,
+        "y": 233.8,
+        "w": 81.98,
+        "h": 13.25
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#252525"
+        }
+      ],
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 1,
+          "noiseSize": 0.10000000149011612,
+          "clipToShape": false
+        }
+      ],
+      "text": "Phone Num:",
+      "style": {
+        "family": "Times New Normal",
+        "style": "Regular",
+        "weight": 400,
+        "size": 16,
+        "lineHeightPx": 17.6,
+        "lineHeight": "auto",
+        "letterSpacing": 0,
+        "align": "LEFT"
+      },
+      "autoResize": "WIDTH_AND_HEIGHT"
+    },
+    {
+      "id": "19:103",
+      "name": "+62 81248777317",
+      "type": "TEXT",
+      "path": "paper-personal-info / Group 19 / content / section-1 / contact / phone-num",
+      "box": {
+        "x": 163,
+        "y": 230,
+        "w": 126,
+        "h": 21
+      },
+      "inkBox": {
+        "x": 162.34,
+        "y": 232.41,
+        "w": 126.38,
+        "h": 15.17
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#252525"
+        }
+      ],
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 1,
+          "noiseSize": 0.10000000149011612,
+          "clipToShape": false
+        }
+      ],
+      "text": "+62 81248777317",
+      "style": {
+        "family": "JMH Typewriter",
+        "style": "Regular",
+        "weight": 400,
+        "size": 16,
+        "lineHeightPx": 20.56,
+        "lineHeight": "auto",
+        "letterSpacing": 0,
+        "align": "LEFT"
+      },
+      "autoResize": "WIDTH_AND_HEIGHT"
+    },
+    {
+      "id": "19:104",
+      "name": "Vector 20",
+      "type": "VECTOR",
+      "path": "paper-personal-info / Group 19 / content / section-1 / contact / phone-num",
+      "box": {
+        "x": 160,
+        "y": 251,
+        "w": 140,
+        "h": 0
+      },
+      "stroke": {
+        "paints": [
+          {
+            "type": "SOLID",
+            "color": "#000000"
+          }
+        ],
+        "weight": 1,
+        "align": "CENTER",
+        "dashes": [
+          1,
+          3
+        ],
+        "cap": "ROUND"
+      },
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 1,
+          "noiseSize": 0.10000000149011612,
+          "clipToShape": false
+        }
+      ],
+      "svgPathOmitted": "complex brush path, see exports/"
+    },
+    {
+      "id": "16:34",
+      "name": "address",
+      "type": "GROUP",
+      "path": "paper-personal-info / Group 19 / content / section-1",
+      "box": {
+        "x": 79,
+        "y": 202,
+        "w": 460,
+        "h": 21
+      }
+    },
+    {
+      "id": "14:2",
+      "name": "Address:",
+      "type": "TEXT",
+      "path": "paper-personal-info / Group 19 / content / section-1 / address",
+      "box": {
+        "x": 79,
+        "y": 205,
+        "w": 53,
+        "h": 18
+      },
+      "inkBox": {
+        "x": 77.7,
+        "y": 205.8,
+        "w": 54.89,
+        "h": 13.25
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#252525"
+        }
+      ],
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 1,
+          "noiseSize": 0.10000000149011612,
+          "clipToShape": false
+        }
+      ],
+      "text": "Address:",
+      "style": {
+        "family": "Times New Normal",
+        "style": "Regular",
+        "weight": 400,
+        "size": 16,
+        "lineHeightPx": 17.6,
+        "lineHeight": "auto",
+        "letterSpacing": 0,
+        "align": "LEFT"
+      },
+      "autoResize": "WIDTH_AND_HEIGHT"
+    },
+    {
+      "id": "16:2",
+      "type": "TEXT",
+      "path": "paper-personal-info / Group 19 / content / section-1 / address",
+      "box": {
+        "x": 135,
+        "y": 202,
+        "w": 303,
+        "h": 21
+      },
+      "inkBox": {
+        "x": 134.34,
+        "y": 204.41,
+        "w": 303.83,
+        "h": 18.67
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#252525"
+        }
+      ],
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 1,
+          "noiseSize": 0.10000000149011612,
+          "clipToShape": false
+        }
+      ],
+      "text": "███████████ █████████ ███████ █████",
+      "style": {
+        "family": "JMH Typewriter",
+        "style": "Regular",
+        "weight": 400,
+        "size": 16,
+        "lineHeightPx": 20.56,
+        "lineHeight": "auto",
+        "letterSpacing": 0,
+        "align": "LEFT"
+      },
+      "autoResize": "WIDTH_AND_HEIGHT",
+      "redactedBy": [
+        "18:81",
+        "18:82",
+        "18:83",
+        "18:84",
+        "18:85",
+        "18:91",
+        "18:92",
+        "18:93",
+        "18:94",
+        "18:95",
+        "18:86"
+      ],
+      "textLength": 35
+    },
+    {
+      "id": "16:4",
+      "name": "Vector 20",
+      "type": "VECTOR",
+      "path": "paper-personal-info / Group 19 / content / section-1 / address",
+      "box": {
+        "x": 135,
+        "y": 223,
+        "w": 404,
+        "h": 0
+      },
+      "rotationDeg": 0,
+      "size": {
+        "w": 404,
+        "h": 0
+      },
+      "stroke": {
+        "paints": [
+          {
+            "type": "SOLID",
+            "color": "#000000"
+          }
+        ],
+        "weight": 1,
+        "align": "CENTER",
+        "dashes": [
+          1,
+          3
+        ],
+        "cap": "ROUND"
+      },
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 1,
+          "noiseSize": 0.10000000149011612,
+          "clipToShape": false
+        }
+      ],
+      "svgPathOmitted": "complex brush path, see exports/"
+    },
+    {
+      "id": "18:80",
+      "name": "Group 9",
+      "type": "GROUP",
+      "path": "paper-personal-info / Group 19 / content / section-1 / address",
+      "box": {
+        "x": 142,
+        "y": 207,
+        "w": 287.92,
+        "h": 13
+      }
+    },
+    {
+      "id": "18:89",
+      "name": "Group 10",
+      "type": "GROUP",
+      "path": "paper-personal-info / Group 19 / content / section-1 / address / Group 9",
+      "box": {
+        "x": 142,
+        "y": 207,
+        "w": 17.92,
+        "h": 10.22
+      }
+    },
+    {
+      "id": "18:81",
+      "name": "Vector 22",
+      "type": "VECTOR",
+      "path": "paper-personal-info / Group 19 / content / section-1 / address / Group 9 / Group 10",
+      "box": {
+        "x": 145.31,
+        "y": 217.06,
+        "w": 14.62,
+        "h": 0.16
+      },
+      "stroke": {
+        "paints": [
+          {
+            "type": "SOLID",
+            "color": "#131313"
+          }
+        ],
+        "weight": 6,
+        "align": "CENTER",
+        "dashes": [
+          1,
+          3
+        ],
+        "cap": "ROUND"
+      },
+      "svgPathOmitted": "complex brush path, see exports/",
+      "role": "redaction-mark"
+    },
+    {
+      "id": "18:82",
+      "name": "Vector 23",
+      "type": "VECTOR",
+      "path": "paper-personal-info / Group 19 / content / section-1 / address / Group 9 / Group 10",
+      "box": {
+        "x": 144.78,
+        "y": 214.38,
+        "w": 7.13,
+        "h": 0.16
+      },
+      "stroke": {
+        "paints": [
+          {
+            "type": "SOLID",
+            "color": "#131313"
+          }
+        ],
+        "weight": 6,
+        "align": "CENTER",
+        "dashes": [
+          1,
+          3
+        ],
+        "cap": "ROUND"
+      },
+      "svgPathOmitted": "complex brush path, see exports/",
+      "role": "redaction-mark"
+    },
+    {
+      "id": "18:83",
+      "name": "Vector 24",
+      "type": "VECTOR",
+      "path": "paper-personal-info / Group 19 / content / section-1 / address / Group 9 / Group 10",
+      "box": {
+        "x": 145.48,
+        "y": 210.33,
+        "w": 6.96,
+        "h": 0.57
+      },
+      "stroke": {
+        "paints": [
+          {
+            "type": "SOLID",
+            "color": "#131313"
+          }
+        ],
+        "weight": 6,
+        "align": "CENTER",
+        "dashes": [
+          1,
+          3
+        ],
+        "cap": "ROUND"
+      },
+      "svgPathOmitted": "complex brush path, see exports/",
+      "role": "redaction-mark"
+    },
+    {
+      "id": "18:84",
+      "name": "Vector 25",
+      "type": "VECTOR",
+      "path": "paper-personal-info / Group 19 / content / section-1 / address / Group 9 / Group 10",
+      "box": {
+        "x": 142,
+        "y": 207.16,
+        "w": 10.96,
+        "h": 0.97
+      },
+      "stroke": {
+        "paints": [
+          {
+            "type": "SOLID",
+            "color": "#131313"
+          }
+        ],
+        "weight": 6,
+        "align": "CENTER",
+        "dashes": [
+          1,
+          3
+        ],
+        "cap": "ROUND"
+      },
+      "svgPathOmitted": "complex brush path, see exports/",
+      "role": "redaction-mark"
+    },
+    {
+      "id": "18:85",
+      "name": "Vector 26",
+      "type": "VECTOR",
+      "path": "paper-personal-info / Group 19 / content / section-1 / address / Group 9 / Group 10",
+      "box": {
+        "x": 148.4,
+        "y": 207,
+        "w": 10.49,
+        "h": 2.03
+      },
+      "stroke": {
+        "paints": [
+          {
+            "type": "SOLID",
+            "color": "#131313"
+          }
+        ],
+        "weight": 6,
+        "align": "CENTER",
+        "dashes": [
+          1,
+          3
+        ],
+        "cap": "ROUND"
+      },
+      "svgPathOmitted": "complex brush path, see exports/",
+      "role": "redaction-mark"
+    },
+    {
+      "id": "18:90",
+      "name": "Group 11",
+      "type": "GROUP",
+      "path": "paper-personal-info / Group 19 / content / section-1 / address / Group 9",
+      "box": {
+        "x": 412,
+        "y": 207,
+        "w": 17.92,
+        "h": 10.22
+      },
+      "rotationDeg": 180,
+      "size": {
+        "w": 17.92,
+        "h": 10.22
+      }
+    },
+    {
+      "id": "18:91",
+      "name": "Vector 22",
+      "type": "VECTOR",
+      "path": "paper-personal-info / Group 19 / content / section-1 / address / Group 9 / Group 11",
+      "box": {
+        "x": 412,
+        "y": 217.06,
+        "w": 14.62,
+        "h": 0.16
+      },
+      "stroke": {
+        "paints": [
+          {
+            "type": "SOLID",
+            "color": "#131313"
+          }
+        ],
+        "weight": 6,
+        "align": "CENTER",
+        "dashes": [
+          1,
+          3
+        ],
+        "cap": "ROUND"
+      },
+      "svgPathOmitted": "complex brush path, see exports/",
+      "role": "redaction-mark"
+    },
+    {
+      "id": "18:92",
+      "name": "Vector 23",
+      "type": "VECTOR",
+      "path": "paper-personal-info / Group 19 / content / section-1 / address / Group 9 / Group 11",
+      "box": {
+        "x": 420.01,
+        "y": 214.38,
+        "w": 7.13,
+        "h": 0.16
+      },
+      "stroke": {
+        "paints": [
+          {
+            "type": "SOLID",
+            "color": "#131313"
+          }
+        ],
+        "weight": 6,
+        "align": "CENTER",
+        "dashes": [
+          1,
+          3
+        ],
+        "cap": "ROUND"
+      },
+      "svgPathOmitted": "complex brush path, see exports/",
+      "role": "redaction-mark"
+    },
+    {
+      "id": "18:93",
+      "name": "Vector 24",
+      "type": "VECTOR",
+      "path": "paper-personal-info / Group 19 / content / section-1 / address / Group 9 / Group 11",
+      "box": {
+        "x": 419.48,
+        "y": 210.33,
+        "w": 6.96,
+        "h": 0.57
+      },
+      "stroke": {
+        "paints": [
+          {
+            "type": "SOLID",
+            "color": "#131313"
+          }
+        ],
+        "weight": 6,
+        "align": "CENTER",
+        "dashes": [
+          1,
+          3
+        ],
+        "cap": "ROUND"
+      },
+      "svgPathOmitted": "complex brush path, see exports/",
+      "role": "redaction-mark"
+    },
+    {
+      "id": "18:94",
+      "name": "Vector 25",
+      "type": "VECTOR",
+      "path": "paper-personal-info / Group 19 / content / section-1 / address / Group 9 / Group 11",
+      "box": {
+        "x": 418.96,
+        "y": 207.16,
+        "w": 10.96,
+        "h": 0.97
+      },
+      "stroke": {
+        "paints": [
+          {
+            "type": "SOLID",
+            "color": "#131313"
+          }
+        ],
+        "weight": 6,
+        "align": "CENTER",
+        "dashes": [
+          1,
+          3
+        ],
+        "cap": "ROUND"
+      },
+      "svgPathOmitted": "complex brush path, see exports/",
+      "role": "redaction-mark"
+    },
+    {
+      "id": "18:95",
+      "name": "Vector 26",
+      "type": "VECTOR",
+      "path": "paper-personal-info / Group 19 / content / section-1 / address / Group 9 / Group 11",
+      "box": {
+        "x": 413.03,
+        "y": 207,
+        "w": 10.49,
+        "h": 2.03
+      },
+      "stroke": {
+        "paints": [
+          {
+            "type": "SOLID",
+            "color": "#131313"
+          }
+        ],
+        "weight": 6,
+        "align": "CENTER",
+        "dashes": [
+          1,
+          3
+        ],
+        "cap": "ROUND"
+      },
+      "svgPathOmitted": "complex brush path, see exports/",
+      "role": "redaction-mark"
+    },
+    {
+      "id": "18:86",
+      "name": "Rectangle 15",
+      "type": "RECTANGLE",
+      "path": "paper-personal-info / Group 19 / content / section-1 / address / Group 9",
+      "box": {
+        "x": 150.72,
+        "y": 207,
+        "w": 270.27,
+        "h": 13
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#131313"
+        }
+      ],
+      "role": "redaction-mark"
+    },
+    {
+      "id": "17:41",
+      "name": "blood-type",
+      "type": "GROUP",
+      "path": "paper-personal-info / Group 19 / content / section-1",
+      "box": {
+        "x": 357,
+        "y": 146,
+        "w": 207,
+        "h": 21
+      }
+    },
+    {
+      "id": "17:35",
+      "name": "Blood Type:",
+      "type": "TEXT",
+      "path": "paper-personal-info / Group 19 / content / section-1 / blood-type",
+      "box": {
+        "x": 357,
+        "y": 149,
+        "w": 76,
+        "h": 18
+      },
+      "inkBox": {
+        "x": 356.13,
+        "y": 149.75,
+        "w": 77.33,
+        "h": 17.26
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#252525"
+        }
+      ],
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 1,
+          "noiseSize": 0.10000000149011612,
+          "clipToShape": false
+        }
+      ],
+      "text": "Blood Type:",
+      "style": {
+        "family": "Times New Normal",
+        "style": "Regular",
+        "weight": 400,
+        "size": 16,
+        "lineHeightPx": 17.6,
+        "lineHeight": "auto",
+        "letterSpacing": 0,
+        "align": "LEFT"
+      },
+      "autoResize": "WIDTH_AND_HEIGHT"
+    },
+    {
+      "id": "17:39",
+      "type": "TEXT",
+      "path": "paper-personal-info / Group 19 / content / section-1 / blood-type",
+      "box": {
+        "x": 445,
+        "y": 146,
+        "w": 10,
+        "h": 21
+      },
+      "inkBox": {
+        "x": 444.34,
+        "y": 148.98,
+        "w": 11.13,
+        "h": 14.13
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#252525"
+        }
+      ],
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 1,
+          "noiseSize": 0.10000000149011612,
+          "clipToShape": false
+        }
+      ],
+      "text": "█",
+      "style": {
+        "family": "JMH Typewriter",
+        "style": "Regular",
+        "weight": 400,
+        "size": 16,
+        "lineHeightPx": 20.56,
+        "lineHeight": "auto",
+        "letterSpacing": 0,
+        "align": "LEFT"
+      },
+      "autoResize": "WIDTH_AND_HEIGHT",
+      "redactedBy": [
+        "17:43"
+      ],
+      "textLength": 1
+    },
+    {
+      "id": "17:57",
+      "name": "Group 9",
+      "type": "GROUP",
+      "path": "paper-personal-info / Group 19 / content / section-1 / blood-type",
+      "box": {
+        "x": 434.02,
+        "y": 151,
+        "w": 129.98,
+        "h": 13
+      }
+    },
+    {
+      "id": "17:52",
+      "name": "Vector 22",
+      "type": "VECTOR",
+      "path": "paper-personal-info / Group 19 / content / section-1 / blood-type / Group 9",
+      "box": {
+        "x": 435.56,
+        "y": 161.06,
+        "w": 6.81,
+        "h": 0.16
+      },
+      "stroke": {
+        "paints": [
+          {
+            "type": "SOLID",
+            "color": "#131313"
+          }
+        ],
+        "weight": 6,
+        "align": "CENTER",
+        "dashes": [
+          1,
+          3
+        ],
+        "cap": "ROUND"
+      },
+      "svgPathOmitted": "complex brush path, see exports/",
+      "role": "redaction-mark"
+    },
+    {
+      "id": "17:53",
+      "name": "Vector 23",
+      "type": "VECTOR",
+      "path": "paper-personal-info / Group 19 / content / section-1 / blood-type / Group 9",
+      "box": {
+        "x": 435.31,
+        "y": 158.38,
+        "w": 3.33,
+        "h": 0.16
+      },
+      "stroke": {
+        "paints": [
+          {
+            "type": "SOLID",
+            "color": "#131313"
+          }
+        ],
+        "weight": 6,
+        "align": "CENTER",
+        "dashes": [
+          1,
+          3
+        ],
+        "cap": "ROUND"
+      },
+      "svgPathOmitted": "complex brush path, see exports/",
+      "role": "redaction-mark"
+    },
+    {
+      "id": "17:54",
+      "name": "Vector 24",
+      "type": "VECTOR",
+      "path": "paper-personal-info / Group 19 / content / section-1 / blood-type / Group 9",
+      "box": {
+        "x": 435.64,
+        "y": 154.33,
+        "w": 3.24,
+        "h": 0.57
+      },
+      "stroke": {
+        "paints": [
+          {
+            "type": "SOLID",
+            "color": "#131313"
+          }
+        ],
+        "weight": 6,
+        "align": "CENTER",
+        "dashes": [
+          1,
+          3
+        ],
+        "cap": "ROUND"
+      },
+      "svgPathOmitted": "complex brush path, see exports/",
+      "role": "redaction-mark"
+    },
+    {
+      "id": "17:55",
+      "name": "Vector 25",
+      "type": "VECTOR",
+      "path": "paper-personal-info / Group 19 / content / section-1 / blood-type / Group 9",
+      "box": {
+        "x": 434.02,
+        "y": 151.17,
+        "w": 5.11,
+        "h": 0.97
+      },
+      "stroke": {
+        "paints": [
+          {
+            "type": "SOLID",
+            "color": "#131313"
+          }
+        ],
+        "weight": 6,
+        "align": "CENTER",
+        "dashes": [
+          1,
+          3
+        ],
+        "cap": "ROUND"
+      },
+      "svgPathOmitted": "complex brush path, see exports/",
+      "role": "redaction-mark"
+    },
+    {
+      "id": "17:56",
+      "name": "Vector 26",
+      "type": "VECTOR",
+      "path": "paper-personal-info / Group 19 / content / section-1 / blood-type / Group 9",
+      "box": {
+        "x": 437,
+        "y": 151,
+        "w": 4.89,
+        "h": 2.03
+      },
+      "stroke": {
+        "paints": [
+          {
+            "type": "SOLID",
+            "color": "#131313"
+          }
+        ],
+        "weight": 6,
+        "align": "CENTER",
+        "dashes": [
+          1,
+          3
+        ],
+        "cap": "ROUND"
+      },
+      "svgPathOmitted": "complex brush path, see exports/",
+      "role": "redaction-mark"
+    },
+    {
+      "id": "17:43",
+      "name": "Rectangle 15",
+      "type": "RECTANGLE",
+      "path": "paper-personal-info / Group 19 / content / section-1 / blood-type / Group 9",
+      "box": {
+        "x": 438,
+        "y": 151,
+        "w": 126,
+        "h": 13
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#131313"
+        }
+      ],
+      "role": "redaction-mark"
+    },
+    {
+      "id": "17:37",
+      "name": "Vector 21",
+      "type": "VECTOR",
+      "path": "paper-personal-info / Group 19 / content / section-1 / blood-type",
+      "box": {
+        "x": 433,
+        "y": 167,
+        "w": 81,
+        "h": 0
+      },
+      "stroke": {
+        "paints": [
+          {
+            "type": "SOLID",
+            "color": "#000000"
+          }
+        ],
+        "weight": 1,
+        "align": "CENTER",
+        "dashes": [
+          1,
+          3
+        ],
+        "cap": "ROUND"
+      },
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 1,
+          "noiseSize": 0.10000000149011612,
+          "clipToShape": false
+        }
+      ],
+      "svgPathOmitted": "complex brush path, see exports/"
+    },
+    {
+      "id": "17:63",
+      "name": "gender",
+      "type": "GROUP",
+      "path": "paper-personal-info / Group 19 / content / section-1",
+      "box": {
+        "x": 357,
+        "y": 174,
+        "w": 157,
+        "h": 21
+      }
+    },
+    {
+      "id": "17:64",
+      "name": "Gender:",
+      "type": "TEXT",
+      "path": "paper-personal-info / Group 19 / content / section-1 / gender",
+      "box": {
+        "x": 357,
+        "y": 177,
+        "w": 51,
+        "h": 18
+      },
+      "inkBox": {
+        "x": 356,
+        "y": 177.8,
+        "w": 51.7,
+        "h": 13.25
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#252525"
+        }
+      ],
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 1,
+          "noiseSize": 0.10000000149011612,
+          "clipToShape": false
+        }
+      ],
+      "text": "Gender:",
+      "style": {
+        "family": "Times New Normal",
+        "style": "Regular",
+        "weight": 400,
+        "size": 16,
+        "lineHeightPx": 17.6,
+        "lineHeight": "auto",
+        "letterSpacing": 0,
+        "align": "LEFT"
+      },
+      "autoResize": "WIDTH_AND_HEIGHT"
+    },
+    {
+      "id": "17:65",
+      "name": "Male",
+      "type": "TEXT",
+      "path": "paper-personal-info / Group 19 / content / section-1 / gender",
+      "box": {
+        "x": 413,
+        "y": 174,
+        "w": 39,
+        "h": 21
+      },
+      "inkBox": {
+        "x": 412.34,
+        "y": 177.05,
+        "w": 40.09,
+        "h": 14.13
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#252525"
+        }
+      ],
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 1,
+          "noiseSize": 0.10000000149011612,
+          "clipToShape": false
+        }
+      ],
+      "text": "Male",
+      "style": {
+        "family": "JMH Typewriter",
+        "style": "Regular",
+        "weight": 400,
+        "size": 16,
+        "lineHeightPx": 20.56,
+        "lineHeight": "auto",
+        "letterSpacing": 0,
+        "align": "LEFT"
+      },
+      "autoResize": "WIDTH_AND_HEIGHT"
+    },
+    {
+      "id": "17:73",
+      "name": "Vector 21",
+      "type": "VECTOR",
+      "path": "paper-personal-info / Group 19 / content / section-1 / gender",
+      "box": {
+        "x": 408,
+        "y": 195,
+        "w": 106,
+        "h": 0
+      },
+      "rotationDeg": 0,
+      "size": {
+        "w": 106,
+        "h": 0
+      },
+      "stroke": {
+        "paints": [
+          {
+            "type": "SOLID",
+            "color": "#000000"
+          }
+        ],
+        "weight": 1,
+        "align": "CENTER",
+        "dashes": [
+          1,
+          3
+        ],
+        "cap": "ROUND"
+      },
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 1,
+          "noiseSize": 0.10000000149011612,
+          "clipToShape": false
+        }
+      ],
+      "svgPathOmitted": "complex brush path, see exports/"
+    },
+    {
+      "id": "17:75",
+      "name": "aliases",
+      "type": "GROUP",
+      "path": "paper-personal-info / Group 19 / content / section-1",
+      "box": {
+        "x": 79,
+        "y": 174,
+        "w": 268,
+        "h": 21
+      }
+    },
+    {
+      "id": "17:76",
+      "name": "Aliases:",
+      "type": "TEXT",
+      "path": "paper-personal-info / Group 19 / content / section-1 / aliases",
+      "box": {
+        "x": 79,
+        "y": 177,
+        "w": 47,
+        "h": 18
+      },
+      "inkBox": {
+        "x": 77.7,
+        "y": 177.75,
+        "w": 48.16,
+        "h": 13.28
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#252525"
+        }
+      ],
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 1,
+          "noiseSize": 0.10000000149011612,
+          "clipToShape": false
+        }
+      ],
+      "text": "Aliases:",
+      "style": {
+        "family": "Times New Normal",
+        "style": "Regular",
+        "weight": 400,
+        "size": 16,
+        "lineHeightPx": 17.6,
+        "lineHeight": "auto",
+        "letterSpacing": 0,
+        "align": "LEFT"
+      },
+      "autoResize": "WIDTH_AND_HEIGHT"
+    },
+    {
+      "id": "17:77",
+      "name": "“Jat”, “Zashari”, “Jatbzos”",
+      "type": "TEXT",
+      "path": "paper-personal-info / Group 19 / content / section-1 / aliases",
+      "box": {
+        "x": 135,
+        "y": 174,
+        "w": 206,
+        "h": 21
+      },
+      "inkBox": {
+        "x": 134.34,
+        "y": 176.27,
+        "w": 207.25,
+        "h": 17.84
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#252525"
+        }
+      ],
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 1,
+          "noiseSize": 0.10000000149011612,
+          "clipToShape": false
+        }
+      ],
+      "text": "“Jat”, “Zashari”, “Jatbzos”",
+      "style": {
+        "family": "JMH Typewriter",
+        "style": "Regular",
+        "weight": 400,
+        "size": 16,
+        "lineHeightPx": 20.56,
+        "lineHeight": "auto",
+        "letterSpacing": 0,
+        "align": "LEFT"
+      },
+      "autoResize": "WIDTH_AND_HEIGHT"
+    },
+    {
+      "id": "17:78",
+      "name": "Vector 20",
+      "type": "VECTOR",
+      "path": "paper-personal-info / Group 19 / content / section-1 / aliases",
+      "box": {
+        "x": 126,
+        "y": 195,
+        "w": 221,
+        "h": 0
+      },
+      "rotationDeg": 0,
+      "size": {
+        "w": 221,
+        "h": 0
+      },
+      "stroke": {
+        "paints": [
+          {
+            "type": "SOLID",
+            "color": "#000000"
+          }
+        ],
+        "weight": 1,
+        "align": "CENTER",
+        "dashes": [
+          1,
+          3
+        ],
+        "cap": "ROUND"
+      },
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 1,
+          "noiseSize": 0.10000000149011612,
+          "clipToShape": false
+        }
+      ],
+      "svgPathOmitted": "complex brush path, see exports/"
+    },
+    {
+      "id": "17:58",
+      "name": "name",
+      "type": "GROUP",
+      "path": "paper-personal-info / Group 19 / content / section-1",
+      "box": {
+        "x": 79,
+        "y": 146,
+        "w": 265,
+        "h": 21
+      }
+    },
+    {
+      "id": "17:59",
+      "name": "Name:",
+      "type": "TEXT",
+      "path": "paper-personal-info / Group 19 / content / section-1 / name",
+      "box": {
+        "x": 79,
+        "y": 149,
+        "w": 42,
+        "h": 18
+      },
+      "inkBox": {
+        "x": 78,
+        "y": 149.8,
+        "w": 43.01,
+        "h": 13.23
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#252525"
+        }
+      ],
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 1,
+          "noiseSize": 0.10000000149011612,
+          "clipToShape": false
+        }
+      ],
+      "text": "Name:",
+      "style": {
+        "family": "Times New Normal",
+        "style": "Regular",
+        "weight": 400,
+        "size": 16,
+        "lineHeightPx": 17.6,
+        "lineHeight": "auto",
+        "letterSpacing": 0,
+        "align": "LEFT"
+      },
+      "autoResize": "WIDTH_AND_HEIGHT"
+    },
+    {
+      "id": "17:60",
+      "name": "Zaky Ashari",
+      "type": "TEXT",
+      "path": "paper-personal-info / Group 19 / content / section-1 / name",
+      "box": {
+        "x": 125,
+        "y": 146,
+        "w": 105,
+        "h": 21
+      },
+      "inkBox": {
+        "x": 124.34,
+        "y": 149.05,
+        "w": 105.34,
+        "h": 17.8
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#252525"
+        }
+      ],
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 1,
+          "noiseSize": 0.10000000149011612,
+          "clipToShape": false
+        }
+      ],
+      "text": "Zaky Ashari",
+      "style": {
+        "family": "JMH Typewriter",
+        "style": "Regular",
+        "weight": 400,
+        "size": 16,
+        "lineHeightPx": 20.56,
+        "lineHeight": "auto",
+        "letterSpacing": 0,
+        "align": "LEFT"
+      },
+      "autoResize": "WIDTH_AND_HEIGHT"
+    },
+    {
+      "id": "17:61",
+      "name": "Vector 20",
+      "type": "VECTOR",
+      "path": "paper-personal-info / Group 19 / content / section-1 / name",
+      "box": {
+        "x": 121,
+        "y": 167,
+        "w": 223,
+        "h": 0
+      },
+      "stroke": {
+        "paints": [
+          {
+            "type": "SOLID",
+            "color": "#000000"
+          }
+        ],
+        "weight": 1,
+        "align": "CENTER",
+        "dashes": [
+          1,
+          3
+        ],
+        "cap": "ROUND"
+      },
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 1,
+          "noiseSize": 0.10000000149011612,
+          "clipToShape": false
+        }
+      ],
+      "svgPathOmitted": "complex brush path, see exports/"
+    },
+    {
+      "id": "19:106",
+      "name": "email",
+      "type": "GROUP",
+      "path": "paper-personal-info / Group 19 / content / section-1",
+      "box": {
+        "x": 308,
+        "y": 230,
+        "w": 231,
+        "h": 21
+      }
+    },
+    {
+      "id": "19:107",
+      "name": "Email:",
+      "type": "TEXT",
+      "path": "paper-personal-info / Group 19 / content / section-1 / email",
+      "box": {
+        "x": 308,
+        "y": 233,
+        "w": 41,
+        "h": 18
+      },
+      "inkBox": {
+        "x": 307.18,
+        "y": 233.75,
+        "w": 42.25,
+        "h": 13.28
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#252525"
+        }
+      ],
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 1,
+          "noiseSize": 0.10000000149011612,
+          "clipToShape": false
+        }
+      ],
+      "text": "Email:",
+      "style": {
+        "family": "Times New Normal",
+        "style": "Regular",
+        "weight": 400,
+        "size": 16,
+        "lineHeightPx": 17.6,
+        "lineHeight": "auto",
+        "letterSpacing": 0,
+        "align": "LEFT"
+      },
+      "autoResize": "WIDTH_AND_HEIGHT"
+    },
+    {
+      "id": "19:108",
+      "name": "izzat.zaky@gmail.com",
+      "type": "TEXT",
+      "path": "paper-personal-info / Group 19 / content / section-1 / email",
+      "box": {
+        "x": 355,
+        "y": 230,
+        "w": 177,
+        "h": 21
+      },
+      "inkBox": {
+        "x": 354.34,
+        "y": 232.61,
+        "w": 177.81,
+        "h": 18.47
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#252525"
+        }
+      ],
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 1,
+          "noiseSize": 0.10000000149011612,
+          "clipToShape": false
+        }
+      ],
+      "text": "izzat.zaky@gmail.com",
+      "style": {
+        "family": "JMH Typewriter",
+        "style": "Regular",
+        "weight": 400,
+        "size": 16,
+        "lineHeightPx": 20.56,
+        "lineHeight": "auto",
+        "letterSpacing": 0,
+        "align": "LEFT"
+      },
+      "autoResize": "WIDTH_AND_HEIGHT"
+    },
+    {
+      "id": "19:109",
+      "name": "Vector 20",
+      "type": "VECTOR",
+      "path": "paper-personal-info / Group 19 / content / section-1 / email",
+      "box": {
+        "x": 349,
+        "y": 251,
+        "w": 190,
+        "h": 0
+      },
+      "stroke": {
+        "paints": [
+          {
+            "type": "SOLID",
+            "color": "#000000"
+          }
+        ],
+        "weight": 1,
+        "align": "CENTER",
+        "dashes": [
+          1,
+          3
+        ],
+        "cap": "ROUND"
+      },
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 1,
+          "noiseSize": 0.10000000149011612,
+          "clipToShape": false
+        }
+      ],
+      "svgPathOmitted": "complex brush path, see exports/"
+    },
+    {
+      "id": "28:6",
+      "name": "SUBJECT INFO",
+      "type": "TEXT",
+      "path": "paper-personal-info / Group 19 / content / section-1",
+      "box": {
+        "x": 70,
+        "y": 122,
+        "w": 101,
+        "h": 18
+      },
+      "inkBox": {
+        "x": 69.1,
+        "y": 122.75,
+        "w": 102.07,
+        "h": 13.25
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#252525"
+        }
+      ],
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 1,
+          "noiseSize": 0.10000000149011612,
+          "clipToShape": false
+        }
+      ],
+      "text": "SUBJECT INFO",
+      "style": {
+        "family": "Times New Normal",
+        "style": "Regular",
+        "weight": 400,
+        "size": 16,
+        "lineHeightPx": 17.6,
+        "lineHeight": "auto",
+        "letterSpacing": 0,
+        "align": "LEFT"
+      },
+      "autoResize": "WIDTH_AND_HEIGHT"
+    },
+    {
+      "id": "18:99",
+      "name": "FILE COPY",
+      "type": "TEXT",
+      "path": "paper-personal-info / Group 19",
+      "box": {
+        "x": 165,
+        "y": 80,
+        "w": 223,
+        "h": 51
+      },
+      "inkBox": {
+        "x": 164,
+        "y": 85.54,
+        "w": 223.76,
+        "h": 35.28
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#b10f0f",
+          "opacity": 0.5
+        }
+      ],
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 1,
+          "noiseSize": 1,
+          "clipToShape": false
+        }
+      ],
+      "text": "FILE COPY",
+      "style": {
+        "family": "JMH Typewriter",
+        "style": "Black",
+        "weight": 900,
+        "size": 40,
+        "lineHeightPx": 51.41,
+        "lineHeight": "auto",
+        "letterSpacing": 0,
+        "align": "LEFT"
+      },
+      "autoResize": "WIDTH_AND_HEIGHT"
+    },
+    {
+      "id": "11:225",
+      "name": "header",
+      "type": "GROUP",
+      "path": "paper-personal-info / Group 19",
+      "box": {
+        "x": 56.87,
+        "y": 49.71,
+        "w": 284.7,
+        "h": 50
+      }
+    },
+    {
+      "id": "11:121",
+      "type": "TEXT",
+      "path": "paper-personal-info / Group 19 / header",
+      "box": {
+        "x": 60,
+        "y": 49.71,
+        "w": 277,
+        "h": 40
+      },
+      "inkBox": {
+        "x": 59.9,
+        "y": 52.35,
+        "w": 277.26,
+        "h": 34.15
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#252525"
+        }
+      ],
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 0.5,
+          "noiseSize": 0.10000000149011612,
+          "clipToShape": false
+        }
+      ],
+      "text": "DEPARTMENT O█ ███████████\n███████████",
+      "style": {
+        "family": "David Libre",
+        "style": "Regular",
+        "weight": 400,
+        "size": 20,
+        "lineHeightPx": 20,
+        "lineHeight": "auto",
+        "letterSpacing": 0,
+        "align": "LEFT"
+      },
+      "autoResize": "WIDTH_AND_HEIGHT",
+      "redactedBy": [
+        "11:124",
+        "11:125",
+        "11:202",
+        "11:203",
+        "11:204",
+        "11:205",
+        "11:206",
+        "11:208",
+        "11:209",
+        "11:210",
+        "11:211",
+        "11:212",
+        "11:213",
+        "11:214",
+        "11:215",
+        "11:216",
+        "11:218",
+        "11:219",
+        "11:221",
+        "11:222"
+      ],
+      "textLength": 37
+    },
+    {
+      "id": "11:122",
+      "name": "West Java, 202512-1802",
+      "type": "TEXT",
+      "path": "paper-personal-info / Group 19 / header",
+      "box": {
+        "x": 60,
+        "y": 89.71,
+        "w": 99,
+        "h": 10
+      },
+      "inkBox": {
+        "x": 59.6,
+        "y": 90.93,
+        "w": 99.1,
+        "h": 9.18
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#252525"
+        }
+      ],
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 0.5,
+          "noiseSize": 0.10000000149011612,
+          "clipToShape": false
+        }
+      ],
+      "text": "West Java, 202512-1802",
+      "style": {
+        "family": "David Libre",
+        "style": "Regular",
+        "weight": 400,
+        "size": 10,
+        "lineHeightPx": 10,
+        "lineHeight": "auto",
+        "letterSpacing": 0,
+        "align": "LEFT"
+      },
+      "autoResize": "WIDTH_AND_HEIGHT"
+    },
+    {
+      "id": "11:224",
+      "name": "Group 8",
+      "type": "GROUP",
+      "path": "paper-personal-info / Group 19 / header",
+      "box": {
+        "x": 56.87,
+        "y": 52.71,
+        "w": 284.7,
+        "h": 33
+      },
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 1,
+          "noiseSize": 0.10000000149011612,
+          "clipToShape": false
+        }
+      ]
+    },
+    {
+      "id": "11:124",
+      "name": "Rectangle 14",
+      "type": "RECTANGLE",
+      "path": "paper-personal-info / Group 19 / header / Group 8",
+      "box": {
+        "x": 211,
+        "y": 52.71,
+        "w": 126,
+        "h": 13
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#000000"
+        }
+      ],
+      "role": "redaction-mark"
+    },
+    {
+      "id": "11:125",
+      "name": "Rectangle 15",
+      "type": "RECTANGLE",
+      "path": "paper-personal-info / Group 19 / header / Group 8",
+      "box": {
+        "x": 60,
+        "y": 72.71,
+        "w": 126,
+        "h": 13
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#131313"
+        }
+      ],
+      "role": "redaction-mark"
+    },
+    {
+      "id": "11:223",
+      "name": "Group 7",
+      "type": "GROUP",
+      "path": "paper-personal-info / Group 19 / header / Group 8",
+      "box": {
+        "x": 56.87,
+        "y": 53.76,
+        "w": 284.7,
+        "h": 29.7
+      }
+    },
+    {
+      "id": "11:202",
+      "name": "Vector 1",
+      "type": "VECTOR",
+      "path": "paper-personal-info / Group 19 / header / Group 8 / Group 7",
+      "box": {
+        "x": 56.87,
+        "y": 79.71,
+        "w": 7.83,
+        "h": 0
+      },
+      "stroke": {
+        "paints": [
+          {
+            "type": "SOLID",
+            "color": "#131313"
+          }
+        ],
+        "weight": 6,
+        "align": "CENTER",
+        "cap": "ROUND"
+      },
+      "svgPathOmitted": "complex brush path, see exports/",
+      "role": "redaction-mark"
+    },
+    {
+      "id": "11:203",
+      "name": "Vector 2",
+      "type": "VECTOR",
+      "path": "paper-personal-info / Group 19 / header / Group 8 / Group 7",
+      "box": {
+        "x": 57.17,
+        "y": 82.4,
+        "w": 6.79,
+        "h": 0.3
+      },
+      "stroke": {
+        "paints": [
+          {
+            "type": "SOLID",
+            "color": "#131313"
+          }
+        ],
+        "weight": 6,
+        "align": "CENTER",
+        "cap": "ROUND"
+      },
+      "svgPathOmitted": "complex brush path, see exports/",
+      "role": "redaction-mark"
+    },
+    {
+      "id": "11:204",
+      "name": "Vector 3",
+      "type": "VECTOR",
+      "path": "paper-personal-info / Group 19 / header / Group 8 / Group 7",
+      "box": {
+        "x": 58.96,
+        "y": 76.8,
+        "w": 3.21,
+        "h": 0.3
+      },
+      "stroke": {
+        "paints": [
+          {
+            "type": "SOLID",
+            "color": "#131313"
+          }
+        ],
+        "weight": 6,
+        "align": "CENTER",
+        "cap": "ROUND"
+      },
+      "svgPathOmitted": "complex brush path, see exports/",
+      "role": "redaction-mark"
+    },
+    {
+      "id": "11:205",
+      "name": "Vector 4",
+      "type": "VECTOR",
+      "path": "paper-personal-info / Group 19 / header / Group 8 / Group 7",
+      "box": {
+        "x": 59.7,
+        "y": 75.08,
+        "w": 2.18,
+        "h": 0.52
+      },
+      "stroke": {
+        "paints": [
+          {
+            "type": "SOLID",
+            "color": "#131313"
+          }
+        ],
+        "weight": 6,
+        "align": "CENTER",
+        "cap": "ROUND"
+      },
+      "svgPathOmitted": "complex brush path, see exports/",
+      "role": "redaction-mark"
+    },
+    {
+      "id": "11:206",
+      "name": "Vector 5",
+      "type": "VECTOR",
+      "path": "paper-personal-info / Group 19 / header / Group 8 / Group 7",
+      "box": {
+        "x": 58.29,
+        "y": 74.34,
+        "w": 2.01,
+        "h": 0.22
+      },
+      "stroke": {
+        "paints": [
+          {
+            "type": "SOLID",
+            "color": "#131313"
+          }
+        ],
+        "weight": 6,
+        "align": "CENTER",
+        "cap": "ROUND"
+      },
+      "svgPathOmitted": "complex brush path, see exports/",
+      "role": "redaction-mark"
+    },
+    {
+      "id": "11:208",
+      "name": "Vector 6",
+      "type": "VECTOR",
+      "path": "paper-personal-info / Group 19 / header / Group 8 / Group 7",
+      "box": {
+        "x": 184.3,
+        "y": 83.24,
+        "w": 4.92,
+        "h": 0.22
+      },
+      "stroke": {
+        "paints": [
+          {
+            "type": "SOLID",
+            "color": "#131313"
+          }
+        ],
+        "weight": 6,
+        "align": "CENTER",
+        "cap": "ROUND"
+      },
+      "svgPathOmitted": "complex brush path, see exports/",
+      "role": "redaction-mark"
+    },
+    {
+      "id": "11:209",
+      "name": "Vector 7",
+      "type": "VECTOR",
+      "path": "paper-personal-info / Group 19 / header / Group 8 / Group 7",
+      "box": {
+        "x": 185.49,
+        "y": 80.55,
+        "w": 5,
+        "h": 0.3
+      },
+      "stroke": {
+        "paints": [
+          {
+            "type": "SOLID",
+            "color": "#131313"
+          }
+        ],
+        "weight": 6,
+        "align": "CENTER",
+        "cap": "ROUND"
+      },
+      "svgPathOmitted": "complex brush path, see exports/",
+      "role": "redaction-mark"
+    },
+    {
+      "id": "11:210",
+      "name": "Vector 8",
+      "type": "VECTOR",
+      "path": "paper-personal-info / Group 19 / header / Group 8 / Group 7",
+      "box": {
+        "x": 185.49,
+        "y": 77.27,
+        "w": 4.03,
+        "h": 0.45
+      },
+      "stroke": {
+        "paints": [
+          {
+            "type": "SOLID",
+            "color": "#131313"
+          }
+        ],
+        "weight": 6,
+        "align": "CENTER",
+        "cap": "ROUND"
+      },
+      "svgPathOmitted": "complex brush path, see exports/",
+      "role": "redaction-mark"
+    },
+    {
+      "id": "11:211",
+      "name": "Vector 9",
+      "type": "VECTOR",
+      "path": "paper-personal-info / Group 19 / header / Group 8 / Group 7",
+      "box": {
+        "x": 184.74,
+        "y": 74.88,
+        "w": 4.63,
+        "h": 0.3
+      },
+      "stroke": {
+        "paints": [
+          {
+            "type": "SOLID",
+            "color": "#131313"
+          }
+        ],
+        "weight": 6,
+        "align": "CENTER",
+        "cap": "ROUND"
+      },
+      "svgPathOmitted": "complex brush path, see exports/",
+      "role": "redaction-mark"
+    },
+    {
+      "id": "11:212",
+      "name": "Vector 10",
+      "type": "VECTOR",
+      "path": "paper-personal-info / Group 19 / header / Group 8 / Group 7",
+      "box": {
+        "x": 208.4,
+        "y": 63.99,
+        "w": 4.1,
+        "h": 0
+      },
+      "stroke": {
+        "paints": [
+          {
+            "type": "SOLID",
+            "color": "#131313"
+          }
+        ],
+        "weight": 6,
+        "align": "CENTER",
+        "cap": "ROUND"
+      },
+      "svgPathOmitted": "complex brush path, see exports/",
+      "role": "redaction-mark"
+    },
+    {
+      "id": "11:213",
+      "name": "Vector 11",
+      "type": "VECTOR",
+      "path": "paper-personal-info / Group 19 / header / Group 8 / Group 7",
+      "box": {
+        "x": 209.44,
+        "y": 61.3,
+        "w": 3.36,
+        "h": 0.52
+      },
+      "stroke": {
+        "paints": [
+          {
+            "type": "SOLID",
+            "color": "#131313"
+          }
+        ],
+        "weight": 6,
+        "align": "CENTER",
+        "cap": "ROUND"
+      },
+      "svgPathOmitted": "complex brush path, see exports/",
+      "role": "redaction-mark"
+    },
+    {
+      "id": "11:214",
+      "name": "Vector 12",
+      "type": "VECTOR",
+      "path": "paper-personal-info / Group 19 / header / Group 8 / Group 7",
+      "box": {
+        "x": 210.41,
+        "y": 59.28,
+        "w": 3.81,
+        "h": 0.15
+      },
+      "stroke": {
+        "paints": [
+          {
+            "type": "SOLID",
+            "color": "#131313"
+          }
+        ],
+        "weight": 6,
+        "align": "CENTER",
+        "cap": "ROUND"
+      },
+      "svgPathOmitted": "complex brush path, see exports/",
+      "role": "redaction-mark"
+    },
+    {
+      "id": "11:215",
+      "name": "Vector 13",
+      "type": "VECTOR",
+      "path": "paper-personal-info / Group 19 / header / Group 8 / Group 7",
+      "box": {
+        "x": 210.19,
+        "y": 56.6,
+        "w": 3.36,
+        "h": 0.82
+      },
+      "stroke": {
+        "paints": [
+          {
+            "type": "SOLID",
+            "color": "#131313"
+          }
+        ],
+        "weight": 6,
+        "align": "CENTER",
+        "cap": "ROUND"
+      },
+      "svgPathOmitted": "complex brush path, see exports/",
+      "role": "redaction-mark"
+    },
+    {
+      "id": "11:216",
+      "name": "Vector 14",
+      "type": "VECTOR",
+      "path": "paper-personal-info / Group 19 / header / Group 8 / Group 7",
+      "box": {
+        "x": 210.34,
+        "y": 54.43,
+        "w": 2.61,
+        "h": 0.45
+      },
+      "stroke": {
+        "paints": [
+          {
+            "type": "SOLID",
+            "color": "#131313"
+          }
+        ],
+        "weight": 6,
+        "align": "CENTER",
+        "cap": "ROUND"
+      },
+      "svgPathOmitted": "complex brush path, see exports/",
+      "role": "redaction-mark"
+    },
+    {
+      "id": "11:218",
+      "name": "Vector 15",
+      "type": "VECTOR",
+      "path": "paper-personal-info / Group 19 / header / Group 8 / Group 7",
+      "box": {
+        "x": 335.53,
+        "y": 63.16,
+        "w": 5.22,
+        "h": 0
+      },
+      "stroke": {
+        "paints": [
+          {
+            "type": "SOLID",
+            "color": "#131313"
+          }
+        ],
+        "weight": 6,
+        "align": "CENTER",
+        "cap": "ROUND"
+      },
+      "svgPathOmitted": "complex brush path, see exports/",
+      "role": "redaction-mark"
+    },
+    {
+      "id": "11:219",
+      "name": "Vector 16",
+      "type": "VECTOR",
+      "path": "paper-personal-info / Group 19 / header / Group 8 / Group 7",
+      "box": {
+        "x": 334.86,
+        "y": 59.51,
+        "w": 6.12,
+        "h": 0.97
+      },
+      "stroke": {
+        "paints": [
+          {
+            "type": "SOLID",
+            "color": "#131313"
+          }
+        ],
+        "weight": 6,
+        "align": "CENTER",
+        "cap": "ROUND"
+      },
+      "svgPathOmitted": "complex brush path, see exports/",
+      "role": "redaction-mark"
+    },
+    {
+      "id": "11:220",
+      "name": "Vector 17",
+      "type": "VECTOR",
+      "path": "paper-personal-info / Group 19 / header / Group 8 / Group 7",
+      "box": {
+        "x": 337.69,
+        "y": 56.82,
+        "w": 3.88,
+        "h": 0.6
+      },
+      "stroke": {
+        "paints": [
+          {
+            "type": "SOLID",
+            "color": "#131313"
+          }
+        ],
+        "weight": 6,
+        "align": "CENTER",
+        "cap": "ROUND"
+      },
+      "svgPathOmitted": "complex brush path, see exports/",
+      "role": "redaction-mark"
+    },
+    {
+      "id": "11:221",
+      "name": "Vector 18",
+      "type": "VECTOR",
+      "path": "paper-personal-info / Group 19 / header / Group 8 / Group 7",
+      "box": {
+        "x": 336.87,
+        "y": 56,
+        "w": 3.43,
+        "h": 0
+      },
+      "stroke": {
+        "paints": [
+          {
+            "type": "SOLID",
+            "color": "#131313"
+          }
+        ],
+        "weight": 6,
+        "align": "CENTER",
+        "cap": "ROUND"
+      },
+      "svgPathOmitted": "complex brush path, see exports/",
+      "role": "redaction-mark"
+    },
+    {
+      "id": "11:222",
+      "name": "Vector 19",
+      "type": "VECTOR",
+      "path": "paper-personal-info / Group 19 / header / Group 8 / Group 7",
+      "box": {
+        "x": 335.98,
+        "y": 53.76,
+        "w": 3.36,
+        "h": 0
+      },
+      "stroke": {
+        "paints": [
+          {
+            "type": "SOLID",
+            "color": "#131313"
+          }
+        ],
+        "weight": 6,
+        "align": "CENTER",
+        "cap": "ROUND"
+      },
+      "svgPathOmitted": "complex brush path, see exports/",
+      "role": "redaction-mark"
+    },
+    {
+      "id": "12:232",
+      "name": "photos",
+      "type": "GROUP",
+      "path": "paper-personal-info / Group 19",
+      "box": {
+        "x": 384,
+        "y": 0,
+        "w": 228.96,
+        "h": 208.67
+      }
+    },
+    {
+      "id": "10:116",
+      "name": "IMG_6601 1",
+      "type": "RECTANGLE",
+      "path": "paper-personal-info / Group 19 / photos",
+      "box": {
+        "x": 384,
+        "y": 1.71,
+        "w": 155,
+        "h": 155
+      },
+      "rotationDeg": 0,
+      "size": {
+        "w": 155,
+        "h": 155
+      },
+      "fills": [
+        {
+          "type": "IMAGE",
+          "imageRef": "4e9f88fdaf65ed281ec3ea1e7f2dd99155e0b97f",
+          "scaleMode": "STRETCH",
+          "imageTransform": [
+            [
+              1,
+              0,
+              0
+            ],
+            [
+              0,
+              1,
+              0
+            ]
+          ]
+        }
+      ],
+      "stroke": {
+        "paints": [
+          {
+            "type": "SOLID",
+            "color": "#f2f2f2"
+          }
+        ],
+        "weight": 10,
+        "align": "INSIDE"
+      }
+    },
+    {
+      "id": "10:115",
+      "name": "IMG_6600 1",
+      "type": "RECTANGLE",
+      "path": "paper-personal-info / Group 19 / photos",
+      "box": {
+        "x": 450,
+        "y": 45.71,
+        "w": 162.96,
+        "h": 162.96
+      },
+      "rotationDeg": 7.12,
+      "size": {
+        "w": 146,
+        "h": 146
+      },
+      "fills": [
+        {
+          "type": "IMAGE",
+          "imageRef": "44f62151541a7deabd0012b9ff1cf78e833337bc",
+          "scaleMode": "FILL"
+        }
+      ],
+      "stroke": {
+        "paints": [
+          {
+            "type": "SOLID",
+            "color": "#f2f2f2"
+          }
+        ],
+        "weight": 10,
+        "align": "INSIDE"
+      }
+    },
+    {
+      "id": "12:226",
+      "name": "paperclip",
+      "type": "VECTOR",
+      "path": "paper-personal-info / Group 19 / photos",
+      "box": {
+        "x": 515.02,
+        "y": 0,
+        "w": 62.1,
+        "h": 105.74
+      },
+      "rotationDeg": 14.86,
+      "size": {
+        "w": 37.89,
+        "h": 99.35
+      },
+      "fills": [
+        {
+          "type": "IMAGE",
+          "imageRef": "e0ac8cc36294a471ebe24345aa463ae039eacbdc",
+          "scaleMode": "STRETCH",
+          "imageTransform": [
+            [
+              0.2961,
+              0,
+              0.3631
+            ],
+            [
+              0,
+              0.7253,
+              0.0816
+            ]
+          ]
+        }
+      ],
+      "svgPath": [
+        "M2.83244e-08 8.77081e-07L27.1971 1.12136L28.2232 10.8381L24.8402 11.7357L6.20929 23.4036L6.43651 73.004L28.845 79.4739L29.1405 24.0445L32.2931 0.743587L37.8855 99.3502L2.83245e-08 99.3502L2.83244e-08 8.77081e-07Z"
+      ]
+    }
+  ]
+}

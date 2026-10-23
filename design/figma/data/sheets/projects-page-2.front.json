@@ -1,0 +1,2546 @@
+{
+  "id": "47:2",
+  "name": "paper-projects-page-2",
+  "size": {
+    "w": 645,
+    "h": 843.04
+  },
+  "nodes": [
+    {
+      "id": "47:2",
+      "name": "paper-projects-page-2",
+      "type": "GROUP",
+      "path": "",
+      "box": {
+        "x": 0,
+        "y": 0,
+        "w": 645,
+        "h": 843.04
+      }
+    },
+    {
+      "id": "47:3",
+      "name": "Intersect",
+      "type": "BOOLEAN_OPERATION",
+      "path": "paper-projects-page-2",
+      "box": {
+        "x": 0,
+        "y": 0,
+        "w": 595,
+        "h": 840.59
+      },
+      "fills": [
+        {
+          "type": "IMAGE",
+          "imageRef": "ebdf8584199a5bc3b7dfda3b9a35137d0ac314b6",
+          "scaleMode": "FILL",
+          "filters": {
+            "temperature": 0.46000000834465027
+          }
+        }
+      ],
+      "booleanOperation": "INTERSECT",
+      "holes": {
+        "count": 20,
+        "diameter": 23,
+        "x": 15,
+        "ys": [
+          -4.21,
+          39.89,
+          83.99,
+          128.09,
+          172.2,
+          216.3,
+          260.4,
+          304.5,
+          348.61,
+          392.71,
+          436.81,
+          480.91,
+          525.02,
+          569.12,
+          613.22,
+          657.32,
+          701.43,
+          745.53,
+          789.63,
+          833.73
+        ]
+      }
+    },
+    {
+      "id": "48:240",
+      "name": "texture",
+      "type": "RECTANGLE",
+      "path": "paper-projects-page-2",
+      "box": {
+        "x": 0,
+        "y": 0.04,
+        "w": 595,
+        "h": 843
+      },
+      "rotationDeg": -90,
+      "size": {
+        "w": 843,
+        "h": 595
+      },
+      "blendMode": "LINEAR_BURN",
+      "fills": [
+        {
+          "type": "IMAGE",
+          "imageRef": "2fa3789cf79291c4630a82fedc4781f915a44878",
+          "scaleMode": "STRETCH",
+          "imageTransform": [
+            [
+              0.9992,
+              0,
+              0.0004
+            ],
+            [
+              0,
+              0.8815,
+              0.1185
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "48:237",
+      "name": "project-3",
+      "type": "GROUP",
+      "path": "paper-projects-page-2",
+      "box": {
+        "x": 63,
+        "y": 599.04,
+        "w": 513,
+        "h": 237
+      },
+      "effects": [
+        {
+          "type": "DROP_SHADOW",
+          "radius": 4,
+          "showShadowBehindNode": false,
+          "color": "#000000",
+          "alpha": 0.25,
+          "offset": {
+            "x": 1,
+            "y": 2
+          }
+        }
+      ]
+    },
+    {
+      "id": "51:282",
+      "name": "Rectangle 18",
+      "type": "RECTANGLE",
+      "path": "paper-projects-page-2 / project-3",
+      "box": {
+        "x": 63,
+        "y": 599.04,
+        "w": 513,
+        "h": 237
+      },
+      "stroke": {
+        "paints": [
+          {
+            "type": "SOLID",
+            "color": "#000000"
+          }
+        ],
+        "weight": 1,
+        "align": "INSIDE",
+        "dashes": [
+          4,
+          4
+        ],
+        "cap": "ROUND"
+      }
+    },
+    {
+      "id": "67:224",
+      "name": "[submit project here]",
+      "type": "TEXT",
+      "path": "paper-projects-page-2 / project-3",
+      "box": {
+        "x": 259,
+        "y": 706.04,
+        "w": 122,
+        "h": 15
+      },
+      "inkBox": {
+        "x": 258.14,
+        "y": 706.24,
+        "w": 122.13,
+        "h": 15.34
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#252525"
+        }
+      ],
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 1,
+          "noiseSize": 0.10000000149011612,
+          "clipToShape": false
+        }
+      ],
+      "text": "[submit project here]",
+      "style": {
+        "family": "Times New Normal",
+        "style": "Regular",
+        "weight": 400,
+        "size": 14,
+        "lineHeightPx": 15.4,
+        "lineHeight": "auto",
+        "letterSpacing": 0,
+        "align": "LEFT"
+      },
+      "autoResize": "WIDTH_AND_HEIGHT"
+    },
+    {
+      "id": "66:25",
+      "name": "project-2",
+      "type": "GROUP",
+      "path": "paper-projects-page-2",
+      "box": {
+        "x": 63,
+        "y": 360.04,
+        "w": 582,
+        "h": 237
+      },
+      "effects": [
+        {
+          "type": "DROP_SHADOW",
+          "radius": 4,
+          "showShadowBehindNode": false,
+          "color": "#000000",
+          "alpha": 0.25,
+          "offset": {
+            "x": 1,
+            "y": 2
+          }
+        }
+      ]
+    },
+    {
+      "id": "66:26",
+      "name": "Rectangle 18",
+      "type": "RECTANGLE",
+      "path": "paper-projects-page-2 / project-2",
+      "box": {
+        "x": 63,
+        "y": 360.04,
+        "w": 513,
+        "h": 237
+      },
+      "stroke": {
+        "paints": [
+          {
+            "type": "SOLID",
+            "color": "#000000"
+          }
+        ],
+        "weight": 1,
+        "align": "INSIDE",
+        "dashes": [
+          4,
+          4
+        ],
+        "cap": "ROUND"
+      }
+    },
+    {
+      "id": "66:27",
+      "name": "CONTAINER",
+      "type": "GROUP",
+      "path": "paper-projects-page-2 / project-2",
+      "box": {
+        "x": 65,
+        "y": 360.04,
+        "w": 580,
+        "h": 236
+      }
+    },
+    {
+      "id": "66:28",
+      "name": "Rectangle 17",
+      "type": "RECTANGLE",
+      "path": "paper-projects-page-2 / project-2 / CONTAINER",
+      "box": {
+        "x": 65,
+        "y": 360.04,
+        "w": 580,
+        "h": 236
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#ede3c9"
+        }
+      ]
+    },
+    {
+      "id": "66:29",
+      "name": "texture",
+      "type": "RECTANGLE",
+      "path": "paper-projects-page-2 / project-2 / CONTAINER",
+      "box": {
+        "x": 65,
+        "y": 360.04,
+        "w": 580,
+        "h": 236
+      },
+      "rotationDeg": -180,
+      "size": {
+        "w": 580,
+        "h": 236
+      },
+      "blendMode": "LINEAR_BURN",
+      "fills": [
+        {
+          "type": "IMAGE",
+          "imageRef": "2fa3789cf79291c4630a82fedc4781f915a44878",
+          "scaleMode": "STRETCH",
+          "imageTransform": [
+            [
+              0.6874,
+              0,
+              0.2971
+            ],
+            [
+              0,
+              0.3496,
+              0.1166
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "66:30",
+      "name": "qr",
+      "type": "RECTANGLE",
+      "path": "paper-projects-page-2 / project-2",
+      "box": {
+        "x": 82,
+        "y": 376.04,
+        "w": 204,
+        "h": 204
+      },
+      "blendMode": "DARKEN",
+      "fills": [
+        {
+          "type": "IMAGE",
+          "imageRef": "b0fc870704ce72d2031477acd39ab54d623e63bc",
+          "scaleMode": "FILL"
+        }
+      ],
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 17,
+          "noiseSize": 4,
+          "clipToShape": false
+        },
+        {
+          "type": "LAYER_BLUR",
+          "radius": 4
+        }
+      ]
+    },
+    {
+      "id": "66:31",
+      "name": "stapler",
+      "type": "GROUP",
+      "path": "paper-projects-page-2 / project-2",
+      "box": {
+        "x": 67,
+        "y": 363.04,
+        "w": 48.57,
+        "h": 216.56
+      }
+    },
+    {
+      "id": "66:32",
+      "name": "stapler",
+      "type": "RECTANGLE",
+      "path": "paper-projects-page-2 / project-2 / stapler",
+      "box": {
+        "x": 67,
+        "y": 363.04,
+        "w": 39.69,
+        "h": 39.69
+      },
+      "rotationDeg": -45,
+      "size": {
+        "w": 9.56,
+        "h": 46.57
+      },
+      "fills": [
+        {
+          "type": "IMAGE",
+          "imageRef": "67cd4af0e07c8f18ca85409bb4006ac673f7830d",
+          "scaleMode": "STRETCH",
+          "imageTransform": [
+            [
+              0.0804,
+              -0.2261,
+              0.8588
+            ],
+            [
+              0.0805,
+              0.6789,
+              0.0312
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "66:33",
+      "name": "stapler",
+      "type": "RECTANGLE",
+      "path": "paper-projects-page-2 / project-2 / stapler",
+      "box": {
+        "x": 69,
+        "y": 570.04,
+        "w": 46.57,
+        "h": 9.56
+      },
+      "rotationDeg": 90,
+      "size": {
+        "w": 9.56,
+        "h": 46.57
+      },
+      "fills": [
+        {
+          "type": "IMAGE",
+          "imageRef": "67cd4af0e07c8f18ca85409bb4006ac673f7830d",
+          "scaleMode": "STRETCH",
+          "imageTransform": [
+            [
+              0.0804,
+              -0.2261,
+              0.8588
+            ],
+            [
+              0.0805,
+              0.6789,
+              0.0312
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "66:34",
+      "name": "desc",
+      "type": "GROUP",
+      "path": "paper-projects-page-2 / project-2",
+      "box": {
+        "x": 286,
+        "y": 451.04,
+        "w": 329,
+        "h": 125
+      },
+      "cornerRadii": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "66:35",
+      "name": "Description:",
+      "type": "TEXT",
+      "path": "paper-projects-page-2 / project-2 / desc",
+      "box": {
+        "x": 286,
+        "y": 451.04,
+        "w": 69.91,
+        "h": 15
+      },
+      "inkBox": {
+        "x": 285.07,
+        "y": 451.24,
+        "w": 69.54,
+        "h": 15.31
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#252525"
+        }
+      ],
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 1,
+          "noiseSize": 0.10000000149011612,
+          "clipToShape": false
+        }
+      ],
+      "text": "Description:",
+      "style": {
+        "family": "Times New Normal",
+        "style": "Regular",
+        "weight": 400,
+        "size": 14,
+        "lineHeightPx": 15.4,
+        "lineHeight": "auto",
+        "letterSpacing": 0,
+        "align": "LEFT"
+      },
+      "autoResize": "HEIGHT"
+    },
+    {
+      "id": "66:36",
+      "name": "Subject engineered a Python-based automation protocol designed to establish a secure data uplink between a personal mobile phone unit into an AWS S3 bucket. The mechanism featured an incremental synchronization engine utilizing boto3, executing hourly cycles gated by network status (WiFi-only protocols) to ensure bandwidth efficiency. STATUS ALERT: The source code for this operation has been classified as LOST/PURGED. No digital evidence remains available for forensic audit, effectively rendering this a 'Ghost Protocol'.",
+      "type": "TEXT",
+      "path": "paper-projects-page-2 / project-2 / desc",
+      "box": {
+        "x": 286,
+        "y": 468.04,
+        "w": 329,
+        "h": 108
+      },
+      "inkBox": {
+        "x": 285,
+        "y": 469.28,
+        "w": 329.46,
+        "h": 107.05
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#252525"
+        }
+      ],
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 1,
+          "noiseSize": 0.10000000149011612,
+          "clipToShape": false
+        }
+      ],
+      "text": "Subject engineered a Python-based automation protocol designed to establish a secure data uplink between a personal mobile phone unit into an AWS S3 bucket. The mechanism featured an incremental synchronization engine utilizing boto3, executing hourly cycles gated by network status (WiFi-only protocols) to ensure bandwidth efficiency. STATUS ALERT: The source code for this operation has been classified as LOST/PURGED. No digital evidence remains available for forensic audit, effectively rendering this a 'Ghost Protocol'.",
+      "style": {
+        "family": "JMH Typewriter",
+        "style": "Regular",
+        "weight": 400,
+        "size": 9,
+        "lineHeightPx": 11.57,
+        "lineHeight": "auto",
+        "letterSpacing": 0,
+        "align": "LEFT",
+        "textDecoration": "UNDERLINE"
+      },
+      "autoResize": "HEIGHT",
+      "runs": [
+        {
+          "text": "Subject engineered a Python-based automation protocol designed to establish a secure data uplink between a personal mobile phone unit into an AWS S3 bucket. The mechanism featured an incremental synchronization engine utilizing boto3, executing hourly cycles gated by network status (WiFi-only protocols) to ensure bandwidth efficiency. "
+        },
+        {
+          "text": "STATUS ALERT:",
+          "style": {
+            "fontFamily": "JMH Typewriter",
+            "fontStyle": "Bold",
+            "fontWeight": 700
+          }
+        },
+        {
+          "text": " The source code for this operation has been classified as "
+        },
+        {
+          "text": "LOST/PURGED",
+          "style": {
+            "fontFamily": "JMH Typewriter",
+            "fontStyle": "Bold",
+            "fontWeight": 700
+          }
+        },
+        {
+          "text": ". No digital evidence remains available for forensic audit, effectively rendering this a "
+        },
+        {
+          "text": "'Ghost Protocol'",
+          "style": {
+            "fills": [
+              {
+                "type": "SOLID",
+                "color": "#891414"
+              }
+            ]
+          }
+        },
+        {
+          "text": "."
+        }
+      ]
+    },
+    {
+      "id": "66:37",
+      "name": "date",
+      "type": "GROUP",
+      "path": "paper-projects-page-2 / project-2",
+      "box": {
+        "x": 286,
+        "y": 431.04,
+        "w": 329,
+        "h": 16
+      }
+    },
+    {
+      "id": "66:38",
+      "name": "Date:",
+      "type": "TEXT",
+      "path": "paper-projects-page-2 / project-2 / date",
+      "box": {
+        "x": 286,
+        "y": 432.04,
+        "w": 29,
+        "h": 15
+      },
+      "inkBox": {
+        "x": 285.07,
+        "y": 432.24,
+        "w": 30,
+        "h": 11.83
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#252525"
+        }
+      ],
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 1,
+          "noiseSize": 0.10000000149011612,
+          "clipToShape": false
+        }
+      ],
+      "text": "Date:",
+      "style": {
+        "family": "Times New Normal",
+        "style": "Regular",
+        "weight": 400,
+        "size": 14,
+        "lineHeightPx": 15.4,
+        "lineHeight": "auto",
+        "letterSpacing": 0,
+        "align": "LEFT"
+      },
+      "autoResize": "WIDTH_AND_HEIGHT"
+    },
+    {
+      "id": "66:39",
+      "name": "2023",
+      "type": "TEXT",
+      "path": "paper-projects-page-2 / project-2 / date",
+      "box": {
+        "x": 319,
+        "y": 431.04,
+        "w": 25,
+        "h": 15
+      },
+      "inkBox": {
+        "x": 318.26,
+        "y": 432.85,
+        "w": 26.21,
+        "h": 11.5
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#252525"
+        }
+      ],
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 1,
+          "noiseSize": 0.10000000149011612,
+          "clipToShape": false
+        }
+      ],
+      "text": "2023",
+      "style": {
+        "family": "JMH Typewriter",
+        "style": "Regular",
+        "weight": 400,
+        "size": 12,
+        "lineHeightPx": 15.42,
+        "lineHeight": "auto",
+        "letterSpacing": 0,
+        "align": "LEFT"
+      },
+      "autoResize": "WIDTH_AND_HEIGHT"
+    },
+    {
+      "id": "66:40",
+      "name": "Vector 20",
+      "type": "VECTOR",
+      "path": "paper-projects-page-2 / project-2 / date",
+      "box": {
+        "x": 315,
+        "y": 447.04,
+        "w": 300,
+        "h": 0
+      },
+      "stroke": {
+        "paints": [
+          {
+            "type": "SOLID",
+            "color": "#000000"
+          }
+        ],
+        "weight": 1,
+        "align": "CENTER",
+        "dashes": [
+          1,
+          3
+        ],
+        "cap": "ROUND"
+      },
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 1,
+          "noiseSize": 0.10000000149011612,
+          "clipToShape": false
+        }
+      ],
+      "svgPathOmitted": "complex brush path, see exports/"
+    },
+    {
+      "id": "66:41",
+      "name": "title",
+      "type": "GROUP",
+      "path": "paper-projects-page-2 / project-2",
+      "box": {
+        "x": 286,
+        "y": 411.04,
+        "w": 329,
+        "h": 16
+      }
+    },
+    {
+      "id": "66:42",
+      "name": "Title:",
+      "type": "TEXT",
+      "path": "paper-projects-page-2 / project-2 / title",
+      "box": {
+        "x": 286,
+        "y": 412.04,
+        "w": 29,
+        "h": 15
+      },
+      "inkBox": {
+        "x": 285,
+        "y": 412.2,
+        "w": 29.77,
+        "h": 11.84
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#252525"
+        }
+      ],
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 1,
+          "noiseSize": 0.10000000149011612,
+          "clipToShape": false
+        }
+      ],
+      "text": "Title:",
+      "style": {
+        "family": "Times New Normal",
+        "style": "Regular",
+        "weight": 400,
+        "size": 14,
+        "lineHeightPx": 15.4,
+        "lineHeight": "auto",
+        "letterSpacing": 0,
+        "align": "LEFT"
+      },
+      "autoResize": "WIDTH_AND_HEIGHT"
+    },
+    {
+      "id": "66:43",
+      "name": "Personal Photos Cloud Uplink",
+      "type": "TEXT",
+      "path": "paper-projects-page-2 / project-2 / title",
+      "box": {
+        "x": 319,
+        "y": 411.04,
+        "w": 189,
+        "h": 15
+      },
+      "inkBox": {
+        "x": 318.26,
+        "y": 413.03,
+        "w": 190.05,
+        "h": 13.74
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#252525"
+        }
+      ],
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 1,
+          "noiseSize": 0.10000000149011612,
+          "clipToShape": false
+        }
+      ],
+      "text": "Personal Photos Cloud Uplink",
+      "style": {
+        "family": "JMH Typewriter",
+        "style": "Regular",
+        "weight": 400,
+        "size": 12,
+        "lineHeightPx": 15.42,
+        "lineHeight": "auto",
+        "letterSpacing": 0,
+        "align": "LEFT"
+      },
+      "autoResize": "WIDTH_AND_HEIGHT"
+    },
+    {
+      "id": "66:44",
+      "name": "Vector 20",
+      "type": "VECTOR",
+      "path": "paper-projects-page-2 / project-2 / title",
+      "box": {
+        "x": 315,
+        "y": 427.04,
+        "w": 300,
+        "h": 0
+      },
+      "stroke": {
+        "paints": [
+          {
+            "type": "SOLID",
+            "color": "#000000"
+          }
+        ],
+        "weight": 1,
+        "align": "CENTER",
+        "dashes": [
+          1,
+          3
+        ],
+        "cap": "ROUND"
+      },
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 1,
+          "noiseSize": 0.10000000149011612,
+          "clipToShape": false
+        }
+      ],
+      "svgPathOmitted": "complex brush path, see exports/"
+    },
+    {
+      "id": "66:45",
+      "name": "Vector 40",
+      "type": "VECTOR",
+      "path": "paper-projects-page-2 / project-2",
+      "box": {
+        "x": 286,
+        "y": 405.04,
+        "w": 334,
+        "h": 0
+      },
+      "stroke": {
+        "paints": [
+          {
+            "type": "SOLID",
+            "color": "#252525"
+          }
+        ],
+        "weight": 2,
+        "align": "CENTER",
+        "cap": "SQUARE"
+      },
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 1,
+          "noiseSize": 0.10000000149011612,
+          "clipToShape": false
+        }
+      ],
+      "svgPath": [
+        "M0 -1L-1 -1L-1 1L0 1L0 0L0 -1ZM334 1L335 1L335 -1L334 -1L334 0L334 1ZM0 0L0 1L334 1L334 0L334 -1L0 -1L0 0Z"
+      ]
+    },
+    {
+      "id": "66:46",
+      "name": "SOFTWARE ENGINEERING",
+      "type": "TEXT",
+      "path": "paper-projects-page-2 / project-2",
+      "box": {
+        "x": 286,
+        "y": 383.04,
+        "w": 198,
+        "h": 21
+      },
+      "inkBox": {
+        "x": 285.34,
+        "y": 386.24,
+        "w": 198.36,
+        "h": 14.19
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#252525"
+        }
+      ],
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 1,
+          "noiseSize": 0.10000000149011612,
+          "clipToShape": false
+        }
+      ],
+      "text": "SOFTWARE ENGINEERING",
+      "style": {
+        "family": "JMH Typewriter",
+        "style": "Bold",
+        "weight": 700,
+        "size": 16,
+        "lineHeightPx": 20.56,
+        "lineHeight": "auto",
+        "letterSpacing": 0,
+        "align": "LEFT"
+      },
+      "autoResize": "WIDTH_AND_HEIGHT"
+    },
+    {
+      "id": "67:194",
+      "name": "[ASSET-LOST]",
+      "type": "TEXT",
+      "path": "paper-projects-page-2 / project-2",
+      "box": {
+        "x": 100,
+        "y": 394.04,
+        "w": 165.46,
+        "h": 165.46
+      },
+      "inkBox": {
+        "x": 100.4,
+        "y": 399.17,
+        "w": 165.14,
+        "h": 162.83
+      },
+      "rotationDeg": -45,
+      "size": {
+        "w": 195,
+        "h": 39
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#891414"
+        }
+      ],
+      "stroke": {
+        "paints": [
+          {
+            "type": "SOLID",
+            "color": "#848484"
+          }
+        ],
+        "weight": 1,
+        "align": "OUTSIDE"
+      },
+      "effects": [
+        {
+          "type": "DROP_SHADOW",
+          "radius": 4,
+          "showShadowBehindNode": false,
+          "color": "#000000",
+          "alpha": 0.25,
+          "offset": {
+            "x": 0,
+            "y": 4
+          }
+        }
+      ],
+      "text": "[ASSET-LOST]",
+      "style": {
+        "family": "JMH Typewriter",
+        "style": "Bold",
+        "weight": 700,
+        "size": 30,
+        "lineHeightPx": 38.55,
+        "lineHeight": "auto",
+        "letterSpacing": 0,
+        "align": "LEFT"
+      },
+      "autoResize": "WIDTH_AND_HEIGHT"
+    },
+    {
+      "id": "67:195",
+      "name": "project-1",
+      "type": "GROUP",
+      "path": "paper-projects-page-2",
+      "box": {
+        "x": 63,
+        "y": 121.04,
+        "w": 582,
+        "h": 237
+      },
+      "effects": [
+        {
+          "type": "DROP_SHADOW",
+          "radius": 4,
+          "showShadowBehindNode": false,
+          "color": "#000000",
+          "alpha": 0.25,
+          "offset": {
+            "x": 1,
+            "y": 2
+          }
+        }
+      ]
+    },
+    {
+      "id": "67:196",
+      "name": "Rectangle 18",
+      "type": "RECTANGLE",
+      "path": "paper-projects-page-2 / project-1",
+      "box": {
+        "x": 63,
+        "y": 121.04,
+        "w": 513,
+        "h": 237
+      },
+      "stroke": {
+        "paints": [
+          {
+            "type": "SOLID",
+            "color": "#000000"
+          }
+        ],
+        "weight": 1,
+        "align": "INSIDE",
+        "dashes": [
+          4,
+          4
+        ],
+        "cap": "ROUND"
+      }
+    },
+    {
+      "id": "67:197",
+      "name": "CONTAINER",
+      "type": "GROUP",
+      "path": "paper-projects-page-2 / project-1",
+      "box": {
+        "x": 65,
+        "y": 121.04,
+        "w": 580,
+        "h": 236
+      }
+    },
+    {
+      "id": "67:198",
+      "name": "Rectangle 17",
+      "type": "RECTANGLE",
+      "path": "paper-projects-page-2 / project-1 / CONTAINER",
+      "box": {
+        "x": 65,
+        "y": 121.04,
+        "w": 580,
+        "h": 236
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#ede3c9"
+        }
+      ]
+    },
+    {
+      "id": "67:199",
+      "name": "texture",
+      "type": "RECTANGLE",
+      "path": "paper-projects-page-2 / project-1 / CONTAINER",
+      "box": {
+        "x": 65,
+        "y": 121.04,
+        "w": 580,
+        "h": 236
+      },
+      "rotationDeg": -180,
+      "size": {
+        "w": 580,
+        "h": 236
+      },
+      "blendMode": "LINEAR_BURN",
+      "fills": [
+        {
+          "type": "IMAGE",
+          "imageRef": "2fa3789cf79291c4630a82fedc4781f915a44878",
+          "scaleMode": "STRETCH",
+          "imageTransform": [
+            [
+              0.6874,
+              0,
+              0.2971
+            ],
+            [
+              0,
+              0.3496,
+              0.1166
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "67:200",
+      "name": "qr",
+      "type": "RECTANGLE",
+      "path": "paper-projects-page-2 / project-1",
+      "box": {
+        "x": 82,
+        "y": 137.04,
+        "w": 204,
+        "h": 204
+      },
+      "blendMode": "DARKEN",
+      "fills": [
+        {
+          "type": "IMAGE",
+          "imageRef": "b0fc870704ce72d2031477acd39ab54d623e63bc",
+          "scaleMode": "FILL"
+        }
+      ],
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 17,
+          "noiseSize": 4,
+          "clipToShape": false
+        },
+        {
+          "type": "LAYER_BLUR",
+          "radius": 4
+        }
+      ]
+    },
+    {
+      "id": "67:201",
+      "name": "stapler",
+      "type": "GROUP",
+      "path": "paper-projects-page-2 / project-1",
+      "box": {
+        "x": 68,
+        "y": 123.04,
+        "w": 47.46,
+        "h": 222.56
+      }
+    },
+    {
+      "id": "67:202",
+      "name": "stapler",
+      "type": "RECTANGLE",
+      "path": "paper-projects-page-2 / project-1 / stapler",
+      "box": {
+        "x": 68,
+        "y": 123.04,
+        "w": 47.46,
+        "h": 21.29
+      },
+      "rotationDeg": 75,
+      "size": {
+        "w": 9.56,
+        "h": 46.57
+      },
+      "fills": [
+        {
+          "type": "IMAGE",
+          "imageRef": "67cd4af0e07c8f18ca85409bb4006ac673f7830d",
+          "scaleMode": "STRETCH",
+          "imageTransform": [
+            [
+              0.0804,
+              -0.2261,
+              0.8588
+            ],
+            [
+              0.0805,
+              0.6789,
+              0.0312
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "67:203",
+      "name": "stapler",
+      "type": "RECTANGLE",
+      "path": "paper-projects-page-2 / project-1 / stapler",
+      "box": {
+        "x": 68,
+        "y": 336.04,
+        "w": 46.57,
+        "h": 9.56
+      },
+      "rotationDeg": -90,
+      "size": {
+        "w": 9.56,
+        "h": 46.57
+      },
+      "fills": [
+        {
+          "type": "IMAGE",
+          "imageRef": "67cd4af0e07c8f18ca85409bb4006ac673f7830d",
+          "scaleMode": "STRETCH",
+          "imageTransform": [
+            [
+              0.0804,
+              -0.2261,
+              0.8588
+            ],
+            [
+              0.0805,
+              0.6789,
+              0.0312
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "67:204",
+      "name": "desc",
+      "type": "GROUP",
+      "path": "paper-projects-page-2 / project-1",
+      "box": {
+        "x": 286,
+        "y": 212.04,
+        "w": 329,
+        "h": 137
+      },
+      "cornerRadii": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "67:205",
+      "name": "Description:",
+      "type": "TEXT",
+      "path": "paper-projects-page-2 / project-1 / desc",
+      "box": {
+        "x": 286,
+        "y": 212.04,
+        "w": 69.91,
+        "h": 15
+      },
+      "inkBox": {
+        "x": 285.07,
+        "y": 212.24,
+        "w": 69.54,
+        "h": 15.31
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#252525"
+        }
+      ],
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 1,
+          "noiseSize": 0.10000000149011612,
+          "clipToShape": false
+        }
+      ],
+      "text": "Description:",
+      "style": {
+        "family": "Times New Normal",
+        "style": "Regular",
+        "weight": 400,
+        "size": 14,
+        "lineHeightPx": 15.4,
+        "lineHeight": "auto",
+        "letterSpacing": 0,
+        "align": "LEFT"
+      },
+      "autoResize": "HEIGHT"
+    },
+    {
+      "id": "67:206",
+      "name": "This subject and his mentor engineered an automated tactical fraud detection system for a major financial institution in Indonesia. Utilizing XGBoost algorithms, the operative optimized the model to prioritize high recall (>80%) for minimizing financial leakage. The architecture features a self-regulating pipeline including Predictive Power Score (PPS) analysis, SMOTE data balancing, and integration with debtor’s credit data. Infrastructure leverages Flask and MinIO for secure object storage and automated model deployment. No further information can be provided",
+      "type": "TEXT",
+      "path": "paper-projects-page-2 / project-1 / desc",
+      "box": {
+        "x": 286,
+        "y": 229.04,
+        "w": 329,
+        "h": 120
+      },
+      "inkBox": {
+        "x": 285,
+        "y": 230.28,
+        "w": 329.84,
+        "h": 118.81
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#252525"
+        }
+      ],
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 1,
+          "noiseSize": 0.10000000149011612,
+          "clipToShape": false
+        }
+      ],
+      "text": "This subject and his mentor engineered an automated tactical fraud detection system for a major financial institution in Indonesia. Utilizing XGBoost algorithms, the operative optimized the model to prioritize high recall (>80%) for minimizing financial leakage. The architecture features a self-regulating pipeline including Predictive Power Score (PPS) analysis, SMOTE data balancing, and integration with debtor’s credit data. Infrastructure leverages Flask and MinIO for secure object storage and automated model deployment. No further information can be provided",
+      "style": {
+        "family": "JMH Typewriter",
+        "style": "Regular",
+        "weight": 400,
+        "size": 9,
+        "lineHeightPx": 11.57,
+        "lineHeight": "auto",
+        "letterSpacing": 0,
+        "align": "LEFT",
+        "textDecoration": "UNDERLINE"
+      },
+      "autoResize": "HEIGHT"
+    },
+    {
+      "id": "67:207",
+      "name": "date",
+      "type": "GROUP",
+      "path": "paper-projects-page-2 / project-1",
+      "box": {
+        "x": 286,
+        "y": 192.04,
+        "w": 329,
+        "h": 16
+      }
+    },
+    {
+      "id": "67:208",
+      "name": "Date:",
+      "type": "TEXT",
+      "path": "paper-projects-page-2 / project-1 / date",
+      "box": {
+        "x": 286,
+        "y": 193.04,
+        "w": 29,
+        "h": 15
+      },
+      "inkBox": {
+        "x": 285.07,
+        "y": 193.24,
+        "w": 30,
+        "h": 11.83
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#252525"
+        }
+      ],
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 1,
+          "noiseSize": 0.10000000149011612,
+          "clipToShape": false
+        }
+      ],
+      "text": "Date:",
+      "style": {
+        "family": "Times New Normal",
+        "style": "Regular",
+        "weight": 400,
+        "size": 14,
+        "lineHeightPx": 15.4,
+        "lineHeight": "auto",
+        "letterSpacing": 0,
+        "align": "LEFT"
+      },
+      "autoResize": "WIDTH_AND_HEIGHT"
+    },
+    {
+      "id": "67:209",
+      "name": "May, 2024 - December, 2024",
+      "type": "TEXT",
+      "path": "paper-projects-page-2 / project-1 / date",
+      "box": {
+        "x": 319,
+        "y": 192.04,
+        "w": 161,
+        "h": 15
+      },
+      "inkBox": {
+        "x": 318.26,
+        "y": 193.59,
+        "w": 162.36,
+        "h": 14.33
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#252525"
+        }
+      ],
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 1,
+          "noiseSize": 0.10000000149011612,
+          "clipToShape": false
+        }
+      ],
+      "text": "May, 2024 - December, 2024",
+      "style": {
+        "family": "JMH Typewriter",
+        "style": "Regular",
+        "weight": 400,
+        "size": 12,
+        "lineHeightPx": 15.42,
+        "lineHeight": "auto",
+        "letterSpacing": 0,
+        "align": "LEFT"
+      },
+      "autoResize": "WIDTH_AND_HEIGHT"
+    },
+    {
+      "id": "67:210",
+      "name": "Vector 20",
+      "type": "VECTOR",
+      "path": "paper-projects-page-2 / project-1 / date",
+      "box": {
+        "x": 315,
+        "y": 208.04,
+        "w": 300,
+        "h": 0
+      },
+      "stroke": {
+        "paints": [
+          {
+            "type": "SOLID",
+            "color": "#000000"
+          }
+        ],
+        "weight": 1,
+        "align": "CENTER",
+        "dashes": [
+          1,
+          3
+        ],
+        "cap": "ROUND"
+      },
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 1,
+          "noiseSize": 0.10000000149011612,
+          "clipToShape": false
+        }
+      ],
+      "svgPathOmitted": "complex brush path, see exports/"
+    },
+    {
+      "id": "67:211",
+      "name": "title",
+      "type": "GROUP",
+      "path": "paper-projects-page-2 / project-1",
+      "box": {
+        "x": 286,
+        "y": 172.04,
+        "w": 329,
+        "h": 16
+      }
+    },
+    {
+      "id": "67:212",
+      "name": "Title:",
+      "type": "TEXT",
+      "path": "paper-projects-page-2 / project-1 / title",
+      "box": {
+        "x": 286,
+        "y": 173.04,
+        "w": 29,
+        "h": 15
+      },
+      "inkBox": {
+        "x": 285,
+        "y": 173.2,
+        "w": 29.77,
+        "h": 11.84
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#252525"
+        }
+      ],
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 1,
+          "noiseSize": 0.10000000149011612,
+          "clipToShape": false
+        }
+      ],
+      "text": "Title:",
+      "style": {
+        "family": "Times New Normal",
+        "style": "Regular",
+        "weight": 400,
+        "size": 14,
+        "lineHeightPx": 15.4,
+        "lineHeight": "auto",
+        "letterSpacing": 0,
+        "align": "LEFT"
+      },
+      "autoResize": "WIDTH_AND_HEIGHT"
+    },
+    {
+      "id": "67:213",
+      "name": "Fraud Detection",
+      "type": "TEXT",
+      "path": "paper-projects-page-2 / project-1 / title",
+      "box": {
+        "x": 319,
+        "y": 172.04,
+        "w": 103,
+        "h": 15
+      },
+      "inkBox": {
+        "x": 318.26,
+        "y": 174.03,
+        "w": 104.18,
+        "h": 11.25
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#252525"
+        }
+      ],
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 1,
+          "noiseSize": 0.10000000149011612,
+          "clipToShape": false
+        }
+      ],
+      "text": "Fraud Detection",
+      "style": {
+        "family": "JMH Typewriter",
+        "style": "Regular",
+        "weight": 400,
+        "size": 12,
+        "lineHeightPx": 15.42,
+        "lineHeight": "auto",
+        "letterSpacing": 0,
+        "align": "LEFT"
+      },
+      "autoResize": "WIDTH_AND_HEIGHT"
+    },
+    {
+      "id": "67:214",
+      "name": "Vector 20",
+      "type": "VECTOR",
+      "path": "paper-projects-page-2 / project-1 / title",
+      "box": {
+        "x": 315,
+        "y": 188.04,
+        "w": 300,
+        "h": 0
+      },
+      "stroke": {
+        "paints": [
+          {
+            "type": "SOLID",
+            "color": "#000000"
+          }
+        ],
+        "weight": 1,
+        "align": "CENTER",
+        "dashes": [
+          1,
+          3
+        ],
+        "cap": "ROUND"
+      },
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 1,
+          "noiseSize": 0.10000000149011612,
+          "clipToShape": false
+        }
+      ],
+      "svgPathOmitted": "complex brush path, see exports/"
+    },
+    {
+      "id": "67:215",
+      "name": "Vector 40",
+      "type": "VECTOR",
+      "path": "paper-projects-page-2 / project-1",
+      "box": {
+        "x": 286,
+        "y": 166.04,
+        "w": 334,
+        "h": 0
+      },
+      "stroke": {
+        "paints": [
+          {
+            "type": "SOLID",
+            "color": "#252525"
+          }
+        ],
+        "weight": 2,
+        "align": "CENTER",
+        "cap": "SQUARE"
+      },
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 1,
+          "noiseSize": 0.10000000149011612,
+          "clipToShape": false
+        }
+      ],
+      "svgPath": [
+        "M0 -1L-1 -1L-1 1L0 1L0 0L0 -1ZM334 1L335 1L335 -1L334 -1L334 0L334 1ZM0 0L0 1L334 1L334 0L334 -1L0 -1L0 0Z"
+      ]
+    },
+    {
+      "id": "67:216",
+      "name": "AI ENGINEERING",
+      "type": "TEXT",
+      "path": "paper-projects-page-2 / project-1",
+      "box": {
+        "x": 286,
+        "y": 144.04,
+        "w": 135,
+        "h": 21
+      },
+      "inkBox": {
+        "x": 285.39,
+        "y": 147.43,
+        "w": 135.97,
+        "h": 13.91
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#252525"
+        }
+      ],
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 1,
+          "noiseSize": 0.10000000149011612,
+          "clipToShape": false
+        }
+      ],
+      "text": "AI ENGINEERING",
+      "style": {
+        "family": "JMH Typewriter",
+        "style": "Bold",
+        "weight": 700,
+        "size": 16,
+        "lineHeightPx": 20.56,
+        "lineHeight": "auto",
+        "letterSpacing": 0,
+        "align": "LEFT"
+      },
+      "autoResize": "WIDTH_AND_HEIGHT"
+    },
+    {
+      "id": "67:217",
+      "name": "[CLASSIFIED]",
+      "type": "TEXT",
+      "path": "paper-projects-page-2 / project-1",
+      "box": {
+        "x": 100,
+        "y": 155.04,
+        "w": 165.46,
+        "h": 165.46
+      },
+      "inkBox": {
+        "x": 100.4,
+        "y": 159.88,
+        "w": 165.43,
+        "h": 163.12
+      },
+      "rotationDeg": -45,
+      "size": {
+        "w": 195,
+        "h": 39
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#891414"
+        }
+      ],
+      "stroke": {
+        "paints": [
+          {
+            "type": "SOLID",
+            "color": "#848484"
+          }
+        ],
+        "weight": 1,
+        "align": "OUTSIDE"
+      },
+      "effects": [
+        {
+          "type": "DROP_SHADOW",
+          "radius": 4,
+          "showShadowBehindNode": false,
+          "color": "#000000",
+          "alpha": 0.25,
+          "offset": {
+            "x": 0,
+            "y": 4
+          }
+        }
+      ],
+      "text": "[CLASSIFIED]",
+      "style": {
+        "family": "JMH Typewriter",
+        "style": "Bold",
+        "weight": 700,
+        "size": 30,
+        "lineHeightPx": 38.55,
+        "lineHeight": "auto",
+        "letterSpacing": 0,
+        "align": "LEFT"
+      },
+      "autoResize": "WIDTH_AND_HEIGHT"
+    },
+    {
+      "id": "49:278",
+      "name": "title",
+      "type": "GROUP",
+      "path": "paper-projects-page-2",
+      "box": {
+        "x": 60,
+        "y": 88.04,
+        "w": 492,
+        "h": 18.02
+      },
+      "cornerRadii": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "49:279",
+      "name": "OFFICIAL RECORD: HIGHLIGTED PROJECTS",
+      "type": "TEXT",
+      "path": "paper-projects-page-2 / title",
+      "box": {
+        "x": 60,
+        "y": 88.04,
+        "w": 371,
+        "h": 18.02
+      },
+      "inkBox": {
+        "x": 59,
+        "y": 88.79,
+        "w": 303.28,
+        "h": 13.25
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#252525"
+        }
+      ],
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 1,
+          "noiseSize": 0.10000000149011612,
+          "clipToShape": false
+        }
+      ],
+      "text": "OFFICIAL RECORD: HIGHLIGTED PROJECTS",
+      "style": {
+        "family": "Times New Normal",
+        "style": "Regular",
+        "weight": 400,
+        "size": 16,
+        "lineHeightPx": 17.6,
+        "lineHeight": "auto",
+        "letterSpacing": 0,
+        "align": "LEFT"
+      }
+    },
+    {
+      "id": "49:280",
+      "name": "HP/3-B",
+      "type": "TEXT",
+      "path": "paper-projects-page-2 / title",
+      "box": {
+        "x": 513,
+        "y": 88.04,
+        "w": 39,
+        "h": 15.02
+      },
+      "inkBox": {
+        "x": 512.28,
+        "y": 89.57,
+        "w": 38.22,
+        "h": 12.93
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#252525"
+        }
+      ],
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 1,
+          "noiseSize": 0.10000000149011612,
+          "clipToShape": false
+        }
+      ],
+      "text": "HP/3-B",
+      "style": {
+        "family": "JMH Typewriter",
+        "style": "Bold",
+        "weight": 700,
+        "size": 12,
+        "lineHeightPx": 15.42,
+        "lineHeight": "auto",
+        "letterSpacing": 0,
+        "align": "LEFT"
+      }
+    },
+    {
+      "id": "47:116",
+      "name": "header",
+      "type": "GROUP",
+      "path": "paper-projects-page-2",
+      "box": {
+        "x": 56.87,
+        "y": 5.04,
+        "w": 514.13,
+        "h": 64
+      }
+    },
+    {
+      "id": "47:117",
+      "type": "TEXT",
+      "path": "paper-projects-page-2 / header",
+      "box": {
+        "x": 60,
+        "y": 17.1,
+        "w": 277,
+        "h": 40.05
+      },
+      "inkBox": {
+        "x": 59.9,
+        "y": 19.74,
+        "w": 277.26,
+        "h": 34.15
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#252525"
+        }
+      ],
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 0.5,
+          "noiseSize": 0.10000000149011612,
+          "clipToShape": false
+        }
+      ],
+      "text": "DEPARTMENT O█ ███████████\n███████████",
+      "style": {
+        "family": "David Libre",
+        "style": "Regular",
+        "weight": 400,
+        "size": 20,
+        "lineHeightPx": 20,
+        "lineHeight": "auto",
+        "letterSpacing": 0,
+        "align": "LEFT"
+      },
+      "redactedBy": [
+        "47:120",
+        "47:121",
+        "47:123",
+        "47:124",
+        "47:125",
+        "47:126",
+        "47:127",
+        "47:128",
+        "47:129",
+        "47:130",
+        "47:131",
+        "47:132",
+        "47:133",
+        "47:134",
+        "47:135",
+        "47:136",
+        "47:137",
+        "47:138",
+        "47:140",
+        "47:141"
+      ],
+      "textLength": 37
+    },
+    {
+      "id": "47:118",
+      "name": "West Java, 202512-1802",
+      "type": "TEXT",
+      "path": "paper-projects-page-2 / header",
+      "box": {
+        "x": 60,
+        "y": 57.15,
+        "w": 99,
+        "h": 10.01
+      },
+      "inkBox": {
+        "x": 59.6,
+        "y": 58.37,
+        "w": 99.1,
+        "h": 9.18
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#252525"
+        }
+      ],
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 0.5,
+          "noiseSize": 0.10000000149011612,
+          "clipToShape": false
+        }
+      ],
+      "text": "West Java, 202512-1802",
+      "style": {
+        "family": "David Libre",
+        "style": "Regular",
+        "weight": 400,
+        "size": 10,
+        "lineHeightPx": 10,
+        "lineHeight": "auto",
+        "letterSpacing": 0,
+        "align": "LEFT"
+      }
+    },
+    {
+      "id": "47:119",
+      "name": "Group 8",
+      "type": "GROUP",
+      "path": "paper-projects-page-2 / header",
+      "box": {
+        "x": 56.87,
+        "y": 20.11,
+        "w": 284.7,
+        "h": 33.04
+      },
+      "effects": [
+        {
+          "type": "TEXTURE",
+          "radius": 1,
+          "noiseSize": 0.10000000149011612,
+          "clipToShape": false
+        }
+      ]
+    },
+    {
+      "id": "47:120",
+      "name": "Rectangle 14",
+      "type": "RECTANGLE",
+      "path": "paper-projects-page-2 / header / Group 8",
+      "box": {
+        "x": 211,
+        "y": 20.11,
+        "w": 126,
+        "h": 13.01
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#000000"
+        }
+      ],
+      "role": "redaction-mark"
+    },
+    {
+      "id": "47:121",
+      "name": "Rectangle 15",
+      "type": "RECTANGLE",
+      "path": "paper-projects-page-2 / header / Group 8",
+      "box": {
+        "x": 60,
+        "y": 40.13,
+        "w": 126,
+        "h": 13.01
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#131313"
+        }
+      ],
+      "role": "redaction-mark"
+    },
+    {
+      "id": "47:122",
+      "name": "Group 7",
+      "type": "GROUP",
+      "path": "paper-projects-page-2 / header / Group 8",
+      "box": {
+        "x": 56.87,
+        "y": 21.16,
+        "w": 284.7,
+        "h": 29.73
+      }
+    },
+    {
+      "id": "47:123",
+      "name": "Vector 1",
+      "type": "VECTOR",
+      "path": "paper-projects-page-2 / header / Group 8 / Group 7",
+      "box": {
+        "x": 56.87,
+        "y": 47.13,
+        "w": 7.83,
+        "h": 0
+      },
+      "stroke": {
+        "paints": [
+          {
+            "type": "SOLID",
+            "color": "#131313"
+          }
+        ],
+        "weight": 6,
+        "align": "CENTER",
+        "cap": "ROUND"
+      },
+      "svgPathOmitted": "complex brush path, see exports/",
+      "role": "redaction-mark"
+    },
+    {
+      "id": "47:124",
+      "name": "Vector 2",
+      "type": "VECTOR",
+      "path": "paper-projects-page-2 / header / Group 8 / Group 7",
+      "box": {
+        "x": 57.17,
+        "y": 49.82,
+        "w": 6.79,
+        "h": 0.3
+      },
+      "stroke": {
+        "paints": [
+          {
+            "type": "SOLID",
+            "color": "#131313"
+          }
+        ],
+        "weight": 6,
+        "align": "CENTER",
+        "cap": "ROUND"
+      },
+      "svgPathOmitted": "complex brush path, see exports/",
+      "role": "redaction-mark"
+    },
+    {
+      "id": "47:125",
+      "name": "Vector 3",
+      "type": "VECTOR",
+      "path": "paper-projects-page-2 / header / Group 8 / Group 7",
+      "box": {
+        "x": 58.96,
+        "y": 44.22,
+        "w": 3.21,
+        "h": 0.3
+      },
+      "stroke": {
+        "paints": [
+          {
+            "type": "SOLID",
+            "color": "#131313"
+          }
+        ],
+        "weight": 6,
+        "align": "CENTER",
+        "cap": "ROUND"
+      },
+      "svgPathOmitted": "complex brush path, see exports/",
+      "role": "redaction-mark"
+    },
+    {
+      "id": "47:126",
+      "name": "Vector 4",
+      "type": "VECTOR",
+      "path": "paper-projects-page-2 / header / Group 8 / Group 7",
+      "box": {
+        "x": 59.7,
+        "y": 42.5,
+        "w": 2.18,
+        "h": 0.52
+      },
+      "stroke": {
+        "paints": [
+          {
+            "type": "SOLID",
+            "color": "#131313"
+          }
+        ],
+        "weight": 6,
+        "align": "CENTER",
+        "cap": "ROUND"
+      },
+      "svgPathOmitted": "complex brush path, see exports/",
+      "role": "redaction-mark"
+    },
+    {
+      "id": "47:127",
+      "name": "Vector 5",
+      "type": "VECTOR",
+      "path": "paper-projects-page-2 / header / Group 8 / Group 7",
+      "box": {
+        "x": 58.29,
+        "y": 41.76,
+        "w": 2.01,
+        "h": 0.22
+      },
+      "stroke": {
+        "paints": [
+          {
+            "type": "SOLID",
+            "color": "#131313"
+          }
+        ],
+        "weight": 6,
+        "align": "CENTER",
+        "cap": "ROUND"
+      },
+      "svgPathOmitted": "complex brush path, see exports/",
+      "role": "redaction-mark"
+    },
+    {
+      "id": "47:128",
+      "name": "Vector 6",
+      "type": "VECTOR",
+      "path": "paper-projects-page-2 / header / Group 8 / Group 7",
+      "box": {
+        "x": 184.3,
+        "y": 50.66,
+        "w": 4.92,
+        "h": 0.22
+      },
+      "stroke": {
+        "paints": [
+          {
+            "type": "SOLID",
+            "color": "#131313"
+          }
+        ],
+        "weight": 6,
+        "align": "CENTER",
+        "cap": "ROUND"
+      },
+      "svgPathOmitted": "complex brush path, see exports/",
+      "role": "redaction-mark"
+    },
+    {
+      "id": "47:129",
+      "name": "Vector 7",
+      "type": "VECTOR",
+      "path": "paper-projects-page-2 / header / Group 8 / Group 7",
+      "box": {
+        "x": 185.49,
+        "y": 47.97,
+        "w": 5,
+        "h": 0.3
+      },
+      "stroke": {
+        "paints": [
+          {
+            "type": "SOLID",
+            "color": "#131313"
+          }
+        ],
+        "weight": 6,
+        "align": "CENTER",
+        "cap": "ROUND"
+      },
+      "svgPathOmitted": "complex brush path, see exports/",
+      "role": "redaction-mark"
+    },
+    {
+      "id": "47:130",
+      "name": "Vector 8",
+      "type": "VECTOR",
+      "path": "paper-projects-page-2 / header / Group 8 / Group 7",
+      "box": {
+        "x": 185.49,
+        "y": 44.69,
+        "w": 4.03,
+        "h": 0.45
+      },
+      "stroke": {
+        "paints": [
+          {
+            "type": "SOLID",
+            "color": "#131313"
+          }
+        ],
+        "weight": 6,
+        "align": "CENTER",
+        "cap": "ROUND"
+      },
+      "svgPathOmitted": "complex brush path, see exports/",
+      "role": "redaction-mark"
+    },
+    {
+      "id": "47:131",
+      "name": "Vector 9",
+      "type": "VECTOR",
+      "path": "paper-projects-page-2 / header / Group 8 / Group 7",
+      "box": {
+        "x": 184.74,
+        "y": 42.3,
+        "w": 4.63,
+        "h": 0.3
+      },
+      "stroke": {
+        "paints": [
+          {
+            "type": "SOLID",
+            "color": "#131313"
+          }
+        ],
+        "weight": 6,
+        "align": "CENTER",
+        "cap": "ROUND"
+      },
+      "svgPathOmitted": "complex brush path, see exports/",
+      "role": "redaction-mark"
+    },
+    {
+      "id": "47:132",
+      "name": "Vector 10",
+      "type": "VECTOR",
+      "path": "paper-projects-page-2 / header / Group 8 / Group 7",
+      "box": {
+        "x": 208.4,
+        "y": 31.39,
+        "w": 4.1,
+        "h": 0
+      },
+      "stroke": {
+        "paints": [
+          {
+            "type": "SOLID",
+            "color": "#131313"
+          }
+        ],
+        "weight": 6,
+        "align": "CENTER",
+        "cap": "ROUND"
+      },
+      "svgPathOmitted": "complex brush path, see exports/",
+      "role": "redaction-mark"
+    },
+    {
+      "id": "47:133",
+      "name": "Vector 11",
+      "type": "VECTOR",
+      "path": "paper-projects-page-2 / header / Group 8 / Group 7",
+      "box": {
+        "x": 209.44,
+        "y": 28.7,
+        "w": 3.36,
+        "h": 0.52
+      },
+      "stroke": {
+        "paints": [
+          {
+            "type": "SOLID",
+            "color": "#131313"
+          }
+        ],
+        "weight": 6,
+        "align": "CENTER",
+        "cap": "ROUND"
+      },
+      "svgPathOmitted": "complex brush path, see exports/",
+      "role": "redaction-mark"
+    },
+    {
+      "id": "47:134",
+      "name": "Vector 12",
+      "type": "VECTOR",
+      "path": "paper-projects-page-2 / header / Group 8 / Group 7",
+      "box": {
+        "x": 210.41,
+        "y": 26.68,
+        "w": 3.81,
+        "h": 0.15
+      },
+      "stroke": {
+        "paints": [
+          {
+            "type": "SOLID",
+            "color": "#131313"
+          }
+        ],
+        "weight": 6,
+        "align": "CENTER",
+        "cap": "ROUND"
+      },
+      "svgPathOmitted": "complex brush path, see exports/",
+      "role": "redaction-mark"
+    },
+    {
+      "id": "47:135",
+      "name": "Vector 13",
+      "type": "VECTOR",
+      "path": "paper-projects-page-2 / header / Group 8 / Group 7",
+      "box": {
+        "x": 210.19,
+        "y": 23.99,
+        "w": 3.36,
+        "h": 0.82
+      },
+      "stroke": {
+        "paints": [
+          {
+            "type": "SOLID",
+            "color": "#131313"
+          }
+        ],
+        "weight": 6,
+        "align": "CENTER",
+        "cap": "ROUND"
+      },
+      "svgPathOmitted": "complex brush path, see exports/",
+      "role": "redaction-mark"
+    },
+    {
+      "id": "47:136",
+      "name": "Vector 14",
+      "type": "VECTOR",
+      "path": "paper-projects-page-2 / header / Group 8 / Group 7",
+      "box": {
+        "x": 210.34,
+        "y": 21.83,
+        "w": 2.61,
+        "h": 0.45
+      },
+      "stroke": {
+        "paints": [
+          {
+            "type": "SOLID",
+            "color": "#131313"
+          }
+        ],
+        "weight": 6,
+        "align": "CENTER",
+        "cap": "ROUND"
+      },
+      "svgPathOmitted": "complex brush path, see exports/",
+      "role": "redaction-mark"
+    },
+    {
+      "id": "47:137",
+      "name": "Vector 15",
+      "type": "VECTOR",
+      "path": "paper-projects-page-2 / header / Group 8 / Group 7",
+      "box": {
+        "x": 335.53,
+        "y": 30.57,
+        "w": 5.22,
+        "h": 0
+      },
+      "stroke": {
+        "paints": [
+          {
+            "type": "SOLID",
+            "color": "#131313"
+          }
+        ],
+        "weight": 6,
+        "align": "CENTER",
+        "cap": "ROUND"
+      },
+      "svgPathOmitted": "complex brush path, see exports/",
+      "role": "redaction-mark"
+    },
+    {
+      "id": "47:138",
+      "name": "Vector 16",
+      "type": "VECTOR",
+      "path": "paper-projects-page-2 / header / Group 8 / Group 7",
+      "box": {
+        "x": 334.86,
+        "y": 26.91,
+        "w": 6.12,
+        "h": 0.97
+      },
+      "stroke": {
+        "paints": [
+          {
+            "type": "SOLID",
+            "color": "#131313"
+          }
+        ],
+        "weight": 6,
+        "align": "CENTER",
+        "cap": "ROUND"
+      },
+      "svgPathOmitted": "complex brush path, see exports/",
+      "role": "redaction-mark"
+    },
+    {
+      "id": "47:139",
+      "name": "Vector 17",
+      "type": "VECTOR",
+      "path": "paper-projects-page-2 / header / Group 8 / Group 7",
+      "box": {
+        "x": 337.69,
+        "y": 24.22,
+        "w": 3.88,
+        "h": 0.6
+      },
+      "stroke": {
+        "paints": [
+          {
+            "type": "SOLID",
+            "color": "#131313"
+          }
+        ],
+        "weight": 6,
+        "align": "CENTER",
+        "cap": "ROUND"
+      },
+      "svgPathOmitted": "complex brush path, see exports/",
+      "role": "redaction-mark"
+    },
+    {
+      "id": "47:140",
+      "name": "Vector 18",
+      "type": "VECTOR",
+      "path": "paper-projects-page-2 / header / Group 8 / Group 7",
+      "box": {
+        "x": 336.87,
+        "y": 23.4,
+        "w": 3.43,
+        "h": 0
+      },
+      "stroke": {
+        "paints": [
+          {
+            "type": "SOLID",
+            "color": "#131313"
+          }
+        ],
+        "weight": 6,
+        "align": "CENTER",
+        "cap": "ROUND"
+      },
+      "svgPathOmitted": "complex brush path, see exports/",
+      "role": "redaction-mark"
+    },
+    {
+      "id": "47:141",
+      "name": "Vector 19",
+      "type": "VECTOR",
+      "path": "paper-projects-page-2 / header / Group 8 / Group 7",
+      "box": {
+        "x": 335.98,
+        "y": 21.16,
+        "w": 3.36,
+        "h": 0
+      },
+      "stroke": {
+        "paints": [
+          {
+            "type": "SOLID",
+            "color": "#131313"
+          }
+        ],
+        "weight": 6,
+        "align": "CENTER",
+        "cap": "ROUND"
+      },
+      "svgPathOmitted": "complex brush path, see exports/",
+      "role": "redaction-mark"
+    },
+    {
+      "id": "68:229",
+      "name": "image-removebg-preview 1",
+      "type": "RECTANGLE",
+      "path": "paper-projects-page-2 / header",
+      "box": {
+        "x": 501,
+        "y": 5.04,
+        "w": 70,
+        "h": 64
+      },
+      "fills": [
+        {
+          "type": "IMAGE",
+          "imageRef": "35bc4224d332d5e672143fa394b4cf36684879d0",
+          "scaleMode": "FILL"
+        }
+      ]
+    }
+  ]
+}
