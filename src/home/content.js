@@ -25,4 +25,7 @@ export const MODES = [
   { key: 'light', label: 'LIGHT' },
 ];
 
+// The small tilted note beside the photo, next to the sparkle.
+export const TOUCH_LABEL = 'TOUCH ME';
+
 export const PHOTO_ALT = 'Zaky Ashari walking away from the arumi coffee stand at night';

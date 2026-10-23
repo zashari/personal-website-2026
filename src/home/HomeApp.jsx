@@ -1,5 +1,5 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
-import { BRAND, MODES, NAME, NAV, PHOTO_ALT, ROLES, SOCIALS } from './content';
+import { BRAND, MODES, NAME, NAV, PHOTO_ALT, ROLES, SOCIALS, TOUCH_LABEL } from './content';
 import spiral from './assets/golden-spiral.svg';
 import photoAvif from './assets/images/photo.avif';
 import photoWebp from './assets/images/photo.webp';
@@ -28,12 +28,15 @@ const LAYOUTS = {
     first: { x: 517, y: 485 },
     last: { x: 1111, y: 485 },
     roles: { x: 1328, y: 780 },
+    touch: { x: 353, y: 781 },
   },
   tall: {
     focus: { x: 640, y: 217, width: 640, height: 863 },
     first: { x: 667, y: 485 },
     last: { x: 962, y: 485 },
     roles: { x: 742, y: 892 },
+    // Figma's spot (left of the photo) is outside the narrow focus; use the free space under the photo instead.
+    touch: { x: 1080, y: 862 },
   },
 };
 
@@ -165,6 +168,31 @@ function PhotoReel() {
   );
 }
 
+// Figma group "random" (light 2016:10 / dark 2030:312): an eight-point sparkle and "TOUCH ME", both tilted -30deg,
+// in the accent colour. Paths and matrices are Figma's own (relativeTransform within the group, as CSS matrix()).
+const SPARKLE_PATHS = [
+  'M58 29C58 45.0163 29 29 29 58C12.9837 58 29 29 0 29C0 12.9837 29 29 29 0C45.0163 0 29 29 58 29Z',
+  'M49.7579 49.2511C38.5736 60.7154 29 29 8.74888 49.758C-2.71541 38.5736 29 29 8.24205 8.74891C19.4264 -2.71538 29 29 49.2511 8.24208C60.7154 19.4265 29 29 49.7579 49.2511Z',
+];
+const TILT = 'matrix(0.866025, -0.5, 0.5, 0.866025';
+
+function TouchMe({ x, y }) {
+  return (
+    <div className="home-touch" style={{ left: x, top: y }} aria-hidden="true">
+      <svg className="home-touch-sparkle" width="58" height="58" viewBox="0 0 58 58" style={{ transform: `${TILT}, 0, 52)` }}>
+        <g className="home-touch-spin">
+          {SPARKLE_PATHS.map((d) => (
+            <path key={d} d={d} fill="currentColor" />
+          ))}
+        </g>
+      </svg>
+      <span className="home-touch-label" style={{ transform: `${TILT}, 68, 32)` }}>
+        {TOUCH_LABEL}
+      </span>
+    </div>
+  );
+}
+
 function NavItem({ id, title, label, href, children }) {
   return (
     <MaybeLink href={href} className="home-link home-nav-item">
@@ -292,6 +320,8 @@ export default function HomeApp() {
           height={FRAME.height + 2 * SPIRAL_BLEED}
           draggable={false}
         />
+
+        <TouchMe {...pos.touch} />
 
         <PhotoReel />
 

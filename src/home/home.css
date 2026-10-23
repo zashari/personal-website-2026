@@ -22,6 +22,13 @@
 }
 
 @font-face {
+  font-family: 'Open Sans';
+  src: url('./assets/fonts/open-sans-bold.ttf') format('truetype');
+  font-weight: 700;
+  font-display: block;
+}
+
+@font-face {
   font-family: 'Open Sans SemiCondensed';
   src: url('./assets/fonts/open-sans-semicondensed-medium.ttf') format('truetype');
   font-weight: 500;
@@ -158,6 +165,44 @@ body {
   visibility: hidden;
 }
 
+/* "TOUCH ME" and its sparkle: a 131 x 102 group; children placed by Figma's matrices from its top-left. */
+.home-touch {
+  position: absolute;
+  width: 131.4px;
+  height: 102.2px;
+  color: var(--accent);
+  pointer-events: none;
+}
+
+.home-touch-sparkle,
+.home-touch-label {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform-origin: 0 0;
+}
+
+/* The sparkle turns slowly about its own centre (29, 29), inside the -30deg tilt. With eight points, the loop has no
+   visible seam. It keeps turning under reduced motion: it is small, slow and the user asked for it. */
+.home-touch-spin {
+  transform-box: view-box;
+  transform-origin: 29px 29px;
+  animation: home-touch-spin 8s linear infinite;
+}
+
+@keyframes home-touch-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.home-touch-label {
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 16.3418px;
+}
+
 .home-socials {
   list-style: none;
 }
@@ -180,7 +225,8 @@ body {
 :root.theme-switching .home-nav-item,
 :root.theme-switching .home-logo-z,
 :root.theme-switching .home-socials a,
-:root.theme-switching .home-mode-option {
+:root.theme-switching .home-mode-option,
+:root.theme-switching .home-touch {
   transition:
     background-color var(--theme-time) ease,
     color var(--theme-time) ease,
