@@ -93,7 +93,7 @@ body {
   user-select: none;
 }
 
-.home-reel img {
+.home-reel-base img {
   left: 0;
   top: 0;
   width: 100%;
@@ -101,13 +101,29 @@ body {
   object-fit: cover;
 }
 
-/* Reel frames sit on top of the photo, hidden until their turn; visibility keeps them decoded and ready. */
+/* Reel frames: uncropped, at the photo's height, centred on it. Hidden until their turn (visibility keeps them
+   decoded and ready), and transparent to the pointer so the hover area stays the photo's own box. */
 .home-reel-frame {
   visibility: hidden;
+  pointer-events: none;
+}
+
+.home-reel-frame img {
+  top: 0;
+  left: 50%;
+  height: 100%;
+  width: auto;
+  max-width: none;
+  transform: translateX(-50%);
 }
 
 .home-reel-frame[data-active] {
   visibility: visible;
+}
+
+/* While the reel plays, hide the original so it can't show beside a frame narrower than the photo. */
+.home-reel[data-playing] .home-reel-base {
+  visibility: hidden;
 }
 
 .home-socials {

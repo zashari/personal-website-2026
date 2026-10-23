@@ -10,7 +10,7 @@ const REEL = Object.keys(REEL_URLS)
   .filter((file) => file.endsWith('.avif'))
   .sort()
   .map((avif) => ({ avif: REEL_URLS[avif], webp: REEL_URLS[avif.replace(/.avif$/, '.webp')] }));
-const REEL_INTERVAL_MS = 500;
+const REEL_INTERVAL_MS = 200;
 
 // The artwork is the Figma frame "home" (1920 x 1080, page version-2), drawn in Figma px on a stage. The stage is
 // scaled so its focus box (photo, name, roles and socials, down to the frame's bottom edge) fills the space under the
@@ -97,8 +97,9 @@ function SpacedLabel({ text }) {
   );
 }
 
-// The centre photo. While the pointer is over it, the photos in REEL play in turn every 0.5s, looping, as hard cuts
-// like a flipbook; leaving shows the original again. The frames are stacked under the photo and only mounted once the
+// The centre photo. While the pointer is over it, the photos in REEL play in turn every 0.2s, looping, as hard cuts
+// like a flipbook; leaving shows the original again. Frames keep their own aspect ratio at the photo's height, centred
+// on it; only the photo's own box responds to the pointer, so wide frames don't change where the hover ends. The frames are stacked under the photo and only mounted once the
 // page is idle, so they never compete with the first paint, and every switch is instant because each is already decoded.
 function PhotoReel() {
   const [frame, setFrame] = useState(-1);
@@ -127,8 +128,8 @@ function PhotoReel() {
   };
 
   return (
-    <div className="home-photo home-reel" onPointerEnter={start} onPointerLeave={stop}>
-      <picture>
+    <div className="home-photo home-reel" data-playing={frame >= 0 || undefined} onPointerEnter={start} onPointerLeave={stop}>
+      <picture className="home-reel-base">
         <source type="image/avif" srcSet={photoAvif} />
         <img src={photoWebp} alt={PHOTO_ALT} width={486} height={607} draggable={false} />
       </picture>
