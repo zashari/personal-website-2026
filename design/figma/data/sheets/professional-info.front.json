@@ -80,6 +80,10 @@
         "h": 843
       },
       "rotationDeg": -90,
+      "size": {
+        "w": 843,
+        "h": 595
+      },
       "blendMode": "LINEAR_BURN",
       "fills": [
         {
@@ -167,6 +171,10 @@
         "h": 0
       },
       "rotationDeg": 0,
+      "size": {
+        "w": 129,
+        "h": 0
+      },
       "stroke": {
         "paints": [
           {
@@ -290,6 +298,10 @@
         "h": 84.05
       },
       "rotationDeg": 180,
+      "size": {
+        "w": 84.05,
+        "h": 84.05
+      },
       "blendMode": "COLOR_BURN",
       "fills": [
         {
@@ -423,6 +435,10 @@
         "h": 0
       },
       "rotationDeg": 0,
+      "size": {
+        "w": 510,
+        "h": 0
+      },
       "stroke": {
         "paints": [
           {
@@ -1798,6 +1814,10 @@
         "h": 0
       },
       "rotationDeg": 0,
+      "size": {
+        "w": 510,
+        "h": 0
+      },
       "stroke": {
         "paints": [
           {
@@ -1835,6 +1855,10 @@
         "h": 259.29
       },
       "rotationDeg": -90,
+      "size": {
+        "w": 259.29,
+        "h": 0
+      },
       "stroke": {
         "paints": [
           {
@@ -2601,6 +2625,10 @@
         "h": 0
       },
       "rotationDeg": 0,
+      "size": {
+        "w": 510,
+        "h": 0
+      },
       "stroke": {
         "paints": [
           {
@@ -3726,6 +3754,10 @@
         "h": 115
       },
       "rotationDeg": -180,
+      "size": {
+        "w": 115,
+        "h": 115
+      },
       "fills": [
         {
           "type": "IMAGE",
@@ -3768,6 +3800,10 @@
         "h": 161.5
       },
       "rotationDeg": 15,
+      "size": {
+        "w": 131.87,
+        "h": 131.87
+      },
       "fills": [
         {
           "type": "IMAGE",
@@ -3866,6 +3902,10 @@
         "h": 118.07
       },
       "rotationDeg": 0,
+      "size": {
+        "w": 118.07,
+        "h": 118.07
+      },
       "blendMode": "DARKEN",
       "fills": [
         {

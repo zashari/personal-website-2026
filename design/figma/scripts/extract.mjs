@@ -124,7 +124,11 @@ function normalize(n, origin, trail = []) {
   const rb = n.absoluteRenderBounds;
   if (n.type === 'TEXT' && rb) rec.inkBox = { x: round(rb.x - origin.x), y: round(rb.y - origin.y), w: round(rb.width), h: round(rb.height) };
   if (n.visible === false) rec.hidden = true;
-  if (n.rotation) rec.rotationDeg = deg(n.rotation);
+  if (n.rotation) {
+    rec.rotationDeg = deg(n.rotation);
+    // box is the rotated extent; this is the layer's own size, rotated about the box centre.
+    if (n.size) rec.size = { w: round(n.size.x), h: round(n.size.y) };
+  }
   if (n.opacity != null && n.opacity !== 1) rec.opacity = round(n.opacity, 3);
   if (n.blendMode && !['PASS_THROUGH', 'NORMAL'].includes(n.blendMode)) rec.blendMode = n.blendMode;
   const fills = (n.fills || []).map(paint).filter(Boolean);

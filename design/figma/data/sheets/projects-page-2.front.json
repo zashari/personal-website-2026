@@ -80,6 +80,10 @@
         "h": 843
       },
       "rotationDeg": -90,
+      "size": {
+        "w": 843,
+        "h": 595
+      },
       "blendMode": "LINEAR_BURN",
       "fills": [
         {
@@ -291,6 +295,10 @@
         "h": 236
       },
       "rotationDeg": -180,
+      "size": {
+        "w": 580,
+        "h": 236
+      },
       "blendMode": "LINEAR_BURN",
       "fills": [
         {
@@ -368,6 +376,10 @@
         "h": 39.69
       },
       "rotationDeg": -45,
+      "size": {
+        "w": 9.56,
+        "h": 46.57
+      },
       "fills": [
         {
           "type": "IMAGE",
@@ -400,6 +412,10 @@
         "h": 9.56
       },
       "rotationDeg": 90,
+      "size": {
+        "w": 9.56,
+        "h": 46.57
+      },
       "fills": [
         {
           "type": "IMAGE",
@@ -936,6 +952,10 @@
         "h": 162.83
       },
       "rotationDeg": -45,
+      "size": {
+        "w": 195,
+        "h": 39
+      },
       "fills": [
         {
           "type": "SOLID",
@@ -1072,6 +1092,10 @@
         "h": 236
       },
       "rotationDeg": -180,
+      "size": {
+        "w": 580,
+        "h": 236
+      },
       "blendMode": "LINEAR_BURN",
       "fills": [
         {
@@ -1149,6 +1173,10 @@
         "h": 21.29
       },
       "rotationDeg": 75,
+      "size": {
+        "w": 9.56,
+        "h": 46.57
+      },
       "fills": [
         {
           "type": "IMAGE",
@@ -1181,6 +1209,10 @@
         "h": 9.56
       },
       "rotationDeg": -90,
+      "size": {
+        "w": 9.56,
+        "h": 46.57
+      },
       "fills": [
         {
           "type": "IMAGE",
@@ -1676,6 +1708,10 @@
         "h": 163.12
       },
       "rotationDeg": -45,
+      "size": {
+        "w": 195,
+        "h": 39
+      },
       "fills": [
         {
           "type": "SOLID",

@@ -17,7 +17,11 @@
         "w": 615.54,
         "h": 865.55
       },
-      "rotationDeg": 180
+      "rotationDeg": 180,
+      "size": {
+        "w": 615.54,
+        "h": 865.55
+      }
     },
     {
       "id": "77:928",
@@ -43,6 +47,10 @@
         "h": 115.07
       },
       "rotationDeg": -180,
+      "size": {
+        "w": 115.07,
+        "h": 115.07
+      },
       "fills": [
         {
           "type": "SOLID",
@@ -72,6 +80,10 @@
         "h": 161.59
       },
       "rotationDeg": 15,
+      "size": {
+        "w": 131.94,
+        "h": 131.94
+      },
       "fills": [
         {
           "type": "SOLID",
@@ -220,6 +232,10 @@
         "h": 843.49
       },
       "rotationDeg": -90,
+      "size": {
+        "w": 843.49,
+        "h": 595.34
+      },
       "blendMode": "LINEAR_BURN",
       "fills": [
         {

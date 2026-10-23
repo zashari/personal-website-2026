@@ -80,6 +80,10 @@
         "h": 843
       },
       "rotationDeg": -90,
+      "size": {
+        "w": 843,
+        "h": 595
+      },
       "blendMode": "LINEAR_BURN",
       "fills": [
         {
@@ -195,6 +199,10 @@
         "h": 236
       },
       "rotationDeg": -180,
+      "size": {
+        "w": 580,
+        "h": 236
+      },
       "blendMode": "LINEAR_BURN",
       "fills": [
         {
@@ -271,6 +279,10 @@
         "h": 46.57
       },
       "rotationDeg": 0,
+      "size": {
+        "w": 9.56,
+        "h": 46.57
+      },
       "fills": [
         {
           "type": "IMAGE",
@@ -303,6 +315,10 @@
         "h": 31.57
       },
       "rotationDeg": 120,
+      "size": {
+        "w": 9.56,
+        "h": 46.57
+      },
       "fills": [
         {
           "type": "IMAGE",
@@ -874,6 +890,10 @@
         "h": 236
       },
       "rotationDeg": -180,
+      "size": {
+        "w": 580,
+        "h": 236
+      },
       "blendMode": "LINEAR_BURN",
       "fills": [
         {
@@ -947,6 +967,10 @@
         "h": 9.56
       },
       "rotationDeg": 90,
+      "size": {
+        "w": 9.56,
+        "h": 46.57
+      },
       "fills": [
         {
           "type": "IMAGE",
@@ -979,6 +1003,10 @@
         "h": 47.46
       },
       "rotationDeg": -165,
+      "size": {
+        "w": 9.56,
+        "h": 46.57
+      },
       "fills": [
         {
           "type": "IMAGE",
@@ -1599,6 +1627,10 @@
         "h": 236
       },
       "rotationDeg": -180,
+      "size": {
+        "w": 580,
+        "h": 236
+      },
       "blendMode": "LINEAR_BURN",
       "fills": [
         {
@@ -1670,6 +1702,10 @@
         "h": 76.2
       },
       "rotationDeg": -45,
+      "size": {
+        "w": 72,
+        "h": 39
+      },
       "fills": [
         {
           "type": "SOLID",
@@ -1736,6 +1772,10 @@
         "h": 45.11
       },
       "rotationDeg": 30,
+      "size": {
+        "w": 9.56,
+        "h": 46.57
+      },
       "fills": [
         {
           "type": "IMAGE",
@@ -1768,6 +1808,10 @@
         "h": 45.11
       },
       "rotationDeg": 150,
+      "size": {
+        "w": 9.56,
+        "h": 46.57
+      },
       "fills": [
         {
           "type": "IMAGE",

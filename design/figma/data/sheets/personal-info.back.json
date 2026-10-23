@@ -29,7 +29,11 @@
         "w": 612.96,
         "h": 861
       },
-      "rotationDeg": 180
+      "rotationDeg": 180,
+      "size": {
+        "w": 612.96,
+        "h": 861
+      }
     },
     {
       "id": "77:783",
@@ -55,6 +59,10 @@
         "h": 155.09
       },
       "rotationDeg": 0,
+      "size": {
+        "w": 155.09,
+        "h": 155.09
+      },
       "fills": [
         {
           "type": "SOLID",
@@ -84,6 +92,10 @@
         "h": 163.05
       },
       "rotationDeg": 7.12,
+      "size": {
+        "w": 146.08,
+        "h": 146.08
+      },
       "fills": [
         {
           "type": "SOLID",
@@ -163,6 +175,10 @@
         "h": 843.49
       },
       "rotationDeg": 90,
+      "size": {
+        "w": 843.49,
+        "h": 595.35
+      },
       "blendMode": "LINEAR_BURN",
       "fills": [
         {
@@ -196,6 +212,10 @@
         "h": 107.86
       },
       "rotationDeg": 14.86,
+      "size": {
+        "w": 41.89,
+        "h": 100.48
+      },
       "fills": [
         {
           "type": "IMAGE",

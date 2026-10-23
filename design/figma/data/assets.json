@@ -60,6 +60,10 @@
         "h": 320
       },
       "rotationDeg": 0,
+      "size": {
+        "w": 320,
+        "h": 320
+      },
       "fills": [
         {
           "type": "IMAGE",
@@ -143,6 +147,10 @@
         "h": 320
       },
       "rotationDeg": 0,
+      "size": {
+        "w": 320,
+        "h": 320
+      },
       "fills": [
         {
           "type": "SOLID",
@@ -499,6 +507,10 @@
         "h": 320
       },
       "rotationDeg": 0,
+      "size": {
+        "w": 320,
+        "h": 320
+      },
       "fills": [
         {
           "type": "IMAGE",
@@ -553,6 +565,10 @@
         "h": 320
       },
       "rotationDeg": -180,
+      "size": {
+        "w": 320,
+        "h": 320
+      },
       "fills": [
         {
           "type": "SOLID",
@@ -654,6 +670,10 @@
         "h": 320
       },
       "rotationDeg": 0,
+      "size": {
+        "w": 320,
+        "h": 320
+      },
       "fills": [
         {
           "type": "IMAGE",
@@ -696,6 +716,10 @@
         "h": 320
       },
       "rotationDeg": 0,
+      "size": {
+        "w": 320,
+        "h": 320
+      },
       "fills": [
         {
           "type": "SOLID",
@@ -878,6 +902,10 @@
         "h": 843
       },
       "rotationDeg": 90,
+      "size": {
+        "w": 843,
+        "h": 595
+      },
       "blendMode": "LINEAR_BURN",
       "fills": [
         {

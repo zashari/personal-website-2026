@@ -30,6 +30,10 @@
         "h": 736
       },
       "rotationDeg": -90,
+      "size": {
+        "w": 736,
+        "h": 981
+      },
       "fills": [
         {
           "type": "IMAGE",

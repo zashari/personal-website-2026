@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 // Downloads renders, reusable assets and the original image fills from the Figma file into design/figma/exports.
-// usage: node design/figma/scripts/export.mjs   (run extract.mjs first; it writes data/image-refs.json)
+// usage: node design/figma/scripts/export.mjs [path-prefix]   (run extract.mjs first; it writes data/image-refs.json)
+// With a prefix such as layers/, only matching renders are fetched and image fills are skipped.
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -40,6 +41,16 @@ const JOBS = [
   ['assets/folder-2-cover@2x.png', '69:421', 'png', 2],
   ['assets/folder-3-cover@2x.png', '69:422', 'png', 2],
   ['assets/folder-4-cover@2x.png', '69:423', 'png', 2],
+  // Paper layers on their own, so the blank sheet can be composited exactly (scripts/build-temp-assets.mjs).
+  ['layers/personal-info.base@4x.png', '10:111', 'png', 4],
+  ['layers/personal-info.texture@4x.png', '46:10', 'png', 4],
+  ['layers/professional-info.base@4x.png', '36:548', 'png', 4],
+  ['layers/professional-info.texture@4x.png', '46:14', 'png', 4],
+  ['layers/projects.base@4x.png', '66:72', 'png', 4],
+  ['layers/projects.texture@4x.png', '66:97', 'png', 4],
+  // Single unrotated pieces, rendered with Figma's own crop of their image fill.
+  ['layers/staple@8x.png', '66:105', 'png', 8],
+  ['layers/paperclip@8x.png', '43:150', 'png', 8],
   ['svg/redaction-header.svg', '11:224', 'svg', 1],
   ['svg/redaction-address.svg', '18:80', 'svg', 1],
   ['svg/redaction-inline.svg', '30:127', 'svg', 1],
@@ -47,6 +58,8 @@ const JOBS = [
   ['svg/red-arrow.svg', '104:328', 'svg', 1],
   ['svg/folder-tab-shape.svg', '4:79', 'svg', 1],
 ];
+
+const ONLY = process.argv[2];
 
 const api = async (url) => {
   const res = await fetch(url, { headers: { 'X-Figma-Token': TOKEN } });
@@ -62,7 +75,7 @@ async function save(url, file) {
 }
 
 async function renders() {
-  const groups = Map.groupBy(JOBS, ([, , format, scale]) => `${format}@${scale}`);
+  const groups = Map.groupBy(JOBS.filter(([out]) => !ONLY || out.startsWith(ONLY)), ([, , format, scale]) => `${format}@${scale}`);
   for (const [key, jobs] of groups) {
     const [format, scale] = key.split('@');
     const ids = jobs.map(([, id]) => id).join(',');
@@ -99,4 +112,4 @@ async function imageFills() {
 }
 
 await renders();
-await imageFills();
+if (!ONLY) await imageFills();

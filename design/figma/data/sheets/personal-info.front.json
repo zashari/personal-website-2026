@@ -92,6 +92,10 @@
         "h": 843
       },
       "rotationDeg": 90,
+      "size": {
+        "w": 843,
+        "h": 595
+      },
       "blendMode": "LINEAR_BURN",
       "fills": [
         {
@@ -179,6 +183,10 @@
         "h": 0
       },
       "rotationDeg": 0,
+      "size": {
+        "w": 129,
+        "h": 0
+      },
       "stroke": {
         "paints": [
           {
@@ -304,6 +312,10 @@
         "h": 84
       },
       "rotationDeg": 180,
+      "size": {
+        "w": 84,
+        "h": 84
+      },
       "blendMode": "COLOR_BURN",
       "fills": [
         {
@@ -439,6 +451,10 @@
         "h": 0
       },
       "rotationDeg": 0,
+      "size": {
+        "w": 510,
+        "h": 0
+      },
       "stroke": {
         "paints": [
           {
@@ -1912,6 +1928,10 @@
         "h": 0
       },
       "rotationDeg": 0,
+      "size": {
+        "w": 510,
+        "h": 0
+      },
       "stroke": {
         "paints": [
           {
@@ -2223,6 +2243,10 @@
         "h": 0
       },
       "rotationDeg": 0,
+      "size": {
+        "w": 510,
+        "h": 0
+      },
       "stroke": {
         "paints": [
           {
@@ -2555,6 +2579,10 @@
         "h": 0
       },
       "rotationDeg": 0,
+      "size": {
+        "w": 404,
+        "h": 0
+      },
       "stroke": {
         "paints": [
           {
@@ -2760,7 +2788,11 @@
         "w": 17.92,
         "h": 10.22
       },
-      "rotationDeg": 180
+      "rotationDeg": 180,
+      "size": {
+        "w": 17.92,
+        "h": 10.22
+      }
     },
     {
       "id": "18:91",
@@ -3353,6 +3385,10 @@
         "h": 0
       },
       "rotationDeg": 0,
+      "size": {
+        "w": 106,
+        "h": 0
+      },
       "stroke": {
         "paints": [
           {
@@ -3490,6 +3526,10 @@
         "h": 0
       },
       "rotationDeg": 0,
+      "size": {
+        "w": 221,
+        "h": 0
+      },
       "stroke": {
         "paints": [
           {
@@ -4567,6 +4607,10 @@
         "h": 155
       },
       "rotationDeg": 0,
+      "size": {
+        "w": 155,
+        "h": 155
+      },
       "fills": [
         {
           "type": "IMAGE",
@@ -4609,6 +4653,10 @@
         "h": 162.96
       },
       "rotationDeg": 7.12,
+      "size": {
+        "w": 146,
+        "h": 146
+      },
       "fills": [
         {
           "type": "IMAGE",
@@ -4639,6 +4687,10 @@
         "h": 105.74
       },
       "rotationDeg": 14.86,
+      "size": {
+        "w": 37.89,
+        "h": 99.35
+      },
       "fills": [
         {
           "type": "IMAGE",
