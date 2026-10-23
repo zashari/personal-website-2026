@@ -26,20 +26,50 @@ function textBox({ x, y, font, size, lineHeight, capTrim = false }) {
   return { left: x, top, fontSize: size, lineHeight: `${lineHeight}px` };
 }
 
-const NAV_X = { work: 330, workflow: 1238, contact: 1562 };
+// The header is a real page header: it spans the window, with Zashari and Work held 85 px from the left edge and
+// Workflow and Contact me 85 px from the right edge, as in Figma (items at x 85/330 and 1238/1562, 97 px apart).
+const HEADER = { top: 102, side: 85, gap: 97, logoWidth: 148 };
+// Figma's box width per item. Browsers measure Open Sans a pixel or so narrower, so items keep at least this width
+// and the right-hand group still lands on x 1238/1562; longer wording simply grows the item.
+const ITEM_WIDTH = { work: 126, workflow: 227, contact: 273 };
+const HEADER_LEFT = ['work'];
 const SOCIAL_X = { tiktok: 742, github: 920, instagram: 1096 };
 
 const TITLE = { font: 'openSans', size: 50, lineHeight: 68.0908 };
 const LABEL = { font: 'openSans', size: 20, lineHeight: 27.2363, capTrim: true };
 const SMALL_SERIF = { font: 'times', size: 20, capTrim: true };
 
-function MaybeLink({ href, className, children }) {
-  if (!href) return <span className={className}>{children}</span>;
+// Header text sits in normal flow, so convert the Figma offsets to sizes relative to the item's top (y 102).
+const titleStyle = { fontSize: TITLE.size, lineHeight: `${TITLE.lineHeight}px` };
+const labelStyle = {
+  fontSize: LABEL.size,
+  lineHeight: `${LABEL.lineHeight}px`,
+  marginTop: textBox({ x: 0, y: 194, ...LABEL }).top - HEADER.top - TITLE.lineHeight,
+};
+const logoZStyle = (({ top, ...rest }) => ({ ...rest, left: 0, top: top - HEADER.top }))(
+  textBox({ x: 0, y: 112, font: 'italianno', size: 75, lineHeight: 93.75, capTrim: true })
+);
+
+function MaybeLink({ href, className, style, children }) {
+  if (!href) return <span className={className} style={style}>{children}</span>;
   const external = /^https?:/.test(href);
   return (
-    <a className={className} href={href} {...(external && { target: '_blank', rel: 'noopener noreferrer' })}>
+    <a className={className} style={style} href={href} {...(external && { target: '_blank', rel: 'noopener noreferrer' })}>
       {children}
     </a>
+  );
+}
+
+function NavItem({ item }) {
+  return (
+    <MaybeLink href={item.href} className="home-link home-nav-item" style={{ minWidth: ITEM_WIDTH[item.key] }}>
+      <span className="home-nav-title" style={titleStyle}>
+        {item.title}
+      </span>
+      <span className="home-nav-label" style={labelStyle}>
+        {item.label}
+      </span>
+    </MaybeLink>
   );
 }
 
@@ -58,8 +88,8 @@ export default function HomeApp() {
   const scale = useFitScale();
 
   return (
-    <main className="home">
-      <div className="home-stage" style={{ width: FRAME.width, height: FRAME.height, '--scale': scale }}>
+    <main className="home" style={{ '--scale': scale }}>
+      <div className="home-stage" style={{ width: FRAME.width, height: FRAME.height }}>
         <img
           className="home-spiral"
           src={spiral}
@@ -99,30 +129,35 @@ export default function HomeApp() {
           <span style={textBox({ x: 1111, y: 485, font: 'times', size: 100, lineHeight: 110 })}>{NAME.last}</span>
         </h1>
 
-        <nav className="home-nav">
-          <MaybeLink href={BRAND.href} className="home-link home-nav-item">
-            <span className="home-logo-z" style={textBox({ x: 85, y: 112, font: 'italianno', size: 75, lineHeight: 93.75, capTrim: true })}>
-              Z
-            </span>
-            <span className="home-logo-rest" style={textBox({ x: 119, y: 102, ...TITLE })}>
-              ashari
-            </span>
-            <span className="home-nav-label" style={textBox({ x: 85, y: 194, ...LABEL })}>
-              {BRAND.label}
-            </span>
-          </MaybeLink>
-          {NAV.map((item) => (
-            <MaybeLink key={item.key} href={item.href} className="home-link home-nav-item">
-              <span className="home-nav-title" style={textBox({ x: NAV_X[item.key], y: 102, ...TITLE })}>
-                {item.title}
+      </div>
+
+      <header className="home-header" style={{ padding: `${HEADER.top}px ${HEADER.side}px 0` }}>
+        <nav className="home-nav" aria-label="Main">
+          <div className="home-nav-group" style={{ gap: HEADER.gap }}>
+            <MaybeLink href={BRAND.href} className="home-link home-nav-item">
+              <span className="home-nav-title home-logo" style={{ ...titleStyle, width: HEADER.logoWidth, height: TITLE.lineHeight }}>
+                <span className="home-logo-z" style={logoZStyle}>
+                  Z
+                </span>
+                <span className="home-logo-rest" style={{ left: 34, top: 0 }}>
+                  ashari
+                </span>
               </span>
-              <span className="home-nav-label" style={textBox({ x: NAV_X[item.key], y: 194, ...LABEL })}>
-                {item.label}
+              <span className="home-nav-label" style={labelStyle}>
+                {BRAND.label}
               </span>
             </MaybeLink>
-          ))}
+            {NAV.filter((item) => HEADER_LEFT.includes(item.key)).map((item) => (
+              <NavItem key={item.key} item={item} />
+            ))}
+          </div>
+          <div className="home-nav-group" style={{ gap: HEADER.gap }}>
+            {NAV.filter((item) => !HEADER_LEFT.includes(item.key)).map((item) => (
+              <NavItem key={item.key} item={item} />
+            ))}
+          </div>
         </nav>
-      </div>
+      </header>
     </main>
   );
 }
