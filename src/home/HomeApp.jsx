@@ -98,13 +98,17 @@ function SpacedLabel({ text }) {
 }
 
 // The centre photo. While the pointer is over it, the photos in REEL play in turn every 0.2s, looping, as hard cuts
-// like a flipbook; leaving shows the original again. Frames keep their own aspect ratio at the photo's height, centred
-// on it; only the photo's own box responds to the pointer, so wide frames don't change where the hover ends. The frames are stacked under the photo and only mounted once the
+// like a flipbook; leaving shows the original again. Frames keep their own aspect ratio, fitted inside the photo's box. The frames are stacked under the photo and only mounted once the
 // page is idle, so they never compete with the first paint, and every switch is instant because each is already decoded.
 function PhotoReel() {
   const [frame, setFrame] = useState(-1);
   const [mounted, setMounted] = useState(false);
   const timer = useRef(null);
+  const images = useRef([]);
+
+  // Chrome drops the decoded pixels of hidden images, so a frame shown cold flashes empty for tens of ms while it
+  // decodes. img.decode() decodes ahead: each frame is decoded during the previous one's 0.2s, ready to paint at once.
+  const prepare = (i) => images.current[i]?.decode().catch(() => {});
 
   useEffect(() => {
     const idle = window.requestIdleCallback ?? ((fn) => setTimeout(fn, 1200));
@@ -119,8 +123,14 @@ function PhotoReel() {
   const start = () => {
     if (!mounted || !REEL.length) return;
     clearInterval(timer.current);
-    setFrame(0);
-    timer.current = setInterval(() => setFrame((i) => (i + 1) % REEL.length), REEL_INTERVAL_MS);
+    let current = 0;
+    setFrame(current);
+    prepare(1 % REEL.length);
+    timer.current = setInterval(() => {
+      current = (current + 1) % REEL.length;
+      setFrame(current);
+      prepare((current + 1) % REEL.length);
+    }, REEL_INTERVAL_MS);
   };
   const stop = () => {
     clearInterval(timer.current);
@@ -137,7 +147,18 @@ function PhotoReel() {
         REEL.map((src, i) => (
           <picture key={src.avif} className="home-reel-frame" data-active={i === frame || undefined} aria-hidden="true">
             <source type="image/avif" srcSet={src.avif} />
-            <img src={src.webp} alt="" width={486} height={607} draggable={false} decoding="async" fetchPriority="low" />
+            <img
+              ref={(el) => {
+                images.current[i] = el;
+              }}
+              src={src.webp}
+              alt=""
+              width={486}
+              height={607}
+              draggable={false}
+              fetchPriority="low"
+              onLoad={i === 0 ? () => prepare(0) : undefined}
+            />
           </picture>
         ))}
     </div>

@@ -101,20 +101,20 @@ body {
   object-fit: cover;
 }
 
-/* Reel frames: uncropped, at the photo's height, centred on it. Hidden until their turn (visibility keeps them
-   decoded and ready), and transparent to the pointer so the hover area stays the photo's own box. */
+/* Reel frames: uncropped and fitted inside the photo's box, centred. A frame wider than the photo shrinks to its width,
+   a taller one to its height, keeping its aspect ratio. Hidden until their turn (visibility keeps them decoded and
+   ready), and transparent to the pointer so the hover area stays the photo's own box. */
 .home-reel-frame {
   visibility: hidden;
   pointer-events: none;
 }
 
 .home-reel-frame img {
+  left: 0;
   top: 0;
-  left: 50%;
+  width: 100%;
   height: 100%;
-  width: auto;
-  max-width: none;
-  transform: translateX(-50%);
+  object-fit: contain;
 }
 
 .home-reel-frame[data-active] {
