@@ -3,6 +3,7 @@ import { BRAND, MODES, NAME, NAV, PHOTO_ALT, ROLES, SOCIALS, TOUCH_LABEL } from 
 import spiral from './assets/golden-spiral.svg';
 import photoAvif from './assets/images/photo.avif';
 import photoWebp from './assets/images/photo.webp';
+import Book from './Book';
 import SphereLens, { LENS_SUPPORTED } from './SphereLens';
 import Strands from './Strands';
 
@@ -526,85 +527,89 @@ export default function HomeApp() {
   const pos = LAYOUTS[layout?.variant ?? 'wide'];
 
   return (
-    <main className="home" style={{ minHeight: layout?.pageHeight }}>
-      <div
-        ref={stageRef}
-        className="home-stage"
-        data-layout={layout?.variant}
-        style={{
-          width: FRAME.width,
-          height: FRAME.height,
-          transform: layout && `translate(${layout.x}px, ${layout.y}px) scale(${layout.scale})`,
-          visibility: layout ? undefined : 'hidden',
-        }}
-      >
-        <img
-          className="home-spiral"
-          src={spiral}
-          alt=""
-          style={{ left: -SPIRAL_BLEED, top: -SPIRAL_BLEED }}
-          width={FRAME.width + 2 * SPIRAL_BLEED}
-          height={FRAME.height + 2 * SPIRAL_BLEED}
-          draggable={false}
-        />
+    <>
+      <main className="home" style={{ minHeight: layout?.pageHeight }}>
+        <div
+          ref={stageRef}
+          className="home-stage"
+          data-layout={layout?.variant}
+          style={{
+            width: FRAME.width,
+            height: FRAME.height,
+            transform: layout && `translate(${layout.x}px, ${layout.y}px) scale(${layout.scale})`,
+            visibility: layout ? undefined : 'hidden',
+          }}
+        >
+          <img
+            className="home-spiral"
+            src={spiral}
+            alt=""
+            style={{ left: -SPIRAL_BLEED, top: -SPIRAL_BLEED }}
+            width={FRAME.width + 2 * SPIRAL_BLEED}
+            height={FRAME.height + 2 * SPIRAL_BLEED}
+            draggable={false}
+          />
 
-        {!isPhone && <SphereLayer front={false} state={sphereState} variant={layout?.variant ?? 'wide'} theme={theme} />}
+          {!isPhone && <SphereLayer front={false} state={sphereState} variant={layout?.variant ?? 'wide'} theme={theme} />}
 
-        {!isPhone && <TouchMe {...pos.touch} pressed={spheresOn} onToggle={toggleSpheres} />}
+          {!isPhone && <TouchMe {...pos.touch} pressed={spheresOn} onToggle={toggleSpheres} />}
 
-        <PhotoReel />
+          <PhotoReel />
 
-        {!isPhone && <SphereLayer front state={sphereState} variant={layout?.variant ?? 'wide'} theme={theme} />}
+          {!isPhone && <SphereLayer front state={sphereState} variant={layout?.variant ?? 'wide'} theme={theme} />}
 
-        <ul className="home-socials">
-          {SOCIALS.map((s) => (
-            <li key={s.key} style={textBox({ x: SOCIAL_X[s.key], y: 1023, lineHeight: 22, ...SMALL_SERIF })}>
-              <MaybeLink href={s.href} className="home-link">
-                {s.label}
-              </MaybeLink>
-            </li>
-          ))}
-        </ul>
-
-        <p className="home-roles" style={textBox({ ...pos.roles, lineHeight: 25, ...SMALL_SERIF })}>
-          {ROLES.map((role, i) => (
-            <span key={role}>
-              {i > 0 && <br />}
-              {role}
-            </span>
-          ))}
-        </p>
-
-        <h1 className="home-name">
-          <span style={textBox({ ...pos.first, ...NAME_TEXT })}>{NAME.first}</span>{' '}
-          <span style={textBox({ ...pos.last, ...NAME_TEXT })}>{NAME.last}</span>
-        </h1>
-      </div>
-
-      <header className="home-header" ref={headerRef}>
-        <nav className="home-nav" aria-label="Main">
-          <div className="home-nav-group">
-            <NavItem id="brand" href={BRAND.href} label={BRAND.label}>
-              <span className="home-logo" aria-label="Zashari">
-                <span className="home-logo-z" aria-hidden="true">
-                  Z
-                </span>
-                <span className="home-logo-rest" aria-hidden="true">
-                  ashari
-                </span>
-              </span>
-            </NavItem>
-            <NavItem id={NAV[0].key} title={NAV[0].title} label={NAV[0].label} href={NAV[0].href} />
-          </div>
-          <div className="home-nav-group">
-            {NAV.slice(1).map((item) => (
-              <NavItem key={item.key} id={item.key} title={item.title} label={item.label} href={item.href} />
+          <ul className="home-socials">
+            {SOCIALS.map((s) => (
+              <li key={s.key} style={textBox({ x: SOCIAL_X[s.key], y: 1023, lineHeight: 22, ...SMALL_SERIF })}>
+                <MaybeLink href={s.href} className="home-link">
+                  {s.label}
+                </MaybeLink>
+              </li>
             ))}
-          </div>
-        </nav>
-      </header>
+          </ul>
 
-      <ModeSwitch theme={theme} onChange={setTheme} footerRef={footerRef} />
-    </main>
+          <p className="home-roles" style={textBox({ ...pos.roles, lineHeight: 25, ...SMALL_SERIF })}>
+            {ROLES.map((role, i) => (
+              <span key={role}>
+                {i > 0 && <br />}
+                {role}
+              </span>
+            ))}
+          </p>
+
+          <h1 className="home-name">
+            <span style={textBox({ ...pos.first, ...NAME_TEXT })}>{NAME.first}</span>{' '}
+            <span style={textBox({ ...pos.last, ...NAME_TEXT })}>{NAME.last}</span>
+          </h1>
+        </div>
+
+        <header className="home-header" ref={headerRef}>
+          <nav className="home-nav" aria-label="Main">
+            <div className="home-nav-group">
+              <NavItem id="brand" href={BRAND.href} label={BRAND.label}>
+                <span className="home-logo" aria-label="Zashari">
+                  <span className="home-logo-z" aria-hidden="true">
+                    Z
+                  </span>
+                  <span className="home-logo-rest" aria-hidden="true">
+                    ashari
+                  </span>
+                </span>
+              </NavItem>
+              <NavItem id={NAV[0].key} title={NAV[0].title} label={NAV[0].label} href={NAV[0].href} />
+            </div>
+            <div className="home-nav-group">
+              {NAV.slice(1).map((item) => (
+                <NavItem key={item.key} id={item.key} title={item.title} label={item.label} href={item.href} />
+              ))}
+            </div>
+          </nav>
+        </header>
+
+        <ModeSwitch theme={theme} onChange={setTheme} footerRef={footerRef} />
+      </main>
+
+      <Book />
+    </>
   );
 }
