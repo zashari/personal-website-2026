@@ -52,6 +52,9 @@
   --accent: #0015ff;
   --logo-stroke: currentColor;
   --theme-time: 0.6s;
+  /* Every hover colour change (header, socials, mode switch) shares this curve. */
+  --hover-ease: cubic-bezier(0.45, 0, 0.25, 1);
+  --hover-time: 0.9s;
 }
 
 :root[data-theme='dark'] {
@@ -171,9 +174,13 @@ body {
 }
 
 /* Switching modes cross-fades every colour together. The class is only on <html> for the length of a switch (see
-   useTheme), so nothing fades on page load and hover transitions keep their own timing the rest of the time. */
+   useTheme), so nothing fades on page load and hover transitions keep their own timing the rest of the time. Only the
+   elements that set a colour fade; their children inherit it, and a child fading on top of its parent would lag. */
 :root.theme-switching body,
-:root.theme-switching body * {
+:root.theme-switching .home-nav-item,
+:root.theme-switching .home-logo-z,
+:root.theme-switching .home-socials a,
+:root.theme-switching .home-mode-option {
   transition:
     background-color var(--theme-time) ease,
     color var(--theme-time) ease,
@@ -234,8 +241,6 @@ body {
 
 /* Hover: the whole item turns blue and its label opens up, on one symmetric curve; the spacing moves slower. */
 .home-nav-item {
-  --hover-ease: cubic-bezier(0.45, 0, 0.25, 1);
-  --hover-time: 0.9s;
   --spacing-time: 1s;
   display: flex;
   flex-direction: column;
@@ -369,7 +374,7 @@ body {
   color: var(--mode-idle);
   cursor: pointer;
   pointer-events: auto;
-  transition: color var(--hover-time, 0.9s) cubic-bezier(0.45, 0, 0.25, 1);
+  transition: color var(--hover-time) var(--hover-ease);
 }
 
 .home-mode-option[aria-pressed='true'],
@@ -405,17 +410,21 @@ body {
 
 /* ---- Links ---- */
 
-.home-link {
+/* Links take their colour from their context; header items and the mode switch set their own above. Low specificity
+   (:where) so those rules win: an item inheriting the body's colour would fade twice, and lag, on a mode switch. */
+:where(.home-link) {
   color: inherit;
   text-decoration: none;
 }
 
+/* Socials take the accent colour on hover, like the header and mode switch; only the colour changes. */
 .home-socials a.home-link {
-  transition: opacity 0.2s ease;
+  transition: color var(--hover-time) var(--hover-ease);
 }
 
-.home-socials a.home-link:hover {
-  opacity: 0.6;
+.home-socials a.home-link:hover,
+.home-socials a.home-link:focus-visible {
+  color: var(--accent);
 }
 
 a.home-link:focus-visible {
@@ -423,11 +432,6 @@ a.home-link:focus-visible {
   outline-offset: 6px;
 }
 
-/* Reduced motion (on Windows: Settings > Accessibility > Visual effects > Animation effects off) only drops the
-   social-link fade. The label spread stays animated: it is a small slide the visitor starts by hovering, and cutting
-   its transition would turn it into an abrupt jump, which is harsher than the motion it replaces. */
-@media (prefers-reduced-motion: reduce) {
-  .home-socials a.home-link {
-    transition: none;
-  }
-}
+/* Reduced motion (Windows: Settings > Accessibility > Visual effects > Animation effects off) changes nothing here:
+   the hovers are colour fades and a small label spread the visitor starts, and cutting their transitions would only
+   turn them into abrupt jumps. */
