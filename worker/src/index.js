@@ -13,7 +13,7 @@ function loginHtml(redirect, error) {
 <meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
 <title>ML Reboot, resume from checkpoint</title>
 <meta name="theme-color" content="#550000"/>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23e3dac9'/%3E%3Cpath d='M5 6c4 7 8 11 12 13s7 3 10 7' fill='none' stroke='%2323271f' stroke-width='3' stroke-linecap='round'/%3E%3Ccircle cx='17' cy='19' r='4' fill='%23ff4f8b' stroke='%2323271f' stroke-width='2'/%3E%3C/svg%3E"/>
+<link rel="icon" type="image/png" sizes="48x48" href="/favicon-48.png"/><link rel="icon" type="image/svg+xml" sizes="any" href="/favicon.svg"/><link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;600;700;800&family=Shantell+Sans:wght@400&display=swap"/>
 <style>
