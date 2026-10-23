@@ -42,11 +42,16 @@ body,
   height: 100%;
 }
 
+html {
+  height: 100dvh;
+}
+
+/* The page fits one screen; only a very short window (see MIN_SCALE) makes it taller and scroll. */
 body {
   background: #dbd5c9;
   color: #000;
-  overflow: hidden;
-  overflow: clip;
+  overflow-x: hidden;
+  overflow-x: clip;
   -webkit-font-smoothing: antialiased;
   text-rendering: geometricPrecision;
 }
@@ -59,11 +64,13 @@ body {
   overflow: clip;
 }
 
+/* ---- Artwork: Figma px on a 1920 x 1080 stage, placed and scaled by useStageLayout ---- */
+
 .home-stage {
   position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%) scale(var(--scale));
+  left: 0;
+  top: 0;
+  transform-origin: 0 0;
 }
 
 .home-stage :is(span, li, p, img) {
@@ -101,6 +108,13 @@ body {
   color: #474747;
 }
 
+/* A larger tap target than the 14 px-tall word, so the links stay easy to hit when the stage is scaled down. */
+.home-socials a::after {
+  content: '';
+  position: absolute;
+  inset: -16px -12px;
+}
+
 .home-roles span {
   position: static;
 }
@@ -117,25 +131,29 @@ body {
   text-shadow: 0 0 6px rgb(0 0 0 / 25%);
 }
 
+/* ---- Header: fluid HTML. Sizes are in em of the title size (50 px in Figma at 1920 wide) ---- */
+
 .home-header {
   position: absolute;
   top: 0;
   left: 0;
-  /* Laid out in Figma px across the whole window, then scaled like the stage. */
-  width: calc(100% / var(--scale));
-  transform: scale(var(--scale));
-  transform-origin: 0 0;
+  right: 0;
+  z-index: 1;
+  padding: clamp(14px, 2.8dvh, 36px) clamp(16px, 3.2vw, 60px) 0;
+  font-size: clamp(22px, 2.6vw, 50px);
 }
 
 .home-nav {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
+  column-gap: clamp(16px, 5vw, 97px);
 }
 
 .home-nav-group {
   display: flex;
   align-items: flex-start;
+  gap: clamp(16px, 5vw, 97px);
 }
 
 .home-nav-item {
@@ -144,43 +162,72 @@ body {
   align-items: flex-start;
 }
 
-.home-nav-title,
+.home-nav-title {
+  display: block;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 500;
+  font-size: 1em;
+  line-height: 1.3618;
+  white-space: nowrap;
+}
+
+/* Figma: 20 px labels whose cap top sits 92 px below the title's box top. */
 .home-nav-label {
   display: block;
-  white-space: pre;
+  font-family: 'Open Sans SemiCondensed', 'Open Sans', sans-serif;
+  font-weight: 500;
+  font-size: max(10px, 0.4em);
+  line-height: 1.3618;
+  margin-top: 0.84em;
+  white-space: nowrap;
 }
 
+/* The logotype: an Italianno Z under "ashari" set tight, 148 x 68 px in Figma. */
 .home-logo {
   position: relative;
+  display: block;
+  width: 2.96em;
+  height: 1.3618em;
 }
 
-.home-logo > span {
+.home-logo-z,
+.home-logo-rest {
   position: absolute;
-  white-space: pre;
+  top: 0;
 }
 
 .home-logo-z {
+  left: 0;
+  top: -0.0897em;
   font-family: 'Italianno', cursive;
   font-weight: 400;
+  font-size: 1.5em;
+  line-height: 1.25;
   /* Figma strokes the Z 1px outside its outline: a 2px centred stroke painted under the fill. */
-  -webkit-text-stroke: 2px #000;
+  -webkit-text-stroke: 0.0267em #000;
   paint-order: stroke fill;
 }
 
-.home-logo-rest,
-.home-nav-title {
-  font-family: 'Open Sans', sans-serif;
-  font-weight: 500;
-}
-
 .home-logo-rest {
-  letter-spacing: -6.5px;
+  left: 0.68em;
+  letter-spacing: -0.13em;
 }
 
-.home-nav-label {
-  font-family: 'Open Sans SemiCondensed', 'Open Sans', sans-serif;
-  font-weight: 500;
+/* Phones: the two groups no longer fit on one line, so the four items become a 2 x 2 grid. */
+@media (max-width: 760px) {
+  .home-nav {
+    display: grid;
+    grid-template-columns: auto auto;
+    justify-content: space-between;
+    row-gap: 12px;
+  }
+
+  .home-nav-group {
+    display: contents;
+  }
 }
+
+/* ---- Links ---- */
 
 .home-link {
   color: inherit;
@@ -196,11 +243,12 @@ a.home-link:hover {
 }
 
 a.home-link:focus-visible {
-  outline: none;
+  outline: 2px solid currentColor;
+  outline-offset: 6px;
 }
 
-a.home-link:focus-visible .home-nav-label,
-.home-socials a.home-link:focus-visible {
-  text-decoration: underline;
-  text-underline-offset: 6px;
+@media (prefers-reduced-motion: reduce) {
+  a.home-link {
+    transition: none;
+  }
 }

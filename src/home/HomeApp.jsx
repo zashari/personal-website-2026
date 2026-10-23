@@ -1,17 +1,36 @@
-import { useLayoutEffect, useState } from 'react';
+import { useLayoutEffect, useRef, useState } from 'react';
 import { BRAND, NAME, NAV, PHOTO_ALT, ROLES, SOCIALS } from './content';
 import spiral from './assets/golden-spiral.svg';
 import photoAvif from './assets/images/photo.avif';
 import photoWebp from './assets/images/photo.webp';
 
-// The page is the Figma frame "home" (1920 x 1080, page version-2), drawn in Figma px and scaled to fit the window.
+// The artwork is the Figma frame "home" (1920 x 1080, page version-2), drawn in Figma px on a stage. The stage is
+// scaled so its focus box (photo, name, roles and socials, down to the frame's bottom edge) fills the space under the
+// header. The header itself is ordinary fluid HTML (see home.css).
 const FRAME = { width: 1920, height: 1080 };
+// Below this the 20 px Figma text drops under ~11 px, so short screens (a phone on its side) scroll instead.
+const MIN_SCALE = 0.55;
 const SPIRAL_BLEED = 2000; // matches BLEED in scripts/build-home-assets.mjs
 
-// Vertical metrics per font, in em (all four set USE_TYPO_METRICS, so every browser uses these).
+// Landscape keeps the Figma arrangement. Portrait narrows the focus to the photo column, so the name sits on the
+// photo and the roles move under it.
+const LAYOUTS = {
+  wide: {
+    focus: { x: 400, y: 217, width: 1120, height: 863 },
+    first: { x: 517, y: 485 },
+    last: { x: 1111, y: 485 },
+    roles: { x: 1328, y: 780 },
+  },
+  tall: {
+    focus: { x: 640, y: 217, width: 640, height: 863 },
+    first: { x: 667, y: 485 },
+    last: { x: 962, y: 485 },
+    roles: { x: 742, y: 892 },
+  },
+};
+
+// Vertical metrics per font, in em (all set USE_TYPO_METRICS, so every browser uses these).
 const METRICS = {
-  italianno: { ascent: 0.8, descent: 0.45, cap: 0.577 },
-  openSans: { ascent: 2189 / 2048, descent: 600 / 2048, cap: 1462 / 2048 },
   times: { ascent: 0.75, descent: 0.25, cap: 0.7 },
 };
 
@@ -26,70 +45,81 @@ function textBox({ x, y, font, size, lineHeight, capTrim = false }) {
   return { left: x, top, fontSize: size, lineHeight: `${lineHeight}px` };
 }
 
-// The header is a real page header: it spans the window, with Zashari and Work held 85 px from the left edge and
-// Workflow and Contact me 85 px from the right edge, as in Figma (items at x 85/330 and 1238/1562, 97 px apart).
-const HEADER = { top: 102, side: 85, gap: 97, logoWidth: 148 };
-// Figma's box width per item. Browsers measure Open Sans a pixel or so narrower, so items keep at least this width
-// and the right-hand group still lands on x 1238/1562; longer wording simply grows the item.
-const ITEM_WIDTH = { work: 126, workflow: 227, contact: 273 };
-const HEADER_LEFT = ['work'];
 const SOCIAL_X = { tiktok: 742, github: 920, instagram: 1096 };
-
-const TITLE = { font: 'openSans', size: 50, lineHeight: 68.0908 };
-const LABEL = { font: 'openSans', size: 20, lineHeight: 27.2363, capTrim: true };
 const SMALL_SERIF = { font: 'times', size: 20, capTrim: true };
+const NAME_TEXT = { font: 'times', size: 100, lineHeight: 110 };
 
-// Header text sits in normal flow, so convert the Figma offsets to sizes relative to the item's top (y 102).
-const titleStyle = { fontSize: TITLE.size, lineHeight: `${TITLE.lineHeight}px` };
-const labelStyle = {
-  fontSize: LABEL.size,
-  lineHeight: `${LABEL.lineHeight}px`,
-  marginTop: textBox({ x: 0, y: 194, ...LABEL }).top - HEADER.top - TITLE.lineHeight,
-};
-const logoZStyle = (({ top, ...rest }) => ({ ...rest, left: 0, top: top - HEADER.top }))(
-  textBox({ x: 0, y: 112, font: 'italianno', size: 75, lineHeight: 93.75, capTrim: true })
-);
-
-function MaybeLink({ href, className, style, children }) {
-  if (!href) return <span className={className} style={style}>{children}</span>;
+function MaybeLink({ href, className, children }) {
+  if (!href) return <span className={className}>{children}</span>;
   const external = /^https?:/.test(href);
   return (
-    <a className={className} style={style} href={href} {...(external && { target: '_blank', rel: 'noopener noreferrer' })}>
+    <a className={className} href={href} {...(external && { target: '_blank', rel: 'noopener noreferrer' })}>
       {children}
     </a>
   );
 }
 
-function NavItem({ item }) {
+function NavItem({ title, label, href, children }) {
   return (
-    <MaybeLink href={item.href} className="home-link home-nav-item" style={{ minWidth: ITEM_WIDTH[item.key] }}>
-      <span className="home-nav-title" style={titleStyle}>
-        {item.title}
-      </span>
-      <span className="home-nav-label" style={labelStyle}>
-        {item.label}
-      </span>
+    <MaybeLink href={href} className="home-link home-nav-item">
+      <span className="home-nav-title">{children ?? title}</span>
+      <span className="home-nav-label">{label}</span>
     </MaybeLink>
   );
 }
 
-function useFitScale() {
-  const fit = () => Math.min(window.innerWidth / FRAME.width, window.innerHeight / FRAME.height);
-  const [scale, setScale] = useState(fit);
+// Fits the stage's focus box into the window below the header, centred, and picks the arrangement by the shape of
+// that space. Width always fits; height may not, and then the page grows and scrolls. Re-runs when the window or the
+// header (which wraps on phones and grows as fonts load) changes size.
+function useStageLayout(headerRef) {
+  const [layout, setLayout] = useState(null);
   useLayoutEffect(() => {
-    const onResize = () => setScale(fit());
-    window.addEventListener('resize', onResize);
-    return () => window.removeEventListener('resize', onResize);
-  }, []);
-  return scale;
+    const header = headerRef.current;
+    const update = () => {
+      const top = header.offsetTop + header.offsetHeight;
+      const width = document.documentElement.clientWidth;
+      const height = Math.max(window.innerHeight - top, 1);
+      const variant = width >= height ? 'wide' : 'tall';
+      const { focus } = LAYOUTS[variant];
+      const scale = Math.min(width / focus.width, Math.max(height / focus.height, MIN_SCALE));
+      const spare = Math.max(height - focus.height * scale, 0);
+      setLayout({
+        variant,
+        scale,
+        x: (width - focus.width * scale) / 2 - focus.x * scale,
+        y: top + spare / 2 - focus.y * scale,
+        pageHeight: top + spare + focus.height * scale,
+      });
+    };
+    update();
+    const observer = new ResizeObserver(update);
+    observer.observe(header);
+    window.addEventListener('resize', update);
+    return () => {
+      observer.disconnect();
+      window.removeEventListener('resize', update);
+    };
+  }, [headerRef]);
+  return layout;
 }
 
 export default function HomeApp() {
-  const scale = useFitScale();
+  const headerRef = useRef(null);
+  const layout = useStageLayout(headerRef);
+  const pos = LAYOUTS[layout?.variant ?? 'wide'];
 
   return (
-    <main className="home" style={{ '--scale': scale }}>
-      <div className="home-stage" style={{ width: FRAME.width, height: FRAME.height }}>
+    <main className="home" style={{ minHeight: layout?.pageHeight }}>
+      <div
+        className="home-stage"
+        data-layout={layout?.variant}
+        style={{
+          width: FRAME.width,
+          height: FRAME.height,
+          transform: layout && `translate(${layout.x}px, ${layout.y}px) scale(${layout.scale})`,
+          visibility: layout ? undefined : 'hidden',
+        }}
+      >
         <img
           className="home-spiral"
           src={spiral}
@@ -115,7 +145,7 @@ export default function HomeApp() {
           ))}
         </ul>
 
-        <p className="home-roles" style={textBox({ x: 1328, y: 780, lineHeight: 25, ...SMALL_SERIF })}>
+        <p className="home-roles" style={textBox({ ...pos.roles, lineHeight: 25, ...SMALL_SERIF })}>
           {ROLES.map((role, i) => (
             <span key={role}>
               {i > 0 && <br />}
@@ -125,35 +155,29 @@ export default function HomeApp() {
         </p>
 
         <h1 className="home-name">
-          <span style={textBox({ x: 517, y: 485, font: 'times', size: 100, lineHeight: 110 })}>{NAME.first}</span>{' '}
-          <span style={textBox({ x: 1111, y: 485, font: 'times', size: 100, lineHeight: 110 })}>{NAME.last}</span>
+          <span style={textBox({ ...pos.first, ...NAME_TEXT })}>{NAME.first}</span>{' '}
+          <span style={textBox({ ...pos.last, ...NAME_TEXT })}>{NAME.last}</span>
         </h1>
-
       </div>
 
-      <header className="home-header" style={{ padding: `${HEADER.top}px ${HEADER.side}px 0` }}>
+      <header className="home-header" ref={headerRef}>
         <nav className="home-nav" aria-label="Main">
-          <div className="home-nav-group" style={{ gap: HEADER.gap }}>
-            <MaybeLink href={BRAND.href} className="home-link home-nav-item">
-              <span className="home-nav-title home-logo" style={{ ...titleStyle, width: HEADER.logoWidth, height: TITLE.lineHeight }}>
-                <span className="home-logo-z" style={logoZStyle}>
+          <div className="home-nav-group">
+            <NavItem href={BRAND.href} label={BRAND.label}>
+              <span className="home-logo" aria-label="Zashari">
+                <span className="home-logo-z" aria-hidden="true">
                   Z
                 </span>
-                <span className="home-logo-rest" style={{ left: 34, top: 0 }}>
+                <span className="home-logo-rest" aria-hidden="true">
                   ashari
                 </span>
               </span>
-              <span className="home-nav-label" style={labelStyle}>
-                {BRAND.label}
-              </span>
-            </MaybeLink>
-            {NAV.filter((item) => HEADER_LEFT.includes(item.key)).map((item) => (
-              <NavItem key={item.key} item={item} />
-            ))}
+            </NavItem>
+            <NavItem title={NAV[0].title} label={NAV[0].label} href={NAV[0].href} />
           </div>
-          <div className="home-nav-group" style={{ gap: HEADER.gap }}>
-            {NAV.filter((item) => !HEADER_LEFT.includes(item.key)).map((item) => (
-              <NavItem key={item.key} item={item} />
+          <div className="home-nav-group">
+            {NAV.slice(1).map((item) => (
+              <NavItem key={item.key} title={item.title} label={item.label} href={item.href} />
             ))}
           </div>
         </nav>
