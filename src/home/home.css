@@ -200,6 +200,8 @@ body {
 .home-sphere {
   position: absolute;
   pointer-events: auto;
+  /* Repel offset from useRepel, scaled per sphere for a little depth. */
+  transform: translate(calc(var(--repel-x, 0px) * var(--depth, 1)), calc(var(--repel-y, 0px) * var(--depth, 1)));
 }
 
 /* The front sphere lies over the photo; let the pointer through so the photo's hover reel still works there. */

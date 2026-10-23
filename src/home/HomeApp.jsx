@@ -205,21 +205,21 @@ const SPHERES = {
   // right (left of the roles at x 1328, above the socials at y 1023), on the right edge, and one over the photo's
   // lower-left corner, under the white name.
   wide: [
-    { id: 'top', x: 930, y: 70, d: 300 },
-    { id: 'left', x: 40, y: 680, d: 300 },
+    { id: 'top', x: 930, y: 70, d: 300, depth: 0.7 },
+    { id: 'left', x: 40, y: 680, d: 300, depth: 1.1 },
     // Right of the DARK switch even on 1024 px-wide screens, left of Tiktok (x 742).
-    { id: 'bottom', x: 620, y: 1130, d: 260 },
-    { id: 'right-low', x: 1170, y: 860, d: 300 },
-    { id: 'right-edge', x: 1960, y: 400, d: 300 },
-    { id: 'front', x: 735, y: 720, d: 300, front: true },
+    { id: 'bottom', x: 620, y: 1130, d: 260, depth: 0.85 },
+    { id: 'right-low', x: 1170, y: 860, d: 300, depth: 0.6 },
+    { id: 'right-edge', x: 1960, y: 400, d: 300, depth: 1 },
+    { id: 'front', x: 735, y: 720, d: 300, depth: 1.2, front: true },
   ],
   // Tall (phones): the narrow photo column leaves room only at its edges, so four smaller spheres sit half behind the
   // photo's sides and corners, clear of the header, roles, socials and TOUCH ME.
   tall: [
-    { id: 'top', x: 1240, y: 300, d: 160 },
-    { id: 'left', x: 640, y: 380, d: 200 },
-    { id: 'right', x: 1280, y: 700, d: 200 },
-    { id: 'bottom', x: 640, y: 960, d: 180 },
+    { id: 'top', x: 1240, y: 300, d: 160, depth: 0.7 },
+    { id: 'left', x: 640, y: 380, d: 200, depth: 1.1 },
+    { id: 'right', x: 1280, y: 700, d: 200, depth: 0.85 },
+    { id: 'bottom', x: 640, y: 960, d: 180, depth: 1 },
   ],
 };
 const SPHERE_FADE_MS = 450; // matches .home-spheres transition in home.css
@@ -232,7 +232,11 @@ function SphereLayer({ front, state, variant }) {
       {SPHERES[variant].filter((s) => !!s.front === front).map((s) => {
         const box = s.d / 0.84;
         return (
-          <div key={s.id} className="home-sphere" style={{ left: s.x - box / 2, top: s.y - box / 2, width: box, height: box }}>
+          <div
+            key={s.id}
+            className="home-sphere"
+            style={{ left: s.x - box / 2, top: s.y - box / 2, width: box, height: box, '--depth': s.depth }}
+          >
             <Strands respectReducedMotion={false} />
           </div>
         );
@@ -243,6 +247,62 @@ function SphereLayer({ front, state, variant }) {
 
 // off -> entering (mounted, transparent) -> on (faded in) -> leaving (fading out) -> off (unmounted, WebGL freed).
 // The visitor starts and stops the spheres themselves, so they move even under reduced motion.
+// Repel: while the spheres are on, they drift a little away from the cursor, as like poles of a magnet push apart. The cursor's
+// offset from the window centre (-1..1 on each axis) is mirrored and scaled to at most REPEL_MAX Figma px (times each
+// sphere's depth), then eased toward with a soft lag so the spheres float rather than follow. The offset is written to
+// CSS variables on the stage, so no React render happens per frame.
+const REPEL_MAX = 12;
+const REPEL_LAG_S = 0.45; // time constant of the easing; time-based so it feels the same at any frame rate
+
+function useRepel(active, stageRef) {
+  useEffect(() => {
+    const stage = stageRef.current;
+    if (!active || !stage) return undefined;
+    const target = { x: 0, y: 0 };
+    const current = { x: 0, y: 0 };
+    let raf = 0;
+    let last = 0;
+    const tick = (now) => {
+      const dt = last ? Math.min((now - last) / 1000, 0.1) : 1 / 60;
+      last = now;
+      const k = 1 - Math.exp(-dt / REPEL_LAG_S);
+      current.x += (target.x - current.x) * k;
+      current.y += (target.y - current.y) * k;
+      stage.style.setProperty('--repel-x', `${current.x.toFixed(3)}px`);
+      stage.style.setProperty('--repel-y', `${current.y.toFixed(3)}px`);
+      const settled = Math.abs(target.x - current.x) < 0.01 && Math.abs(target.y - current.y) < 0.01;
+      raf = settled ? 0 : requestAnimationFrame(tick);
+      if (!raf) last = 0;
+    };
+    const onMove = (event) => {
+      target.x = -((event.clientX - window.innerWidth / 2) / (window.innerWidth / 2)) * REPEL_MAX;
+      target.y = -((event.clientY - window.innerHeight / 2) / (window.innerHeight / 2)) * REPEL_MAX;
+      if (!raf) raf = requestAnimationFrame(tick);
+    };
+    window.addEventListener('pointermove', onMove);
+    return () => {
+      window.removeEventListener('pointermove', onMove);
+      cancelAnimationFrame(raf);
+      stage.style.removeProperty('--repel-x');
+      stage.style.removeProperty('--repel-y');
+    };
+  }, [active, stageRef]);
+}
+
+// Phones get neither TOUCH ME nor the spheres (no cursor to repel, and no WebGL running on a small battery).
+const PHONE_QUERY = '(max-width: 767px)';
+
+function useIsPhone() {
+  const [phone, setPhone] = useState(() => window.matchMedia(PHONE_QUERY).matches);
+  useEffect(() => {
+    const query = window.matchMedia(PHONE_QUERY);
+    const onChange = () => setPhone(query.matches);
+    query.addEventListener('change', onChange);
+    return () => query.removeEventListener('change', onChange);
+  }, []);
+  return phone;
+}
+
 function useSpheres() {
   const [state, setState] = useState('off');
   const timer = useRef(null);
@@ -367,11 +427,15 @@ export default function HomeApp() {
   const layout = useStageLayout(headerRef, footerRef);
   const [theme, setTheme] = useTheme();
   const [sphereState, spheresOn, toggleSpheres] = useSpheres();
+  const stageRef = useRef(null);
+  const isPhone = useIsPhone();
+  useRepel(sphereState !== 'off' && !isPhone, stageRef);
   const pos = LAYOUTS[layout?.variant ?? 'wide'];
 
   return (
     <main className="home" style={{ minHeight: layout?.pageHeight }}>
       <div
+        ref={stageRef}
         className="home-stage"
         data-layout={layout?.variant}
         style={{
@@ -391,13 +455,13 @@ export default function HomeApp() {
           draggable={false}
         />
 
-        <SphereLayer front={false} state={sphereState} variant={layout?.variant ?? 'wide'} />
+        {!isPhone && <SphereLayer front={false} state={sphereState} variant={layout?.variant ?? 'wide'} />}
 
-        <TouchMe {...pos.touch} pressed={spheresOn} onToggle={toggleSpheres} />
+        {!isPhone && <TouchMe {...pos.touch} pressed={spheresOn} onToggle={toggleSpheres} />}
 
         <PhotoReel />
 
-        <SphereLayer front state={sphereState} variant={layout?.variant ?? 'wide'} />
+        {!isPhone && <SphereLayer front state={sphereState} variant={layout?.variant ?? 'wide'} />}
 
         <ul className="home-socials">
           {SOCIALS.map((s) => (
