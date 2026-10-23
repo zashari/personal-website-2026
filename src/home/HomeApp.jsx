@@ -224,8 +224,8 @@ const SPHERES = {
 };
 const SPHERE_FADE_MS = 450; // matches .home-spheres transition in home.css
 
-// Spheres always use Strands' dark glass (lightMode stays off); in light mode the glass is lifted to a softer grey.
-const SPHERE_TONE = { light: 0.5, dark: 0 };
+// Spheres use Strands' dark glass in dark mode and clear glass in light mode (lightMode stays off).
+const SPHERE_CLEAR = { light: 1, dark: 0 };
 
 function SphereLayer({ front, state, variant, theme }) {
   if (state === 'off') return null;
@@ -239,7 +239,7 @@ function SphereLayer({ front, state, variant, theme }) {
             className="home-sphere"
             style={{ left: s.x - box / 2, top: s.y - box / 2, width: box, height: box, '--depth': s.depth }}
           >
-            <Strands respectReducedMotion={false} tone={SPHERE_TONE[theme]} />
+            <Strands respectReducedMotion={false} clear={SPHERE_CLEAR[theme]} />
           </div>
         );
       })}
