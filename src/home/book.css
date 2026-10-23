@@ -8,7 +8,6 @@
   --paper-ink: #141414;
   --paper-mute: #5c5953;
   --page-ratio: 0.72;
-  --book-w: min(92vw, (100svh - 150px) * 2 * var(--page-ratio), 1480px);
   position: relative;
   color: var(--paper-ink);
 }
@@ -23,11 +22,49 @@
   position: sticky;
   top: 0;
   height: 100svh;
+}
+
+/* Holds the book, its curl canvas and the controls, and sizes the book from its own box (cq units), so the same
+   rules work upright and turned. On a phone or tablet held upright it is turned a quarter clockwise with its sides swapped:
+   the spread runs along the tall screen, and the reader turns the phone sideways (Book.jsx). */
+.bk-frame {
+  --reserve: clamp(56px, 16cqh, 150px);
+  --book-w: min(92cqw, (100cqh - var(--reserve)) * 2 * var(--page-ratio), 1480px);
+  position: absolute;
+  inset: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 22px;
+  gap: min(22px, 3cqh);
+  container-type: size;
+}
+
+.bk-frame[data-rotated] {
+  inset: auto;
+  left: 50%;
+  top: 50%;
+  width: 100svh;
+  height: 100vw;
+  transform: translate(-50%, -50%) rotate(90deg);
+}
+
+.bk-turn-hint {
+  position: absolute;
+  top: max(6px, 1.5cqh);
+  font-family: 'Open Sans SemiCondensed', 'Open Sans', sans-serif;
+  font-weight: 500;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink);
+  opacity: 0.7;
+}
+
+/* The controls get 16% of the frame's height under the book, so on a phone (about 390 px tall when turned) they
+   tighten. */
+.bk-frame .bk-controls {
+  font-size: clamp(11px, 2.2cqh, 13px);
 }
 
 .bk-book {
@@ -264,6 +301,17 @@
 }
 
 /* ---- Stacked pages (narrow or portrait screens) ---- */
+
+.bk-view-toggle {
+  display: block;
+  margin: 28px auto 0;
+  color: var(--ink);
+  font-family: 'Open Sans SemiCondensed', 'Open Sans', sans-serif;
+  font-weight: 500;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
 
 .bk-stack {
   display: flex;

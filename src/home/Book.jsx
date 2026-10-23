@@ -6,8 +6,12 @@
 // is live HTML; while a leaf is in the air, three.js draws it bending (PageCurl.js), falling back to a flat CSS 3D
 // rotateY until its page images are ready or when WebGL is missing. The section is a tall scroll track with a sticky
 // stage; GSAP ScrollTrigger maps its scroll progress to "pages turned" and snaps to whole spreads. The turn follows
-// the visitor's own scroll, and the owner wants it under reduced motion too, so there is no reduced variant. Narrow
-// or portrait screens get the pages stacked in normal scroll instead, with no pinning.
+// the visitor's own scroll, and the owner wants it under reduced motion too, so there is no reduced variant.
+//
+// On a phone or tablet held upright the book is turned a quarter, so the spread fills the tall screen and the reader
+// turns the device sideways; scrolling still turns the pages. Only an inner frame rotates (the track and sticky stage
+// stay upright, as pinning needs), and a button offers the pages upright and stacked instead (WCAG 1.3.4). A device on
+// its side, or any landscape screen, gets the book upright. Portrait windows with a mouse keep the stacked pages.
 import { useCallback, useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -26,9 +30,16 @@ import PageCurl from './PageCurl';
 import './book.css';
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
+// Phones resize the viewport as the address bar shows and hides; re-measuring then would jolt the book mid-scroll.
+ScrollTrigger.config({ ignoreMobileResize: true });
 
 const TURNS = SPREADS.length - 1;
-const STACKED_QUERY = '(max-width: 899px), (max-aspect-ratio: 1/1)';
+// Any touch screen held upright, phone or tablet: an upright iPad (about 820 px wide) is still too narrow for the
+// spread, and stacked pages there read as one page per scroll.
+const TOUCH_PORTRAIT_QUERY = '(orientation: portrait) and (pointer: coarse)';
+const TOUCH_QUERY = '(pointer: coarse)';
+const UPRIGHT_KEY = 'zashari-home-book-upright';
+const NARROW_QUERY = '(max-aspect-ratio: 1/1), (max-width: 599px)';
 // Easing of the page toward the scroll position, in seconds: a short lag reads as paper, not as a hinge.
 const FOLLOW_S = 0.55;
 
@@ -318,15 +329,22 @@ function useMediaQuery(media) {
   return matches;
 }
 
-function StackedBook() {
+function StackedBook({ onBookView }) {
   return (
-    <div className="bk-stack" aria-hidden="true">
-      {SPREADS.flatMap((s, i) =>
-        ['left', 'right'].map((side) => (
-          <Page key={`${s.key}-${side}`} spread={i} side={side} className="bk-page-flat" />
-        ))
+    <>
+      {onBookView && (
+        <button type="button" className="bk-control bk-view-toggle" onClick={onBookView}>
+          {ISSUE.bookView}
+        </button>
       )}
-    </div>
+      <div className="bk-stack" aria-hidden="true">
+        {SPREADS.flatMap((s, i) =>
+          ['left', 'right'].map((side) => (
+            <Page key={`${s.key}-${side}`} spread={i} side={side} className="bk-page-flat" />
+          ))
+        )}
+      </div>
+    </>
   );
 }
 
@@ -395,14 +413,15 @@ function usePageCurl({ canvasRef, bookRef, sectionRef, leaves, redraw }) {
     }
     curlRef.current = curl;
 
+    // Layout px inside the frame, not client rects: on a touch screen held upright the frame is turned a quarter, and
+    // client rects would come back turned too. The canvas lives in the same frame, so it turns with the book.
     const measure = () => {
-      const stage = canvas.parentElement.getBoundingClientRect();
-      const box = book.getBoundingClientRect();
+      const frame = canvas.parentElement;
       const style = getComputedStyle(book);
       const [x, y] = style.perspectiveOrigin.split(' ').map(parseFloat);
       curl.layout({
-        stage: { width: stage.width, height: stage.height },
-        book: { left: box.left - stage.left, top: box.top - stage.top, width: box.width, height: box.height },
+        stage: { width: frame.offsetWidth, height: frame.offsetHeight },
+        book: { left: book.offsetLeft, top: book.offsetTop, width: book.offsetWidth, height: book.offsetHeight },
         perspective: parseFloat(style.perspective),
         origin: { x, y },
       });
@@ -481,7 +500,7 @@ function usePageCurl({ canvasRef, bookRef, sectionRef, leaves, redraw }) {
   return curlRef;
 }
 
-function TurningBook() {
+function TurningBook({ rotated, onUpright, memory }) {
   const sectionRef = useRef(null);
   const bookRef = useRef(null);
   const canvasRef = useRef(null);
@@ -497,6 +516,10 @@ function TurningBook() {
     () => {
       const state = { p: 0 };
       let shown = 0;
+      // Where the scroll is taking the book. The last spread it came to rest on, and whether the reader was in the
+      // book then, live in memory (owned by Book) so they survive this book being remounted (see below).
+      let target = 0;
+      const rest = memory.current;
       // Lay the leaves out for p pages turned (fractional while a page is in the air).
       const turn = (p) => {
         const moving = Math.min(Math.floor(p), TURNS - 1);
@@ -523,6 +546,10 @@ function TurningBook() {
       const apply = () => {
         turn(state.p);
         const nearest = Math.round(state.p);
+        if (Math.abs(state.p - nearest) < 0.02 && Math.abs(target - nearest) < 0.02) {
+          rest.spread = nearest;
+          rest.inBook = Boolean(triggerRef.current?.isActive);
+        }
         if (nearest !== shown) {
           shown = nearest;
           setCurrent(nearest);
@@ -534,19 +561,56 @@ function TurningBook() {
         trigger: sectionRef.current,
         start: 'top top',
         end: 'bottom bottom',
-        onUpdate: (self) => follow(self.progress * TURNS),
-        snap: { snapTo: 1 / TURNS, duration: { min: 0.25, max: 0.7 }, delay: 0.08, ease: 'power2.inOut' },
+        onUpdate: (self) => {
+          // While re-measuring, ScrollTrigger passes through progress 0; that is not the reader moving.
+          if (ScrollTrigger.isRefreshing) return;
+          target = self.progress * TURNS;
+          follow(target);
+        },
+        // On touch, wait a little longer so momentum scrolling settles before the snap takes over.
+        snap: {
+          snapTo: 1 / TURNS,
+          duration: { min: 0.25, max: 0.7 },
+          delay: window.matchMedia(TOUCH_QUERY).matches ? 0.2 : 0.08,
+          ease: 'power2.inOut',
+        },
       });
-      state.p = triggerRef.current.progress * TURNS;
+      // A resize can swap the book out and back in (a square-ish size in between reads as a narrow window and
+      // shows the stacked pages); come back on the spread the reader was on.
+      if (rest.inBook) {
+        const st = triggerRef.current;
+        window.scrollTo({ top: st.start + ((st.end - st.start) * rest.spread) / TURNS, behavior: 'instant' });
+        target = rest.spread;
+      }
+      state.p = rest.inBook ? rest.spread : triggerRef.current.progress * TURNS;
       apply();
+      // A real resize (a device turned with auto-rotate, a window resized) changes the track's length; keep the
+      // reader on the spread they were on instead of wherever the old scroll offset now lands. By the time
+      // ScrollTrigger re-measures, the browser has already clamped or shifted the scroll on the resized page (in
+      // an order that differs between engines), so the live position cannot be trusted; the last rest can, because
+      // a jump only counts as rest once the page has caught up with it.
+      let keep = null;
+      const onRefreshInit = () => {
+        keep = rest.inBook ? rest.spread : null;
+      };
+      const onRefresh = () => {
+        const st = triggerRef.current;
+        if (keep === null || !st) return;
+        const top = st.start + ((st.end - st.start) * keep) / TURNS;
+        keep = null;
+        if (Math.abs(window.scrollY - top) > 1) window.scrollTo({ top, behavior: 'instant' });
+      };
+      ScrollTrigger.addEventListener('refreshInit', onRefreshInit);
+      ScrollTrigger.addEventListener('refresh', onRefresh);
       // The landing above sets its own height after layout (and again on short windows), which moves the track
       // without a window resize; re-measure the trigger whenever it changes.
       const above = sectionRef.current.closest('.bk-section')?.previousElementSibling;
-      if (!above) return undefined;
       const observer = new ResizeObserver(() => ScrollTrigger.refresh());
-      observer.observe(above);
+      if (above) observer.observe(above);
       return () => {
         observer.disconnect();
+        ScrollTrigger.removeEventListener('refreshInit', onRefreshInit);
+        ScrollTrigger.removeEventListener('refresh', onRefresh);
         applyRef.current = () => {};
       };
     },
@@ -570,45 +634,53 @@ function TurningBook() {
   return (
     <div ref={sectionRef} className="bk-track" style={{ '--turns': TURNS }}>
       <div className="bk-stage">
-        <div ref={bookRef} className="bk-book" aria-hidden="true">
-          <Page spread={0} side="left" className="bk-base" />
-          <Page spread={TURNS} side="right" className="bk-base" />
-          {SPREADS.slice(0, -1).map((s, i) => (
-            <div
-              key={s.key}
-              className="bk-leaf"
-              ref={(el) => {
-                leaves.current[i] = el;
-              }}
-            >
-              <div className="bk-face" data-face="front">
-                <Page spread={i} side="right" />
-                <span className="bk-face-shade" aria-hidden="true" />
+        <div className="bk-frame" data-rotated={rotated || undefined}>
+          {rotated && <p className="bk-turn-hint">{ISSUE.turnHint}</p>}
+          <div ref={bookRef} className="bk-book" aria-hidden="true">
+            <Page spread={0} side="left" className="bk-base" />
+            <Page spread={TURNS} side="right" className="bk-base" />
+            {SPREADS.slice(0, -1).map((s, i) => (
+              <div
+                key={s.key}
+                className="bk-leaf"
+                ref={(el) => {
+                  leaves.current[i] = el;
+                }}
+              >
+                <div className="bk-face" data-face="front">
+                  <Page spread={i} side="right" />
+                  <span className="bk-face-shade" aria-hidden="true" />
+                </div>
+                <div className="bk-face" data-face="back">
+                  <Page spread={i + 1} side="left" />
+                  <span className="bk-face-shade" aria-hidden="true" />
+                </div>
               </div>
-              <div className="bk-face" data-face="back">
-                <Page spread={i + 1} side="left" />
-                <span className="bk-face-shade" aria-hidden="true" />
-              </div>
-            </div>
-          ))}
-          <span ref={castRef} className="bk-cast" aria-hidden="true" />
-        </div>
-        <canvas ref={canvasRef} className="bk-curl" aria-hidden="true" />
-        <div className="bk-controls" onKeyDown={onKeyDown}>
-          <button type="button" className="bk-control" onClick={() => goTo(current - 1)} disabled={current === 0}>
-            ← Prev
-          </button>
-          <p className="bk-counter" aria-live="polite">
-            <span aria-hidden="true">
-              {pad(current + 1)} / {pad(SPREADS.length)}
-            </span>
-            <span className="home-visually-hidden">
-              Spread {current + 1} of {SPREADS.length}: {SPREADS[current].label}
-            </span>
-          </p>
-          <button type="button" className="bk-control" onClick={() => goTo(current + 1)} disabled={current === TURNS}>
-            Next →
-          </button>
+            ))}
+            <span ref={castRef} className="bk-cast" aria-hidden="true" />
+          </div>
+          <canvas ref={canvasRef} className="bk-curl" aria-hidden="true" />
+          <div className="bk-controls" onKeyDown={onKeyDown}>
+            <button type="button" className="bk-control" onClick={() => goTo(current - 1)} disabled={current === 0}>
+              ← Prev
+            </button>
+            <p className="bk-counter" aria-live="polite">
+              <span aria-hidden="true">
+                {pad(current + 1)} / {pad(SPREADS.length)}
+              </span>
+              <span className="home-visually-hidden">
+                Spread {current + 1} of {SPREADS.length}: {SPREADS[current].label}
+              </span>
+            </p>
+            <button type="button" className="bk-control" onClick={() => goTo(current + 1)} disabled={current === TURNS}>
+              Next →
+            </button>
+            {onUpright && (
+              <button type="button" className="bk-control" onClick={onUpright}>
+                {ISSUE.uprightView}
+              </button>
+            )}
+          </div>
         </div>
       </div>
     </div>
@@ -616,10 +688,43 @@ function TurningBook() {
 }
 
 export default function Book() {
-  const stacked = useMediaQuery(STACKED_QUERY);
+  const touchPortrait = useMediaQuery(TOUCH_PORTRAIT_QUERY);
+  const narrow = useMediaQuery(NARROW_QUERY);
+  // The reader's choice of the upright pages is kept for the visit's later pages too.
+  // The spread the book last rested on, kept here so it survives the book being swapped out and back in.
+  const memory = useRef({ spread: 0, inBook: false });
+  const [upright, setUpright] = useState(() => {
+    try {
+      return localStorage.getItem(UPRIGHT_KEY) === '1';
+    } catch {
+      return false; // storage blocked: the turned book is the default
+    }
+  });
+  let view = 'turning';
+  if (touchPortrait) view = upright ? 'stacked' : 'rotated';
+  else if (narrow) view = 'stacked';
+  // Switching views swaps the section's content, so bring its top back into view.
+  const choose = (next) => {
+    setUpright(next);
+    memory.current.inBook = false; // the chosen view opens at its start
+    try {
+      localStorage.setItem(UPRIGHT_KEY, next ? '1' : '0');
+    } catch {
+      // Storage blocked (private mode, site data off): the choice lasts for this visit only.
+    }
+    requestAnimationFrame(() => document.getElementById('work')?.scrollIntoView({ behavior: 'instant' }));
+  };
   return (
     <section id="work" className="bk-section" aria-label={ISSUE.sectionLabel}>
-      {stacked ? <StackedBook /> : <TurningBook />}
+      {view === 'stacked' ? (
+        <StackedBook onBookView={touchPortrait ? () => choose(false) : undefined} />
+      ) : (
+        <TurningBook
+          rotated={view === 'rotated'}
+          onUpright={touchPortrait ? () => choose(true) : undefined}
+          memory={memory}
+        />
+      )}
       <WorkIndex />
     </section>
   );
