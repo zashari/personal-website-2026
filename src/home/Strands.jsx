@@ -1,5 +1,6 @@
 // Strands by React Bits (https://reactbits.dev/animations/strands), JS + CSS variant from
-// https://reactbits.dev/r/Strands-JS-CSS.json. Local change: the respectReducedMotion prop (default true, as upstream).
+// https://reactbits.dev/r/Strands-JS-CSS.json. Local changes: the respectReducedMotion prop (default true, as upstream)
+// and the tone prop (0 = upstream dark glass; higher lifts the dark glass body toward grey, eased on change).
 import { useEffect, useRef } from 'react';
 import './Strands.css';
 
@@ -41,6 +42,7 @@ uniform float uIntro;
 uniform float uPulse;
 uniform float uLight;
 uniform float uOpacity;
+uniform float uTone;
 
 out vec4 fragColor;
 
@@ -253,7 +255,7 @@ void main() {
       float edge = exp(-pow((1.0 - r) / (0.01 + 1.2 * px), 2.0));
       orb *= 1.0 - 0.12 * edge;
     } else {
-      orb = vec3(0.04) + col * (1.0 + 0.1 * bend * uRim) + ring * key * uRim * (1.0 + 0.4 * level) + haze * vec3(1.0, 1.02, 1.04);
+      orb = mix(vec3(0.04), vec3(0.34, 0.35, 0.37), uTone) + col * (1.0 + 0.1 * bend * uRim) + ring * key * uRim * (1.0 + 0.4 * level) + haze * vec3(1.0, 1.02, 1.04);
       orb = grade(clamp(orb, 0.0, 1.0));
     }
     float inside = clamp((1.0 - rho) / px + 0.5, 0.0, 1.0) * appear;
@@ -346,6 +348,7 @@ export default function Strands({
   clickPulse = true,
   intro = true,
   lightMode = false,
+  tone = 0,
   maxDevicePixelRatio = 2,
   respectReducedMotion = true,
   className = '',
@@ -380,6 +383,7 @@ export default function Strands({
     clickPulse,
     intro,
     lightMode,
+    tone,
     maxDevicePixelRatio,
     respectReducedMotion
   };
@@ -424,7 +428,8 @@ export default function Strands({
       'uIntro',
       'uPulse',
       'uLight',
-      'uOpacity'
+      'uOpacity',
+      'uTone'
     ];
     const setup = () => {
       const next = createProgram(gl);
@@ -461,6 +466,7 @@ export default function Strands({
       pulseV: 0,
       introStart: -1,
       intro: propsRef.current.intro ? 0 : 1,
+      tone: propsRef.current.tone,
       visible: typeof IntersectionObserver === 'undefined',
       lost: false,
       raf: 0,
@@ -540,6 +546,7 @@ export default function Strands({
       gl.uniform1f(loc.uPulse, st.pulse);
       gl.uniform1f(loc.uLight, p.lightMode ? 1 : 0);
       gl.uniform1f(loc.uOpacity, p.opacity);
+      gl.uniform1f(loc.uTone, st.tone);
       gl.clear(gl.COLOR_BUFFER_BIT);
       gl.drawArrays(gl.TRIANGLES, 0, 3);
     };
@@ -557,6 +564,7 @@ export default function Strands({
       } else {
         st.intro = 1;
       }
+      st.tone += (p.tone - st.tone) * (1 - Math.exp(-dt / 0.2));
       st.hover += (st.hoverTarget - st.hover) * (1 - Math.exp(-dt / (st.hoverTarget > st.hover ? 0.25 : 0.6)));
       for (let i = 0; i < 2; i++) st.lean[i] += (st.leanTarget[i] - st.lean[i]) * (1 - Math.exp(-dt / 0.35));
       st.pulseV += (-170 * st.pulse - 14 * st.pulseV) * dt;

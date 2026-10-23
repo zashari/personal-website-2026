@@ -224,8 +224,10 @@ const SPHERES = {
 };
 const SPHERE_FADE_MS = 450; // matches .home-spheres transition in home.css
 
-// Spheres always use Strands' dark glass, in both colour modes (lightMode stays off).
-function SphereLayer({ front, state, variant }) {
+// Spheres always use Strands' dark glass (lightMode stays off); in light mode the glass is lifted to a softer grey.
+const SPHERE_TONE = { light: 0.5, dark: 0 };
+
+function SphereLayer({ front, state, variant, theme }) {
   if (state === 'off') return null;
   return (
     <div className="home-spheres" data-state={state} data-front={front || undefined} aria-hidden="true">
@@ -237,7 +239,7 @@ function SphereLayer({ front, state, variant }) {
             className="home-sphere"
             style={{ left: s.x - box / 2, top: s.y - box / 2, width: box, height: box, '--depth': s.depth }}
           >
-            <Strands respectReducedMotion={false} />
+            <Strands respectReducedMotion={false} tone={SPHERE_TONE[theme]} />
           </div>
         );
       })}
@@ -455,13 +457,13 @@ export default function HomeApp() {
           draggable={false}
         />
 
-        {!isPhone && <SphereLayer front={false} state={sphereState} variant={layout?.variant ?? 'wide'} />}
+        {!isPhone && <SphereLayer front={false} state={sphereState} variant={layout?.variant ?? 'wide'} theme={theme} />}
 
         {!isPhone && <TouchMe {...pos.touch} pressed={spheresOn} onToggle={toggleSpheres} />}
 
         <PhotoReel />
 
-        {!isPhone && <SphereLayer front state={sphereState} variant={layout?.variant ?? 'wide'} />}
+        {!isPhone && <SphereLayer front state={sphereState} variant={layout?.variant ?? 'wide'} theme={theme} />}
 
         <ul className="home-socials">
           {SOCIALS.map((s) => (
