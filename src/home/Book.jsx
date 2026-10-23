@@ -2,14 +2,17 @@
 //
 // Each spread is laid out once as a full two-page sheet (Spread below) and every page shows its half of it through
 // a window, so photos and headlines can run across the gutter as in print. The book is a stack of leaves: leaf i
-// carries the right page of spread i on its front and the left page of spread i + 1 on its back, and turns over the
-// spine with a CSS 3D rotateY. The section is a tall scroll track with a sticky stage; GSAP ScrollTrigger maps its
-// scroll progress to "pages turned" and snaps to whole spreads. Narrow or portrait screens get the pages stacked in
-// normal scroll instead, with no pinning.
-import { useEffect, useRef, useState } from 'react';
+// carries the right page of spread i on its front and the left page of spread i + 1 on its back. At rest every page
+// is live HTML; while a leaf is in the air, three.js draws it bending (PageCurl.js), falling back to a flat CSS 3D
+// rotateY until its page images are ready or when WebGL is missing. The section is a tall scroll track with a sticky
+// stage; GSAP ScrollTrigger maps its scroll progress to "pages turned" and snaps to whole spreads. The turn follows
+// the visitor's own scroll, and the owner wants it under reduced motion too, so there is no reduced variant. Narrow
+// or portrait screens get the pages stacked in normal scroll instead, with no pinning.
+import { useCallback, useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
+import { domToCanvas } from 'modern-screenshot';
 import { CLOSING, ISSUE, PROJECTS, SPREADS } from './work';
 import coverAvif from './assets/images/reel/06.avif';
 import coverWebp from './assets/images/reel/06.webp';
@@ -19,6 +22,7 @@ import workAvif from '../temp/assets/images/photo-professional-1.avif';
 import workWebp from '../temp/assets/images/photo-professional-1.webp';
 import commuteAvif from '../temp/assets/images/photo-personal-1.avif';
 import commuteWebp from '../temp/assets/images/photo-personal-1.webp';
+import PageCurl from './PageCurl';
 import './book.css';
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
@@ -27,6 +31,9 @@ const TURNS = SPREADS.length - 1;
 const STACKED_QUERY = '(max-width: 899px), (max-aspect-ratio: 1/1)';
 // Easing of the page toward the scroll position, in seconds: a short lag reads as paper, not as a hinge.
 const FOLLOW_S = 0.55;
+
+// Typefaces the pages use; their files are inlined into each page image (see bookFontCss).
+const BOOK_FONTS = new Set(['Times New Normal', 'Open Sans', 'Open Sans SemiCondensed']);
 
 const pad = (n) => String(n).padStart(2, '0');
 // Folios as in a magazine: the cover has none, then spread s holds pages 2s + 2 and 2s + 3.
@@ -100,7 +107,11 @@ function BrainPlate() {
     );
   }
   return (
-    <svg className="bk-plate" viewBox={`0 0 ${PLATE.cols * PLATE.cell} ${PLATE.rows * PLATE.height + 8}`} aria-hidden="true">
+    <svg
+      className="bk-plate"
+      viewBox={`0 0 ${PLATE.cols * PLATE.cell} ${PLATE.rows * PLATE.height + 8}`}
+      aria-hidden="true"
+    >
       {cells}
     </svg>
   );
@@ -253,7 +264,13 @@ function Folios({ spread }) {
   );
 }
 
-const LAYOUTS = { cover: CoverSpread, feature: FeatureSpread, pair: PairSpread, dossier: DossierSpread, closing: ClosingSpread };
+const LAYOUTS = {
+  cover: CoverSpread,
+  feature: FeatureSpread,
+  pair: PairSpread,
+  dossier: DossierSpread,
+  closing: ClosingSpread,
+};
 
 // One page: a window onto half of a spread's sheet. Every page is drawn for sighted readers only; the same text is
 // given to assistive tech once, in order, by WorkIndex below.
@@ -264,6 +281,7 @@ function Page({ spread, side, className = '' }) {
       <div className="bk-sheet" data-side={side}>
         <Layout />
       </div>
+      <span className="bk-grain" aria-hidden="true" />
       <span className="bk-gutter" aria-hidden="true" />
     </div>
   );
@@ -289,66 +307,224 @@ function WorkIndex() {
   );
 }
 
-function useStacked() {
-  const [stacked, setStacked] = useState(() => window.matchMedia(STACKED_QUERY).matches);
+function useMediaQuery(media) {
+  const [matches, setMatches] = useState(() => window.matchMedia(media).matches);
   useEffect(() => {
-    const query = window.matchMedia(STACKED_QUERY);
-    const onChange = () => setStacked(query.matches);
+    const query = window.matchMedia(media);
+    const onChange = () => setMatches(query.matches);
     query.addEventListener('change', onChange);
     return () => query.removeEventListener('change', onChange);
-  }, []);
-  return stacked;
+  }, [media]);
+  return matches;
 }
 
 function StackedBook() {
   return (
     <div className="bk-stack" aria-hidden="true">
       {SPREADS.flatMap((s, i) =>
-        ['left', 'right'].map((side) => <Page key={`${s.key}-${side}`} spread={i} side={side} className="bk-page-flat" />)
+        ['left', 'right'].map((side) => (
+          <Page key={`${s.key}-${side}`} spread={i} side={side} className="bk-page-flat" />
+        ))
       )}
     </div>
   );
 }
 
+const idle = () => new Promise((resolve) => (window.requestIdleCallback ?? setTimeout)(resolve));
+
+const readAsDataUrl = (blob) =>
+  new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = () => reject(reader.error);
+    reader.readAsDataURL(blob);
+  });
+
+// modern-screenshot does not pick up the page's own @font-face rules, so the page images would fall back to a system
+// font. This builds the book's @font-face rules with each file inlined, once, for every image to share.
+let fontCss = null;
+function bookFontCss() {
+  fontCss ??= (async () => {
+    const rules = [];
+    for (const sheet of document.styleSheets) {
+      let list;
+      try {
+        list = sheet.cssRules;
+      } catch {
+        continue; // a cross-origin sheet cannot be read, and holds none of the book's fonts
+      }
+      for (const rule of list) {
+        const family =
+          rule instanceof CSSFontFaceRule && rule.style.getPropertyValue('font-family').replace(/["']/g, '');
+        if (family && BOOK_FONTS.has(family)) rules.push({ rule, base: sheet.href ?? location.href });
+      }
+    }
+    const faces = await Promise.all(
+      rules.map(async ({ rule, base }) => {
+        const match = /url\(\s*["']?([^"')]+)["']?\s*\)/.exec(rule.style.getPropertyValue('src'));
+        if (!match) return '';
+        try {
+          const response = await fetch(new URL(match[1], base));
+          if (!response.ok) throw new Error(`HTTP ${response.status}`);
+          return rule.cssText.replace(match[1], await readAsDataUrl(await response.blob()));
+        } catch (error) {
+          console.warn(`[work book] could not inline font ${match[1]} for the page images:`, error);
+          return '';
+        }
+      })
+    );
+    return faces.join('\n');
+  })();
+  return fontCss;
+}
+
+// The three.js curl for the turning page (see PageCurl.js). Images of both pages of every leaf are made once the
+// book comes near the screen, and again after a resize or a colour-mode switch; until a leaf's images exist, that
+// leaf turns as flat CSS. Returns a ref to the PageCurl, or to null when WebGL is unavailable.
+function usePageCurl({ canvasRef, bookRef, sectionRef, leaves, redraw }) {
+  const curlRef = useRef(null);
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    const book = bookRef.current;
+    let curl;
+    try {
+      curl = new PageCurl(canvas);
+    } catch (error) {
+      console.warn('[work book] WebGL unavailable, pages turn as flat CSS:', error);
+      return undefined;
+    }
+    curlRef.current = curl;
+
+    const measure = () => {
+      const stage = canvas.parentElement.getBoundingClientRect();
+      const box = book.getBoundingClientRect();
+      const style = getComputedStyle(book);
+      const [x, y] = style.perspectiveOrigin.split(' ').map(parseFloat);
+      curl.layout({
+        stage: { width: stage.width, height: stage.height },
+        book: { left: box.left - stage.left, top: box.top - stage.top, width: box.width, height: box.height },
+        perspective: parseFloat(style.perspective),
+        origin: { x, y },
+      });
+      redraw();
+    };
+
+    let generation = 0;
+    const rasterize = async () => {
+      const run = ++generation;
+      await document.fonts.ready;
+      const cssText = await bookFontCss();
+      const scale = Math.min(window.devicePixelRatio || 1, 2);
+      for (let i = 0; i < leaves.current.length; i++) {
+        const pages = [...leaves.current[i].querySelectorAll(':scope > .bk-face > .bk-page')];
+        try {
+          const [front, back] = await Promise.all(
+            pages.map((page) =>
+              domToCanvas(page, {
+                scale,
+                font: { cssText },
+                // <source> is dropped so each picture falls back to its inlined <img>; the grain is dropped because
+                // its SVG noise filter renders as solid black inside the capture.
+                filter: (node) => node.nodeName !== 'SOURCE' && !node.classList?.contains('bk-grain'),
+              })
+            )
+          );
+          if (run !== generation) return;
+          curl.setLeaf(i, front, back);
+        } catch (error) {
+          console.warn(`[work book] could not draw leaf ${i} for the page curl; it turns as flat CSS:`, error);
+        }
+        await idle();
+      }
+    };
+
+    let timer = 0;
+    const later = (ms) => {
+      clearTimeout(timer);
+      timer = setTimeout(rasterize, ms);
+    };
+    measure();
+    const resize = new ResizeObserver(() => {
+      measure();
+      later(400);
+    });
+    resize.observe(book);
+    resize.observe(canvas.parentElement);
+    // Re-draw the pages after the colour-mode fade (THEME_FADE_MS in HomeApp.jsx) so the accent matches.
+    const theme = new MutationObserver(() => later(700));
+    theme.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+    const near = new IntersectionObserver(
+      (entries) => {
+        if (!entries.some((e) => e.isIntersecting)) return;
+        near.disconnect();
+        idle().then(rasterize);
+      },
+      { rootMargin: '100% 0px' }
+    );
+    near.observe(sectionRef.current);
+
+    return () => {
+      generation++;
+      clearTimeout(timer);
+      resize.disconnect();
+      theme.disconnect();
+      near.disconnect();
+      curl.dispose();
+      curlRef.current = null;
+    };
+  }, [canvasRef, bookRef, sectionRef, leaves, redraw]);
+  return curlRef;
+}
+
 function TurningBook() {
   const sectionRef = useRef(null);
+  const bookRef = useRef(null);
+  const canvasRef = useRef(null);
   const leaves = useRef([]);
   const castRef = useRef(null);
   const triggerRef = useRef(null);
+  const applyRef = useRef(() => {});
   const [current, setCurrent] = useState(0);
+  const redraw = useCallback(() => applyRef.current(), []);
+  const curlRef = usePageCurl({ canvasRef, bookRef, sectionRef, leaves, redraw });
 
   useGSAP(
     () => {
-      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       const state = { p: 0 };
       let shown = 0;
       // Lay the leaves out for p pages turned (fractional while a page is in the air).
-      const apply = () => {
-        const { p } = state;
+      const turn = (p) => {
+        const moving = Math.min(Math.floor(p), TURNS - 1);
+        const f = p - moving;
+        const inAir = f > 0.001 && f < 0.999;
+        const curl = curlRef.current;
+        const curled = Boolean(curl && inAir && curl.draw(moving, f));
+        if (!curled) curl?.clear();
         leaves.current.forEach((leaf, i) => {
           if (!leaf) return;
           const t = gsap.utils.clamp(0, 1, p - i);
           leaf.style.setProperty('--turn', t.toFixed(4));
           // Unturned leaves stack first-on-top on the right, turned ones last-on-top on the left; the leaf in the
-          // air goes over both.
+          // air goes over both. While three.js draws it bent, the HTML leaf steps aside.
           leaf.style.zIndex = t <= 0 ? TURNS - i : t >= 1 ? i + 1 : TURNS + 2;
+          leaf.style.opacity = curled && i === moving ? '0' : '';
         });
-        const moving = Math.min(Math.floor(p), TURNS - 1);
-        const f = p - moving;
         const cast = castRef.current;
         if (cast) {
-          const air = f > 0.001 && f < 0.999 ? Math.sin(f * Math.PI) : 0;
           cast.dataset.side = f < 0.5 ? 'right' : 'left';
-          cast.style.opacity = air.toFixed(3);
+          cast.style.opacity = inAir ? Math.sin(f * Math.PI).toFixed(3) : '0';
         }
-        const nearest = Math.round(p);
+      };
+      const apply = () => {
+        turn(state.p);
+        const nearest = Math.round(state.p);
         if (nearest !== shown) {
           shown = nearest;
           setCurrent(nearest);
         }
       };
-      const follow = gsap.quickTo(state, 'p', { duration: reduce ? 0.2 : FOLLOW_S, ease: 'power3.out', onUpdate: apply });
-      apply();
+      applyRef.current = apply;
+      const follow = gsap.quickTo(state, 'p', { duration: FOLLOW_S, ease: 'power3.out', onUpdate: apply });
       triggerRef.current = ScrollTrigger.create({
         trigger: sectionRef.current,
         start: 'top top',
@@ -356,13 +532,18 @@ function TurningBook() {
         onUpdate: (self) => follow(self.progress * TURNS),
         snap: { snapTo: 1 / TURNS, duration: { min: 0.25, max: 0.7 }, delay: 0.08, ease: 'power2.inOut' },
       });
+      state.p = triggerRef.current.progress * TURNS;
+      apply();
       // The landing above sets its own height after layout (and again on short windows), which moves the track
       // without a window resize; re-measure the trigger whenever it changes.
       const above = sectionRef.current.closest('.bk-section')?.previousElementSibling;
       if (!above) return undefined;
       const observer = new ResizeObserver(() => ScrollTrigger.refresh());
       observer.observe(above);
-      return () => observer.disconnect();
+      return () => {
+        observer.disconnect();
+        applyRef.current = () => {};
+      };
     },
     { scope: sectionRef }
   );
@@ -372,8 +553,7 @@ function TurningBook() {
     const st = triggerRef.current;
     if (!st) return;
     const target = gsap.utils.clamp(0, TURNS, index);
-    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    window.scrollTo({ top: st.start + ((st.end - st.start) * target) / TURNS, behavior: reduce ? 'auto' : 'smooth' });
+    window.scrollTo({ top: st.start + ((st.end - st.start) * target) / TURNS, behavior: 'smooth' });
   };
   const onKeyDown = (event) => {
     if (event.key === 'ArrowRight' || event.key === 'PageDown') goTo(current + 1);
@@ -385,7 +565,7 @@ function TurningBook() {
   return (
     <div ref={sectionRef} className="bk-track" style={{ '--turns': TURNS }}>
       <div className="bk-stage">
-        <div className="bk-book" aria-hidden="true">
+        <div ref={bookRef} className="bk-book" aria-hidden="true">
           <Page spread={0} side="left" className="bk-base" />
           <Page spread={TURNS} side="right" className="bk-base" />
           {SPREADS.slice(0, -1).map((s, i) => (
@@ -408,6 +588,7 @@ function TurningBook() {
           ))}
           <span ref={castRef} className="bk-cast" aria-hidden="true" />
         </div>
+        <canvas ref={canvasRef} className="bk-curl" aria-hidden="true" />
         <div className="bk-controls" onKeyDown={onKeyDown}>
           <button type="button" className="bk-control" onClick={() => goTo(current - 1)} disabled={current === 0}>
             ← Prev
@@ -430,7 +611,7 @@ function TurningBook() {
 }
 
 export default function Book() {
-  const stacked = useStacked();
+  const stacked = useMediaQuery(STACKED_QUERY);
   return (
     <section id="work" className="bk-section" aria-label={ISSUE.sectionLabel}>
       {stacked ? <StackedBook /> : <TurningBook />}

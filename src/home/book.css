@@ -100,12 +100,18 @@
   height: 100%;
   container-type: inline-size;
   background-color: var(--paper);
-  /* Faint paper grain, drawn once as an image. */
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
 .bk-sheet[data-side='right'] {
   left: -100%;
+}
+
+/* Faint paper grain over each page, drawn once as an image. */
+.bk-grain {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
 /* The gutter: each page darkens and curves away toward the spine. */
@@ -203,6 +209,16 @@
 .bk-cast[data-side='left'] {
   left: 0;
   background: linear-gradient(to left, rgb(0 0 0 / 0.34), rgb(0 0 0 / 0.08) 45%, transparent 80%);
+}
+
+/* The three.js page curl (PageCurl.js) is drawn over the whole stage, so a bent page may rise past the book. */
+.bk-curl {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
 }
 
 /* ---- Controls under the book ---- */
