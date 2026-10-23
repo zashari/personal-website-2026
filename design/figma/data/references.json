@@ -1,0 +1,192 @@
+{
+  "id": "4:74",
+  "name": "REFERENCES",
+  "size": {
+    "w": 2159,
+    "h": 3302
+  },
+  "nodes": [
+    {
+      "id": "4:74",
+      "name": "REFERENCES",
+      "type": "GROUP",
+      "path": "",
+      "box": {
+        "x": 0,
+        "y": 0,
+        "w": 2159,
+        "h": 3302
+      }
+    },
+    {
+      "id": "1:17",
+      "name": "Superficie conectada para educación 1",
+      "type": "RECTANGLE",
+      "path": "REFERENCES",
+      "box": {
+        "x": 0,
+        "y": 726,
+        "w": 981,
+        "h": 736
+      },
+      "rotationDeg": -90,
+      "fills": [
+        {
+          "type": "IMAGE",
+          "imageRef": "78d553e5eca54966c1e5301e2512d1e25caf0113",
+          "scaleMode": "FILL"
+        }
+      ]
+    },
+    {
+      "id": "1:46",
+      "name": "download 1",
+      "type": "RECTANGLE",
+      "path": "REFERENCES",
+      "box": {
+        "x": 0,
+        "y": 1462,
+        "w": 736,
+        "h": 736
+      },
+      "fills": [
+        {
+          "type": "IMAGE",
+          "imageRef": "475f484aabf103bc7b4aec5d426ad3a653a8b396",
+          "scaleMode": "FILL"
+        }
+      ]
+    },
+    {
+      "id": "1:48",
+      "name": "download (2) 1",
+      "type": "RECTANGLE",
+      "path": "REFERENCES",
+      "box": {
+        "x": 933,
+        "y": 824,
+        "w": 436,
+        "h": 638
+      },
+      "fills": [
+        {
+          "type": "IMAGE",
+          "imageRef": "e154310d6895dad98b9f68b9f7ef920506dd46f3",
+          "scaleMode": "FILL"
+        }
+      ]
+    },
+    {
+      "id": "1:47",
+      "name": "download (1) 1",
+      "type": "RECTANGLE",
+      "path": "REFERENCES",
+      "box": {
+        "x": 725,
+        "y": 2168,
+        "w": 512,
+        "h": 640
+      },
+      "fills": [
+        {
+          "type": "IMAGE",
+          "imageRef": "572c114c6540144c21662e0fc00fb83cee57c498",
+          "scaleMode": "FILL"
+        }
+      ]
+    },
+    {
+      "id": "11:118",
+      "name": "download (4)",
+      "type": "RECTANGLE",
+      "path": "REFERENCES",
+      "box": {
+        "x": 1309,
+        "y": 1462,
+        "w": 593,
+        "h": 746
+      },
+      "fills": [
+        {
+          "type": "IMAGE",
+          "imageRef": "369360cda2c126059949e89cbfcd8de825d314cd",
+          "scaleMode": "FILL"
+        }
+      ]
+    },
+    {
+      "id": "11:119",
+      "name": "download (3)",
+      "type": "RECTANGLE",
+      "path": "REFERENCES",
+      "box": {
+        "x": 0,
+        "y": 2198,
+        "w": 736,
+        "h": 1104
+      },
+      "fills": [
+        {
+          "type": "IMAGE",
+          "imageRef": "5a8913afaa294e01c361205d47f280d2bbbde6b3",
+          "scaleMode": "FILL"
+        }
+      ]
+    },
+    {
+      "id": "11:120",
+      "name": "TARGET DOSSIER",
+      "type": "RECTANGLE",
+      "path": "REFERENCES",
+      "box": {
+        "x": 736,
+        "y": 1462,
+        "w": 573,
+        "h": 706
+      },
+      "fills": [
+        {
+          "type": "IMAGE",
+          "imageRef": "b8b414928e84bd2a029e62ba94e755c70c665baf",
+          "scaleMode": "FILL"
+        }
+      ]
+    },
+    {
+      "id": "87:9",
+      "name": "REFERENCE",
+      "type": "TEXT",
+      "path": "REFERENCES",
+      "box": {
+        "x": 0,
+        "y": 0,
+        "w": 2159,
+        "h": 525
+      },
+      "inkBox": {
+        "x": 29.4,
+        "y": 113.4,
+        "w": 2104.95,
+        "h": 288.6
+      },
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#ffffff"
+        }
+      ],
+      "text": "REFERENCE",
+      "style": {
+        "family": "Fira Code",
+        "style": "SemiBold",
+        "weight": 600,
+        "size": 400,
+        "lineHeightPx": 524.8,
+        "lineHeight": "auto",
+        "letterSpacing": 0,
+        "align": "LEFT"
+      },
+      "autoResize": "WIDTH_AND_HEIGHT"
+    }
+  ]
+}

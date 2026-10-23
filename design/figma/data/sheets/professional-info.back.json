@@ -1,0 +1,245 @@
+{
+  "id": "77:787",
+  "name": "paper-professional-info-back",
+  "size": {
+    "w": 615.54,
+    "h": 865.55
+  },
+  "nodes": [
+    {
+      "id": "77:787",
+      "name": "paper-professional-info-back",
+      "type": "GROUP",
+      "path": "",
+      "box": {
+        "x": 0,
+        "y": 0,
+        "w": 615.54,
+        "h": 865.55
+      },
+      "rotationDeg": 180
+    },
+    {
+      "id": "77:928",
+      "name": "photos",
+      "type": "GROUP",
+      "path": "paper-professional-info-back",
+      "box": {
+        "x": 0,
+        "y": 4.63,
+        "w": 229.67,
+        "h": 161.59
+      }
+    },
+    {
+      "id": "77:929",
+      "name": "IMG_6601 2",
+      "type": "RECTANGLE",
+      "path": "paper-professional-info-back / photos",
+      "box": {
+        "x": 114.6,
+        "y": 6.05,
+        "w": 115.07,
+        "h": 115.07
+      },
+      "rotationDeg": -180,
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#ffffff"
+        }
+      ],
+      "stroke": {
+        "paints": [
+          {
+            "type": "SOLID",
+            "color": "#f2f2f2"
+          }
+        ],
+        "weight": 5,
+        "align": "INSIDE"
+      }
+    },
+    {
+      "id": "77:930",
+      "name": "IMG_6600 3",
+      "type": "RECTANGLE",
+      "path": "paper-professional-info-back / photos",
+      "box": {
+        "x": 0,
+        "y": 4.63,
+        "w": 161.59,
+        "h": 161.59
+      },
+      "rotationDeg": 15,
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": "#ffffff"
+        }
+      ],
+      "stroke": {
+        "paints": [
+          {
+            "type": "SOLID",
+            "color": "#f2f2f2"
+          }
+        ],
+        "weight": 5,
+        "align": "INSIDE"
+      }
+    },
+    {
+      "id": "77:788",
+      "name": "Intersect",
+      "type": "BOOLEAN_OPERATION",
+      "path": "paper-professional-info-back",
+      "box": {
+        "x": 20.54,
+        "y": 24.96,
+        "w": 595,
+        "h": 840.59
+      },
+      "fills": [
+        {
+          "type": "IMAGE",
+          "imageRef": "ebdf8584199a5bc3b7dfda3b9a35137d0ac314b6",
+          "scaleMode": "FILL",
+          "filters": {
+            "temperature": 0.46000000834465027
+          }
+        }
+      ],
+      "booleanOperation": "INTERSECT",
+      "holes": {
+        "count": 20,
+        "diameter": 23,
+        "x": 577.54,
+        "ys": [
+          19.77,
+          63.93,
+          108.08,
+          152.23,
+          196.39,
+          240.54,
+          284.69,
+          328.85,
+          373,
+          417.15,
+          461.31,
+          505.46,
+          549.61,
+          593.77,
+          637.92,
+          682.07,
+          726.23,
+          770.38,
+          814.53,
+          858.69
+        ]
+      }
+    },
+    {
+      "id": "77:931",
+      "name": "paperclip",
+      "type": "VECTOR",
+      "path": "paper-professional-info-back",
+      "box": {
+        "x": 54.19,
+        "y": 18.03,
+        "w": 18.35,
+        "h": 48.12
+      },
+      "fills": [
+        {
+          "type": "IMAGE",
+          "imageRef": "e0ac8cc36294a471ebe24345aa463ae039eacbdc",
+          "scaleMode": "STRETCH",
+          "imageTransform": [
+            [
+              0.2961,
+              0,
+              0.3631
+            ],
+            [
+              0,
+              0.7253,
+              0.0816
+            ]
+          ]
+        }
+      ],
+      "svgPath": [
+        "M0 0L13.1722 0.543099L15.4183 2.00116L15.2445 3.2855L17.0489 5.00289L18.3489 7.00405L16.2441 11.0064L14.0472 11.0064L14.0472 40.5234L3.04082 38.022L3.04082 6.00347L0 6.00347L0 40.5234L2.75306e-14 48.1176L16.2441 48.1176L15.6403 0.360136L18.3489 48.1176L2.75306e-14 48.1176L0 0Z"
+      ]
+    },
+    {
+      "id": "77:932",
+      "name": "paperclip",
+      "type": "VECTOR",
+      "path": "paper-professional-info-back",
+      "box": {
+        "x": 206.19,
+        "y": 0,
+        "w": 18.35,
+        "h": 48.12
+      },
+      "fills": [
+        {
+          "type": "IMAGE",
+          "imageRef": "e0ac8cc36294a471ebe24345aa463ae039eacbdc",
+          "scaleMode": "STRETCH",
+          "imageTransform": [
+            [
+              0.2961,
+              0,
+              0.3631
+            ],
+            [
+              0,
+              0.7253,
+              0.0816
+            ]
+          ]
+        }
+      ],
+      "svgPath": [
+        "M14.1062 13.0075L14.1999 11.0064L14.1134 11.6453L14.1062 13.0075Z",
+        "M18.3489 48.1176L15.6403 0.360136L17.0489 47.5275L2.75306e-14 48.1176L9.54458 32.0185L14.1999 11.0064L14.1062 13.0075L14.1134 11.6453L14.1999 11.0064L9.54458 32.0185L2.75306e-14 48.1176L0 40.5234L0 6.00347L2.54053 6.00347L2.54053 39.5228L14.1134 41.0237L14.0662 20.5119L13.9703 0.360136L0 0L2.75306e-14 48.1176L18.3489 48.1176Z"
+      ]
+    },
+    {
+      "id": "77:813",
+      "name": "texture",
+      "type": "RECTANGLE",
+      "path": "paper-professional-info-back",
+      "box": {
+        "x": 20.19,
+        "y": 21.27,
+        "w": 595.34,
+        "h": 843.49
+      },
+      "rotationDeg": -90,
+      "blendMode": "LINEAR_BURN",
+      "fills": [
+        {
+          "type": "IMAGE",
+          "imageRef": "2fa3789cf79291c4630a82fedc4781f915a44878",
+          "scaleMode": "STRETCH",
+          "imageTransform": [
+            [
+              0.9992,
+              0,
+              0.0004
+            ],
+            [
+              0,
+              0.8815,
+              0.1185
+            ]
+          ]
+        }
+      ]
+    }
+  ]
+}
