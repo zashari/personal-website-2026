@@ -165,11 +165,11 @@ body {
   visibility: hidden;
 }
 
-/* "TOUCH ME" and its sparkle: a 131 x 102 group; children placed by Figma's matrices from its top-left. */
+/* "TOUCH ME" and its sparkle: the 58 px sparkle with the label level beside it, 133 x 58 overall. */
 .home-touch {
   position: absolute;
-  width: 131.4px;
-  height: 102.2px;
+  width: 132.8px;
+  height: 58px;
   color: var(--accent);
   pointer-events: none;
 }
@@ -179,11 +179,9 @@ body {
   position: absolute;
   left: 0;
   top: 0;
-  transform-origin: 0 0;
 }
 
-/* The sparkle turns slowly about its own centre (29, 29), inside the -30deg tilt. With eight points, the loop has no
-   visible seam. It keeps turning under reduced motion: it is small, slow and the user asked for it. */
+/* The sparkle turns slowly about its own centre (29, 29). With eight points, the loop has no visible seam. It keeps turning under reduced motion: it is small, slow and the user asked for it. */
 .home-touch-spin {
   transform-box: view-box;
   transform-origin: 29px 29px;

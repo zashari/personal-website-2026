@@ -28,7 +28,7 @@ const LAYOUTS = {
     first: { x: 517, y: 485 },
     last: { x: 1111, y: 485 },
     roles: { x: 1328, y: 780 },
-    touch: { x: 353, y: 781 },
+    touch: { x: 260.6, y: 775.6 },
   },
   tall: {
     focus: { x: 640, y: 217, width: 640, height: 863 },
@@ -36,7 +36,7 @@ const LAYOUTS = {
     last: { x: 962, y: 485 },
     roles: { x: 742, y: 892 },
     // Figma's spot (left of the photo) is outside the narrow focus; use the free space under the photo instead.
-    touch: { x: 1080, y: 862 },
+    touch: { x: 1080, y: 872 },
   },
 };
 
@@ -168,25 +168,28 @@ function PhotoReel() {
   );
 }
 
-// Figma group "random" (light 2016:10 / dark 2030:312): an eight-point sparkle and "TOUCH ME", both tilted -30deg,
-// in the accent colour. Paths and matrices are Figma's own (relativeTransform within the group, as CSS matrix()).
+// Figma group "random" (light 2016:10 / dark 2030:312): an eight-point sparkle with "TOUCH ME" level beside it, in the
+// accent colour. The sparkle paths are Figma's own (58 x 58). Placement was measured from the 4x frame exports
+// (.tmp/home-desktop*.png) after the API rate limit: sparkle centred at frame (289.6, 804.6), text box at (329, 797).
+// The group's origin is the sparkle box's top-left; the text sits at its offset from there.
 const SPARKLE_PATHS = [
   'M58 29C58 45.0163 29 29 29 58C12.9837 58 29 29 0 29C0 12.9837 29 29 29 0C45.0163 0 29 29 58 29Z',
   'M49.7579 49.2511C38.5736 60.7154 29 29 8.74888 49.758C-2.71541 38.5736 29 29 8.24205 8.74891C19.4264 -2.71538 29 29 49.2511 8.24208C60.7154 19.4265 29 29 49.7579 49.2511Z',
 ];
-const TILT = 'matrix(0.866025, -0.5, 0.5, 0.866025';
+// top is 0.85 px below the metric value (21.4): Chrome sets these capitals that much higher than Figma does.
+const TOUCH_TEXT_OFFSET = { left: 68.4, top: 22.25 };
 
 function TouchMe({ x, y }) {
   return (
     <div className="home-touch" style={{ left: x, top: y }} aria-hidden="true">
-      <svg className="home-touch-sparkle" width="58" height="58" viewBox="0 0 58 58" style={{ transform: `${TILT}, 0, 52)` }}>
+      <svg className="home-touch-sparkle" width="58" height="58" viewBox="0 0 58 58">
         <g className="home-touch-spin">
           {SPARKLE_PATHS.map((d) => (
             <path key={d} d={d} fill="currentColor" />
           ))}
         </g>
       </svg>
-      <span className="home-touch-label" style={{ transform: `${TILT}, 68, 32)` }}>
+      <span className="home-touch-label" style={TOUCH_TEXT_OFFSET}>
         {TOUCH_LABEL}
       </span>
     </div>
