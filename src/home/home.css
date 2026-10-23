@@ -205,7 +205,7 @@ body {
   opacity: 1;
 }
 
-/* Light mode in Chromium: the page behind each clear-glass sphere bends through SphereLens, clipped to the sphere. */
+/* Chromium, both modes: the page behind each sphere bends through SphereLens, clipped to the sphere. */
 .home-spheres[data-lens] .home-sphere {
   backdrop-filter: url(#home-sphere-lens);
   clip-path: circle(42%);

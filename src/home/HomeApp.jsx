@@ -225,13 +225,13 @@ const SPHERES = {
 };
 const SPHERE_FADE_MS = 450; // matches .home-spheres transition in home.css
 
-// Spheres use Strands' dark glass in dark mode and clear glass in light mode (lightMode stays off), where SphereLens
-// also bends the page behind them.
+// Spheres use Strands' dark glass in dark mode and clear glass in light mode (lightMode stays off); SphereLens
+// bends the page behind them in both modes.
 const SPHERE_CLEAR = { light: 1, dark: 0 };
 
 function SphereLayer({ front, state, variant, theme }) {
   if (state === 'off') return null;
-  const lens = theme === 'light' && LENS_SUPPORTED;
+  const lens = LENS_SUPPORTED;
   return (
     <div
       className="home-spheres"
