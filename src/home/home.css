@@ -183,13 +183,27 @@ body {
   letter-spacing: 0.02em;
   margin-top: 0.45em;
   white-space: nowrap;
-  transition: letter-spacing 0.3s ease;
 }
 
-/* Hovering an item opens its label up by 5% of the label size; the left edge stays put. */
-.home-nav-item:hover .home-nav-label,
-.home-nav-item:focus-visible .home-nav-label {
-  letter-spacing: 0.07em;
+/* Hovering an item opens its label up by 5% of the label size, letter by letter from a fixed left edge. */
+.home-nav-letter {
+  display: inline-block;
+  white-space: pre;
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.home-nav-item:hover .home-nav-letter,
+.home-nav-item:focus-visible .home-nav-letter {
+  transform: translateX(calc(var(--i) * 0.05em));
+}
+
+.home-visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
 
 /* The logotype: an Italianno Z under "ashari" set tight, 148 x 68 px in Figma. */
@@ -259,7 +273,7 @@ a.home-link:focus-visible {
 
 @media (prefers-reduced-motion: reduce) {
   a.home-link,
-  .home-nav-label {
+  .home-nav-letter {
     transition: none;
   }
 }
