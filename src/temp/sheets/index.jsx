@@ -1,8 +1,9 @@
-import { PHOTO_NOTES, PROJECTS } from '../content/dossier';
+import { PROJECTS } from '../content/dossier';
 import { textureImage } from '../../constants/images';
 import { PersonalBack, PersonalFront, WIDTH as PW, HEIGHT as PH } from './PersonalSheet';
 import { ProfessionalBack, ProfessionalFront, WIDTH as RW, HEIGHT as RH } from './ProfessionalSheet';
 import { ProjectsBack, ProjectsFront, WIDTH as JW, HEIGHT as JH } from './ProjectsSheet';
+import PhotoBack, { photoNoteText } from './PhotoBack';
 import './sheets.css';
 
 // What each folder opens. Sheets are built per open so photo clicks reach the current handler.
@@ -20,7 +21,7 @@ export function projectPages() {
   ]));
 }
 
-// The photo viewer keeps the existing framed photo and handwritten-back images from the main site.
+// The photo viewer: the framed photo from the main site on the front, the handwritten note built as text on the back.
 const PHOTO_FILES = {
   personal1: 'personal-paper-photo-1',
   personal2: 'personal-paper-photo-2',
@@ -38,11 +39,9 @@ function PhotoFace({ source, alt }) {
 }
 
 export function photoView(id) {
-  const file = PHOTO_FILES[id];
-  const note = PHOTO_NOTES[id];
   return {
-    alt: `Photo: ${note}`,
-    front: <PhotoFace source={textureImage(`${file}-front`)} alt="" />,
-    back: <PhotoFace source={textureImage(`${file}-back`)} alt={note} />,
+    alt: `Photo. On the back: ${photoNoteText(id)}`,
+    front: <PhotoFace source={textureImage(`${PHOTO_FILES[id]}-front`)} alt="" />,
+    back: <PhotoBack id={id} />,
   };
 }

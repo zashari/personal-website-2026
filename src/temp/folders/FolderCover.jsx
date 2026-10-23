@@ -1,6 +1,7 @@
-import { useId } from 'react';
+import { useEffect, useId, useState } from 'react';
 import { FOLDER_TABS } from '../content/dossier';
 import { image } from '../sheets/primitives';
+import { textureUrl } from '../../constants/images';
 
 // A folder cover drawn in SVG from the Figma recipe (design/figma/docs/06-home-folders.md): solid body and
 // tab, the shared paper texture in Color Burn, a shadow cast up onto the folder behind, and the tab text
@@ -28,7 +29,11 @@ export default function FolderCover({ folderNumber, onLoad }) {
   const id = useId();
   const f = FOLDERS[folderNumber];
   const tab = FOLDER_TABS[folderNumber];
-  const texture = image('folder-texture');
+  // An SVG <image> has no <picture>-style fallback, so pick AVIF or WebP the way the WebGL loader does.
+  const [textureSrc, setTextureSrc] = useState(null);
+  useEffect(() => {
+    textureUrl(image('folder-texture')).then(setTextureSrc);
+  }, []);
   const texW = WIDTH / TEXTURE_SCALE[0];
   const texH = (BODY_TOP + BODY_HEIGHT) / TEXTURE_SCALE[1];
   const shape = `M${f.x} ${BODY_TOP}h${WIDTH}v${BODY_HEIGHT}h${-WIDTH}Z`;
@@ -41,7 +46,7 @@ export default function FolderCover({ folderNumber, onLoad }) {
           <path d={TAB} transform={`translate(${f.tab} 0)`} />
         </clipPath>
         <filter id={`${id}-shadow`} x="-5%" y="-20%" width="110%" height="130%">
-          <feDropShadow dx="2" dy="-10" stdDeviation="7" floodColor="#000" floodOpacity={f.shadow} />
+          <feGaussianBlur stdDeviation="7" />
         </filter>
         <filter id={`${id}-print`}>
           <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="1" seed="3" />
@@ -49,21 +54,25 @@ export default function FolderCover({ folderNumber, onLoad }) {
         </filter>
       </defs>
       <g>
-        <g filter={`url(#${id}-shadow)`}>
-          <g clipPath={`url(#${id}-shape)`}>
-            <rect x={f.x} y="0" width={WIDTH} height={BODY_TOP + BODY_HEIGHT} fill={f.fill} />
-            <image
-              href={texture.avif}
-              x={f.x - f.crop[0] * texW}
-              y={-f.crop[1] * texH}
-              width={texW}
-              height={texH}
-              preserveAspectRatio="none"
-              style={{ mixBlendMode: 'color-burn' }}
-              onLoad={onLoad}
-              onError={onLoad}
-            />
-          </g>
+        {/* Figma's drop shadow (x 2, y −10, blur 14) as its own blurred silhouette under the cover. Safari
+            loses the texture's Color Burn when the blended group itself carries a filter. */}
+        <g filter={`url(#${id}-shadow)`} transform="translate(2 -10)" fill="#000" fillOpacity={f.shadow}>
+          <path d={shape} />
+          <path d={TAB} transform={`translate(${f.tab} 0)`} />
+        </g>
+        <g clipPath={`url(#${id}-shape)`}>
+          <rect x={f.x} y="0" width={WIDTH} height={BODY_TOP + BODY_HEIGHT} fill={f.fill} />
+          <image
+            href={textureSrc ?? undefined}
+            x={f.x - f.crop[0] * texW}
+            y={-f.crop[1] * texH}
+            width={texW}
+            height={texH}
+            preserveAspectRatio="none"
+            style={{ mixBlendMode: 'color-burn' }}
+            onLoad={onLoad}
+            onError={onLoad}
+          />
         </g>
         <g className="folder-tab-text" filter={`url(#${id}-print)`}>
           <text x={f.stamp.x} y={f.stamp.top + 15 * ASCENT} fontSize="15" fill={f.ink}>{tab.stamp}</text>

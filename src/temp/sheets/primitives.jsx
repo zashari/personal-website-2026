@@ -52,11 +52,12 @@ const FONTS = {
   type: 'sheet-type',
   form: 'sheet-form',
   letterhead: 'sheet-letterhead',
+  hand: 'sheet-hand',
 };
 
 // Figma's auto line height is the font's own (ascent + descent) rounded to whole px: 1.285 × size for
-// JMH Typewriter, 1.1 × for Times New Normal, 1.0 × for David Libre.
-const LINE_RATIO = { type: 1.285, form: 1.1, letterhead: 1 };
+// JMH Typewriter, 1.1 × for Times New Normal, 1.0 × for David Libre, 1.762 × for Royal Brand.
+const LINE_RATIO = { type: 1.285, form: 1.1, letterhead: 1, hand: 1.762 };
 export const lineHeight = (font, size) => Math.round(size * LINE_RATIO[font]);
 
 // One Figma text layer: font, size and line height in Figma px. Without w the text never wraps,

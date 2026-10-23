@@ -377,3 +377,22 @@
   object-fit: contain;
   pointer-events: none;
 }
+
+/* Polaroid backs: white card in the photo's frame, note in red pen (Royal Brand) */
+.sheet-hand {
+  font-family: 'Royal Brand', cursive;
+}
+
+.photo-back-card {
+  position: absolute;
+  inset: 0;
+  background: #ffffff;
+  border: 0 solid #f2f2f2;
+}
+
+.photo-back-ink {
+  position: absolute;
+  inset: 0;
+  color: var(--ink-red);
+  filter: url(#dossier-worn);
+}

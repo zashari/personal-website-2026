@@ -2,8 +2,15 @@
 @import '@fontsource/david-libre/latin-400.css';
 @import '@fontsource/fira-code/latin-600.css';
 
-/* Fonts for the code-built sheets. The JMH Typewriter and Times New Normal files are served exactly as
+/* Fonts for the code-built sheets. JMH Typewriter, Times New Normal and Royal Brand are served exactly as
    supplied (their terms forbid modifying the files, so no subsetting or re-encoding). */
+@font-face {
+  font-family: 'Royal Brand';
+  src: url('./assets/fonts/royal-brand-regular.otf') format('opentype');
+  font-weight: 400;
+  font-display: block;
+}
+
 @font-face {
   font-family: 'JMH Typewriter';
   src: url('./assets/fonts/jmh-typewriter-regular.ttf') format('truetype');
