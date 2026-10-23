@@ -1,0 +1,34 @@
+.project-stack-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: visible;
+}
+
+.project-page {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Page is in the stack - visible at center */
+.project-page.in-stack {
+  opacity: 1;
+}
+
+/* Page is hidden behind - same position but lower z-index */
+.project-page.hidden-behind {
+  opacity: 1;
+  pointer-events: none;
+}
+
+/* Animating page - use CSS transition for smooth sliding */
+.project-page.animating {
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  opacity: 1;
+}
