@@ -14,9 +14,9 @@ export const NAME = { first: 'Zaky', last: 'Ashari' };
 export const ROLES = ['AI/ML Engineer', 'Software Engineer', 'Business'];
 
 export const SOCIALS = [
-  { key: 'tiktok', label: 'Tiktok', href: null },
+  { key: 'tiktok', label: 'Tiktok', href: 'https://www.tiktok.com/@jatbzoss' },
   { key: 'github', label: 'Github', href: 'https://github.com/zashari' },
-  { key: 'instagram', label: 'Instagram', href: null },
+  { key: 'instagram', label: 'Instagram', href: 'https://www.instagram.com/a.zakyashari' },
 ];
 
 export const PHOTO_ALT = 'Zaky Ashari walking away from the arumi coffee stand at night';
