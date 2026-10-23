@@ -3,7 +3,7 @@
 // - src/home/assets/golden-spiral.svg: the golden-ratio lines, traced from Figma's own outlined geometry, with a bleed
 // - src/home/assets/images/photo.{avif,webp}: the centre photo, from the original image fill in design/source/home
 // - src/home/assets/images/reel/NN.{avif,webp}: the photos shown in turn while the centre photo is hovered
-// usage: node scripts/build-home-assets.mjs   (data: design/figma/data/home-v2.json, the /v1/files/:key/nodes?ids=2016:2&geometry=paths response)
+// usage: node scripts/build-home-assets.mjs   (data: design/figma/data/home-v2.json, the /v1/files/:key/nodes?ids=2016:10,2030:312&geometry=paths response; light frame first)
 import fs from 'node:fs';
 import path from 'node:path';
 import sharp from 'sharp';
