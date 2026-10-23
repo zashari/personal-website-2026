@@ -5,6 +5,8 @@
 // - public/favicon-48.png: fallback for browsers without SVG favicons (Safari), black on transparent
 // - public/icon-192.png, public/apple-touch-icon.png: home-screen icons. iOS fills transparency with black, so these
 //   put the Z on the site's cream background, inside the area that survives rounded-corner masks.
+// Icons are cached for 31 days (Cloudflare Cache-Control), so after rebuilding them bump the ?v= on every icon link:
+// index.html, temp/index.html, home/index.html, public/learning/index.html and worker/src/index.js (redeploy the Worker).
 import fs from 'node:fs';
 import sharp from 'sharp';
 
