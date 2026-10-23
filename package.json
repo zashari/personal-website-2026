@@ -9,7 +9,10 @@
     "images": "node scripts/optimize-images.mjs"
   },
   "dependencies": {
+    "@fontsource/david-libre": "^5.3.0",
+    "@fontsource/fira-code": "^5.3.0",
     "@react-three/fiber": "^9.8.2",
+    "lean-qr": "^2.7.4",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
     "three": "^0.186.1"
