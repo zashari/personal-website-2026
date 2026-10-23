@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { Fragment, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { BRAND, MODES, NAME, NAV, PHOTO_ALT, ROLES, SOCIALS, TOUCH_LABEL } from './content';
 import spiral from './assets/golden-spiral.svg';
 import photoAvif from './assets/images/photo.avif';
@@ -229,11 +229,92 @@ const SPHERE_FADE_MS = 450; // matches .home-spheres transition in home.css
 // bends the page behind them in both modes.
 const SPHERE_CLEAR = { light: 1, dark: 0 };
 
+// Focus lens, after React Bits ShapeBlur (https://reactbits.dev/animations/shape-blur): the spot under the cursor on a
+// sphere goes out of focus. ShapeBlur only blurs a shape it draws itself, so its lens (size, softness, blur, easing)
+// is rebuilt here as a backdrop blur above each sphere, masked to a soft circle at the cursor and clipped to the
+// sphere; it blurs the sphere and whatever shows through it alike, in both modes. Softness and blur live in home.css.
+const FOCUS_SIZE = 0.3; // lens radius as a share of the box (ShapeBlur lensSize)
+const FOCUS_REACH = 0.42 + FOCUS_SIZE / 2; // the lens wakes within the sphere plus half its own radius, in box units
+const FOCUS_FOLLOW = 10; // ShapeBlur's easing rates, per second: position toward the cursor, power in and out
+const FOCUS_FADE = 4;
+
+function useSphereFocus(active, variant, layerRef) {
+  useEffect(() => {
+    const layer = layerRef.current;
+    if (!active || !layer) return undefined;
+    const lenses = [...layer.querySelectorAll('.home-sphere-focus')].map((el) => ({
+      el,
+      x: 0.5,
+      y: 0.5,
+      tx: 0.5,
+      ty: 0.5,
+      power: 0,
+      target: 0,
+    }));
+    let raf = 0;
+    let last = 0;
+    const tick = (now) => {
+      const dt = last ? Math.min((now - last) / 1000, 0.05) : 1 / 60;
+      last = now;
+      const follow = 1 - Math.exp(-dt * FOCUS_FOLLOW);
+      const fade = 1 - Math.exp(-dt * FOCUS_FADE);
+      let moving = false;
+      for (const lens of lenses) {
+        lens.x += (lens.tx - lens.x) * follow;
+        lens.y += (lens.ty - lens.y) * follow;
+        lens.power += (lens.target - lens.power) * fade;
+        if (Math.abs(lens.target - lens.power) < 0.002) lens.power = lens.target;
+        else moving = true;
+        if (Math.abs(lens.tx - lens.x) > 0.001 || Math.abs(lens.ty - lens.y) > 0.001) moving = true;
+        lens.el.style.setProperty('--focus-x', `${(lens.x * 100).toFixed(2)}%`);
+        lens.el.style.setProperty('--focus-y', `${(lens.y * 100).toFixed(2)}%`);
+        lens.el.style.setProperty('--focus-power', lens.power.toFixed(3));
+      }
+      raf = moving ? requestAnimationFrame(tick) : 0;
+      if (!raf) last = 0;
+    };
+    const wake = () => {
+      if (!raf) raf = requestAnimationFrame(tick);
+    };
+    const onMove = (event) => {
+      for (const lens of lenses) {
+        const rect = lens.el.getBoundingClientRect();
+        const x = (event.clientX - rect.left) / rect.width;
+        const y = (event.clientY - rect.top) / rect.height;
+        lens.target = Math.hypot(x - 0.5, y - 0.5) < FOCUS_REACH ? 1 : 0;
+        if (!lens.target) continue;
+        // A lens waking from nothing starts at the cursor instead of sliding in from where it last was.
+        if (lens.power < 0.01) {
+          lens.x = x;
+          lens.y = y;
+        }
+        lens.tx = x;
+        lens.ty = y;
+      }
+      wake();
+    };
+    const onLeave = () => {
+      for (const lens of lenses) lens.target = 0;
+      wake();
+    };
+    window.addEventListener('pointermove', onMove);
+    document.documentElement.addEventListener('pointerleave', onLeave);
+    return () => {
+      window.removeEventListener('pointermove', onMove);
+      document.documentElement.removeEventListener('pointerleave', onLeave);
+      cancelAnimationFrame(raf);
+    };
+  }, [active, variant, layerRef]);
+}
+
 function SphereLayer({ front, state, variant, theme }) {
+  const layerRef = useRef(null);
+  useSphereFocus(state !== 'off', variant, layerRef);
   if (state === 'off') return null;
   const lens = LENS_SUPPORTED;
   return (
     <div
+      ref={layerRef}
       className="home-spheres"
       data-state={state}
       data-front={front || undefined}
@@ -243,14 +324,14 @@ function SphereLayer({ front, state, variant, theme }) {
       {!front && lens && <SphereLens />}
       {SPHERES[variant].filter((s) => !!s.front === front).map((s) => {
         const box = s.d / 0.84;
+        const place = { left: s.x - box / 2, top: s.y - box / 2, width: box, height: box, '--depth': s.depth };
         return (
-          <div
-            key={s.id}
-            className="home-sphere"
-            style={{ left: s.x - box / 2, top: s.y - box / 2, width: box, height: box, '--depth': s.depth }}
-          >
-            <Strands respectReducedMotion={false} clear={SPHERE_CLEAR[theme]} />
-          </div>
+          <Fragment key={s.id}>
+            <div className="home-sphere" style={place}>
+              <Strands respectReducedMotion={false} clear={SPHERE_CLEAR[theme]} />
+            </div>
+            <div className="home-sphere-focus" style={{ ...place, '--focus-r': `${box * FOCUS_SIZE}px` }} />
+          </Fragment>
         );
       })}
     </div>
