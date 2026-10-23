@@ -15,6 +15,20 @@
 }
 
 @font-face {
+  font-family: 'Open Sans';
+  src: url('./assets/fonts/open-sans-semibold.ttf') format('truetype');
+  font-weight: 600;
+  font-display: block;
+}
+
+@font-face {
+  font-family: 'Open Sans';
+  src: url('./assets/fonts/open-sans-bold.ttf') format('truetype');
+  font-weight: 700;
+  font-display: block;
+}
+
+@font-face {
   font-family: 'Open Sans SemiCondensed';
   src: url('./assets/fonts/open-sans-semicondensed-medium.ttf') format('truetype');
   font-weight: 500;
@@ -35,6 +49,31 @@
   box-sizing: border-box;
 }
 
+/* Colour modes, from the Figma frames home-desktop (light, the default) and home-desktop-dark. Only these colours
+   differ between the two; the spiral lines, photo and white name are shared. */
+:root {
+  --bg: #dbd5c9;
+  --ink: #000;
+  --social: #474747;
+  --mode-idle: #000;
+  --accent: #0015ff;
+  --logo-stroke: currentColor;
+  --theme-time: 0.6s;
+  /* Every hover colour change (header, socials, mode switch) shares this curve. */
+  --hover-ease: cubic-bezier(0.45, 0, 0.25, 1);
+  --hover-time: 0.9s;
+}
+
+:root[data-theme='dark'] {
+  --bg: #202020;
+  --ink: #fff;
+  --social: #d2d2d2;
+  --mode-idle: #d2d2d2;
+  --accent: #ff4400;
+  /* Figma keeps the Z's 1 px outline black on the dark background too. */
+  --logo-stroke: #000;
+}
+
 html,
 body,
 #root {
@@ -48,8 +87,8 @@ html {
 
 /* The page fits one screen; only a very short window (see MIN_SCALE) makes it taller and scroll. */
 body {
-  background: #dbd5c9;
-  color: #000;
+  background: var(--bg);
+  color: var(--ink);
   overflow-x: hidden;
   overflow-x: clip;
   -webkit-font-smoothing: antialiased;
@@ -85,12 +124,116 @@ body {
 }
 
 .home-photo {
+  position: absolute;
   left: 717px;
   top: 237px;
   width: 486px;
   height: 607px;
-  object-fit: cover;
   user-select: none;
+}
+
+.home-reel-base img {
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Reel frames: uncropped and fitted inside the photo's box, centred. A frame wider than the photo shrinks to its width,
+   a taller one to its height, keeping its aspect ratio. Hidden until their turn (visibility keeps them decoded and
+   ready), and transparent to the pointer so the hover area stays the photo's own box. */
+.home-reel-frame {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.home-reel-frame img {
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.home-reel-frame[data-active] {
+  visibility: visible;
+}
+
+/* While the reel plays, hide the original so it can't show beside a frame narrower than the photo. */
+.home-reel[data-playing] .home-reel-base {
+  visibility: hidden;
+}
+
+/* "TOUCH ME" and its sparkle: the 58 px sparkle with the label level beside it, 133 x 58 overall. It is one button
+   that turns the spheres on and off. */
+.home-touch {
+  position: absolute;
+  width: 132.8px;
+  height: 58px;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: var(--accent);
+  cursor: pointer;
+}
+
+.home-touch:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 6px;
+}
+
+/* Strands spheres (see SPHERES in HomeApp.jsx): fade in and out as a layer; each sphere box is placed in Figma px. */
+.home-spheres {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.45s ease;
+  pointer-events: none;
+}
+
+.home-spheres[data-state='on'] {
+  opacity: 1;
+}
+
+.home-sphere {
+  position: absolute;
+  pointer-events: auto;
+  /* Repel offset from useRepel, scaled per sphere for a little depth. */
+  transform: translate(calc(var(--repel-x, 0px) * var(--depth, 1)), calc(var(--repel-y, 0px) * var(--depth, 1)));
+}
+
+/* The front sphere lies over the photo; let the pointer through so the photo's hover reel still works there. */
+.home-spheres[data-front] .home-sphere {
+  pointer-events: none;
+}
+
+.home-touch-sparkle,
+.home-touch-label {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+/* The sparkle turns slowly about its own centre (29, 29). With eight points, the loop has no visible seam. It keeps turning under reduced motion: it is small, slow and the user asked for it. */
+.home-touch-spin {
+  transform-box: view-box;
+  transform-origin: 29px 29px;
+  animation: home-touch-spin 8s linear infinite;
+}
+
+@keyframes home-touch-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.home-touch-label {
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 16.3418px;
 }
 
 .home-socials {
@@ -105,7 +248,22 @@ body {
 }
 
 .home-socials li {
-  color: #474747;
+  color: var(--social);
+}
+
+/* Switching modes cross-fades every colour together. The class is only on <html> for the length of a switch (see
+   useTheme), so nothing fades on page load and hover transitions keep their own timing the rest of the time. Only the
+   elements that set a colour fade; their children inherit it, and a child fading on top of its parent would lag. */
+:root.theme-switching body,
+:root.theme-switching .home-nav-item,
+:root.theme-switching .home-logo-z,
+:root.theme-switching .home-socials a,
+:root.theme-switching .home-mode-option,
+:root.theme-switching .home-touch {
+  transition:
+    background-color var(--theme-time) ease,
+    color var(--theme-time) ease,
+    -webkit-text-stroke-color var(--theme-time) ease !important;
 }
 
 /* A larger tap target than the 14 px-tall word, so the links stay easy to hit when the stage is scaled down. */
@@ -119,8 +277,10 @@ body {
   position: static;
 }
 
+/* The name crosses the photo; let the pointer pass through so it doesn't interrupt the photo's hover reel. */
 .home-name {
   font: inherit;
+  pointer-events: none;
 }
 
 .home-name span {
@@ -139,28 +299,39 @@ body {
   left: 0;
   right: 0;
   z-index: 1;
-  padding: clamp(14px, 2.8dvh, 36px) clamp(16px, 3.2vw, 60px) 0;
-  /* Navigation size, not headline size: 26 px at 1920 wide down to 18 px on phones. */
-  font-size: clamp(18px, 1.35vw, 26px);
+  padding: clamp(20px, 5dvh, 56px) clamp(16px, 3.2vw, 60px) 0;
+  /* Navigation size, not headline size: 40 px at 1920 wide down to 22 px on phones. */
+  font-size: clamp(22px, 2.08vw, 40px);
+  text-align: left;
 }
 
 .home-nav {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  column-gap: clamp(16px, 3vw, 56px);
+  column-gap: clamp(16px, 3.8vw, 72px);
 }
 
 .home-nav-group {
   display: flex;
   align-items: flex-start;
-  gap: clamp(16px, 2.6vw, 48px);
+  gap: clamp(16px, 3.5vw, 68px);
 }
 
+/* Hover: the whole item turns blue and its label opens up, on one symmetric curve; the spacing moves slower. */
 .home-nav-item {
+  --spacing-time: 1s;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  color: var(--ink);
+  transition: color var(--hover-time) var(--hover-ease);
+}
+
+.home-nav-item:hover,
+.home-nav-item:focus-visible {
+  --logo-stroke: currentColor;
+  color: var(--accent);
 }
 
 .home-nav-title {
@@ -177,10 +348,33 @@ body {
   display: block;
   font-family: 'Open Sans SemiCondensed', 'Open Sans', sans-serif;
   font-weight: 500;
-  font-size: max(10px, 0.46em);
+  font-size: max(11px, 0.4em);
   line-height: 1.3618;
   letter-spacing: 0.02em;
-  margin-top: 0.35em;
+  margin-top: 0.45em;
+  white-space: nowrap;
+}
+
+/* Hovering an item opens its label up by 15% of the label size, letter by letter from a fixed left edge. Each letter
+   is its own compositor layer so it glides in sub-pixel steps instead of being repainted and snapped to whole pixels. */
+.home-nav-letter {
+  display: inline-block;
+  white-space: pre;
+  will-change: transform;
+  transition: transform var(--spacing-time) var(--hover-ease);
+}
+
+.home-nav-item:hover .home-nav-letter,
+.home-nav-item:focus-visible .home-nav-letter {
+  transform: translateX(calc(var(--i) * 0.15em));
+}
+
+.home-visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
   white-space: nowrap;
 }
 
@@ -206,7 +400,8 @@ body {
   font-size: 1.5em;
   line-height: 1.25;
   /* Figma strokes the Z 1px outside its outline: a 2px centred stroke painted under the fill. */
-  -webkit-text-stroke: 0.0267em #000;
+  -webkit-text-stroke: 0.0267em var(--logo-stroke);
+  transition: -webkit-text-stroke-color var(--hover-time) var(--hover-ease);
   paint-order: stroke fill;
 }
 
@@ -229,19 +424,86 @@ body {
   }
 }
 
+/* ---- Colour mode switch: DARK bottom-left, LIGHT bottom-right, on the header's side margins ----
+   Sized in em of the 15 px Figma label (scaled like the header): a 173 x 3 px underline flush with the bottom edge,
+   the label's cap top 33 px above the underline. The active mode is blue; the other is --mode-idle. */
+
+.home-mode {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 clamp(16px, 3.2vw, 60px);
+  font-size: max(11px, calc(0.3 * clamp(22px, 2.08vw, 40px)));
+  pointer-events: none;
+}
+
+.home-mode-option {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 11.53em;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: var(--mode-idle);
+  cursor: pointer;
+  pointer-events: auto;
+  transition: color var(--hover-time) var(--hover-ease);
+}
+
+.home-mode-option[aria-pressed='true'],
+.home-mode-option:hover,
+.home-mode-option:focus-visible {
+  color: var(--accent);
+}
+
+.home-mode-option[aria-pressed='true'] {
+  cursor: default;
+}
+
+.home-mode-label {
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 600;
+  line-height: 1.3618;
+  letter-spacing: -0.02em;
+  /* Box bottom to underline top: 33 px from cap top to line, minus the box below the cap (0.355em above it). */
+  margin-bottom: 1.19em;
+}
+
+.home-mode-line {
+  display: block;
+  width: 100%;
+  height: 0.2em;
+  background: currentColor;
+}
+
+.home-mode-option:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 4px;
+}
+
 /* ---- Links ---- */
 
-.home-link {
+/* Links take their colour from their context; header items and the mode switch set their own above. Low specificity
+   (:where) so those rules win: an item inheriting the body's colour would fade twice, and lag, on a mode switch. */
+:where(.home-link) {
   color: inherit;
   text-decoration: none;
 }
 
-a.home-link {
-  transition: opacity 0.2s ease;
+/* Socials take the accent colour on hover, like the header and mode switch; only the colour changes. */
+.home-socials a.home-link {
+  transition: color var(--hover-time) var(--hover-ease);
 }
 
-a.home-link:hover {
-  opacity: 0.6;
+.home-socials a.home-link:hover,
+.home-socials a.home-link:focus-visible {
+  color: var(--accent);
 }
 
 a.home-link:focus-visible {
@@ -249,8 +511,6 @@ a.home-link:focus-visible {
   outline-offset: 6px;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  a.home-link {
-    transition: none;
-  }
-}
+/* Reduced motion (Windows: Settings > Accessibility > Visual effects > Animation effects off) changes nothing here:
+   the hovers are colour fades and a small label spread the visitor starts, and cutting their transitions would only
+   turn them into abrupt jumps. */

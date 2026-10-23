@@ -2,7 +2,8 @@
 // Builds the /home assets from the Figma frame "home" (page version-2, node 2016:10).
 // - src/home/assets/golden-spiral.svg: the golden-ratio lines, traced from Figma's own outlined geometry, with a bleed
 // - src/home/assets/images/photo.{avif,webp}: the centre photo, from the original image fill in design/source/home
-// usage: node scripts/build-home-assets.mjs   (data: design/figma/data/home-v2.json, the /v1/files/:key/nodes?ids=2016:2&geometry=paths response)
+// - src/home/assets/images/reel/NN.{avif,webp}: the photos shown in turn while the centre photo is hovered
+// usage: node scripts/build-home-assets.mjs   (data: design/figma/data/home-v2.json, the /v1/files/:key/nodes?ids=2016:10,2030:312&geometry=paths response; light frame first)
 import fs from 'node:fs';
 import path from 'node:path';
 import sharp from 'sharp';
@@ -91,3 +92,23 @@ fs.mkdirSync(path.join(OUT, 'images'), { recursive: true });
 await sharp(photo).rotate().resize({ width: 972 }).avif({ quality: 70, effort: 6 }).toFile(path.join(OUT, 'images', 'photo.avif'));
 await sharp(photo).rotate().resize({ width: 972 }).webp({ quality: 85, effort: 5 }).toFile(path.join(OUT, 'images', 'photo.webp'));
 console.log('photo.avif, photo.webp');
+
+// Hover reel: the photos the centre image flips through while hovered. The originals are large camera JPEGs kept out
+// of git (.tmp/images/home-material); only the encodes are committed. Each keeps its own aspect ratio and is scaled to
+// fit inside 2x the photo box (486 x 607), the largest it is ever shown, with all metadata (including GPS) dropped.
+const REEL_SRC = '.tmp/images/home-material';
+const REEL_OUT = path.join(OUT, 'images', 'reel');
+if (fs.existsSync(REEL_SRC)) {
+  fs.rmSync(REEL_OUT, { recursive: true, force: true });
+  fs.mkdirSync(REEL_OUT, { recursive: true });
+  const files = fs.readdirSync(REEL_SRC).filter((f) => /.(jpe?g|png)$/i.test(f)).sort();
+  for (const [i, file] of files.entries()) {
+    const name = String(i + 1).padStart(2, '0');
+    const frame = () => sharp(path.join(REEL_SRC, file)).rotate().resize(972, 1214, { fit: 'inside' });
+    await frame().avif({ quality: 55, effort: 6 }).toFile(path.join(REEL_OUT, `${name}.avif`));
+    await frame().webp({ quality: 78, effort: 5 }).toFile(path.join(REEL_OUT, `${name}.webp`));
+  }
+  console.log(`reel: ${files.length} frames`);
+} else {
+  console.log(`reel: skipped, ${REEL_SRC} not found`);
+}

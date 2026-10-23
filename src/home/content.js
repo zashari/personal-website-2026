@@ -1,5 +1,5 @@
 // Every word on /home. Positions live in HomeApp.jsx; change only the text here.
-// A link with href: null is shown as plain text until it has somewhere to go.
+// A link with href: null is clickable but does nothing yet; give it an address when its page exists.
 
 export const BRAND = { label: 'ABOUT ME', href: null };
 
@@ -18,5 +18,14 @@ export const SOCIALS = [
   { key: 'github', label: 'Github', href: 'https://github.com/zashari' },
   { key: 'instagram', label: 'Instagram', href: 'https://www.instagram.com/a.zakyashari' },
 ];
+
+// Colour mode switch at the bottom: first option sits bottom-left, second bottom-right.
+export const MODES = [
+  { key: 'dark', label: 'DARK' },
+  { key: 'light', label: 'LIGHT' },
+];
+
+// The small tilted note beside the photo, next to the sparkle.
+export const TOUCH_LABEL = 'TOUCH ME';
 
 export const PHOTO_ALT = 'Zaky Ashari walking away from the arumi coffee stand at night';
