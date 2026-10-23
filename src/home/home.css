@@ -59,6 +59,7 @@
   --ink: #fff;
   --social: #d2d2d2;
   --mode-idle: #d2d2d2;
+  --accent: #ff4400;
   /* Figma keeps the Z's 1 px outline black on the dark background too. */
   --logo-stroke: #000;
 }
