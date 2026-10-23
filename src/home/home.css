@@ -140,21 +140,21 @@ body {
   right: 0;
   z-index: 1;
   padding: clamp(14px, 2.8dvh, 36px) clamp(16px, 3.2vw, 60px) 0;
-  /* Navigation size, not headline size: 34 px at 1920 wide down to 20 px on phones. */
-  font-size: clamp(20px, 1.77vw, 34px);
+  /* Navigation size, not headline size: 40 px at 1920 wide down to 22 px on phones. */
+  font-size: clamp(22px, 2.08vw, 40px);
 }
 
 .home-nav {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  column-gap: clamp(16px, 3.4vw, 64px);
+  column-gap: clamp(16px, 3.8vw, 72px);
 }
 
 .home-nav-group {
   display: flex;
   align-items: flex-start;
-  gap: clamp(16px, 3vw, 60px);
+  gap: clamp(16px, 3.5vw, 68px);
 }
 
 .home-nav-item {
@@ -177,7 +177,7 @@ body {
   display: block;
   font-family: 'Open Sans SemiCondensed', 'Open Sans', sans-serif;
   font-weight: 500;
-  font-size: max(11px, 0.42em);
+  font-size: max(11px, 0.4em);
   line-height: 1.3618;
   letter-spacing: 0.02em;
   margin-top: 0.45em;
