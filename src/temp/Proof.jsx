@@ -1,4 +1,5 @@
 import { folderSheet, projectPages } from './sheets';
+import PhotoBack from './sheets/PhotoBack';
 
 // /temp/?proof=personal-front&width=613 renders one sheet side flat on the navy background, at a fixed
 // width, for side-by-side and pixel comparison with the Figma renders (design/figma/exports/renders).
@@ -7,6 +8,7 @@ const SHEETS = {
   professional: () => folderSheet(2),
   'projects-1': () => projectPages()[1],
   'projects-2': () => projectPages()[2],
+  ...Object.fromEntries(['personal1', 'personal2', 'professional1', 'professional2'].map((id) => [`photo-${id}`, () => ({ back: <PhotoBack id={id} /> })])),
 };
 
 export default function Proof({ sheet }) {

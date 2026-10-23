@@ -191,13 +191,12 @@ export const PROJECTS = {
   ],
 };
 
-// Polaroid notes, shown when a photo is opened and flipped. The handwriting stays an image for now
-// (its font, Royal Brand, is personal-use only), so these strings are the accessible description.
+// Handwritten notes on the backs of the polaroids, shown when a photo is opened and flipped.
 export const PHOTO_NOTES = {
-  personal1: 'Location: 6.9169° S, 107.6086° E. The subject always seems to wear headphones or a headset while commuting from Node A to Node B. 11/01/2025',
-  personal2: 'Location: Train station. Subject was spotted at a train station, exact location unknown. 10/11/2025',
-  professional1: 'The subject appears consistently relaxed when working in the casual attire described in the personal info. Photo taken by Undercover Agent PP, a 10-year veteran assigned to befriend the subject. 11/30/2025',
-  professional2: 'Footage captured via spy glasses shows the subject debating Deep Learning architectures for an Alzheimer\'s disease detection project with a friend. 12/01/2025',
+  personal1: { location: 'Location:', locationDetail: '6.9169° S, 107.6086° E', note: 'The subject always seems to wear headphones or a headset while commuting from Node A to Node B', date: '11/01/2025' },
+  personal2: { location: 'Location: Train station', note: 'subject was spotted at a train station.\nexact location unknown', date: '10/11/2025' },
+  professional1: { note: 'The subject appears consistently relaxed when working in the casual attire described in the personal info. Photo taken by Undercover Agent PP, a 10-year veteran assigned to befriend the subject', date: '11/30/2025' },
+  professional2: { note: 'Footage captured via spy glasses shows the subject debating Deep Learning architectures for an Alzheimer’s disease detection project with a friend.', date: '12/01/2025' },
 };
 
 // Folder tabs on the home page, back to front. overprint is the red word stamped on folder 002.
