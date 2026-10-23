@@ -59,10 +59,17 @@ function MaybeLink({ href, className, children }) {
   );
 }
 
-function NavItem({ title, label, href, children }) {
+// Optical left alignment: glyphs carry their own side bearings (and the Italianno Z a swash), so a title and its label
+// that start at the same x do not start inking at the same x. Each title is nudged by the gap measured in Chrome at
+// 4x (title ink minus label ink, in em of the title size). Re-measure if a title or label's first letter changes.
+const TITLE_INK_SHIFT = { brand: 0.0625, work: 0.025, workflow: -0.0125, contact: -0.025 };
+
+function NavItem({ id, title, label, href, children }) {
   return (
     <MaybeLink href={href} className="home-link home-nav-item">
-      <span className="home-nav-title">{children ?? title}</span>
+      <span className="home-nav-title" style={{ marginLeft: `${TITLE_INK_SHIFT[id] ?? 0}em` }}>
+        {children ?? title}
+      </span>
       <span className="home-nav-label">{label}</span>
     </MaybeLink>
   );
@@ -163,7 +170,7 @@ export default function HomeApp() {
       <header className="home-header" ref={headerRef}>
         <nav className="home-nav" aria-label="Main">
           <div className="home-nav-group">
-            <NavItem href={BRAND.href} label={BRAND.label}>
+            <NavItem id="brand" href={BRAND.href} label={BRAND.label}>
               <span className="home-logo" aria-label="Zashari">
                 <span className="home-logo-z" aria-hidden="true">
                   Z
@@ -173,11 +180,11 @@ export default function HomeApp() {
                 </span>
               </span>
             </NavItem>
-            <NavItem title={NAV[0].title} label={NAV[0].label} href={NAV[0].href} />
+            <NavItem id={NAV[0].key} title={NAV[0].title} label={NAV[0].label} href={NAV[0].href} />
           </div>
           <div className="home-nav-group">
             {NAV.slice(1).map((item) => (
-              <NavItem key={item.key} title={item.title} label={item.label} href={item.href} />
+              <NavItem key={item.key} id={item.key} title={item.title} label={item.label} href={item.href} />
             ))}
           </div>
         </nav>
