@@ -131,7 +131,7 @@ body {
   text-shadow: 0 0 6px rgb(0 0 0 / 25%);
 }
 
-/* ---- Header: fluid HTML. Sizes are in em of the title size (50 px in Figma at 1920 wide) ---- */
+/* ---- Header: fluid HTML. Sizes are in em of the title size; the logotype keeps Figma's proportions ---- */
 
 .home-header {
   position: absolute;
@@ -140,20 +140,21 @@ body {
   right: 0;
   z-index: 1;
   padding: clamp(14px, 2.8dvh, 36px) clamp(16px, 3.2vw, 60px) 0;
-  font-size: clamp(22px, 2.6vw, 50px);
+  /* Navigation size, not headline size: 26 px at 1920 wide down to 18 px on phones. */
+  font-size: clamp(18px, 1.35vw, 26px);
 }
 
 .home-nav {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  column-gap: clamp(16px, 5vw, 97px);
+  column-gap: clamp(16px, 3vw, 56px);
 }
 
 .home-nav-group {
   display: flex;
   align-items: flex-start;
-  gap: clamp(16px, 5vw, 97px);
+  gap: clamp(16px, 2.6vw, 48px);
 }
 
 .home-nav-item {
@@ -171,14 +172,15 @@ body {
   white-space: nowrap;
 }
 
-/* Figma: 20 px labels whose cap top sits 92 px below the title's box top. */
+/* Small capitals need a little tracking and a floor of 10 px to stay readable. */
 .home-nav-label {
   display: block;
   font-family: 'Open Sans SemiCondensed', 'Open Sans', sans-serif;
   font-weight: 500;
-  font-size: max(10px, 0.4em);
+  font-size: max(10px, 0.46em);
   line-height: 1.3618;
-  margin-top: 0.84em;
+  letter-spacing: 0.02em;
+  margin-top: 0.35em;
   white-space: nowrap;
 }
 
@@ -213,8 +215,8 @@ body {
   letter-spacing: -0.13em;
 }
 
-/* Phones: the two groups no longer fit on one line, so the four items become a 2 x 2 grid. */
-@media (max-width: 760px) {
+/* Small phones: the two groups no longer fit on one line, so the four items become a 2 x 2 grid. */
+@media (max-width: 420px) {
   .home-nav {
     display: grid;
     grid-template-columns: auto auto;
