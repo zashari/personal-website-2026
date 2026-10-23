@@ -69,8 +69,11 @@ export default function Paper3D({ front, back, aspect, label, isActive = true, t
 
   const baseWidth = Math.min(box.width * FIT, box.height * FIT * aspect);
 
-  const normalizedY = ((current.rotation.y % 360) + 360) % 360;
-  const isBackside = normalizedY > 90 && normalizedY < 270;
+  // Which side faces the viewer: the sheet's normal after rotateX then rotateY points at the camera
+  // when cos(x)·cos(y) > 0. Used to hide the far face outright rather than trusting backface-visibility,
+  // which Safari ignores once a face holds filtered or blended content.
+  const toRad = Math.PI / 180;
+  const isBackside = Math.cos(current.rotation.x * toRad) * Math.cos(current.rotation.y * toRad) < 0;
 
   // Zoom by `factor` keeping the point under (clientX, clientY) still.
   const zoomAt = useCallback((factor, clientX, clientY) => {
@@ -149,8 +152,11 @@ export default function Paper3D({ front, back, aspect, label, isActive = true, t
       onPointerCancel={onPointerUp}
     >
       <div ref={sheetRef} className={`paper3d-sheet${baseWidth && ready ? '' : ' is-measuring'}`} style={sheetStyle} role="document" aria-label={label}>
-        <div className="paper3d-face" aria-hidden={isBackside}>{front}</div>
-        <div className="paper3d-face paper3d-face--back" aria-hidden={!isBackside}>{back}</div>
+        {/* The face turned away is hidden and takes no clicks. Safari both draws and hit-tests a
+            backface-hidden face here, so the back (later in the DOM) would cover the front and swallow
+            clicks on its photos and links. */}
+        <div className={`paper3d-face${isBackside ? ' is-away' : ''}`} aria-hidden={isBackside}>{front}</div>
+        <div className={`paper3d-face paper3d-face--back${isBackside ? '' : ' is-away'}`} aria-hidden={!isBackside}>{back}</div>
       </div>
     </div>
   );

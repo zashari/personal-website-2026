@@ -33,3 +33,8 @@
 .paper3d-face--back {
   transform: rotateY(180deg);
 }
+
+.paper3d-face.is-away {
+  visibility: hidden;
+  pointer-events: none;
+}
