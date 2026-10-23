@@ -1,0 +1,790 @@
+/* Page 2 of /home: the work book (Book.jsx). The book is drawn in the page colours of print in both modes; only the
+   accent follows the site's mode. Inside a spread every size is in cqw of the whole spread (100cqw = two pages), and
+   a spread is 100cqw x 69.44cqw (two pages of 0.72 : 1). */
+
+.bk-section {
+  --paper: #f3f0e9;
+  --paper-edge: #d6d0c4;
+  --paper-ink: #141414;
+  --paper-mute: #5c5953;
+  --page-ratio: 0.72;
+  --book-w: min(92vw, (100svh - 150px) * 2 * var(--page-ratio), 1480px);
+  position: relative;
+  color: var(--paper-ink);
+}
+
+/* ---- Turning book: a tall track with a sticky stage; ScrollTrigger reads the track ---- */
+
+.bk-track {
+  height: calc((var(--turns) + 1) * 100svh);
+}
+
+.bk-stage {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 22px;
+}
+
+.bk-book {
+  position: relative;
+  width: var(--book-w);
+  aspect-ratio: calc(2 * var(--page-ratio));
+  perspective: calc(var(--book-w) * 3);
+  perspective-origin: 50% 40%;
+}
+
+/* Page-block edges under each half (a few offset paper lines) and the book's shadow on the table. The book's
+   perspective makes it a stacking context, so z-index -1 keeps these under the pages. */
+.bk-book::before,
+.bk-book::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  width: 50%;
+  height: 100%;
+  z-index: -1;
+  background: var(--paper);
+}
+
+.bk-book::before {
+  left: 0;
+  box-shadow:
+    -1px 1px 0 var(--paper-edge),
+    -2px 2px 0 var(--paper),
+    -3px 3px 0 var(--paper-edge),
+    -4px 4px 0 var(--paper),
+    -5px 5px 0 var(--paper-edge),
+    -18px 26px 46px rgb(0 0 0 / 0.32);
+}
+
+.bk-book::after {
+  left: 50%;
+  box-shadow:
+    1px 1px 0 var(--paper-edge),
+    2px 2px 0 var(--paper),
+    3px 3px 0 var(--paper-edge),
+    4px 4px 0 var(--paper),
+    5px 5px 0 var(--paper-edge),
+    18px 26px 46px rgb(0 0 0 / 0.32);
+}
+
+/* ---- Pages: a window onto half of a spread's sheet ---- */
+
+.bk-page {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: var(--paper);
+}
+
+.bk-base {
+  width: 50%;
+  inset: 0 auto 0 0;
+}
+
+.bk-base[data-side='right'] {
+  left: 50%;
+}
+
+/* The sheet is the whole spread; the right page shows its second half. */
+.bk-sheet {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 200%;
+  height: 100%;
+  container-type: inline-size;
+  background-color: var(--paper);
+  /* Faint paper grain, drawn once as an image. */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.bk-sheet[data-side='right'] {
+  left: -100%;
+}
+
+/* The gutter: each page darkens and curves away toward the spine. */
+.bk-gutter {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.bk-page[data-side='left'] .bk-gutter {
+  background: linear-gradient(
+    to left,
+    rgb(0 0 0 / 0.26) 0,
+    rgb(0 0 0 / 0.1) 1.6%,
+    rgb(0 0 0 / 0.03) 5%,
+    rgb(255 255 255 / 0.05) 9%,
+    transparent 14%
+  );
+}
+
+.bk-page[data-side='right'] .bk-gutter {
+  background: linear-gradient(
+    to right,
+    rgb(0 0 0 / 0.3) 0,
+    rgb(0 0 0 / 0.12) 1.8%,
+    rgb(0 0 0 / 0.03) 5.5%,
+    rgb(255 255 255 / 0.05) 9%,
+    transparent 14%
+  );
+}
+
+/* ---- Leaves: turn over the spine. Nothing on .bk-leaf may flatten 3D (no overflow, opacity, filter, clip). ---- */
+
+.bk-leaf {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 50%;
+  height: 100%;
+  transform-origin: 0 50%;
+  transform-style: preserve-3d;
+  transform: rotateY(calc(var(--turn, 0) * -180deg));
+}
+
+.bk-face {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+.bk-face[data-face='back'] {
+  transform: rotateY(180deg);
+}
+
+.bk-face > .bk-page {
+  inset: 0;
+}
+
+/* A page in the air turns away from the light: the front darkens toward its free edge as it rises, the back lightens
+   as it lands. */
+.bk-face-shade {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.bk-face[data-face='front'] .bk-face-shade {
+  background: linear-gradient(to right, rgb(0 0 0 / 0.08), rgb(0 0 0 / 0.5));
+  opacity: calc(min(var(--turn, 0) * 2, 1));
+}
+
+.bk-face[data-face='back'] .bk-face-shade {
+  background: linear-gradient(to left, rgb(0 0 0 / 0.08), rgb(0 0 0 / 0.5));
+  opacity: calc(min((1 - var(--turn, 0)) * 2, 1));
+}
+
+/* The shadow a lifted page casts on the page it uncovers (Book.jsx sets side and opacity). */
+.bk-cast {
+  position: absolute;
+  top: 0;
+  width: 50%;
+  height: 100%;
+  pointer-events: none;
+  opacity: 0;
+  z-index: calc(var(--turns, 4) + 1);
+}
+
+.bk-cast[data-side='right'] {
+  left: 50%;
+  background: linear-gradient(to right, rgb(0 0 0 / 0.34), rgb(0 0 0 / 0.08) 45%, transparent 80%);
+}
+
+.bk-cast[data-side='left'] {
+  left: 0;
+  background: linear-gradient(to left, rgb(0 0 0 / 0.34), rgb(0 0 0 / 0.08) 45%, transparent 80%);
+}
+
+/* ---- Controls under the book ---- */
+
+.bk-controls {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  color: var(--ink);
+  font-family: 'Open Sans SemiCondensed', 'Open Sans', sans-serif;
+  font-weight: 500;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.bk-control {
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  padding: 6px 2px;
+  cursor: pointer;
+  transition: color 0.4s var(--hover-ease);
+}
+
+.bk-control:hover:not(:disabled),
+.bk-control:focus-visible {
+  color: var(--accent);
+}
+
+.bk-control:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+.bk-counter {
+  min-width: 5.5em;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---- Stacked pages (narrow or portrait screens) ---- */
+
+.bk-stack {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  padding: 56px 0 72px;
+}
+
+.bk-page-flat {
+  position: relative;
+  inset: auto;
+  width: min(92vw, 640px);
+  aspect-ratio: var(--page-ratio);
+  box-shadow: 0 14px 34px rgb(0 0 0 / 0.22);
+}
+
+/* ---- Type shared by every spread ---- */
+
+.bk-sheet-inner {
+  position: absolute;
+  inset: 0;
+  font-family: 'Times New Normal', 'Times New Roman', serif;
+}
+
+.bk-body {
+  font-family: 'Times New Normal', 'Times New Roman', serif;
+  font-size: 0.98cqw;
+  line-height: 1.38;
+  text-wrap: pretty;
+  hyphens: auto;
+}
+
+.bk-caption {
+  font-family: 'Open Sans SemiCondensed', 'Open Sans', sans-serif;
+  font-weight: 500;
+  font-size: 0.66cqw;
+  line-height: 1.35;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.bk-folio {
+  position: absolute;
+  bottom: 2.6cqw;
+  font-family: 'Open Sans SemiCondensed', 'Open Sans', sans-serif;
+  font-weight: 500;
+  font-size: 0.7cqw;
+  letter-spacing: 0.08em;
+}
+
+.bk-folio[data-side='left'] {
+  left: 3.6cqw;
+}
+
+.bk-folio[data-side='right'] {
+  right: 3.6cqw;
+}
+
+/* ---- Cover (after the red spread): accent paper, a black-and-white strip across the gutter ---- */
+
+.bk-cover {
+  background: var(--accent);
+  color: #fff;
+}
+
+.bk-cover-title {
+  position: absolute;
+  left: 5.4cqw;
+  top: 5cqw;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 500;
+  font-size: 2.1cqw;
+  line-height: 1.12;
+  text-transform: uppercase;
+}
+
+.bk-cover-masthead {
+  position: absolute;
+  right: 6cqw;
+  top: 5.4cqw;
+  font-family: 'Open Sans SemiCondensed', 'Open Sans', sans-serif;
+  font-weight: 500;
+  font-size: 0.7cqw;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.bk-cover-strip {
+  position: absolute;
+  left: 21cqw;
+  top: 27.5cqw;
+  width: 58cqw;
+  height: 13cqw;
+}
+
+.bk-cover-strip img,
+.bk-pair-photo img,
+.bk-closing-photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.bk-cover-strip img {
+  object-position: 50% 62%;
+  filter: grayscale(1) contrast(1.12) brightness(1.04);
+}
+
+.bk-cover-disciplines {
+  position: absolute;
+  right: 9cqw;
+  bottom: 9.5cqw;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 500;
+  font-size: 0.82cqw;
+  letter-spacing: 0.5em;
+  text-transform: uppercase;
+  white-space: pre;
+}
+
+.bk-cover-hint {
+  position: absolute;
+  right: 9cqw;
+  bottom: 6.6cqw;
+  font-family: 'Times New Normal', serif;
+  font-size: 1cqw;
+  opacity: 0.85;
+}
+
+/* ---- Feature (after "The Secret Room"): a headline across the gutter over a full-bleed band ---- */
+
+.bk-feature-stat {
+  position: absolute;
+  left: 5.4cqw;
+  top: 4.6cqw;
+  width: 22cqw;
+}
+
+.bk-stat {
+  font-family: 'Times New Normal', serif;
+  font-size: 7.4cqw;
+  line-height: 0.9;
+  letter-spacing: -0.02em;
+  color: var(--accent);
+  margin-bottom: 1cqw;
+}
+
+.bk-feature-body {
+  position: absolute;
+  left: 55.4cqw;
+  top: 4.8cqw;
+  width: 39cqw;
+  columns: 2;
+  column-gap: 2.2cqw;
+}
+
+.bk-feature-headline {
+  position: absolute;
+  left: 4.4cqw;
+  right: 4.4cqw;
+  top: 26.4cqw;
+  display: flex;
+  justify-content: space-between;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 700;
+  font-size: 4.3cqw;
+  line-height: 1;
+  letter-spacing: -0.035em;
+  text-transform: uppercase;
+}
+
+.bk-feature-credits {
+  position: absolute;
+  left: 55.4cqw;
+  top: 22.4cqw;
+}
+
+.bk-feature-band {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 32.6cqw;
+  bottom: 0;
+  background: var(--accent);
+  color: #fff;
+}
+
+.bk-plate {
+  position: absolute;
+  left: 0;
+  top: 2.2cqw;
+  width: 100%;
+  height: auto;
+}
+
+.bk-plate-outer,
+.bk-plate-line {
+  fill: none;
+  stroke: rgb(255 255 255 / 0.9);
+  stroke-width: 1.4;
+  stroke-linejoin: round;
+}
+
+.bk-plate-line {
+  stroke: rgb(255 255 255 / 0.55);
+  stroke-width: 1;
+}
+
+.bk-plate-index {
+  fill: rgb(255 255 255 / 0.7);
+  font-family: 'Open Sans SemiCondensed', sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+}
+
+.bk-plate-win .bk-plate-outer {
+  fill: #fff;
+  stroke: #fff;
+}
+
+.bk-plate-win .bk-plate-line {
+  stroke: var(--accent);
+  stroke-width: 1.4;
+}
+
+.bk-plate-win .bk-plate-index {
+  fill: #fff;
+}
+
+/* Centred under the winning slice; Book.jsx sets left. */
+.bk-feature-winner {
+  position: absolute;
+  top: 25.2cqw;
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
+
+.bk-feature-note {
+  position: absolute;
+  left: 5.4cqw;
+  bottom: 2.6cqw;
+  padding-left: 3cqw;
+  opacity: 0.85;
+}
+
+.bk-feature .bk-folio {
+  color: #fff;
+}
+
+/* ---- Pair (after GLYCKMAG): a project per page, photo, caption row, centred text, big folio ---- */
+
+.bk-pair-page {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 50cqw;
+}
+
+.bk-pair-page[data-side='right'] {
+  left: 50cqw;
+}
+
+.bk-pair-photo {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 25cqw;
+}
+
+.bk-pair-row {
+  position: absolute;
+  left: 5cqw;
+  right: 5cqw;
+  top: 27.6cqw;
+  display: grid;
+  grid-template-columns: 1fr 1.6fr 1.5fr 1fr;
+  gap: 1.2cqw;
+  list-style: none;
+  font-family: 'Open Sans SemiCondensed', 'Open Sans', sans-serif;
+  font-weight: 600;
+  font-size: 0.7cqw;
+  line-height: 1.3;
+}
+
+.bk-pair-row li:last-child {
+  text-align: right;
+}
+
+.bk-pair-text {
+  position: absolute;
+  left: 7cqw;
+  right: 7cqw;
+  top: 44cqw;
+  text-align: center;
+}
+
+.bk-pair-text .bk-body {
+  text-wrap: balance;
+}
+
+.bk-pair-title {
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 700;
+  font-size: 0.86cqw;
+  margin-bottom: 0.5cqw;
+}
+
+.bk-pair-foot {
+  position: absolute;
+  left: 4.4cqw;
+  right: 4.4cqw;
+  bottom: 3.2cqw;
+  display: flex;
+  align-items: flex-end;
+  gap: 2.2cqw;
+}
+
+.bk-pair-page[data-side='right'] .bk-pair-foot {
+  flex-direction: row-reverse;
+}
+
+.bk-folio-big {
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 500;
+  font-size: 4.6cqw;
+  line-height: 0.8;
+  letter-spacing: -0.03em;
+}
+
+.bk-pair-meta {
+  padding-left: 1.4cqw;
+  border-left: 1px solid var(--paper-ink);
+  font-family: 'Open Sans SemiCondensed', 'Open Sans', sans-serif;
+  font-weight: 500;
+  font-size: 0.66cqw;
+  line-height: 1.35;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.bk-pair-page[data-side='right'] .bk-pair-meta {
+  padding: 0 1.4cqw 0 0;
+  border-left: 0;
+  border-right: 1px solid var(--paper-ink);
+  text-align: right;
+}
+
+/* ---- Dossier (after the dark left page of "The Secret Room"): a redacted record, then columns and a pull quote ---- */
+
+.bk-dossier-dark {
+  position: absolute;
+  inset: 0 50cqw 0 0;
+  background: #161616;
+  display: grid;
+  place-items: center;
+}
+
+.bk-dossier-doc {
+  position: relative;
+  width: 24cqw;
+  aspect-ratio: 0.72;
+  padding: 3cqw 2.6cqw;
+  background: #ebe6dc;
+  display: flex;
+  flex-direction: column;
+  gap: 1.15cqw;
+  transform: rotate(-3deg);
+  box-shadow: 0 1cqw 2.4cqw rgb(0 0 0 / 0.5);
+}
+
+.bk-dossier-bar {
+  display: block;
+  height: 1.2cqw;
+  background: #111;
+}
+
+.bk-dossier-stamp,
+.bk-closing-stamp {
+  position: absolute;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--accent);
+  border: 0.32cqw solid currentColor;
+  padding: 0.4cqw 1cqw;
+  transform: rotate(-12deg);
+  mix-blend-mode: multiply;
+}
+
+.bk-dossier-stamp {
+  left: 3.4cqw;
+  top: 13cqw;
+  font-size: 2.3cqw;
+}
+
+.bk-dossier-page {
+  position: absolute;
+  inset: 0 0 0 50cqw;
+  padding: 5cqw 5cqw 6cqw 5.4cqw;
+}
+
+.bk-dossier-headline {
+  display: flex;
+  justify-content: space-between;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 700;
+  font-size: 4.3cqw;
+  line-height: 1;
+  letter-spacing: -0.035em;
+  text-transform: uppercase;
+}
+
+.bk-dossier-credits {
+  margin: 1.2cqw 0 2.6cqw;
+  color: var(--paper-mute);
+}
+
+.bk-dossier-columns {
+  columns: 2;
+  column-gap: 2.4cqw;
+}
+
+.bk-dropcap::first-letter {
+  float: left;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 700;
+  font-size: 3.1cqw;
+  line-height: 0.82;
+  margin: 0.2cqw 0.5cqw 0 0;
+  color: var(--accent);
+}
+
+.bk-quote {
+  break-inside: avoid;
+  margin: 1.6cqw 0;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 700;
+  font-size: 1.5cqw;
+  line-height: 1.08;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  text-align: center;
+  text-wrap: balance;
+}
+
+.bk-dossier-stack {
+  list-style: none;
+  break-inside: avoid;
+  border-top: 1px solid var(--paper-ink);
+  padding-top: 0.8cqw;
+}
+
+.bk-dossier-stack li + li {
+  margin-top: 0.3cqw;
+}
+
+.bk-dossier-stat {
+  position: absolute;
+  left: 5.4cqw;
+  bottom: 6cqw;
+  width: 22cqw;
+}
+
+.bk-dossier .bk-folio[data-side='left'] {
+  color: #8a8680;
+}
+
+/* ---- Closing: a full-bleed photo, the last project, and the end of the issue in accent ---- */
+
+.bk-closing-photo {
+  position: absolute;
+  inset: 0 50cqw 0 0;
+}
+
+.bk-closing-photo img {
+  object-position: 50% 30%;
+  filter: grayscale(1) contrast(1.08);
+}
+
+.bk-closing-stamp {
+  left: 4cqw;
+  bottom: 7cqw;
+  font-size: 1.9cqw;
+  color: #fff;
+  mix-blend-mode: normal;
+}
+
+.bk-closing-page {
+  position: absolute;
+  left: 55.4cqw;
+  top: 5cqw;
+  width: 26cqw;
+}
+
+.bk-closing-title {
+  margin: 1cqw 0 1.4cqw;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 700;
+  font-size: 2.2cqw;
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+
+.bk-closing-end {
+  position: absolute;
+  left: 50cqw;
+  right: 0;
+  top: 36cqw;
+  bottom: 0;
+  padding: 4cqw 5cqw 0 5.4cqw;
+  background: var(--accent);
+  color: #fff;
+}
+
+.bk-closing-headline {
+  margin: 1cqw 0 2cqw;
+  font-family: 'Times New Normal', serif;
+  font-size: 4.4cqw;
+  line-height: 0.98;
+  letter-spacing: -0.02em;
+}
+
+.bk-closing-link {
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 600;
+  font-size: 1cqw;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px solid currentColor;
+}
+
+.bk-closing .bk-folio {
+  color: #fff;
+}
