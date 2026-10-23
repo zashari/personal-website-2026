@@ -95,7 +95,7 @@ console.log('photo.avif, photo.webp');
 
 // Hover reel: the photos the centre image flips through while hovered. The originals are large camera JPEGs kept out
 // of git (.tmp/images/home-material); only the encodes are committed. Each keeps its own aspect ratio and is scaled to
-// 2x the photo box's 607 px height, with all metadata (including GPS) dropped.
+// fit inside 2x the photo box (486 x 607), the largest it is ever shown, with all metadata (including GPS) dropped.
 const REEL_SRC = '.tmp/images/home-material';
 const REEL_OUT = path.join(OUT, 'images', 'reel');
 if (fs.existsSync(REEL_SRC)) {
@@ -104,7 +104,7 @@ if (fs.existsSync(REEL_SRC)) {
   const files = fs.readdirSync(REEL_SRC).filter((f) => /.(jpe?g|png)$/i.test(f)).sort();
   for (const [i, file] of files.entries()) {
     const name = String(i + 1).padStart(2, '0');
-    const frame = () => sharp(path.join(REEL_SRC, file)).rotate().resize({ height: 1214 });
+    const frame = () => sharp(path.join(REEL_SRC, file)).rotate().resize(972, 1214, { fit: 'inside' });
     await frame().avif({ quality: 55, effort: 6 }).toFile(path.join(REEL_OUT, `${name}.avif`));
     await frame().webp({ quality: 78, effort: 5 }).toFile(path.join(REEL_OUT, `${name}.webp`));
   }
