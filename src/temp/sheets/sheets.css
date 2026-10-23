@@ -1,0 +1,379 @@
+/* A sheet side. Children are absolutely placed in Figma px, converted through --u (one Figma px). */
+.sheet {
+  --u: calc(100cqw / var(--sheet-w));
+  --ink: #252525;
+  --ink-red: #891414;
+  container-type: inline-size;
+  position: relative;
+  width: 100%;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.sheet picture {
+  display: contents;
+}
+
+.sheet-paper,
+.sheet-piece {
+  position: absolute;
+  display: block;
+  pointer-events: none;
+}
+
+.sheet-paper.is-mirrored {
+  transform: scaleX(-1);
+}
+
+/* Ink is multiplied into the paper, so the grain shows through the type like toner on a real page. */
+.sheet-ink {
+  position: absolute;
+  inset: 0;
+  color: var(--ink);
+  mix-blend-mode: multiply;
+}
+
+.sheet-text {
+  position: absolute;
+  white-space: pre-line;
+}
+
+.sheet-text.is-nowrap {
+  white-space: pre;
+}
+
+.sheet-text strong {
+  font-weight: 700;
+}
+
+.sheet-type {
+  font-family: 'JMH Typewriter', 'Courier New', monospace;
+}
+
+.sheet-form {
+  font-family: 'Times New Normal', 'Times New Roman', serif;
+}
+
+.sheet-letterhead {
+  font-family: 'David Libre', 'Times New Roman', serif;
+}
+
+.ink-red {
+  color: var(--ink-red);
+}
+
+.sheet-rule {
+  position: absolute;
+  overflow: visible;
+}
+
+.sheet-frame {
+  position: absolute;
+  border: 0 solid #000;
+}
+
+.sheet-frame,
+.sheet-rule.is-worn {
+  filter: url(#dossier-worn);
+}
+
+/* Redaction: a felt-tip bar with ragged ends, sized in characters of the surrounding font. */
+.redact {
+  display: inline-block;
+  height: 0.82em;
+  vertical-align: -0.08em;
+  background: #131313;
+  border-radius: 0.1em 0.28em 0.16em 0.24em / 0.3em 0.22em 0.34em 0.2em;
+  filter: url(#dossier-rough);
+}
+
+.sheet-link {
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.sheet-link:focus-visible,
+.sheet-polaroid:focus-visible {
+  outline: calc(2 * var(--u)) dashed #f0e6cc;
+  outline-offset: calc(2 * var(--u));
+}
+
+.sheet-qr {
+  position: absolute;
+  display: block;
+}
+
+.sheet-qr svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* Figma: Layer blur 4 plus a heavy Texture effect, so the code reads as unscannable. */
+.sheet-qr.is-blurred {
+  filter: url(#dossier-scramble);
+}
+
+.sheet-polaroid {
+  position: absolute;
+  display: block;
+  padding: 0;
+  border: 0 solid #f2f2f2;
+  background: #f2f2f2;
+  cursor: pointer;
+  overflow: hidden;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.sheet-polaroid-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.sheet-polaroid-back {
+  position: absolute;
+  background: #ffffff;
+  border: 0 solid #f2f2f2;
+}
+
+/* Rubber stamps: real text in red ink, roughened and speckled by the #dossier-stamp filter. */
+.sheet-stamp {
+  filter: url(#dossier-stamp);
+}
+
+.sheet-highlight {
+  position: absolute;
+  overflow: visible;
+}
+
+/* Projects: the cream card strip pasted on the sheet. */
+.project-card {
+  position: absolute;
+  box-shadow: calc(1 * var(--u)) calc(2 * var(--u)) calc(4 * var(--u)) rgba(0, 0, 0, 0.25);
+}
+
+.project-card .sheet-paper {
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.project-cut {
+  position: absolute;
+  border: calc(1 * var(--u)) dashed #000;
+  pointer-events: none;
+}
+
+.project-desc {
+  text-decoration: underline dotted rgba(37, 37, 37, 0.7);
+  text-decoration-thickness: calc(0.6 * var(--u));
+  text-underline-offset: calc(1.6 * var(--u));
+}
+
+.project-stamp {
+  font-family: 'JMH Typewriter', 'Courier New', monospace;
+  font-weight: 700;
+  color: var(--ink-red);
+  white-space: pre;
+  text-align: center;
+  -webkit-text-stroke: calc(1 * var(--u)) #848484;
+  paint-order: stroke fill;
+  text-shadow: 0 calc(4 * var(--u)) calc(4 * var(--u)) rgba(0, 0, 0, 0.25);
+}
+
+/* Personal info */
+.personal-file-copy {
+  opacity: 0.5;
+}
+
+.personal-education {
+  position: absolute;
+  display: grid;
+  row-gap: 0;
+}
+
+.personal-education-row {
+  display: grid;
+  grid-template-columns: calc(86 * var(--u)) auto;
+  align-items: baseline;
+  height: calc(21 * var(--u));
+  line-height: calc(21 * var(--u));
+  white-space: nowrap;
+}
+
+.personal-summary {
+  position: absolute;
+  display: grid;
+  row-gap: calc(6 * var(--u));
+  font-size: calc(10 * var(--u));
+  line-height: calc(13 * var(--u));
+}
+
+.personal-summary-head,
+.personal-summary-row {
+  display: grid;
+  grid-template-columns: calc(90 * var(--u)) calc(76 * var(--u)) calc(190 * var(--u)) auto;
+  align-items: start;
+}
+
+.personal-summary-head {
+  font-weight: 700;
+  font-size: calc(12 * var(--u));
+  line-height: calc(15 * var(--u));
+  margin-bottom: calc(11 * var(--u));
+}
+
+.personal-summary-row > div {
+  white-space: pre-line;
+}
+
+.personal-summary-row > div:nth-child(3) {
+  width: calc(175 * var(--u));
+}
+
+.personal-summary-warning {
+  font-size: calc(8 * var(--u));
+  line-height: calc(10 * var(--u));
+}
+
+/* Professional info */
+.professional-desk {
+  position: absolute;
+  display: block;
+  mix-blend-mode: darken;
+  pointer-events: none;
+}
+
+.is-justified {
+  text-align: justify;
+}
+
+.professional-missions {
+  position: absolute;
+  display: grid;
+  row-gap: calc(5 * var(--u));
+  font-size: calc(8 * var(--u));
+  line-height: calc(10 * var(--u));
+}
+
+.professional-missions-head,
+.professional-missions-row {
+  display: grid;
+  grid-template-columns: calc(72 * var(--u)) calc(109 * var(--u)) calc(266 * var(--u));
+  align-items: start;
+}
+
+.professional-missions-row > div:first-child {
+  white-space: pre-line;
+  width: calc(55 * var(--u));
+}
+
+.professional-missions-head {
+  font-weight: 700;
+  font-size: calc(10 * var(--u));
+  line-height: calc(13 * var(--u));
+  margin-bottom: calc(4 * var(--u));
+}
+
+.professional-column {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  font-size: calc(8 * var(--u));
+  line-height: calc(10 * var(--u));
+}
+
+.professional-rule {
+  font-size: calc(12 * var(--u));
+  line-height: calc(13 * var(--u));
+  white-space: pre;
+}
+
+.professional-loadout {
+  display: flex;
+  flex-direction: column;
+  gap: calc(5 * var(--u));
+  margin-top: calc(10 * var(--u));
+}
+
+.professional-loadout-heading {
+  display: flex;
+  gap: calc(2 * var(--u));
+  font-weight: 900;
+  white-space: pre;
+}
+
+.professional-pair {
+  display: grid;
+  align-items: start;
+}
+
+.professional-pair strong {
+  font-weight: 700;
+  text-align: right;
+  white-space: pre;
+}
+
+.professional-pair span {
+  white-space: pre-line;
+}
+
+.professional-loadout-1 .professional-pair {
+  grid-template-columns: calc(41.5 * var(--u)) calc(149 * var(--u));
+  column-gap: calc(4.5 * var(--u));
+}
+
+.professional-loadout-2 .professional-pair {
+  grid-template-columns: calc(61 * var(--u)) calc(128.5 * var(--u));
+  column-gap: calc(5.5 * var(--u));
+}
+
+.professional-protocol {
+  display: flex;
+  flex-direction: column;
+  gap: calc(3 * var(--u));
+  margin-top: calc(10 * var(--u));
+}
+
+.professional-protocol .professional-pair {
+  grid-template-columns: calc(56 * var(--u)) calc(140 * var(--u));
+  column-gap: calc(6 * var(--u));
+}
+
+.professional-alert {
+  color: #ab0000;
+}
+
+.professional-velocity-title {
+  margin-top: calc(26 * var(--u));
+}
+
+.professional-velocity {
+  margin-top: calc(8 * var(--u));
+  width: calc(211 * var(--u));
+}
+
+/* Projects */
+.project-stamp {
+  position: absolute;
+  transform: rotate(-45deg);
+  filter: url(#dossier-stamp);
+}
+
+.project-text h3 {
+  margin: 0;
+  font-weight: 700;
+}
+
+/* Photo viewer faces */
+.photo-face {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+}
