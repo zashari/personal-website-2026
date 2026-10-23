@@ -49,8 +49,18 @@ const SOCIAL_X = { tiktok: 742, github: 920, instagram: 1096 };
 const SMALL_SERIF = { font: 'times', size: 20, capTrim: true };
 const NAME_TEXT = { font: 'times', size: 100, lineHeight: 110 };
 
+// A link without a destination yet (href: null in content.js) still looks and behaves like a link (pointer, hover,
+// keyboard focus) but does nothing when clicked, and tells assistive tech it is not available yet.
+const preventNavigation = (event) => event.preventDefault();
+
 function MaybeLink({ href, className, children }) {
-  if (!href) return <span className={className}>{children}</span>;
+  if (!href) {
+    return (
+      <a className={className} href="#" aria-disabled="true" onClick={preventNavigation}>
+        {children}
+      </a>
+    );
+  }
   const external = /^https?:/.test(href);
   return (
     <a className={className} href={href} {...(external && { target: '_blank', rel: 'noopener noreferrer' })}>

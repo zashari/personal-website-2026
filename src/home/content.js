@@ -1,5 +1,5 @@
 // Every word on /home. Positions live in HomeApp.jsx; change only the text here.
-// A link with href: null is shown as plain text until it has somewhere to go.
+// A link with href: null is clickable but does nothing yet; give it an address when its page exists.
 
 export const BRAND = { label: 'ABOUT ME', href: null };
 
