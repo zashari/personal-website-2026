@@ -1,8 +1,16 @@
-import { useLayoutEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { BRAND, NAME, NAV, PHOTO_ALT, ROLES, SOCIALS } from './content';
 import spiral from './assets/golden-spiral.svg';
 import photoAvif from './assets/images/photo.avif';
 import photoWebp from './assets/images/photo.webp';
+
+// Frames for the hover reel, in file order (01, 02, ...), each as an AVIF and WebP pair.
+const REEL_URLS = import.meta.glob('./assets/images/reel/*.{avif,webp}', { eager: true, query: '?url', import: 'default' });
+const REEL = Object.keys(REEL_URLS)
+  .filter((file) => file.endsWith('.avif'))
+  .sort()
+  .map((avif) => ({ avif: REEL_URLS[avif], webp: REEL_URLS[avif.replace(/.avif$/, '.webp')] }));
+const REEL_INTERVAL_MS = 500;
 
 // The artwork is the Figma frame "home" (1920 x 1080, page version-2), drawn in Figma px on a stage. The stage is
 // scaled so its focus box (photo, name, roles and socials, down to the frame's bottom edge) fills the space under the
@@ -89,6 +97,52 @@ function SpacedLabel({ text }) {
   );
 }
 
+// The centre photo. While the pointer is over it, the photos in REEL play in turn every 0.5s, looping, as hard cuts
+// like a flipbook; leaving shows the original again. The frames are stacked under the photo and only mounted once the
+// page is idle, so they never compete with the first paint, and every switch is instant because each is already decoded.
+function PhotoReel() {
+  const [frame, setFrame] = useState(-1);
+  const [mounted, setMounted] = useState(false);
+  const timer = useRef(null);
+
+  useEffect(() => {
+    const idle = window.requestIdleCallback ?? ((fn) => setTimeout(fn, 1200));
+    const cancel = window.cancelIdleCallback ?? clearTimeout;
+    const handle = idle(() => setMounted(true));
+    return () => {
+      cancel(handle);
+      clearInterval(timer.current);
+    };
+  }, []);
+
+  const start = () => {
+    if (!mounted || !REEL.length) return;
+    clearInterval(timer.current);
+    setFrame(0);
+    timer.current = setInterval(() => setFrame((i) => (i + 1) % REEL.length), REEL_INTERVAL_MS);
+  };
+  const stop = () => {
+    clearInterval(timer.current);
+    setFrame(-1);
+  };
+
+  return (
+    <div className="home-photo home-reel" onPointerEnter={start} onPointerLeave={stop}>
+      <picture>
+        <source type="image/avif" srcSet={photoAvif} />
+        <img src={photoWebp} alt={PHOTO_ALT} width={486} height={607} draggable={false} />
+      </picture>
+      {mounted &&
+        REEL.map((src, i) => (
+          <picture key={src.avif} className="home-reel-frame" data-active={i === frame || undefined} aria-hidden="true">
+            <source type="image/avif" srcSet={src.avif} />
+            <img src={src.webp} alt="" width={486} height={607} draggable={false} decoding="async" fetchPriority="low" />
+          </picture>
+        ))}
+    </div>
+  );
+}
+
 function NavItem({ id, title, label, href, children }) {
   return (
     <MaybeLink href={href} className="home-link home-nav-item">
@@ -162,10 +216,7 @@ export default function HomeApp() {
           draggable={false}
         />
 
-        <picture>
-          <source type="image/avif" srcSet={photoAvif} />
-          <img className="home-photo" src={photoWebp} alt={PHOTO_ALT} width={486} height={607} draggable={false} />
-        </picture>
+        <PhotoReel />
 
         <ul className="home-socials">
           {SOCIALS.map((s) => (

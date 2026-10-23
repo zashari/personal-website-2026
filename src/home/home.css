@@ -85,12 +85,29 @@ body {
 }
 
 .home-photo {
+  position: absolute;
   left: 717px;
   top: 237px;
   width: 486px;
   height: 607px;
-  object-fit: cover;
   user-select: none;
+}
+
+.home-reel img {
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Reel frames sit on top of the photo, hidden until their turn; visibility keeps them decoded and ready. */
+.home-reel-frame {
+  visibility: hidden;
+}
+
+.home-reel-frame[data-active] {
+  visibility: visible;
 }
 
 .home-socials {
@@ -119,8 +136,10 @@ body {
   position: static;
 }
 
+/* The name crosses the photo; let the pointer pass through so it doesn't interrupt the photo's hover reel. */
 .home-name {
   font: inherit;
+  pointer-events: none;
 }
 
 .home-name span {
