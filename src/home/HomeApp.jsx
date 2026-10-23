@@ -64,7 +64,7 @@ function MaybeLink({ href, className, children }) {
 // 4x (title ink minus label ink, in em of the title size). Re-measure if a title or label's first letter changes.
 const TITLE_INK_SHIFT = { brand: 0.0625, work: 0.025, workflow: -0.0125, contact: -0.025 };
 
-// The label opens up on hover by sliding each letter (letter n moves n x 0.05em). A transform renders at sub-pixel
+// The label opens up on hover by sliding each letter (letter n moves n x 0.15em). A transform renders at sub-pixel
 // precision on the compositor, where animating letter-spacing snaps glyphs a whole pixel at a time and looks stiff.
 function SpacedLabel({ text }) {
   return (
