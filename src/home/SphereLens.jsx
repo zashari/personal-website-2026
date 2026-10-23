@@ -8,7 +8,7 @@ const SIZE = 256; // displacement map resolution; stretched over the sphere's bo
 const RADIUS = 0.42; // Strands draws its sphere at 84% of its box
 const SCALE = 0.5; // displacement range in box units: a channel at 0 or 255 shifts by a quarter of the box
 const MAGNIFY = 0.15; // the centre shows the page 15% closer to the middle, so it reads slightly magnified
-const STRENGTH = 0.6; // share of that full bend actually applied; 1 matches Strands' own remap exactly
+const STRENGTH = 0.4; // share of that full bend actually applied; 1 matches Strands' own remap exactly
 
 // A point at radius r inside the sphere shows the page at r * sc: Strands' own ball-lens remap (refraction 1), which
 // squeezes the page toward the rim, times a gentle magnification toward the centre, then eased off by STRENGTH.
