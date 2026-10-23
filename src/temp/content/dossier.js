@@ -199,3 +199,10 @@ export const PHOTO_NOTES = {
   professional1: 'The subject appears consistently relaxed when working in the casual attire described in the personal info. Photo taken by Undercover Agent PP, a 10-year veteran assigned to befriend the subject. 11/30/2025',
   professional2: 'Footage captured via spy glasses shows the subject debating Deep Learning architectures for an Alzheimer\'s disease detection project with a friend. 12/01/2025',
 };
+
+// Folder tabs on the home page, back to front. overprint is the red word stamped on folder 002.
+export const FOLDER_TABS = {
+  3: { label: 'PROJECTS', number: '-003-', stamp: '20260123-011103' },
+  2: { label: 'PROFESSIONAL', overprint: 'INFO', number: '-002-', stamp: '20260114-230252' },
+  1: { label: 'PERSONAL INFO', number: '-001-', stamp: '20260101-132303' },
+};

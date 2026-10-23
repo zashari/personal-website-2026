@@ -1,5 +1,6 @@
 import { useState, useCallback, useRef, lazy, Suspense } from 'react';
-import { CarbonSheet, Folder } from '../components';
+import { CarbonSheet } from '../components';
+import Folder from './folders/Folder';
 import { FOLDERS } from '../constants/folders';
 import InkFilters from './InkFilters';
 import './TempApp.css';
@@ -69,7 +70,6 @@ function TempApp() {
             key={folder.number}
             folderNumber={folder.number}
             label={folder.label}
-            coverImage={folder.coverImage}
             previewImage={folder.previewImage}
             onCoverClick={() => setActiveFolder(folder.number)}
             onImageSettled={handleImageSettled}

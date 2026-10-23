@@ -98,4 +98,5 @@ await encode(fill('personal-paper-photo-1-front-'), 'photo-personal-1', { width:
 await encode(fill('professional-paper-photo-2-front-'), 'photo-professional-2', { width: 700 });
 await encode(fill('professional-paper-photo-1-front-'), 'photo-professional-1', { width: 900 });
 await encode(fill('img-6600-2-'), 'photo-professional-desk', { width: 700 });
-await encode(fill('texture-'), 'folder-texture', { width: 2048 });
+// Folder covers span up to ~2600 css px on wide screens; 3072 px keeps the grain from going soft.
+await encode(fill('texture-'), 'folder-texture', { width: 3072, quality: 50 });

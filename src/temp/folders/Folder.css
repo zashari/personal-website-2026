@@ -1,0 +1,10 @@
+/* The SVG cover takes the place of the cover image; overflow stays visible for the shadow above the tab. */
+.folder-cover-svg {
+  overflow: visible;
+}
+
+.folder-tab-text {
+  font-family: 'Fira Code', monospace;
+  font-weight: 600;
+  pointer-events: none;
+}
