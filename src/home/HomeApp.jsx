@@ -197,30 +197,43 @@ function TouchMe({ x, y, pressed, onToggle }) {
   );
 }
 
-// Strands spheres scattered over the artwork while TOUCH ME is on, after the reference layout: one cut by the top edge
-// behind the photo, one on the left edge, one over the photo's lower-left corner (under the name), one cut by the
-// bottom edge, one behind the photo's lower right, one on the right edge. Centre (x, y) and sphere diameter d are in
-// Figma px; Strands draws its sphere at 84% of its box, so each box is d / 0.84 square.
-const SPHERES = [
-  { id: 'top', x: 930, y: 70, d: 300 },
-  { id: 'left', x: 40, y: 680, d: 300 },
-  { id: 'bottom', x: 560, y: 1110, d: 300 },
-  { id: 'right-low', x: 1210, y: 880, d: 300 },
-  { id: 'right-edge', x: 1960, y: 400, d: 300 },
-  // Kept below the name's cap height so the white 'Zaky' stays legible over the light-mode glass.
-  { id: 'front', x: 735, y: 720, d: 300, front: true },
-];
+// Strands spheres scattered over the artwork while TOUCH ME is on, after the reference layout. Centre (x, y) and sphere
+// diameter d are in Figma px; Strands draws its sphere at 84% of its box, so each box is d / 0.84 square. The spheres
+// are dark glass in both modes, so none may sit under dark text (header, roles, socials, TOUCH ME, mode switch).
+const SPHERES = {
+  // Wide: cut by the top edge behind the photo, on the left edge, cut by the bottom edge, behind the photo's lower
+  // right (left of the roles at x 1328, above the socials at y 1023), on the right edge, and one over the photo's
+  // lower-left corner, under the white name.
+  wide: [
+    { id: 'top', x: 930, y: 70, d: 300 },
+    { id: 'left', x: 40, y: 680, d: 300 },
+    // Right of the DARK switch even on 1024 px-wide screens, left of Tiktok (x 742).
+    { id: 'bottom', x: 620, y: 1130, d: 260 },
+    { id: 'right-low', x: 1170, y: 860, d: 300 },
+    { id: 'right-edge', x: 1960, y: 400, d: 300 },
+    { id: 'front', x: 735, y: 720, d: 300, front: true },
+  ],
+  // Tall (phones): the narrow photo column leaves room only at its edges, so four smaller spheres sit half behind the
+  // photo's sides and corners, clear of the header, roles, socials and TOUCH ME.
+  tall: [
+    { id: 'top', x: 1240, y: 300, d: 160 },
+    { id: 'left', x: 640, y: 380, d: 200 },
+    { id: 'right', x: 1280, y: 700, d: 200 },
+    { id: 'bottom', x: 640, y: 960, d: 180 },
+  ],
+};
 const SPHERE_FADE_MS = 450; // matches .home-spheres transition in home.css
 
-function SphereLayer({ front, state, lightMode }) {
+// Spheres always use Strands' dark glass, in both colour modes (lightMode stays off).
+function SphereLayer({ front, state, variant }) {
   if (state === 'off') return null;
   return (
     <div className="home-spheres" data-state={state} data-front={front || undefined} aria-hidden="true">
-      {SPHERES.filter((s) => !!s.front === front).map((s) => {
+      {SPHERES[variant].filter((s) => !!s.front === front).map((s) => {
         const box = s.d / 0.84;
         return (
           <div key={s.id} className="home-sphere" style={{ left: s.x - box / 2, top: s.y - box / 2, width: box, height: box }}>
-            <Strands lightMode={lightMode} respectReducedMotion={false} />
+            <Strands respectReducedMotion={false} />
           </div>
         );
       })}
@@ -378,13 +391,13 @@ export default function HomeApp() {
           draggable={false}
         />
 
-        <SphereLayer front={false} state={sphereState} lightMode={theme === 'light'} />
+        <SphereLayer front={false} state={sphereState} variant={layout?.variant ?? 'wide'} />
 
         <TouchMe {...pos.touch} pressed={spheresOn} onToggle={toggleSpheres} />
 
         <PhotoReel />
 
-        <SphereLayer front state={sphereState} lightMode={theme === 'light'} />
+        <SphereLayer front state={sphereState} variant={layout?.variant ?? 'wide'} />
 
         <ul className="home-socials">
           {SOCIALS.map((s) => (
