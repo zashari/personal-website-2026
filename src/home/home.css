@@ -284,9 +284,11 @@ a.home-link:focus-visible {
   outline-offset: 6px;
 }
 
+/* Reduced motion (on Windows: Settings > Accessibility > Visual effects > Animation effects off) only drops the
+   social-link fade. The label spread stays animated: it is a small slide the visitor starts by hovering, and cutting
+   its transition would turn it into an abrupt jump, which is harsher than the motion it replaces. */
 @media (prefers-reduced-motion: reduce) {
-  a.home-link,
-  .home-nav-letter {
+  .home-socials a.home-link {
     transition: none;
   }
 }
