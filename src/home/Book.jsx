@@ -422,6 +422,11 @@ function usePageCurl({ canvasRef, bookRef, sectionRef, leaves, redraw }) {
             pages.map((page) =>
               domToCanvas(page, {
                 scale,
+                // The page's layout size, given explicitly: left out, modern-screenshot measures the page with
+                // getBoundingClientRect, which includes its leaf's 3D turn, so a page captured mid-turn came out
+                // squeezed and cropped. offsetWidth/offsetHeight ignore transforms.
+                width: page.offsetWidth,
+                height: page.offsetHeight,
                 font: { cssText },
                 // <source> is dropped so each picture falls back to its inlined <img>; the grain is dropped because
                 // its SVG noise filter renders as solid black inside the capture.
