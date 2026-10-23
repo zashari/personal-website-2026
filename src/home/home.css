@@ -139,7 +139,7 @@ body {
   left: 0;
   right: 0;
   z-index: 1;
-  padding: clamp(14px, 2.8dvh, 36px) clamp(16px, 3.2vw, 60px) 0;
+  padding: clamp(20px, 5dvh, 56px) clamp(16px, 3.2vw, 60px) 0;
   /* Navigation size, not headline size: 40 px at 1920 wide down to 22 px on phones. */
   font-size: clamp(22px, 2.08vw, 40px);
 }
