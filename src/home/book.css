@@ -205,6 +205,14 @@
   transform: rotateY(180deg);
 }
 
+/* Safari ignores backface-visibility when a face holds filtered content (the grayscale photos), and draws the far
+   face mirrored over the near one; so the face turned away from the reader is hidden outright. Opacity, not
+   visibility: visibility would be inherited and blank the page images Book.jsx captures from these pages. */
+.bk-leaf:not([data-flipped]) > .bk-face[data-face='back'],
+.bk-leaf[data-flipped] > .bk-face[data-face='front'] {
+  opacity: 0;
+}
+
 .bk-face > .bk-page {
   inset: 0;
 }

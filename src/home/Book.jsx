@@ -536,6 +536,8 @@ function TurningBook({ rotated, onUpright, memory }) {
           // air goes over both. While three.js draws it bent, the HTML leaf steps aside.
           leaf.style.zIndex = t <= 0 ? TURNS - i : t >= 1 ? i + 1 : TURNS + 2;
           leaf.style.opacity = curled && i === moving ? '0' : '';
+          // Which face is toward the reader (book.css hides the other, as Safari ignores backface-visibility).
+          leaf.toggleAttribute('data-flipped', t >= 0.5);
         });
         const cast = castRef.current;
         if (cast) {
