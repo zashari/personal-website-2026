@@ -184,24 +184,35 @@ body {
   outline-offset: 6px;
 }
 
-/* Strands spheres (see SPHERES in HomeApp.jsx): fade in and out as a layer; each sphere box is placed in Figma px. */
+/* Strands spheres (see SPHERES in HomeApp.jsx): each sphere box is placed in Figma px. The spheres fade one by one, not
+   as a layer: opacity on the layer would cut the lens backdrop-filter below off from the page behind while fading. */
 .home-spheres {
   position: absolute;
   inset: 0;
-  opacity: 0;
-  transition: opacity 0.45s ease;
   pointer-events: none;
-}
-
-.home-spheres[data-state='on'] {
-  opacity: 1;
 }
 
 .home-sphere {
   position: absolute;
   pointer-events: auto;
+  opacity: 0;
+  transition: opacity 0.45s ease;
   /* Repel offset from useRepel, scaled per sphere for a little depth. */
   transform: translate(calc(var(--repel-x, 0px) * var(--depth, 1)), calc(var(--repel-y, 0px) * var(--depth, 1)));
+}
+
+.home-spheres[data-state='on'] .home-sphere {
+  opacity: 1;
+}
+
+/* Light mode in Chromium: the page behind each clear-glass sphere bends through SphereLens, clipped to the sphere. */
+.home-spheres[data-lens] .home-sphere {
+  backdrop-filter: url(#home-sphere-lens);
+  clip-path: circle(42%);
+}
+
+.home-sphere-lens {
+  position: absolute;
 }
 
 /* The front sphere lies over the photo; let the pointer through so the photo's hover reel still works there. */
