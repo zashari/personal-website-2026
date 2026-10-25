@@ -115,7 +115,13 @@ function WaveClip({ className, style }) {
     const video = ref.current;
     video.muted = true;
     video.defaultMuted = true;
-    video.play().catch((error) => console.error('About page: the wave clip could not start', error));
+    const play = () => video.play().catch((error) => console.error('About page: the wave clip could not start', error));
+    play();
+    // Back or Forward can restore the page whole from the back/forward cache, with the clip paused and this effect not
+    // run again.
+    const onPageShow = (event) => event.persisted && play();
+    window.addEventListener('pageshow', onPageShow);
+    return () => window.removeEventListener('pageshow', onPageShow);
   }, []);
   return (
     <video

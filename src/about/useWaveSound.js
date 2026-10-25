@@ -106,12 +106,20 @@ export function useWaveSound(src) {
     GESTURES.forEach((type) => window.addEventListener(type, onGesture, true));
     start();
 
-    // A hidden tab goes quiet, and picks up again when shown.
+    // A hidden tab goes quiet, and picks up again when shown. Leaving the page does the same: the browser may keep it
+    // whole (the back/forward cache) and bring it back on Back or Forward without running any effect again, so it is
+    // suspended, never closed, and resumed on the way back.
     const onVisibility = () => (document.hidden ? ctx.suspend() : start());
+    const onPageHide = () => ctx.suspend();
+    const onPageShow = (event) => event.persisted && start();
     document.addEventListener('visibilitychange', onVisibility);
+    window.addEventListener('pagehide', onPageHide);
+    window.addEventListener('pageshow', onPageShow);
     return () => {
       removeGestures();
       document.removeEventListener('visibilitychange', onVisibility);
+      window.removeEventListener('pagehide', onPageHide);
+      window.removeEventListener('pageshow', onPageShow);
     };
   }, [wanted]);
 
