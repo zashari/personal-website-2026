@@ -1,7 +1,7 @@
 // Every word on /home. Positions live in HomeApp.jsx; change only the text here.
 // A link with href: null is clickable but does nothing yet; give it an address when its page exists.
 
-export const BRAND = { label: 'ABOUT ME', href: null };
+export const BRAND = { label: 'ABOUT ME', href: '/about/' };
 
 export const NAV = [
   { key: 'work', title: 'Work', label: 'MY PROJECTS', href: '#work' },
