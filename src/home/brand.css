@@ -1,0 +1,142 @@
+/* The brand mark shared by /home and /about: the "Zashari" logotype with its small spaced label under it, in the
+   header's top-left corner. Sizes are in em of the header's title size (see .home-header); the colours come from each
+   page's --ink, --accent and --logo-stroke. */
+
+@font-face {
+  font-family: 'Italianno';
+  src: url('./assets/fonts/italianno-regular.ttf') format('truetype');
+  font-weight: 400;
+  font-display: block;
+}
+
+@font-face {
+  font-family: 'Open Sans';
+  src: url('./assets/fonts/open-sans-medium.ttf') format('truetype');
+  font-weight: 500;
+  font-display: block;
+}
+
+@font-face {
+  font-family: 'Open Sans SemiCondensed';
+  src: url('./assets/fonts/open-sans-semicondensed-medium.ttf') format('truetype');
+  font-weight: 500;
+  font-display: block;
+}
+
+.home-header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1;
+  padding: clamp(20px, 5dvh, 56px) clamp(16px, 3.2vw, 60px) 0;
+  /* Navigation size, not headline size: 40 px at 1920 wide down to 22 px on phones. */
+  font-size: clamp(22px, 2.08vw, 40px);
+  text-align: left;
+}
+
+/* Hover: the whole item turns blue and its label opens up, on one symmetric curve; the spacing moves slower. */
+.home-nav-item {
+  --spacing-time: 1s;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  color: var(--ink);
+  transition: color var(--hover-time) var(--hover-ease);
+}
+
+.home-nav-item:hover,
+.home-nav-item:focus-visible {
+  --logo-stroke: currentColor;
+  color: var(--accent);
+}
+
+.home-nav-title {
+  display: block;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 500;
+  font-size: 1em;
+  line-height: 1.3618;
+  white-space: nowrap;
+}
+
+/* Small capitals need a little tracking and a floor of 10 px to stay readable. */
+.home-nav-label {
+  display: block;
+  font-family: 'Open Sans SemiCondensed', 'Open Sans', sans-serif;
+  font-weight: 500;
+  font-size: max(11px, 0.4em);
+  line-height: 1.3618;
+  letter-spacing: 0.02em;
+  margin-top: 0.45em;
+  white-space: nowrap;
+}
+
+/* Hovering an item opens its label up by 15% of the label size, letter by letter from a fixed left edge. Each letter
+   is its own compositor layer so it glides in sub-pixel steps instead of being repainted and snapped to whole pixels. */
+.home-nav-letter {
+  display: inline-block;
+  white-space: pre;
+  will-change: transform;
+  transition: transform var(--spacing-time) var(--hover-ease);
+}
+
+.home-nav-item:hover .home-nav-letter,
+.home-nav-item:focus-visible .home-nav-letter {
+  transform: translateX(calc(var(--i) * 0.15em));
+}
+
+.home-visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* The logotype: an Italianno Z under "ashari" set tight, 148 x 68 px in Figma. It is the page transition's one named
+   element, on both pages (the transition is turned on in home/index.html and about/index.html). */
+.home-logo {
+  view-transition-name: zashari-logotype;
+  position: relative;
+  display: block;
+  width: 2.96em;
+  height: 1.3618em;
+}
+
+.home-logo-z,
+.home-logo-rest {
+  position: absolute;
+  top: 0;
+}
+
+.home-logo-z {
+  left: 0;
+  top: -0.0897em;
+  font-family: 'Italianno', cursive;
+  font-weight: 400;
+  font-size: 1.5em;
+  line-height: 1.25;
+  /* Figma strokes the Z 1px outside its outline: a 2px centred stroke painted under the fill. */
+  -webkit-text-stroke: 0.0267em var(--logo-stroke);
+  transition: -webkit-text-stroke-color var(--hover-time) var(--hover-ease);
+  paint-order: stroke fill;
+}
+
+.home-logo-rest {
+  left: 0.68em;
+  letter-spacing: -0.13em;
+}
+
+/* Links take their colour from their context; header items and the mode switch set their own above. Low specificity
+   (:where) so those rules win: an item inheriting the body's colour would fade twice, and lag, on a mode switch. */
+:where(.home-link) {
+  color: inherit;
+  text-decoration: none;
+}
+
+a.home-link:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 6px;
+}

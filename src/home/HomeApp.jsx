@@ -4,6 +4,7 @@ import spiral from './assets/golden-spiral.svg';
 import photoAvif from './assets/images/photo.avif';
 import photoWebp from './assets/images/photo.webp';
 import Book from './Book';
+import { BrandLink, SpacedLabel } from './Brand';
 import SphereLens, { LENS_SUPPORTED } from './SphereLens';
 import Strands from './Strands';
 import { useTheme } from './theme';
@@ -87,22 +88,8 @@ function MaybeLink({ href, className, children }) {
 // Optical left alignment: glyphs carry their own side bearings (and the Italianno Z a swash), so a title and its label
 // that start at the same x do not start inking at the same x. Each title is nudged by the gap measured in Chrome at
 // 4x (title ink minus label ink, in em of the title size). Re-measure if a title or label's first letter changes.
-const TITLE_INK_SHIFT = { brand: 0.0625, work: 0.025, workflow: -0.0125, contact: -0.025 };
-
-// The label opens up on hover by sliding each letter (letter n moves n x 0.15em). A transform renders at sub-pixel
-// precision on the compositor, where animating letter-spacing snaps glyphs a whole pixel at a time and looks stiff.
-function SpacedLabel({ text }) {
-  return (
-    <span className="home-nav-label">
-      <span className="home-visually-hidden">{text}</span>
-      {[...text].map((char, i) => (
-        <span key={i} className="home-nav-letter" aria-hidden="true" style={{ '--i': i }}>
-          {char}
-        </span>
-      ))}
-    </span>
-  );
-}
+// The logotype's own shift (0.0625) lives with it in Brand.jsx.
+const TITLE_INK_SHIFT = { work: 0.025, workflow: -0.0125, contact: -0.025 };
 
 // The centre photo. While the pointer is over it, the photos in REEL play in turn every 0.2s, looping, as hard cuts
 // like a flipbook; leaving shows the original again. Frames keep their own aspect ratio, fitted inside the photo's box. The frames are stacked under the photo and only mounted once the
@@ -417,11 +404,11 @@ function useSpheres() {
   return [state, on, toggle];
 }
 
-function NavItem({ id, title, label, href, children }) {
+function NavItem({ id, title, label, href }) {
   return (
     <MaybeLink href={href} className="home-link home-nav-item">
       <span className="home-nav-title" style={{ marginLeft: `${TITLE_INK_SHIFT[id] ?? 0}em` }}>
-        {children ?? title}
+        {title}
       </span>
       <SpacedLabel text={label} />
     </MaybeLink>
@@ -557,16 +544,7 @@ export default function HomeApp() {
         <header className="home-header" ref={headerRef}>
           <nav className="home-nav" aria-label="Main">
             <div className="home-nav-group">
-              <NavItem id="brand" href={BRAND.href} label={BRAND.label}>
-                <span className="home-logo" aria-label="Zashari">
-                  <span className="home-logo-z" aria-hidden="true">
-                    Z
-                  </span>
-                  <span className="home-logo-rest" aria-hidden="true">
-                    ashari
-                  </span>
-                </span>
-              </NavItem>
+              <BrandLink href={BRAND.href} label={BRAND.label} />
               <NavItem id={NAV[0].key} title={NAV[0].title} label={NAV[0].label} href={NAV[0].href} />
             </div>
             <div className="home-nav-group">
