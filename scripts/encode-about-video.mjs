@@ -39,9 +39,16 @@ const result = await page.evaluate(async (bitrate) => {
   probe.close();
 
   const { Muxer, ArrayBufferTarget } = window.Mp4Muxer;
-  const muxer = new Muxer({ target: new ArrayBufferTarget(), video: { codec: 'avc', width, height }, fastStart: 'in-memory' });
+  const muxer = new Muxer({
+    target: new ArrayBufferTarget(),
+    video: { codec: 'avc', width, height },
+    fastStart: 'in-memory',
+  });
   let failure = null;
-  const encoder = new VideoEncoder({ output: (chunk, meta) => muxer.addVideoChunk(chunk, meta), error: (e) => (failure = e) });
+  const encoder = new VideoEncoder({
+    output: (chunk, meta) => muxer.addVideoChunk(chunk, meta),
+    error: (e) => (failure = e),
+  });
   const config = { codec: 'avc1.640028', width, height, bitrate, framerate: 50, avc: { format: 'avc' } };
   if (!(await VideoEncoder.isConfigSupported(config)).supported) throw new Error('H.264 encoding is not supported');
   encoder.configure(config);

@@ -4,7 +4,7 @@
 // - src/about/assets/lines.svg: the hand-drawn circle and the tall line on the right, Figma's own paths
 // - src/about/assets/fonts/caskaydia-cove-*.woff2: CaskaydiaCove NF (SIL OFL 1.1) cut down to Latin text, from the
 //   3 MB Nerd Font files in design/source/about (their thousands of icon glyphs are not used here)
-// - src/about/assets/media/wave-poster.{avif,webp}: the first frame of the wave clip, shown until the video plays
+// - src/about/assets/media/wave-poster.webp: the first frame of the wave clip, shown until the video plays
 // usage: node scripts/build-about-assets.mjs [path/to/gif-version.gif]
 //   The clip itself (wave.mp4) is made from the same GIF by scripts/encode-about-video.mjs.
 import fs from 'node:fs';
@@ -47,10 +47,9 @@ for (const style of ['regular', 'italic']) {
 }
 
 if (fs.existsSync(GIF)) {
-  const first = sharp(GIF, { page: 0 });
-  await first.clone().avif({ quality: 60 }).toFile(`${OUT}/media/wave-poster.avif`);
-  await first.clone().webp({ quality: 80 }).toFile(`${OUT}/media/wave-poster.webp`);
-  console.log('wave-poster.{avif,webp}');
+  // A video poster is a single URL with no fallback, so WebP (every current browser) rather than AVIF.
+  await sharp(GIF, { page: 0 }).webp({ quality: 80 }).toFile(`${OUT}/media/wave-poster.webp`);
+  console.log('wave-poster.webp');
 } else {
   console.log(`${GIF} not found; poster left as it is`);
 }

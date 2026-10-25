@@ -1,0 +1,445 @@
+/* /about: the Figma frame "aboutme-desktop" (page version-2). On the stage every size is Figma px inside the
+   1920 x 1080 frame; the column layout for narrow screens is ordinary fluid CSS at the end. */
+
+/* CaskaydiaCove NF, cut down to Latin text by scripts/build-about-assets.mjs. SIL Open Font License 1.1. */
+@font-face {
+  font-family: 'CaskaydiaCove NF';
+  src: url('./assets/fonts/caskaydia-cove-regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: block;
+}
+
+@font-face {
+  font-family: 'CaskaydiaCove NF';
+  src: url('./assets/fonts/caskaydia-cove-italic.woff2') format('woff2');
+  font-weight: 400;
+  font-style: italic;
+  font-display: block;
+}
+
+/* The same files as /home, so a visitor coming from there has them already. */
+@font-face {
+  font-family: 'Italianno';
+  src: url('../home/assets/fonts/italianno-regular.ttf') format('truetype');
+  font-weight: 400;
+  font-display: block;
+}
+
+@font-face {
+  font-family: 'Open Sans';
+  src: url('../home/assets/fonts/open-sans-semibold.ttf') format('truetype');
+  font-weight: 600;
+  font-display: block;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Colour modes, from the Figma frames aboutme-desktop-light (the default) and aboutme-desktop-dark. The hand-drawn
+   lines (#919191) and the row of numbers (#474747) are the same in both. */
+:root {
+  --bg: #dbd5c9;
+  --ink: #000;
+  --muted: #474747;
+  --resume: #000;
+  --mode-idle: #000;
+  --accent: #0015ff;
+  --numbers: #474747;
+  --rule: #919191;
+  --mono: 'CaskaydiaCove NF', ui-monospace, monospace;
+  --theme-time: 0.6s;
+  --hover-ease: cubic-bezier(0.45, 0, 0.25, 1);
+  --hover-time: 0.9s;
+}
+
+:root[data-theme='dark'] {
+  --bg: #202020;
+  --ink: #fff;
+  --muted: #d2d2d2;
+  --resume: #d2d2d2;
+  --mode-idle: #d2d2d2;
+  --accent: #ff4400;
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  min-height: 100%;
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--mono);
+  overflow-x: hidden;
+  overflow-x: clip;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: geometricPrecision;
+}
+
+.about-visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* Switching modes cross-fades every colour together, as on /home; the class is on <html> only during a switch. */
+:root.theme-switching body,
+:root.theme-switching .about-home,
+:root.theme-switching .about-edu-years,
+:root.theme-switching .about-resume,
+:root.theme-switching .about-sound,
+:root.theme-switching .about-mode-option {
+  transition:
+    background-color var(--theme-time) ease,
+    color var(--theme-time) ease,
+    -webkit-text-stroke-color var(--theme-time) ease !important;
+}
+
+/* ---- Shared pieces ---- */
+
+.about ul {
+  list-style: none;
+}
+
+.about-edu-heading {
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.about-intro,
+.about-edu-years,
+.about-edu-title,
+.about-resume-label,
+.about-sound,
+.about-numbers span {
+  letter-spacing: -0.02em;
+}
+
+.about-intro {
+  text-align: justify;
+  text-align-last: left;
+}
+
+.about-edu-years {
+  color: var(--muted);
+}
+
+.about-edu-title em {
+  font-style: italic;
+}
+
+.about-clip {
+  display: block;
+  object-fit: cover;
+  background: var(--rule);
+}
+
+/* The dashed line: 2 px dashes of 4 px with 4 px gaps, in the phase Figma draws them from the frame's right edge. */
+.about-dash {
+  height: 2px;
+  background: linear-gradient(90deg, var(--rule) 0 2px, transparent 2px 6px, var(--rule) 6px 8px) 0 0 / 8px 2px repeat-x;
+  pointer-events: none;
+}
+
+/* The Z that leads back to /home: Italianno, filled and outlined in the ink colour. */
+.about-home {
+  font-family: 'Italianno', cursive;
+  font-weight: 400;
+  color: var(--ink);
+  text-decoration: none;
+  -webkit-text-stroke: 1px currentColor;
+  transition: color var(--hover-time) var(--hover-ease);
+}
+
+.about-home:hover,
+.about-home:focus-visible {
+  color: var(--accent);
+}
+
+.about-resume {
+  display: block;
+  color: var(--resume);
+  text-decoration: none;
+  transition: color var(--hover-time) var(--hover-ease);
+}
+
+.about-resume .about-sparkle {
+  color: var(--accent);
+}
+
+.about-resume:hover,
+.about-resume:focus-visible {
+  color: var(--accent);
+}
+
+/* The sparkle turns slowly about its own centre, as TOUCH ME's does on /home; it keeps turning under reduced motion
+   (small, slow, and the owner's choice). */
+.about-sparkle-spin {
+  transform-box: view-box;
+  transform-origin: 29px 29px;
+  animation: about-sparkle-spin 8s linear infinite;
+}
+
+@keyframes about-sparkle-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.about-sound {
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  letter-spacing: -0.02em;
+  color: var(--muted);
+  cursor: pointer;
+  transition: color var(--hover-time) var(--hover-ease);
+}
+
+.about-sound[aria-pressed='true'],
+.about-sound:hover,
+.about-sound:focus-visible {
+  color: var(--accent);
+}
+
+.about-mode-option {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: var(--mode-idle);
+  cursor: pointer;
+  transition: color var(--hover-time) var(--hover-ease);
+}
+
+.about-mode-option[aria-pressed='true'],
+.about-mode-option:hover,
+.about-mode-option:focus-visible {
+  color: var(--accent);
+}
+
+.about-mode-option[aria-pressed='true'] {
+  cursor: default;
+}
+
+.about-mode-label {
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.about-mode-line {
+  display: block;
+  width: 100%;
+  margin-top: auto;
+  background: currentColor;
+}
+
+:is(.about-home, .about-resume, .about-sound, .about-mode-option):focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 6px;
+}
+
+/* ---- Stage: Figma px on the 1920 x 1080 frame, placed and scaled by useLayout ---- */
+
+.about-stage-page {
+  position: relative;
+  overflow: hidden;
+  overflow: clip;
+}
+
+.about-stage {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform-origin: 0 0;
+}
+
+.about-stage :is(span, p, h2, img, video, a, button) {
+  position: absolute;
+}
+
+/* Spans inside a positioned box flow normally. */
+.about-stage :is(.about-edu-title, .about-resume) span:not(.about-resume-label) {
+  position: static;
+}
+
+.about-stage .about-numbers span,
+.about-stage .about-edu-years,
+.about-stage .about-edu-title,
+.about-stage .about-resume-label,
+.about-stage .about-sound,
+.about-stage .about-home,
+.about-stage .about-edu-heading {
+  white-space: pre;
+}
+
+.about-stage .about-numbers span {
+  color: var(--numbers);
+}
+
+.about-stage .about-lines {
+  left: 0;
+  top: 0;
+  max-width: none;
+  pointer-events: none;
+  user-select: none;
+}
+
+.about-stage .about-resume {
+  width: 252px;
+  height: 58px;
+}
+
+.about-stage .about-sparkle {
+  left: 0;
+  top: 0;
+}
+
+.about-stage .about-mode-option {
+  width: 173px;
+}
+
+.about-stage .about-mode-label {
+  font-size: 15px;
+  line-height: 20.43px;
+}
+
+.about-stage .about-mode-line {
+  height: 3px;
+}
+
+.about-stage .about-mode-option .about-mode-label,
+.about-stage .about-mode-option .about-mode-line {
+  position: static;
+}
+
+/* ---- Column: narrow or upright screens ---- */
+
+.about-flow {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(28px, 6vw, 44px);
+  min-height: 100dvh;
+  /* Content at most 860 px wide, centred (on a tablet); the dashed line still runs to the screen's edges. */
+  padding: 20px max(clamp(20px, 6vw, 48px), (100% - 860px) / 2) 0;
+  overflow: hidden;
+  overflow: clip;
+}
+
+.about-flow-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.about-flow .about-home {
+  font-size: 50px;
+  line-height: 1;
+}
+
+.about-flow .about-sound {
+  font-size: 14px;
+}
+
+.about-flow .about-intro {
+  font-size: clamp(13px, 3.6vw, 16px);
+  line-height: 1.56;
+}
+
+/* A phone's line holds too few monospace words to justify without wide holes between them. */
+@media (max-width: 599px) {
+  .about-flow .about-intro {
+    text-align: left;
+  }
+}
+
+/* The dashed line runs through the clip's middle and on to both edges of the screen, as on the stage. */
+.about-flow-clip {
+  position: relative;
+}
+
+.about-flow-clip .about-dash {
+  position: absolute;
+  left: -50vw;
+  right: -50vw;
+  top: calc(50% - 1px);
+}
+
+.about-flow .about-clip {
+  position: relative;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 713 / 396;
+}
+
+.about-flow .about-edu-heading {
+  font-size: clamp(24px, 6.4vw, 30px);
+  line-height: 1.36;
+  margin-bottom: 16px;
+}
+
+.about-flow .about-education ul {
+  display: grid;
+  gap: 22px;
+}
+
+.about-flow .about-education li {
+  display: grid;
+  gap: 6px;
+}
+
+.about-flow .about-edu-years {
+  font-size: 14px;
+}
+
+.about-flow .about-edu-title {
+  font-size: clamp(16px, 4.6vw, 25px);
+  line-height: 1.1;
+}
+
+.about-flow .about-resume {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  align-self: flex-start;
+  font-size: 16px;
+}
+
+.about-flow .about-sparkle {
+  width: 44px;
+  height: 44px;
+}
+
+.about-flow .about-mode {
+  display: flex;
+  justify-content: space-between;
+  margin-top: auto;
+}
+
+.about-flow .about-mode-option {
+  gap: 14px;
+  width: min(40%, 173px);
+}
+
+.about-flow .about-mode-label {
+  font-size: 13px;
+}
+
+.about-flow .about-mode-line {
+  height: 3px;
+}
