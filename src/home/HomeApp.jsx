@@ -8,8 +8,9 @@ import { BrandLink, SpacedLabel } from './Brand';
 import SphereLens, { LENS_SUPPORTED } from './SphereLens';
 import Strands from './Strands';
 import { useTheme } from './theme';
-import { useShutterSound } from './useShutterSound';
+import { useSoundEffect } from './useSoundEffect';
 import shutterSound from './assets/audio/shutter.mp3';
+import sphereSound from './assets/audio/sphere.mp3';
 
 // Frames for the hover reel, in file order (01, 02, ...), each as an AVIF and WebP pair.
 const REEL_URLS = import.meta.glob('./assets/images/reel/*.{avif,webp}', { eager: true, query: '?url', import: 'default' });
@@ -101,7 +102,7 @@ function PhotoReel() {
   const [mounted, setMounted] = useState(false);
   const timer = useRef(null);
   const images = useRef([]);
-  const shutter = useShutterSound(shutterSound);
+  const shutter = useSoundEffect(shutterSound);
 
   // Chrome drops the decoded pixels of hidden images, so a frame shown cold flashes empty for tens of ms while it
   // decodes. img.decode() decodes ahead: each frame is decoded during the previous one's 0.2s, ready to paint at once.
@@ -122,12 +123,12 @@ function PhotoReel() {
     clearInterval(timer.current);
     let current = 0;
     setFrame(current);
-    shutter();
+    shutter.play();
     prepare(1 % REEL.length);
     timer.current = setInterval(() => {
       current = (current + 1) % REEL.length;
       setFrame(current);
-      shutter();
+      shutter.play();
       prepare((current + 1) % REEL.length);
     }, REEL_INTERVAL_MS);
   };
@@ -484,6 +485,13 @@ export default function HomeApp() {
   const layout = useStageLayout(headerRef, footerRef);
   const [theme, setTheme] = useTheme();
   const [sphereState, spheresOn, toggleSpheres] = useSpheres();
+  // The spheres arrive with a swell of sound; turning them off before it ends fades it out.
+  const sphereSwell = useSoundEffect(sphereSound);
+  const onTouch = () => {
+    if (spheresOn) sphereSwell.stop();
+    else sphereSwell.play();
+    toggleSpheres();
+  };
   const stageRef = useRef(null);
   const isPhone = useIsPhone();
   useRepel(sphereState !== 'off' && !isPhone, stageRef);
@@ -515,7 +523,7 @@ export default function HomeApp() {
 
           {!isPhone && <SphereLayer front={false} state={sphereState} variant={layout?.variant ?? 'wide'} theme={theme} />}
 
-          {!isPhone && <TouchMe {...pos.touch} pressed={spheresOn} onToggle={toggleSpheres} />}
+          {!isPhone && <TouchMe {...pos.touch} pressed={spheresOn} onToggle={onTouch} />}
 
           <PhotoReel />
 
