@@ -3,8 +3,7 @@ import { CLIP_LABEL, EDUCATION, EDUCATION_TITLE, HOME, INTRO, MODES, PAGE_TITLE,
 import { useTheme } from '../home/theme';
 import { SOUND_SWITCH_ATTR, useWaveSound } from './useWaveSound';
 import lines from './assets/lines.svg';
-import clip from './assets/media/wave.mp4';
-import poster from './assets/media/wave-poster.webp';
+import { currentClip } from './clips';
 import waves from './assets/media/waves.mp3';
 
 // The artwork is the Figma frame "aboutme-desktop" (1920 x 1080, page version-2; dark 2041:40, light 2042:103),
@@ -99,9 +98,11 @@ function EducationTitle({ lines: titleLines }) {
   ));
 }
 
-// The wave clip: an image sequence played as a flipbook, each frame held 0.1 s, encoded as a 10 fps video
-// (scripts/encode-about-video.mjs) and looped silently. muted is set on the element itself as well, since React only
-// sets the property and iOS checks the attribute before it autoplays.
+// The image sequence or the GIF, as chosen in clips.js.
+const CLIP = currentClip();
+
+// The wave clip, looped silently. muted is set on the element itself as well, since React only sets the property and
+// iOS checks the attribute before it autoplays.
 function WaveClip({ className, style }) {
   const ref = useRef(null);
   useEffect(() => {
@@ -115,8 +116,8 @@ function WaveClip({ className, style }) {
       ref={ref}
       className={className}
       style={style}
-      src={clip}
-      poster={poster}
+      src={CLIP.src}
+      poster={CLIP.poster}
       autoPlay
       muted
       loop

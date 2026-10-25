@@ -4,18 +4,15 @@
 // - src/about/assets/lines.svg: the hand-drawn circle and the tall line on the right, Figma's own paths
 // - src/about/assets/fonts/caskaydia-cove-*.woff2: CaskaydiaCove NF (SIL OFL 1.1) cut down to Latin text, from the
 //   3 MB Nerd Font files in design/source/about (their thousands of icon glyphs are not used here)
-// - src/about/assets/media/wave-poster.webp: the first frame of the wave clip, shown until the video plays
-// usage: node scripts/build-about-assets.mjs [frames dir]
-//   The clip itself (wave.mp4) is made from the same frames by scripts/encode-about-video.mjs.
+// usage: node scripts/build-about-assets.mjs
+//   The photo clips and their posters are made by scripts/encode-about-video.mjs.
 import fs from 'node:fs';
 import path from 'node:path';
-import sharp from 'sharp';
 import subsetFont from 'subset-font';
 
 const DATA = 'design/figma/data/aboutme-desktop-dark.svg';
 const SOURCE = 'design/source/about';
 const OUT = 'src/about/assets';
-const FRAMES = process.argv[2] ?? '.tmp/about-me/image-seq';
 
 // Printable ASCII, Latin-1 and the usual typographic punctuation: enough for any wording in src/about/content.js.
 const TEXT =
@@ -44,19 +41,4 @@ for (const style of ['regular', 'italic']) {
   const woff2 = await subsetFont(font, TEXT, { targetFormat: 'woff2' });
   fs.writeFileSync(`${OUT}/fonts/caskaydia-cove-${style}.woff2`, woff2);
   console.log(`caskaydia-cove-${style}.woff2 ${(woff2.length / 1024).toFixed(1)} kB`);
-}
-
-const first =
-  fs.existsSync(FRAMES) &&
-  fs
-    .readdirSync(FRAMES)
-    .filter((name) => /.(jpe?g|png|webp)$/i.test(name))
-    .sort()[0];
-if (first) {
-  // A video poster is a single URL with no fallback, so WebP (every current browser) rather than AVIF. Same size as
-  // the clip (scripts/encode-about-video.mjs).
-  await sharp(path.join(FRAMES, first)).resize(1440, 810).webp({ quality: 80 }).toFile(`${OUT}/media/wave-poster.webp`);
-  console.log('wave-poster.webp');
-} else {
-  console.log(`no frames in ${FRAMES}; poster left as it is`);
 }
