@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - Zaky Ashari</title>
+    <meta name="description" content="About Zaky Ashari: computer science graduate working across AI engineering, full-stack development and software architecture.">
+    <!-- Part of the new site in progress, with /home; keep it out of search results until it replaces /. -->
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="theme-color" content="#dbd5c9">
+    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48.png?v=2">
+    <link rel="icon" type="image/svg+xml" sizes="any" href="/favicon.svg?v=2">
+    <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png?v=2">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=2">
+    <!-- Moving between /home and /about is a cross-document view transition (Chrome, Edge, Safari 18.2+; elsewhere the
+         page just changes): the logotype (named in src/home/brand.css) stays put while the rest cross-fades. Both pages
+         must opt in before they first render, so it is here rather than in the bundled CSS; the same block is in
+         home/index.html. -->
+    <style>
+        @view-transition { navigation: auto; }
+        /* The new page draws its logotype only once its script runs, after the transition has begun, at the same place
+           and size; so the old one is held fully visible on top until the cross-fade ends, instead of fading out. */
+        ::view-transition-old(zashari-logotype) { animation: none; }
+    </style>
+    <!-- Apply the saved colour mode before first paint (light by default); src/home/theme.js owns it afterwards. -->
+    <script>
+        try {
+            if (localStorage.getItem('zashari-home-theme') === 'dark') {
+                document.documentElement.dataset.theme = 'dark';
+                document.querySelector('meta[name="theme-color"]').content = '#202020';
+            }
+        } catch {
+            // Storage blocked (private mode, site data off): stay on the light default.
+        }
+    </script>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="module" src="/src/about/main.jsx"></script>
+</body>
+</html>
