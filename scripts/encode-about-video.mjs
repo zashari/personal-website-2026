@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // Turns the /about image sequence (137 JPEG frames, 2560 x 1440) into src/about/assets/media/wave.mp4: every 10th
-// frame (1, 11, 21 ... 131), each held exactly 0.1 s with hard cuts as a flipbook would show them, as an H.264 clip
-// at 10 fps. There is no ffmpeg here, so Chrome does the work: WebCodecs scales and encodes each frame
+// frame (1, 11, 21 ... 131), each held exactly 0.2 s with hard cuts as a flipbook would show them, as an H.264 clip
+// at 5 fps. There is no ffmpeg here, so Chrome does the work: WebCodecs scales and encodes each frame
 // (createImageBitmap, VideoEncoder), and mp4-muxer writes the file.
 // usage: npm i --no-save playwright mp4-muxer && node scripts/encode-about-video.mjs [frames dir] [seconds] [step]
 import fs from 'node:fs';
@@ -10,7 +10,7 @@ import { createRequire } from 'node:module';
 import { chromium } from 'playwright';
 
 const FRAMES = process.argv[2] ?? '.tmp/about-me/image-seq';
-const INTERVAL_S = Number(process.argv[3] ?? 0.1);
+const INTERVAL_S = Number(process.argv[3] ?? 0.2);
 const STEP = Number(process.argv[4] ?? 10); // use every STEP-th frame, starting with the first
 const OUT = 'src/about/assets/media/wave.mp4';
 // Shown at most 713 x 396 CSS px (the Figma frame at full size), so 1440 x 810 covers a 2x screen.
