@@ -1,5 +1,6 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { CLIP_LABEL, EDUCATION, EDUCATION_TITLE, HOME, INTRO, MODES, PAGE_TITLE, RESUME, SOUND } from './content';
+import { BrandLink } from '../home/Brand';
 import { useTheme } from '../home/theme';
 import { SOUND_SWITCH_ATTR, useWaveSound } from './useWaveSound';
 import lines from './assets/lines.svg';
@@ -8,12 +9,17 @@ import waves from './assets/media/waves.mp3';
 
 // The artwork is the Figma frame "aboutme-desktop" (1920 x 1080, page version-2; dark 2041:40, light 2042:103),
 // drawn in Figma px on a stage scaled to fit the window, as on /home. Narrow or upright screens get the same content
-// as an ordinary column instead (see useLayout).
+// as an ordinary column instead (see useLayout). Above it sits /home's header logotype, in the same place and size,
+// as the way back home.
 const FRAME = { width: 1920, height: 1080 };
 // Below this the 16 px Figma text drops under ~9 px, so short windows scroll instead.
 const MIN_SCALE = 0.55;
 const FLOW_MAX_WIDTH = 1100; // narrower than this, the stage's text would be too small to read
 const FLOW_MAX_ASPECT = 1.2; // and windows less than 1.2 times as wide as tall would leave the stage floating
+// The frame is empty above the intro text (its box starts at y 103), so the header may overlap that band; the stage is
+// kept low enough, or small enough, for the intro to start this far below the header's label.
+const INTRO_TOP = 103;
+const HEADER_GAP = 16;
 
 // Vertical metrics per font, in em, as Chrome measures them (fontBoundingBox at 100 px).
 const METRICS = {
@@ -42,8 +48,8 @@ const EDUCATION_AT = {
 // The resume link: the sparkle box's top-left, and the text's offset from there.
 const RESUME_AT = { x: 351, y: 858 };
 const RESUME_TEXT = textAt({ x: 422 - RESUME_AT.x, baseline: 892.094 - RESUME_AT.y, size: 16, lineHeight: 25 });
-const HOME_BOX = textAt({ x: 44, baseline: 554.85, size: 50, lineHeight: 62.5, font: 'script' });
-const SOUND_BOX = textAt({ x: 121, baseline: 66, size: 16, lineHeight: 25 });
+// Under the clip, as far below it as the intro text ends above it (14 px), and on the intro's left edge.
+const SOUND_BOX = { left: 121, top: CLIP_BOX.top + CLIP_BOX.height + 14, fontSize: 16, lineHeight: '25px' };
 const NUMBERS = Array.from({ length: 7 }, (_, i) => ({
   label: String(i + 1).padStart(2, '0'),
   ...textAt({ x: 77 + 269 * i, baseline: 1037.09, size: 16, lineHeight: 25 }),
@@ -140,11 +146,26 @@ function Sparkle() {
   );
 }
 
-function HomeLink({ style }) {
+// The way home is a plain link, so it works from a shared link or a new tab too. When the visitor came here from
+// /home, a plain click goes back through history instead: the browser restores /home as they left it (scroll position
+// included) and the history does not grow home, about, home, about. Only same-site entries are visible to the
+// Navigation API, so a visitor who arrived from elsewhere simply follows the link.
+function backToHome(event) {
+  if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+  const nav = window.navigation;
+  const previous = nav?.currentEntry && nav.entries()[nav.currentEntry.index - 1];
+  if (!previous?.url || new URL(previous.url).pathname !== HOME.href) return;
+  event.preventDefault();
+  nav.back();
+}
+
+function Header({ headerRef, variant }) {
   return (
-    <a className="about-home" href={HOME.href} style={style} aria-label={HOME.label}>
-      Z
-    </a>
+    <header className="home-header about-header" ref={headerRef} data-variant={variant}>
+      <nav aria-label="Main">
+        <BrandLink href={HOME.href} label={HOME.label} onClick={backToHome} />
+      </nav>
+    </header>
   );
 }
 
@@ -184,11 +205,13 @@ function ModeSwitch({ theme, onChange, placed }) {
   );
 }
 
-// Picks the stage or the column, and for the stage its scale and place: as large as fits the window, centred across
-// and resting on the bottom edge (where the mode switch's underline sits). A window too short for MIN_SCALE scrolls.
-function useLayout() {
+// Picks the stage or the column, and for the stage its scale and place: as large as fits the window below the
+// header, centred across and resting on the bottom edge (where the mode switch's underline sits). A window too short
+// for MIN_SCALE scrolls. Re-runs when the window or the header (which grows as its fonts load) changes size.
+function useLayout(headerRef) {
   const [layout, setLayout] = useState(null);
   useLayoutEffect(() => {
+    const header = headerRef.current;
     const update = () => {
       const width = document.documentElement.clientWidth;
       const height = window.innerHeight;
@@ -196,8 +219,10 @@ function useLayout() {
         setLayout({ variant: 'flow' });
         return;
       }
-      const scale = Math.min(width / FRAME.width, Math.max(height / FRAME.height, MIN_SCALE));
-      const pageHeight = Math.max(height, FRAME.height * scale);
+      const below = header.offsetHeight + HEADER_GAP;
+      const fit = Math.min(height / FRAME.height, (height - below) / (FRAME.height - INTRO_TOP));
+      const scale = Math.min(width / FRAME.width, Math.max(fit, MIN_SCALE));
+      const pageHeight = Math.max(height, below + (FRAME.height - INTRO_TOP) * scale);
       setLayout({
         variant: 'stage',
         scale,
@@ -207,9 +232,14 @@ function useLayout() {
       });
     };
     update();
+    const observer = new ResizeObserver(update);
+    observer.observe(header);
     window.addEventListener('resize', update);
-    return () => window.removeEventListener('resize', update);
-  }, []);
+    return () => {
+      observer.disconnect();
+      window.removeEventListener('resize', update);
+    };
+  }, [headerRef]);
   return layout;
 }
 
@@ -277,7 +307,6 @@ function Stage({ layout, theme, setTheme, sound }) {
         <p className="about-intro" style={INTRO_BOX}>
           {INTRO}
         </p>
-        <HomeLink style={HOME_BOX} />
         {sound.supported && <SoundSwitch sound={sound} style={SOUND_BOX} />}
         <ModeSwitch theme={theme} onChange={setTheme} placed />
       </div>
@@ -289,15 +318,12 @@ function Flow({ theme, setTheme, sound }) {
   return (
     <main className="about about-flow">
       <h1 className="about-visually-hidden">{PAGE_TITLE}</h1>
-      <div className="about-flow-top">
-        <HomeLink />
-        {sound.supported && <SoundSwitch sound={sound} />}
-      </div>
       <p className="about-intro">{INTRO}</p>
       <div className="about-flow-clip">
         <span className="about-dash" aria-hidden="true" />
         <WaveClip className="about-clip" />
       </div>
+      {sound.supported && <SoundSwitch sound={sound} />}
       <section className="about-education" aria-labelledby="about-education-title">
         <h2 id="about-education-title" className="about-edu-heading">
           {EDUCATION_TITLE}
@@ -323,10 +349,16 @@ function Flow({ theme, setTheme, sound }) {
 }
 
 export default function AboutApp() {
-  const layout = useLayout();
+  const headerRef = useRef(null);
+  const layout = useLayout(headerRef);
   const [theme, setTheme] = useTheme();
   const sound = useWaveSound(waves);
-  if (!layout) return null;
   const props = { theme, setTheme, sound };
-  return layout.variant === 'stage' ? <Stage layout={layout} {...props} /> : <Flow {...props} />;
+  return (
+    <>
+      <Header headerRef={headerRef} variant={layout?.variant} />
+      {layout?.variant === 'stage' && <Stage layout={layout} {...props} />}
+      {layout?.variant === 'flow' && <Flow {...props} />}
+    </>
+  );
 }

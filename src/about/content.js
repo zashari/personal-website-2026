@@ -24,7 +24,8 @@ export const EDUCATION = [
 
 export const RESUME = { label: 'Check my resume here', href: null };
 
-export const HOME = { label: 'Back to home', href: '/home/' };
+// The header's logotype leads back home; its small label says so (on /home the same logotype reads ABOUT ME).
+export const HOME = { label: 'HOME', href: '/home/' };
 
 // The sea plays on arrival. Browsers only allow sound after the visitor has interacted with the site, so a direct
 // visit starts it on the first click, tap or key press instead; this switch turns it off and on.
