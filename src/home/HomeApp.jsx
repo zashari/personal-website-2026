@@ -8,6 +8,8 @@ import { BrandLink, SpacedLabel } from './Brand';
 import SphereLens, { LENS_SUPPORTED } from './SphereLens';
 import Strands from './Strands';
 import { useTheme } from './theme';
+import { useShutterSound } from './useShutterSound';
+import shutterSound from './assets/audio/shutter.mp3';
 
 // Frames for the hover reel, in file order (01, 02, ...), each as an AVIF and WebP pair.
 const REEL_URLS = import.meta.glob('./assets/images/reel/*.{avif,webp}', { eager: true, query: '?url', import: 'default' });
@@ -92,13 +94,14 @@ function MaybeLink({ href, className, children }) {
 const TITLE_INK_SHIFT = { work: 0.025, workflow: -0.0125, contact: -0.025 };
 
 // The centre photo. While the pointer is over it, the photos in REEL play in turn every 0.2s, looping, as hard cuts
-// like a flipbook; leaving shows the original again. Frames keep their own aspect ratio, fitted inside the photo's box. The frames are stacked under the photo and only mounted once the
+// like a flipbook, each with a camera shutter sound; leaving shows the original again. Frames keep their own aspect ratio, fitted inside the photo's box. The frames are stacked under the photo and only mounted once the
 // page is idle, so they never compete with the first paint, and every switch is instant because each is already decoded.
 function PhotoReel() {
   const [frame, setFrame] = useState(-1);
   const [mounted, setMounted] = useState(false);
   const timer = useRef(null);
   const images = useRef([]);
+  const shutter = useShutterSound(shutterSound);
 
   // Chrome drops the decoded pixels of hidden images, so a frame shown cold flashes empty for tens of ms while it
   // decodes. img.decode() decodes ahead: each frame is decoded during the previous one's 0.2s, ready to paint at once.
@@ -119,10 +122,12 @@ function PhotoReel() {
     clearInterval(timer.current);
     let current = 0;
     setFrame(current);
+    shutter();
     prepare(1 % REEL.length);
     timer.current = setInterval(() => {
       current = (current + 1) % REEL.length;
       setFrame(current);
+      shutter();
       prepare((current + 1) % REEL.length);
     }, REEL_INTERVAL_MS);
   };
