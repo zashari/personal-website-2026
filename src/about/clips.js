@@ -13,7 +13,7 @@ export const CLIPS = {
   gif: { src: gifSrc, poster: gifPoster },
 };
 
-export const CLIP = 'sequence';
+export const CLIP = 'gif';
 
 export function currentClip() {
   const asked = new URLSearchParams(window.location.search).get('clip');
