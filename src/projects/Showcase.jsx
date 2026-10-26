@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
@@ -211,8 +211,14 @@ function Stage({ stage, selected, onSelect, onOpen }) {
   const triggerRef = useRef(null);
   const [scene, setScene] = useState('hero');
   const [peek, setPeek] = useState(null);
+  const sceneRef = useRef('hero');
+  // The latest onSelect, for the scroll callback set up once below.
+  const onSelectRef = useRef(onSelect);
+  useEffect(() => {
+    onSelectRef.current = onSelect;
+  }, [onSelect]);
   // The project in the preview: pointed at or chosen, but only on the showcase; scrolling back up to the hero brings its
-  // photo back, and the choice returns with the showcase.
+  // photo back (and lets go of the choice; see onUpdate below).
   const shown = scene === 'showcase' ? (peek ?? selected) : null;
   const project = PROJECTS[shown];
 
@@ -348,9 +354,19 @@ function Stage({ stage, selected, onSelect, onOpen }) {
           delay: 0.05,
           ease: 'power2.inOut',
         },
-        onUpdate: (self) => setScene(self.progress > 0.9 ? 'showcase' : 'hero'),
+        onUpdate: (self) => {
+          const next = self.progress > 0.9 ? 'showcase' : 'hero';
+          // Leaving the showcase for the hero lets go of the chosen project, so coming back shows the resting image.
+          if (next === 'hero' && sceneRef.current === 'showcase') {
+            setPeek(null);
+            onSelectRef.current(null);
+          }
+          sceneRef.current = next;
+          setScene(next);
+        },
       });
-      setScene(triggerRef.current.progress > 0.9 ? 'showcase' : 'hero');
+      sceneRef.current = triggerRef.current.progress > 0.9 ? 'showcase' : 'hero';
+      setScene(sceneRef.current);
     },
     { scope: trackRef }
   );
