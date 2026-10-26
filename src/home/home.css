@@ -309,69 +309,6 @@ body {
 
 /* ---- Header: fluid HTML. Sizes are in em of the title size; the logotype keeps Figma's proportions ---- */
 
-/* ---- Colour mode switch: DARK bottom-left, LIGHT bottom-right, on the header's side margins ----
-   Sized in em of the 15 px Figma label (scaled like the header): a 173 x 3 px underline flush with the bottom edge,
-   the label's cap top 33 px above the underline. The active mode is blue; the other is --mode-idle. */
-
-.home-mode {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 1;
-  display: flex;
-  justify-content: space-between;
-  padding: 0 clamp(16px, 3.2vw, 60px);
-  font-size: max(11px, calc(0.3 * clamp(22px, 2.08vw, 40px)));
-  pointer-events: none;
-}
-
-.home-mode-option {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 11.53em;
-  padding: 0;
-  border: 0;
-  background: none;
-  font: inherit;
-  color: var(--mode-idle);
-  cursor: pointer;
-  pointer-events: auto;
-  transition: color var(--hover-time) var(--hover-ease);
-}
-
-.home-mode-option[aria-pressed='true'],
-.home-mode-option:hover,
-.home-mode-option:focus-visible {
-  color: var(--accent);
-}
-
-.home-mode-option[aria-pressed='true'] {
-  cursor: default;
-}
-
-.home-mode-label {
-  font-family: 'Open Sans', sans-serif;
-  font-weight: 600;
-  line-height: 1.3618;
-  letter-spacing: -0.02em;
-  /* Box bottom to underline top: 33 px from cap top to line, minus the box below the cap (0.355em above it). */
-  margin-bottom: 1.19em;
-}
-
-.home-mode-line {
-  display: block;
-  width: 100%;
-  height: 0.2em;
-  background: currentColor;
-}
-
-.home-mode-option:focus-visible {
-  outline: 2px solid currentColor;
-  outline-offset: 4px;
-}
-
 /* ---- Links ---- */
 
 /* Socials take the accent colour on hover, like the header and mode switch; only the colour changes. */

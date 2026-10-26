@@ -1,9 +1,10 @@
 import { Fragment, useEffect, useLayoutEffect, useRef, useState } from 'react';
-import { BRAND, MODES, NAME, NAV, PHOTO_ALT, ROLES, SOCIALS, TOUCH_LABEL } from './content';
+import { BRAND, NAME, NAV, PHOTO_ALT, ROLES, SOCIALS, TOUCH_LABEL } from './content';
 import spiral from './assets/golden-spiral.svg';
 import photoAvif from './assets/images/photo.avif';
 import photoWebp from './assets/images/photo.webp';
 import Book from './Book';
+import ModeSwitch from './ModeSwitch';
 import { BrandLink, MaybeLink, NavItem, SpacedLabel } from './Brand';
 import SphereLens, { LENS_SUPPORTED } from './SphereLens';
 import Strands from './Strands';
@@ -423,25 +424,6 @@ function useStageLayout(headerRef, footerRef) {
   return layout;
 }
 
-function ModeSwitch({ theme, onChange, footerRef }) {
-  return (
-    <div className="home-mode" ref={footerRef} role="group" aria-label="Colour mode">
-      {MODES.map((mode) => (
-        <button
-          key={mode.key}
-          type="button"
-          className="home-mode-option"
-          aria-pressed={theme === mode.key}
-          onClick={() => onChange(mode.key)}
-        >
-          <span className="home-mode-label">{mode.label}</span>
-          <span className="home-mode-line" aria-hidden="true" />
-        </button>
-      ))}
-    </div>
-  );
-}
-
 export default function HomeApp() {
   const headerRef = useRef(null);
   const footerRef = useRef(null);
@@ -531,7 +513,7 @@ export default function HomeApp() {
           </nav>
         </header>
 
-        <ModeSwitch theme={theme} onChange={setTheme} footerRef={footerRef} />
+        <ModeSwitch theme={theme} onChange={setTheme} ref={footerRef} />
       </main>
 
       <Book />
