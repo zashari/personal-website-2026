@@ -1,6 +1,6 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
-import { CLIP_LABEL, EDUCATION, EDUCATION_TITLE, HOME, INTRO, MODES, PAGE_TITLE, RESUME, SOUND } from './content';
-import { BrandLink } from '../home/Brand';
+import { CLIP_LABEL, EDUCATION, EDUCATION_TITLE, HOME, INTRO, MODES, NAV, PAGE_TITLE, RESUME, SOUND } from './content';
+import { BrandLink, MaybeLink, NavItem } from '../home/Brand';
 import { useTheme } from '../home/theme';
 import { SOUND_SWITCH_ATTR, useWaveSound } from './useWaveSound';
 import lines from './assets/lines.svg';
@@ -66,24 +66,6 @@ const SPARKLE_PATHS = [
   'M58 29C58 45.0163 29 29 29 58C12.9837 58 29 29 0 29C0 12.9837 29 29 29 0C45.0163 0 29 29 58 29Z',
   'M49.7579 49.2511C38.5736 60.7154 29 29 8.74888 49.758C-2.71541 38.5736 29 29 8.24205 8.74891C19.4264 -2.71538 29 29 49.2511 8.24208C60.7154 19.4265 29 29 49.7579 49.2511Z',
 ];
-
-const preventNavigation = (event) => event.preventDefault();
-
-// A link without a destination yet (href: null in content.js) still behaves like a link but does nothing.
-function MaybeLink({ href, className, style, children }) {
-  if (!href) {
-    return (
-      <a className={className} style={style} href="#" aria-disabled="true" onClick={preventNavigation}>
-        {children}
-      </a>
-    );
-  }
-  return (
-    <a className={className} style={style} href={href}>
-      {children}
-    </a>
-  );
-}
 
 // "BINUS UNIVERSITY @BANDUNG": the @ stays upright and the city after it is set in italics.
 function TitleLine({ text }) {
@@ -166,8 +148,15 @@ function backToHome(event) {
 function Header({ headerRef, variant }) {
   return (
     <header className="home-header about-header" ref={headerRef} data-variant={variant}>
-      <nav aria-label="Main">
-        <BrandLink href={HOME.href} label={HOME.label} onClick={backToHome} />
+      <nav className="home-nav" aria-label="Main">
+        <div className="home-nav-group">
+          <BrandLink href={HOME.href} label={HOME.label} onClick={backToHome} />
+        </div>
+        <div className="home-nav-group">
+          {NAV.map((item) => (
+            <NavItem key={item.key} id={item.key} title={item.title} label={item.label} href={item.href} />
+          ))}
+        </div>
       </nav>
     </header>
   );
