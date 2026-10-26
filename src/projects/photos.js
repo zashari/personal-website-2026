@@ -30,6 +30,11 @@ import standWebp from '../home/assets/images/reel/13.webp';
 import cameraAvif from '../home/assets/images/reel/12.avif';
 import cameraWebp from '../home/assets/images/reel/12.webp';
 
+// The showcase's resting image (animated), which the hero's photo turns into once it has grown into the preview.
+import showcaseRest from './assets/images/me.webp';
+
+export const SHOWCASE_REST = showcaseRest;
+
 // The hero's photo inside its brackets; it grows into the showcase's preview on scroll.
 export const HERO_PHOTO = {
   thumb: { avif: heroThumbAvif, webp: heroThumbWebp },

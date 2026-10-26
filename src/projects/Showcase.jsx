@@ -4,7 +4,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
 import { FRAME, textAt } from '../about/frame';
 import { HERO, SHOWCASE } from './content';
-import { HERO_PHOTO, PHOTOS } from './photos';
+import { HERO_PHOTO, PHOTOS, SHOWCASE_REST } from './photos';
 import { PROJECTS } from './work';
 import heroCircle from './assets/lines/hero-circle.svg';
 import heroRule from './assets/lines/hero-rule.svg';
@@ -228,8 +228,10 @@ function Stage({ stage, selected, onSelect, onOpen }) {
         .to(q('.pj-word')[1], { y: -60, opacity: 0, duration: 0.45 }, 0.03)
         .to(q('.pj-word')[2], { y: 90, opacity: 0, duration: 0.45 }, 0)
         .to(q('.pj-numbers'), { x: -40, opacity: 0, duration: 0.35 }, 0)
-        // The photo grows into the preview, and stays there until a project is pointed at or chosen.
+        // The photo grows into the preview, then gives way to the showcase's moving image, which stays until a
+        // project is pointed at or chosen.
         .fromTo(q('.pj-preview'), { ...PHOTO.hero }, { ...PHOTO.showcase, duration: 0.8 }, 0.1)
+        .fromTo(q('.pj-preview-rest'), { opacity: 0 }, { opacity: 1, duration: 0.2, ease: 'none' }, 0.72)
         // The brackets and the asterisk grow with it, from the hero's to the showcase's; the hero's bold brackets hand
         // over to the showcase's regular ones early and quickly, so the two are never seen overlapping for long.
         .fromTo(
@@ -430,6 +432,16 @@ function Stage({ stage, selected, onSelect, onOpen }) {
             style={PHOTO.hero}
           >
             <Picture className="pj-preview-image" photo={HERO_PHOTO.large} eager data-shown={!project || undefined} />
+            <img
+              className="pj-preview-rest"
+              src={SHOWCASE_REST}
+              alt=""
+              width="800"
+              height="600"
+              decoding="async"
+              fetchPriority="low"
+              draggable={false}
+            />
             {ORDER.map((key) => (
               <Picture
                 key={key}

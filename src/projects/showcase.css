@@ -182,6 +182,13 @@
   opacity: 1;
 }
 
+/* The showcase's moving image, between the hero's photo and the projects' (the scroll fades it in). */
+.pj-preview .pj-preview-rest {
+  position: absolute;
+  object-fit: cover;
+  opacity: 0;
+}
+
 .pj-preview:focus-visible {
   outline: 3px solid var(--accent);
   outline-offset: 10px;

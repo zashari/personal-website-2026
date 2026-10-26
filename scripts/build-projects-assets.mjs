@@ -3,7 +3,8 @@
 // exported as SVG with text kept as text (design/figma/data/projects-*-light.svg; dark differs only in colour) and their
 // photos split out to design/source/projects.
 // - src/projects/assets/lines/*.svg: the hand-drawn lines of both scenes, Figma's own paths, one file each
-// - src/projects/assets/images/*.{avif,webp}: the hero photo and each project's photo, as a thumbnail and a preview
+// - src/projects/assets/images/*.{avif,webp}: the hero photo and each project's photo, as a thumbnail and a preview,
+//   and me.webp, the showcase's animated resting image
 // - src/projects/assets/fonts/*.woff2: CaskaydiaCove NF SemiLight (the roles in brackets) cut down to Latin text, and
 //   Open Sans Regular cut down to the two giant brackets; both SIL OFL 1.1. JMH Typewriter Bold (the asterisk) is
 //   shipped as the unmodified file, src/projects/assets/fonts/jmh-typewriter-bold.ttf, as its terms require.
@@ -69,6 +70,13 @@ for (const [name, file] of Object.entries(PHOTOS)) {
   }
   console.log(`${name}-{thumb,preview}.{avif,webp}`);
 }
+
+// The showcase's resting image: the user's 41-frame GIF (800 x 600, 0.1 s a frame) as an animated WebP, a seventh of
+// its size. Animated AVIF is not an option here: libheif refuses a sequence this long.
+const animated = await sharp(path.join(SOURCE, 'me.gif'), { animated: true })
+  .webp({ quality: 75, effort: 6 })
+  .toFile(`${OUT}/images/me.webp`);
+console.log(`me.webp ${(animated.size / 1024).toFixed(0)} kB`);
 
 // ---- Fonts ----
 const LATIN =
