@@ -5,7 +5,7 @@ import ModeSwitch from '../home/ModeSwitch';
 import { useTheme } from '../home/theme';
 import { SOUND_SWITCH_ATTR, useWaveSound } from './useWaveSound';
 import FrameDecoration from './FrameDecoration';
-import { FRAME, textAt } from './frame';
+import { DASH_BLEED, DASH_Y, FRAME, fitFrame, textAt } from './frame';
 import clip from './assets/media/wave.mp4';
 import poster from './assets/media/wave-poster.webp';
 import waves from './assets/media/waves.mp3';
@@ -14,14 +14,6 @@ import waves from './assets/media/waves.mp3';
 // drawn in Figma px on a stage scaled to fit the window, as on /home. Narrow or upright screens get the same content
 // as an ordinary column instead (see useLayout). Above it sits /home's header logotype, in the same place and size,
 // as the way back home.
-// Below this the 16 px Figma text drops under ~9 px, so short windows scroll instead.
-const MIN_SCALE = 0.55;
-const FLOW_MAX_WIDTH = 1100; // narrower than this, the stage's text would be too small to read
-const FLOW_MAX_ASPECT = 1.2; // and windows less than 1.2 times as wide as tall would leave the stage floating
-// The frame is empty above the intro text (its box starts at y 103), so the header may overlap that band; the stage is
-// kept low enough, or small enough, for the intro to start this far below the header's label.
-const INTRO_TOP = 103;
-const HEADER_GAP = 16;
 
 const INTRO_BOX = { ...textAt({ x: 121, baseline: 121.094, size: 16, lineHeight: 25 }), width: 713 };
 const CLIP_BOX = { left: 124, top: 342, width: 713, height: 396 };
@@ -37,8 +29,6 @@ const RESUME_AT = { x: 351, y: 858 };
 const RESUME_TEXT = textAt({ x: 422 - RESUME_AT.x, baseline: 892.094 - RESUME_AT.y, size: 16, lineHeight: 25 });
 // Under the clip, as far below it as the intro text ends above it (14 px), and on the intro's left edge.
 const SOUND_BOX = { left: 121, top: CLIP_BOX.top + CLIP_BOX.height + 14, fontSize: 16, lineHeight: '25px' };
-const DASH_Y = 540; // the dashed line's 2 px band, through the clip's middle
-const DASH_BLEED = 2000; // the dashed line runs past the frame's sides to the window's edges
 
 // The same eight-point sparkle as TOUCH ME on /home (58 x 58, Figma's own paths).
 const SPARKLE_PATHS = [
@@ -152,23 +142,12 @@ function useLayout(headerRef) {
   useLayoutEffect(() => {
     const header = headerRef.current;
     const update = () => {
-      const width = document.documentElement.clientWidth;
-      const height = window.innerHeight;
-      if (width < FLOW_MAX_WIDTH || width < height * FLOW_MAX_ASPECT) {
-        setLayout({ variant: 'flow' });
-        return;
-      }
-      const below = header.offsetHeight + HEADER_GAP;
-      const fit = Math.min(height / FRAME.height, (height - below) / (FRAME.height - INTRO_TOP));
-      const scale = Math.min(width / FRAME.width, Math.max(fit, MIN_SCALE));
-      const pageHeight = Math.max(height, below + (FRAME.height - INTRO_TOP) * scale);
-      setLayout({
-        variant: 'stage',
-        scale,
-        x: (width - FRAME.width * scale) / 2,
-        y: pageHeight - FRAME.height * scale,
-        pageHeight,
+      const fit = fitFrame({
+        width: document.documentElement.clientWidth,
+        height: window.innerHeight,
+        headerHeight: header.offsetHeight,
       });
+      setLayout(fit ? { variant: 'stage', ...fit } : { variant: 'flow' });
     };
     update();
     const observer = new ResizeObserver(update);
