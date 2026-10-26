@@ -1,5 +1,4 @@
-// Every word on /projects outside the book. The book's own words (projects, spreads, captions) are in
-// src/home/work.js, shared with the book on /home.
+// Every word on /projects outside the book. The book's own words (projects, spreads, captions) are in work.js.
 
 import { NAV as HOME_NAV } from '../home/content';
 

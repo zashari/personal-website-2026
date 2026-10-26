@@ -1,4 +1,4 @@
-// Page 2 of /home: the projects as an open magazine whose pages turn as the visitor scrolls.
+// /projects: the projects as an open magazine whose pages turn as the visitor scrolls.
 //
 // Each spread is laid out once as a full two-page sheet (Spread below) and every page shows its half of it through
 // a window, so photos and headlines can run across the gutter as in print. The book is a stack of leaves: leaf i
@@ -18,8 +18,8 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
 import { domToCanvas } from 'modern-screenshot';
 import { CLOSING, ISSUE, PROJECTS, SPREADS } from './work';
-import coverAvif from './assets/images/reel/06.avif';
-import coverWebp from './assets/images/reel/06.webp';
+import coverAvif from '../home/assets/images/reel/06.avif';
+import coverWebp from '../home/assets/images/reel/06.webp';
 import deskAvif from '../temp/assets/images/photo-professional-desk.avif';
 import deskWebp from '../temp/assets/images/photo-professional-desk.webp';
 import workAvif from '../temp/assets/images/photo-professional-1.avif';
@@ -604,13 +604,7 @@ function TurningBook({ rotated, onUpright, memory }) {
       };
       ScrollTrigger.addEventListener('refreshInit', onRefreshInit);
       ScrollTrigger.addEventListener('refresh', onRefresh);
-      // The landing above sets its own height after layout (and again on short windows), which moves the track
-      // without a window resize; re-measure the trigger whenever it changes.
-      const above = sectionRef.current.closest('.bk-section')?.previousElementSibling;
-      const observer = new ResizeObserver(() => ScrollTrigger.refresh());
-      if (above) observer.observe(above);
       return () => {
-        observer.disconnect();
         ScrollTrigger.removeEventListener('refreshInit', onRefreshInit);
         ScrollTrigger.removeEventListener('refresh', onRefresh);
         applyRef.current = () => {};
@@ -702,15 +696,6 @@ export default function Book() {
       return false; // storage blocked: the turned book is the default
     }
   });
-  // Arriving at /home/#work (the Work link on /about): the browser looks for #work before React has rendered it, so
-  // it never scrolls; open on the book once the landing above has its height. A reload or back/forward keeps the
-  // browser's own restored position.
-  useEffect(() => {
-    const [entry] = performance.getEntriesByType('navigation');
-    if (window.location.hash !== '#work' || entry?.type === 'reload' || entry?.type === 'back_forward') return undefined;
-    const raf = requestAnimationFrame(() => document.getElementById('work')?.scrollIntoView({ behavior: 'instant' }));
-    return () => cancelAnimationFrame(raf);
-  }, []);
   let view = 'turning';
   if (touchPortrait) view = upright ? 'stacked' : 'rotated';
   else if (narrow) view = 'stacked';

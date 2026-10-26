@@ -1,14 +1,14 @@
 import { useLayoutEffect, useRef } from 'react';
-import Book from '../home/Book';
+import Book from './Book';
 import { BrandLink, NavItem, backIfPrevious } from '../home/Brand';
 import ModeSwitch from '../home/ModeSwitch';
 import { useTheme } from '../home/theme';
 import { CURRENT, HEADING, HOME, NAV } from './content';
 
-// /projects: the work book from /home on a page of its own, opened by Work in the header. The header stays fixed on
-// top and the colour mode switch on the bottom edge while the book turns between them; their heights are handed to
-// book.css as --header-h and --footer-h, which keep the sticky stage clear of both. They change as fonts load and as
-// the header wraps on phones, so they are measured, not assumed.
+// /projects: the work book, opened by Work in the header. The header stays fixed on top and the colour mode switch on
+// the bottom edge while the book turns between them; their heights are handed to book.css as --header-h and
+// --footer-h, which keep the sticky stage clear of both. They change as fonts load and as the header wraps on phones,
+// so they are measured, not assumed.
 function useHeightVar(ref, name) {
   useLayoutEffect(() => {
     const element = ref.current;

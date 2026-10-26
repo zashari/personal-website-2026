@@ -1,4 +1,4 @@
-// Every word in the /home work book (page 2, under the landing). Layouts live in Book.jsx; change only the text here.
+// Every word in the /projects work book. Layouts live in Book.jsx; change only the text here.
 // The projects are the ones on /temp (src/temp/content/dossier.js), rewritten for a magazine instead of a dossier.
 
 export const ISSUE = {

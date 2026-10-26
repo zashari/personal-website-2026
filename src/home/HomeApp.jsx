@@ -3,7 +3,6 @@ import { BRAND, NAME, NAV, PHOTO_ALT, ROLES, SOCIALS, TOUCH_LABEL } from './cont
 import spiral from './assets/golden-spiral.svg';
 import photoAvif from './assets/images/photo.avif';
 import photoWebp from './assets/images/photo.webp';
-import Book from './Book';
 import ModeSwitch from './ModeSwitch';
 import { BrandLink, MaybeLink, NavItem, SpacedLabel } from './Brand';
 import SphereLens, { LENS_SUPPORTED } from './SphereLens';
@@ -515,8 +514,6 @@ export default function HomeApp() {
 
         <ModeSwitch theme={theme} onChange={setTheme} ref={footerRef} />
       </main>
-
-      <Book />
     </>
   );
 }

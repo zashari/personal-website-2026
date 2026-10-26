@@ -1,5 +1,5 @@
 /* /projects: the shared header fixed on top and the colour mode switch fixed on the bottom edge, with the work book
-   between them (src/home/book.css, loaded by Book.jsx; the switch's own styles are in src/home/mode-switch.css). */
+   between them (book.css, loaded by Book.jsx; the switch's own styles are in src/home/mode-switch.css). */
 
 @import '../home/brand.css';
 
