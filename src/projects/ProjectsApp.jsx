@@ -2,6 +2,8 @@ import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import Book from './Book';
 import Shelf from './Shelf';
+import FrameDecoration from '../about/FrameDecoration';
+import { FRAME } from '../about/frame';
 import { HomeNav, backIfPrevious } from '../home/Brand';
 import ModeSwitch from '../home/ModeSwitch';
 import { useTheme } from '../home/theme';
@@ -118,6 +120,26 @@ function chooseBook(key, done) {
     .to(chosen, { scale: 1.12, opacity: 0, duration: 0.25, ease: 'power2.in' }, 0.45);
 }
 
+// Behind the shelf, /about's frame decoration: its hand-drawn lines and the row of numbers along the bottom, on the
+// same 1920 x 1080 frame scaled to the window's width and resting on its bottom edge, with the dashed line through the
+// middle book. Narrow or upright windows keep only the dashed line, as /about's column does (projects.css).
+function ShelfFrame() {
+  const [scale, setScale] = useState(() => document.documentElement.clientWidth / FRAME.width);
+  useEffect(() => {
+    const update = () => setScale(document.documentElement.clientWidth / FRAME.width);
+    window.addEventListener('resize', update);
+    return () => window.removeEventListener('resize', update);
+  }, []);
+  return (
+    <div className="projects-frame" aria-hidden="true">
+      <div className="projects-frame-stage" style={{ width: FRAME.width, height: FRAME.height, scale: String(scale) }}>
+        <FrameDecoration />
+      </div>
+      <span className="frame-dash projects-dash" />
+    </div>
+  );
+}
+
 export default function ProjectsApp() {
   const headerRef = useRef(null);
   const footerRef = useRef(null);
@@ -154,6 +176,7 @@ export default function ProjectsApp() {
       <header className="home-header projects-header" ref={headerRef}>
         <HomeNav current={CURRENT} brand={HOME} onBrandClick={backIfPrevious} />
       </header>
+      {!open && <ShelfFrame />}
       <main className="projects" data-view={open ? 'book' : 'shelf'}>
         <h1 className="home-visually-hidden">{open ? PROJECTS[open].title : HEADING}</h1>
         {open ? <Book key={open} project={open} onClose={onClose} /> : <Shelf onOpen={onOpen} focusKey={focusKey} />}

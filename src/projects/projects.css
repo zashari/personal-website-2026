@@ -91,3 +91,40 @@ body {
 .projects[data-view='book'] .bk-section {
   animation: projects-arrive 0.5s cubic-bezier(0.2, 0.7, 0.2, 1) both;
 }
+
+/* ---- Behind the shelf: /about's frame decoration (ShelfFrame in ProjectsApp.jsx) ---- */
+
+.projects-frame {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* The 1920 x 1080 frame, scaled to the window's width from its bottom-left corner. */
+.projects-frame-stage {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  transform-origin: 0 100%;
+}
+
+/* Through the middle of the space between the bars, where the middle book rests. */
+.projects-dash {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(var(--header-h, 0px) + (100svh - var(--header-h, 0px) - var(--footer-h, 0px)) / 2 - 1px);
+}
+
+/* The frame's numbers sit in the bottom band, so the bar there lets them show while the shelf is up. */
+:root:has(.projects-frame) .projects-footer {
+  background: none;
+}
+
+/* Narrow or upright windows: the frame would shrink past reading, so only the dashed line stays (as on /about). */
+@media (max-width: 1099px), (max-aspect-ratio: 6/5) {
+  .projects-frame-stage {
+    display: none;
+  }
+}
