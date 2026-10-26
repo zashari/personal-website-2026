@@ -211,7 +211,9 @@ function Stage({ stage, selected, onSelect, onOpen }) {
   const triggerRef = useRef(null);
   const [scene, setScene] = useState('hero');
   const [peek, setPeek] = useState(null);
-  const shown = peek ?? selected;
+  // The project in the preview: pointed at or chosen, but only on the showcase; scrolling back up to the hero brings its
+  // photo back, and the choice returns with the showcase.
+  const shown = scene === 'showcase' ? (peek ?? selected) : null;
   const project = PROJECTS[shown];
 
   useGSAP(
