@@ -4,7 +4,7 @@ import spiral from './assets/golden-spiral.svg';
 import photoAvif from './assets/images/photo.avif';
 import photoWebp from './assets/images/photo.webp';
 import Book from './Book';
-import { BrandLink, SpacedLabel } from './Brand';
+import { BrandLink, MaybeLink, NavItem, SpacedLabel } from './Brand';
 import SphereLens, { LENS_SUPPORTED } from './SphereLens';
 import Strands from './Strands';
 import { useTheme } from './theme';
@@ -67,32 +67,6 @@ function textBox({ x, y, font, size, lineHeight, capTrim = false }) {
 const SOCIAL_X = { tiktok: 742, github: 920, instagram: 1096 };
 const SMALL_SERIF = { font: 'times', size: 20, capTrim: true };
 const NAME_TEXT = { font: 'times', size: 100, lineHeight: 110 };
-
-// A link without a destination yet (href: null in content.js) still looks and behaves like a link (pointer, hover,
-// keyboard focus) but does nothing when clicked, and tells assistive tech it is not available yet.
-const preventNavigation = (event) => event.preventDefault();
-
-function MaybeLink({ href, className, children }) {
-  if (!href) {
-    return (
-      <a className={className} href="#" aria-disabled="true" onClick={preventNavigation}>
-        {children}
-      </a>
-    );
-  }
-  const external = /^https?:/.test(href);
-  return (
-    <a className={className} href={href} {...(external && { target: '_blank', rel: 'noopener noreferrer' })}>
-      {children}
-    </a>
-  );
-}
-
-// Optical left alignment: glyphs carry their own side bearings (and the Italianno Z a swash), so a title and its label
-// that start at the same x do not start inking at the same x. Each title is nudged by the gap measured in Chrome at
-// 4x (title ink minus label ink, in em of the title size). Re-measure if a title or label's first letter changes.
-// The logotype's own shift (0.0625) lives with it in Brand.jsx.
-const TITLE_INK_SHIFT = { work: 0.025, workflow: -0.0125, contact: -0.025 };
 
 // The centre photo. While the pointer is over it, the photos in REEL play in turn every 0.2s, looping, as hard cuts
 // like a flipbook, each with a camera shutter sound; leaving shows the original again. Frames keep their own aspect ratio, fitted inside the photo's box. The frames are stacked under the photo and only mounted once the
@@ -408,17 +382,6 @@ function useSpheres() {
   const on = state === 'entering' || state === 'on';
   const toggle = () => setState(on ? 'leaving' : 'entering');
   return [state, on, toggle];
-}
-
-function NavItem({ id, title, label, href }) {
-  return (
-    <MaybeLink href={href} className="home-link home-nav-item">
-      <span className="home-nav-title" style={{ marginLeft: `${TITLE_INK_SHIFT[id] ?? 0}em` }}>
-        {title}
-      </span>
-      <SpacedLabel text={label} />
-    </MaybeLink>
-  );
 }
 
 // Fits the stage's focus box into the window below the header, centred, and picks the arrangement by the shape of

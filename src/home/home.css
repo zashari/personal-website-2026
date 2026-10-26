@@ -309,33 +309,6 @@ body {
 
 /* ---- Header: fluid HTML. Sizes are in em of the title size; the logotype keeps Figma's proportions ---- */
 
-.home-nav {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  column-gap: clamp(16px, 3.8vw, 72px);
-}
-
-.home-nav-group {
-  display: flex;
-  align-items: flex-start;
-  gap: clamp(16px, 3.5vw, 68px);
-}
-
-/* Small phones: the two groups no longer fit on one line, so the four items become a 2 x 2 grid. */
-@media (max-width: 420px) {
-  .home-nav {
-    display: grid;
-    grid-template-columns: auto auto;
-    justify-content: space-between;
-    row-gap: 12px;
-  }
-
-  .home-nav-group {
-    display: contents;
-  }
-}
-
 /* ---- Colour mode switch: DARK bottom-left, LIGHT bottom-right, on the header's side margins ----
    Sized in em of the 15 px Figma label (scaled like the header): a 173 x 3 px underline flush with the bottom edge,
    the label's cap top 33 px above the underline. The active mode is blue; the other is --mode-idle. */

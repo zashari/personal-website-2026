@@ -1,5 +1,30 @@
-// The "Zashari" logotype with its small spaced label, as a header link: on /home it leads to /about (ABOUT ME), and on
-// /about back home (HOME). Styles in brand.css.
+// The header shared by /home and /about: the "Zashari" logotype with its small spaced label, as a header link (on /home
+// it leads to /about, ABOUT ME, and on /about back home, HOME), and the other nav items. Styles in brand.css.
+
+// A link without a destination yet (href: null in content.js) still looks and behaves like a link (pointer, hover,
+// keyboard focus) but does nothing when clicked, and tells assistive tech it is not available yet.
+const preventNavigation = (event) => event.preventDefault();
+
+export function MaybeLink({ href, className, style, children }) {
+  if (!href) {
+    return (
+      <a className={className} style={style} href="#" aria-disabled="true" onClick={preventNavigation}>
+        {children}
+      </a>
+    );
+  }
+  const external = /^https?:/.test(href);
+  return (
+    <a
+      className={className}
+      style={style}
+      href={href}
+      {...(external && { target: '_blank', rel: 'noopener noreferrer' })}
+    >
+      {children}
+    </a>
+  );
+}
 
 // The label opens up on hover by sliding each letter (letter n moves n x 0.15em). A transform renders at sub-pixel
 // precision on the compositor, where animating letter-spacing snaps glyphs a whole pixel at a time and looks stiff.
@@ -16,9 +41,22 @@ export function SpacedLabel({ text }) {
   );
 }
 
-// Optical left alignment: the Italianno Z's swash starts inking right of its box, so the logotype is nudged to line up
-// with its label (measured in Chrome at 4x, in em of the title size; see TITLE_INK_SHIFT in HomeApp.jsx).
+// Optical left alignment: glyphs carry their own side bearings (and the Italianno Z a swash), so a title and its label
+// that start at the same x do not start inking at the same x. Each title is nudged by the gap measured in Chrome at
+// 4x (title ink minus label ink, in em of the title size). Re-measure if a title or label's first letter changes.
 const LOGO_INK_SHIFT = 0.0625;
+const TITLE_INK_SHIFT = { work: 0.025, workflow: -0.0125, contact: -0.025 };
+
+export function NavItem({ id, title, label, href }) {
+  return (
+    <MaybeLink href={href} className="home-link home-nav-item">
+      <span className="home-nav-title" style={{ marginLeft: `${TITLE_INK_SHIFT[id] ?? 0}em` }}>
+        {title}
+      </span>
+      <SpacedLabel text={label} />
+    </MaybeLink>
+  );
+}
 
 export function BrandLink({ href, label, onClick }) {
   return (
