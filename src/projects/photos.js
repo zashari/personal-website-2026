@@ -31,9 +31,12 @@ import cameraAvif from '../home/assets/images/reel/12.avif';
 import cameraWebp from '../home/assets/images/reel/12.webp';
 
 // The hero's photo inside its brackets; it grows into the showcase's preview on scroll.
-export const HERO_PHOTO = { thumb: { avif: heroThumbAvif, webp: heroThumbWebp }, large: { avif: heroAvif, webp: heroWebp } };
+export const HERO_PHOTO = {
+  thumb: { avif: heroThumbAvif, webp: heroThumbWebp },
+  large: { avif: heroAvif, webp: heroWebp },
+};
 
-// Each project's photo: thumb on the showcase strip, large on its book's cover and pages.
+// Each project's photo: thumb on the showcase strip, large in the showcase's preview and on its book's cover and pages.
 export const PHOTOS = {
   fraud: { thumb: { avif: fraudThumbAvif, webp: fraudThumbWebp }, large: { avif: fraudAvif, webp: fraudWebp } },
   alzheimer: {
@@ -49,12 +52,6 @@ export const PHOTOS = {
     thumb: { avif: gamifiedThumbAvif, webp: gamifiedThumbWebp },
     large: { avif: gamifiedAvif, webp: gamifiedWebp },
   },
-};
-
-// What the showcase's big preview shows for a project: its photo, or a screenshot where there is one.
-export const PREVIEWS = {
-  ...Object.fromEntries(Object.entries(PHOTOS).map(([key, photo]) => [key, photo.large])),
-  gamified: { avif: siteAvif, webp: siteWebp },
 };
 
 // The full-bleed photo facing the text on a story spread (Book.jsx).

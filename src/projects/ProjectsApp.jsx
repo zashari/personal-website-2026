@@ -32,8 +32,6 @@ function useHeightVar(ref, name) {
 // the project that was open.
 const KEY_OF = Object.fromEntries(Object.entries(PROJECTS).map(([key, p]) => [p.slug, key]));
 const bookInUrl = () => KEY_OF[new URLSearchParams(window.location.search).get('p')] ?? null;
-// The project the showcase rests on at first, as in the design.
-const FIRST_SHOWN = 'gamified';
 
 // Once the showcase has rendered: put focus back on the project that was open, without scrolling to it.
 function focusProject(key) {
@@ -109,7 +107,8 @@ export default function ProjectsApp() {
   useHeightVar(headerRef, '--header-h');
   useHeightVar(footerRef, '--footer-h');
   const [theme, setTheme] = useTheme();
-  const [selected, setSelected] = useState(() => bookInUrl() ?? FIRST_SHOWN);
+  // The project the showcase's preview rests on; none at first, so it keeps the hero's photo.
+  const [selected, setSelected] = useState(bookInUrl);
   const { open, openBook, closeBook } = useProjectRoute(setSelected);
   const [busy, setBusy] = useState(false);
 
