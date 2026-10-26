@@ -1,3 +1,5 @@
+import { BRAND, NAV } from './content';
+
 // The header shared by /home and /about: the "Zashari" logotype with its small spaced label, as a header link (on /home
 // it leads to /about, ABOUT ME, and on /about back home, HOME), and the other nav items. Styles in brand.css.
 
@@ -60,7 +62,7 @@ export function NavItem({ id, title, label, href, current = false }) {
   );
 }
 
-// A link back to the page the visitor just came from (the logotype's HOME on /about and /projects): when the previous
+// A link back to the page the visitor just came from (the logotype's HOME on /about): when the previous
 // history entry is that page, a plain click goes back through history instead, so the browser restores the page as
 // they left it (scroll position included) and the history does not grow home, about, home, about. Only same-site
 // entries are visible to the Navigation API, so a visitor who arrived from elsewhere simply follows the link.
@@ -88,5 +90,29 @@ export function BrandLink({ href, label, onClick }) {
       </span>
       <SpacedLabel text={label} />
     </a>
+  );
+}
+
+// /home's header nav, also used on /projects: the logotype (ABOUT ME) and Work on the left, Workflow and Contact me on
+// the right. current is the key of the page the visitor is on, if it is one of the items.
+export function HomeNav({ current }) {
+  const item = (entry) => (
+    <NavItem
+      key={entry.key}
+      id={entry.key}
+      title={entry.title}
+      label={entry.label}
+      href={entry.href}
+      current={entry.key === current}
+    />
+  );
+  return (
+    <nav className="home-nav" aria-label="Main">
+      <div className="home-nav-group">
+        <BrandLink href={BRAND.href} label={BRAND.label} />
+        {item(NAV[0])}
+      </div>
+      <div className="home-nav-group">{NAV.slice(1).map(item)}</div>
+    </nav>
   );
 }

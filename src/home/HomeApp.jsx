@@ -1,10 +1,10 @@
 import { Fragment, useEffect, useLayoutEffect, useRef, useState } from 'react';
-import { BRAND, NAME, NAV, PHOTO_ALT, ROLES, SOCIALS, TOUCH_LABEL } from './content';
+import { NAME, PHOTO_ALT, ROLES, SOCIALS, TOUCH_LABEL } from './content';
 import spiral from './assets/golden-spiral.svg';
 import photoAvif from './assets/images/photo.avif';
 import photoWebp from './assets/images/photo.webp';
 import ModeSwitch from './ModeSwitch';
-import { BrandLink, MaybeLink, NavItem, SpacedLabel } from './Brand';
+import { HomeNav, MaybeLink, SpacedLabel } from './Brand';
 import SphereLens, { LENS_SUPPORTED } from './SphereLens';
 import Strands from './Strands';
 import { useTheme } from './theme';
@@ -499,17 +499,7 @@ export default function HomeApp() {
         </div>
 
         <header className="home-header" ref={headerRef}>
-          <nav className="home-nav" aria-label="Main">
-            <div className="home-nav-group">
-              <BrandLink href={BRAND.href} label={BRAND.label} />
-              <NavItem id={NAV[0].key} title={NAV[0].title} label={NAV[0].label} href={NAV[0].href} />
-            </div>
-            <div className="home-nav-group">
-              {NAV.slice(1).map((item) => (
-                <NavItem key={item.key} id={item.key} title={item.title} label={item.label} href={item.href} />
-              ))}
-            </div>
-          </nav>
+          <HomeNav />
         </header>
 
         <ModeSwitch theme={theme} onChange={setTheme} ref={footerRef} />

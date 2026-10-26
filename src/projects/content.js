@@ -1,12 +1,6 @@
 // Every word on /projects outside the book. The book's own words (projects, spreads, captions) are in work.js.
 
-import { NAV as HOME_NAV } from '../home/content';
-
 export const HEADING = 'Projects by Zaky Ashari';
 
-// The header's logotype leads back home; its small label says so (on /home the same logotype reads ABOUT ME).
-export const HOME = { label: 'HOME', href: '/home/' };
-
-// The other header items are /home's; Work is this page, so it shows as the current one.
-export const NAV = HOME_NAV;
+// The header is /home's (words in src/home/content.js); Work is this page, so it shows as the current one.
 export const CURRENT = 'work';
