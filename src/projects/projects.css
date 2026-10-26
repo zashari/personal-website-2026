@@ -1,0 +1,51 @@
+/* /projects: the shared header, fixed on top, over the work book (src/home/book.css, loaded by Book.jsx). */
+
+@import '../home/brand.css';
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* The same colour modes as /home and /about (the saved mode is applied in projects/index.html before first paint). */
+:root {
+  --bg: #dbd5c9;
+  --ink: #000;
+  --accent: #0015ff;
+  --logo-stroke: currentColor;
+  --hover-ease: cubic-bezier(0.45, 0, 0.25, 1);
+  --hover-time: 0.9s;
+}
+
+:root[data-theme='dark'] {
+  --bg: #202020;
+  --ink: #fff;
+  --accent: #ff4400;
+  /* Figma keeps the Z's 1 px outline black on the dark background too. */
+  --logo-stroke: #000;
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  overflow-x: hidden;
+  overflow-x: clip;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: geometricPrecision;
+}
+
+/* /home's header, at the same place and size, but fixed with the page colour behind it so the book turns under it.
+   The bottom padding keeps the book's top edge off the labels. */
+.projects-header {
+  position: fixed;
+  z-index: 10;
+  padding-bottom: clamp(12px, 2.5dvh, 28px);
+  background: var(--bg);
+}
+
+/* The stacked pages (narrow windows, or the upright reading on a phone) scroll as plain content, so they start below
+   the header; the turning book keeps it clear with its sticky stage instead (book.css). */
+.projects .bk-section:not(:has(> .bk-track)) {
+  padding-top: var(--header-h);
+}
