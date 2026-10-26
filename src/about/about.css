@@ -4,15 +4,7 @@
 /* /home's header logotype, the way back home (with its fonts and the page transition). */
 @import '../home/brand.css';
 
-/* CaskaydiaCove NF, cut down to Latin text by scripts/build-about-assets.mjs. SIL Open Font License 1.1. */
-@font-face {
-  font-family: 'CaskaydiaCove NF';
-  src: url('./assets/fonts/caskaydia-cove-regular.woff2') format('woff2');
-  font-weight: 400;
-  font-style: normal;
-  font-display: block;
-}
-
+/* The italic of CaskaydiaCove NF (the regular is with the frame's numbers, in frame-decoration.css). */
 @font-face {
   font-family: 'CaskaydiaCove NF';
   src: url('./assets/fonts/caskaydia-cove-italic.woff2') format('woff2');
@@ -36,7 +28,7 @@
 }
 
 /* Colour modes, from the Figma frames aboutme-desktop-light (the default) and aboutme-desktop-dark. The hand-drawn
-   lines (#919191) and the row of numbers (#474747) are the same in both. */
+   lines and the row of numbers are the same in both (their colours are in frame-decoration.css). */
 :root {
   --bg: #dbd5c9;
   --ink: #000;
@@ -44,8 +36,6 @@
   --resume: #000;
   --mode-idle: #000;
   --accent: #0015ff;
-  --numbers: #474747;
-  --rule: #919191;
   --logo-stroke: currentColor; /* the logotype's Z outline, as on /home */
   --mono: 'CaskaydiaCove NF', ui-monospace, monospace;
   --theme-time: 0.6s;
@@ -119,8 +109,7 @@ body {
 .about-edu-years,
 .about-edu-title,
 .about-resume-label,
-.about-sound,
-.about-numbers span {
+.about-sound {
   letter-spacing: -0.02em;
 }
 
@@ -141,13 +130,6 @@ body {
   display: block;
   object-fit: cover;
   background: var(--rule);
-}
-
-/* The dashed line: 2 px dashes of 4 px with 4 px gaps, in the phase Figma draws them from the frame's right edge. */
-.about-dash {
-  height: 2px;
-  background: linear-gradient(90deg, var(--rule) 0 2px, transparent 2px 6px, var(--rule) 6px 8px) 0 0 / 8px 2px repeat-x;
-  pointer-events: none;
 }
 
 /* The header with the logotype. On the stage it lies over the frame's empty top band, at /home's place and size, so
@@ -233,25 +215,12 @@ body {
   position: static;
 }
 
-.about-stage .about-numbers span,
 .about-stage .about-edu-years,
 .about-stage .about-edu-title,
 .about-stage .about-resume-label,
 .about-stage .about-sound,
 .about-stage .about-edu-heading {
   white-space: pre;
-}
-
-.about-stage .about-numbers span {
-  color: var(--numbers);
-}
-
-.about-stage .about-lines {
-  left: 0;
-  top: 0;
-  max-width: none;
-  pointer-events: none;
-  user-select: none;
 }
 
 .about-stage .about-resume {
@@ -302,7 +271,7 @@ body {
   position: relative;
 }
 
-.about-flow-clip .about-dash {
+.about-flow-clip .frame-dash {
   position: absolute;
   left: -50vw;
   right: -50vw;

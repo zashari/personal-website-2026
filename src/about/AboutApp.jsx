@@ -4,7 +4,8 @@ import { BrandLink, MaybeLink, NavItem, backIfPrevious } from '../home/Brand';
 import ModeSwitch from '../home/ModeSwitch';
 import { useTheme } from '../home/theme';
 import { SOUND_SWITCH_ATTR, useWaveSound } from './useWaveSound';
-import lines from './assets/lines.svg';
+import FrameDecoration from './FrameDecoration';
+import { FRAME, textAt } from './frame';
 import clip from './assets/media/wave.mp4';
 import poster from './assets/media/wave-poster.webp';
 import waves from './assets/media/waves.mp3';
@@ -13,7 +14,6 @@ import waves from './assets/media/waves.mp3';
 // drawn in Figma px on a stage scaled to fit the window, as on /home. Narrow or upright screens get the same content
 // as an ordinary column instead (see useLayout). Above it sits /home's header logotype, in the same place and size,
 // as the way back home.
-const FRAME = { width: 1920, height: 1080 };
 // Below this the 16 px Figma text drops under ~9 px, so short windows scroll instead.
 const MIN_SCALE = 0.55;
 const FLOW_MAX_WIDTH = 1100; // narrower than this, the stage's text would be too small to read
@@ -22,21 +22,6 @@ const FLOW_MAX_ASPECT = 1.2; // and windows less than 1.2 times as wide as tall 
 // kept low enough, or small enough, for the intro to start this far below the header's label.
 const INTRO_TOP = 103;
 const HEADER_GAP = 16;
-
-// Vertical metrics per font, in em, as Chrome measures them (fontBoundingBox at 100 px).
-const METRICS = {
-  mono: { ascent: 0.93, descent: 0.23 }, // CaskaydiaCove NF
-  sans: { ascent: 1.069, descent: 0.293 }, // Open Sans
-  script: { ascent: 0.8, descent: 0.45 }, // Italianno
-};
-
-// The SVG export gives each text line's baseline. A CSS line box puts the baseline half the leading plus the ascent
-// below its top, so the box starts that far above the baseline.
-function textAt({ x, baseline, size, lineHeight, font = 'mono' }) {
-  const { ascent, descent } = METRICS[font];
-  const top = baseline - (lineHeight - (ascent + descent) * size) / 2 - ascent * size;
-  return { left: x, top, fontSize: size, lineHeight: `${lineHeight}px` };
-}
 
 const INTRO_BOX = { ...textAt({ x: 121, baseline: 121.094, size: 16, lineHeight: 25 }), width: 713 };
 const CLIP_BOX = { left: 124, top: 342, width: 713, height: 396 };
@@ -52,10 +37,6 @@ const RESUME_AT = { x: 351, y: 858 };
 const RESUME_TEXT = textAt({ x: 422 - RESUME_AT.x, baseline: 892.094 - RESUME_AT.y, size: 16, lineHeight: 25 });
 // Under the clip, as far below it as the intro text ends above it (14 px), and on the intro's left edge.
 const SOUND_BOX = { left: 121, top: CLIP_BOX.top + CLIP_BOX.height + 14, fontSize: 16, lineHeight: '25px' };
-const NUMBERS = Array.from({ length: 7 }, (_, i) => ({
-  label: String(i + 1).padStart(2, '0'),
-  ...textAt({ x: 77 + 269 * i, baseline: 1037.09, size: 16, lineHeight: 25 }),
-}));
 const DASH_Y = 540; // the dashed line's 2 px band, through the clip's middle
 const DASH_BLEED = 2000; // the dashed line runs past the frame's sides to the window's edges
 
@@ -213,16 +194,9 @@ function Stage({ layout, theme, setTheme, sound }) {
           transform: `translate(${layout.x}px, ${layout.y}px) scale(${layout.scale})`,
         }}
       >
-        <div className="about-numbers" aria-hidden="true">
-          {NUMBERS.map(({ label, ...box }) => (
-            <span key={label} style={box}>
-              {label}
-            </span>
-          ))}
-        </div>
-        <img className="about-lines" src={lines} alt="" width={FRAME.width} height={FRAME.height} draggable={false} />
+        <FrameDecoration />
         <span
-          className="about-dash"
+          className="frame-dash"
           aria-hidden="true"
           style={{ left: -DASH_BLEED, top: DASH_Y, width: FRAME.width + 2 * DASH_BLEED }}
         />
@@ -278,7 +252,7 @@ function Flow({ theme, setTheme, sound }) {
       <h1 className="about-visually-hidden">{PAGE_TITLE}</h1>
       <p className="about-intro">{INTRO}</p>
       <div className="about-flow-clip">
-        <span className="about-dash" aria-hidden="true" />
+        <span className="frame-dash" aria-hidden="true" />
         <WaveClip className="about-clip" />
       </div>
       {sound.supported && <SoundSwitch sound={sound} />}
