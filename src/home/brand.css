@@ -74,7 +74,8 @@
 }
 
 .home-nav-item:hover,
-.home-nav-item:focus-visible {
+.home-nav-item:focus-visible,
+.home-nav-item[aria-current='page'] {
   --logo-stroke: currentColor;
   color: var(--accent);
 }

@@ -1,6 +1,6 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { CLIP_LABEL, EDUCATION, EDUCATION_TITLE, HOME, INTRO, MODES, NAV, PAGE_TITLE, RESUME, SOUND } from './content';
-import { BrandLink, MaybeLink, NavItem } from '../home/Brand';
+import { BrandLink, MaybeLink, NavItem, backIfPrevious } from '../home/Brand';
 import { useTheme } from '../home/theme';
 import { SOUND_SWITCH_ATTR, useWaveSound } from './useWaveSound';
 import lines from './assets/lines.svg';
@@ -132,25 +132,12 @@ function Sparkle() {
   );
 }
 
-// The way home is a plain link, so it works from a shared link or a new tab too. When the visitor came here from
-// /home, a plain click goes back through history instead: the browser restores /home as they left it (scroll position
-// included) and the history does not grow home, about, home, about. Only same-site entries are visible to the
-// Navigation API, so a visitor who arrived from elsewhere simply follows the link.
-function backToHome(event) {
-  if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
-  const nav = window.navigation;
-  const previous = nav?.currentEntry && nav.entries()[nav.currentEntry.index - 1];
-  if (!previous?.url || new URL(previous.url).pathname !== HOME.href) return;
-  event.preventDefault();
-  nav.back();
-}
-
 function Header({ headerRef, variant }) {
   return (
     <header className="home-header about-header" ref={headerRef} data-variant={variant}>
       <nav className="home-nav" aria-label="Main">
         <div className="home-nav-group">
-          <BrandLink href={HOME.href} label={HOME.label} onClick={backToHome} />
+          <BrandLink href={HOME.href} label={HOME.label} onClick={backIfPrevious} />
         </div>
         <div className="home-nav-group">
           {NAV.map((item) => (

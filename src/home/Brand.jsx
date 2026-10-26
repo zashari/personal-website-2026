@@ -5,7 +5,7 @@
 // keyboard focus) but does nothing when clicked, and tells assistive tech it is not available yet.
 const preventNavigation = (event) => event.preventDefault();
 
-export function MaybeLink({ href, className, style, children }) {
+export function MaybeLink({ href, className, style, current = false, children }) {
   if (!href) {
     return (
       <a className={className} style={style} href="#" aria-disabled="true" onClick={preventNavigation}>
@@ -19,6 +19,7 @@ export function MaybeLink({ href, className, style, children }) {
       className={className}
       style={style}
       href={href}
+      aria-current={current ? 'page' : undefined}
       {...(external && { target: '_blank', rel: 'noopener noreferrer' })}
     >
       {children}
@@ -47,15 +48,29 @@ export function SpacedLabel({ text }) {
 const LOGO_INK_SHIFT = 0.0625;
 const TITLE_INK_SHIFT = { work: 0.025, workflow: -0.0125, contact: -0.025 };
 
-export function NavItem({ id, title, label, href }) {
+// current marks the page the visitor is on: the item stays in the accent colour and says so to assistive tech.
+export function NavItem({ id, title, label, href, current = false }) {
   return (
-    <MaybeLink href={href} className="home-link home-nav-item">
+    <MaybeLink href={href} className="home-link home-nav-item" current={current}>
       <span className="home-nav-title" style={{ marginLeft: `${TITLE_INK_SHIFT[id] ?? 0}em` }}>
         {title}
       </span>
       <SpacedLabel text={label} />
     </MaybeLink>
   );
+}
+
+// A link back to the page the visitor just came from (the logotype's HOME on /about and /projects): when the previous
+// history entry is that page, a plain click goes back through history instead, so the browser restores the page as
+// they left it (scroll position included) and the history does not grow home, about, home, about. Only same-site
+// entries are visible to the Navigation API, so a visitor who arrived from elsewhere simply follows the link.
+export function backIfPrevious(event) {
+  if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+  const nav = window.navigation;
+  const previous = nav?.currentEntry && nav.entries()[nav.currentEntry.index - 1];
+  if (!previous?.url || new URL(previous.url).pathname !== event.currentTarget.pathname) return;
+  event.preventDefault();
+  nav.back();
 }
 
 export function BrandLink({ href, label, onClick }) {
