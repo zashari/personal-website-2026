@@ -18,9 +18,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
 import { domToCanvas } from 'modern-screenshot';
 import { CLOSING, ISSUE, PROJECTS, spreadsOf } from './work';
-import { COVER_PHOTOS, STORY_PHOTOS } from './photos';
-import commuteAvif from '../temp/assets/images/photo-personal-1.avif';
-import commuteWebp from '../temp/assets/images/photo-personal-1.webp';
+import { PHOTOS, STORY_PHOTOS } from './photos';
 import PageCurl from './PageCurl';
 import './book.css';
 
@@ -66,14 +64,20 @@ function CoverSpread() {
   return (
     <div className="bk-sheet-inner bk-cover">
       <p className="bk-cover-title">
-        {p.title},
-        <br />
-        {p.date}
+        {p.date ? (
+          <>
+            {p.title},
+            <br />
+            {p.date}
+          </>
+        ) : (
+          p.title
+        )}
       </p>
       <p className="bk-cover-masthead">
         {ISSUE.masthead.split(' · ')[0]} · No. {pad(ORDER.indexOf(project) + 1)}
       </p>
-      <Photo className="bk-cover-strip" {...COVER_PHOTOS[project]} />
+      <Photo className="bk-cover-strip" {...PHOTOS[project].large} />
       <p className="bk-cover-disciplines">{p.category}</p>
       <p className="bk-cover-hint">{ISSUE.hint} →</p>
     </div>
@@ -195,7 +199,7 @@ function StorySpread({ spread }) {
   const photo = STORY_PHOTOS[project];
   return (
     <div className="bk-sheet-inner bk-pair">
-      <PairPage project={PROJECTS[project]} photo={COVER_PHOTOS[project]} side="left" spread={spread} />
+      <PairPage project={PROJECTS[project]} photo={PHOTOS[project].large} side="left" spread={spread} />
       <Photo className="bk-story-photo" {...photo} />
     </div>
   );
@@ -235,33 +239,6 @@ function DossierSpread({ spread }) {
           <p className="bk-stat">{p.stat}</p>
           <p className="bk-caption">{p.statNote}</p>
         </div>
-      </div>
-      <Folios spread={spread} />
-    </div>
-  );
-}
-
-function ClosingSpread({ spread }) {
-  const p = PROJECTS.uplink;
-  return (
-    <div className="bk-sheet-inner bk-closing">
-      <div className="bk-closing-photo">
-        <Photo avif={commuteAvif} webp={commuteWebp} />
-        <span className="bk-closing-stamp">{p.stamp}</span>
-      </div>
-      <div className="bk-closing-page">
-        <p className="bk-caption">
-          {p.category} · {p.date} · {p.stack}
-        </p>
-        <p className="bk-closing-title">{p.title}</p>
-        <p className="bk-body">{p.body}</p>
-      </div>
-      <div className="bk-closing-end">
-        <p className="bk-caption">{CLOSING.kicker}</p>
-        <p className="bk-closing-headline">{CLOSING.headline}</p>
-        <a className="bk-closing-link" href={CLOSING.href} tabIndex={-1}>
-          {CLOSING.label} →
-        </a>
       </div>
       <Folios spread={spread} />
     </div>
@@ -315,7 +292,6 @@ const LAYOUTS = {
   feature: FeatureSpread,
   story: StorySpread,
   dossier: DossierSpread,
-  closing: ClosingSpread,
   end: EndSpread,
 };
 
@@ -343,9 +319,7 @@ function WorkIndex() {
     <div className="home-visually-hidden">
       <article>
         <h2>{p.title}</h2>
-        <p>
-          {p.category}, {p.date}
-        </p>
+        <p>{[p.category, p.date].filter(Boolean).join(', ')}</p>
         <p>{p.body}</p>
       </article>
       <p>

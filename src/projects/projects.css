@@ -1,5 +1,6 @@
-/* /projects: the shared header fixed on top and the colour mode switch fixed on the bottom edge, with the work book
-   between them (book.css, loaded by Book.jsx; the switch's own styles are in src/home/mode-switch.css). */
+/* /projects: the logotype header fixed on top and the colour mode switch fixed on the bottom edge, with the hero and
+   showcase (showcase.css) or a project's book (book.css) between them; the switch's own styles are in
+   src/home/mode-switch.css. */
 
 @import '../home/brand.css';
 
@@ -9,10 +10,14 @@
   box-sizing: border-box;
 }
 
-/* The same colour modes as /home and /about (the saved mode is applied in projects/index.html before first paint). */
+/* The same colour modes as /home and /about (the saved mode is applied in projects/index.html before first paint). From
+   the Figma frames projects-desktop and projects-showcase-desktop: --muted is the strip's numbers and roles, --numbers
+   the hero's column of numbers (the same grey in both modes). */
 :root {
   --bg: #dbd5c9;
   --ink: #000;
+  --muted: #474747;
+  --numbers: #474747;
   --mode-idle: #000;
   --accent: #0015ff;
   --logo-stroke: currentColor;
@@ -24,6 +29,7 @@
 :root[data-theme='dark'] {
   --bg: #202020;
   --ink: #fff;
+  --muted: #d2d2d2;
   --mode-idle: #d2d2d2;
   --accent: #ff4400;
   /* Figma keeps the Z's 1 px outline black on the dark background too. */
@@ -39,8 +45,8 @@ body {
   text-rendering: geometricPrecision;
 }
 
-/* /home's header, at the same place and size, but fixed with the page colour behind it so the book turns under it.
-   The bottom padding keeps the book's top edge off the labels. */
+/* /home's header place and size, fixed, with the page colour behind it so a book turns under it. The bottom padding
+   keeps the book's top edge off the label. */
 .projects-header {
   position: fixed;
   z-index: 10;
@@ -79,51 +85,31 @@ body {
     -webkit-text-stroke-color var(--theme-time) ease !important;
 }
 
-/* The shelf and a book each fade in as they arrive (ProjectsApp.jsx choreographs the way out). */
+/* The scenes and a book each fade in as they arrive (ProjectsApp.jsx fades the way out). */
 @keyframes projects-arrive {
   from {
     opacity: 0;
-    scale: 0.97;
   }
 }
 
-.projects[data-view='shelf'] .shelf-list,
+.projects[data-view='showcase'] .pj,
 .projects[data-view='book'] .bk-section {
   animation: projects-arrive 0.5s cubic-bezier(0.2, 0.7, 0.2, 1) both;
 }
 
-/* ---- Behind the shelf: /about's frame decoration (ShelfFrame in ProjectsApp.jsx) ---- */
-
-.projects-frame {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
+/* The bars span the window, but only their links and buttons take the pointer: the showcase's strip lies under the
+   header's band and must stay reachable. */
+.projects-header,
+.projects-footer {
   pointer-events: none;
 }
 
-/* The 1920 x 1080 frame, placed and scaled by ShelfFrame as /about places its stage. */
-.projects-frame-stage {
-  position: absolute;
-  left: 0;
-  top: 0;
-  transform-origin: 0 0;
+.projects-header a {
+  pointer-events: auto;
 }
 
-/* The dashed line, the shelf's middle line: inside the frame as on /about, or across the window without one. */
-.projects-frame-dash {
-  position: absolute;
-}
-
-.projects-dash {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: calc(var(--shelf-mid, 50svh) - 1px);
-}
-
-/* While the shelf is up both bars are clear, as on /about: the frame's numbers show in the bottom band and its lines
-   run on behind the header. The books fade out before they reach either bar (shelf.css). */
-:root:has(.projects-frame) :is(.projects-header, .projects-footer) {
+/* While the scenes are up on the stage both bars are clear, as in the design: the hero's lines run on behind them.
+   The column on narrow screens scrolls under the bars, so there they keep the page colour. */
+:root:has(.pj[data-variant='stage']) :is(.projects-header, .projects-footer) {
   background: none;
 }
-

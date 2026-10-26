@@ -7,7 +7,7 @@ import { BRAND, NAV } from './content';
 // keyboard focus) but does nothing when clicked, and tells assistive tech it is not available yet.
 const preventNavigation = (event) => event.preventDefault();
 
-export function MaybeLink({ href, className, style, current = false, children }) {
+export function MaybeLink({ href, className, style, children }) {
   if (!href) {
     return (
       <a className={className} style={style} href="#" aria-disabled="true" onClick={preventNavigation}>
@@ -21,7 +21,6 @@ export function MaybeLink({ href, className, style, current = false, children })
       className={className}
       style={style}
       href={href}
-      aria-current={current ? 'page' : undefined}
       {...(external && { target: '_blank', rel: 'noopener noreferrer' })}
     >
       {children}
@@ -50,10 +49,9 @@ export function SpacedLabel({ text }) {
 const LOGO_INK_SHIFT = 0.0625;
 const TITLE_INK_SHIFT = { work: 0.025, workflow: -0.0125, contact: -0.025 };
 
-// current marks the page the visitor is on, for assistive tech; it looks like any other item.
-export function NavItem({ id, title, label, href, current = false }) {
+export function NavItem({ id, title, label, href }) {
   return (
-    <MaybeLink href={href} className="home-link home-nav-item" current={current}>
+    <MaybeLink href={href} className="home-link home-nav-item">
       <span className="home-nav-title" style={{ marginLeft: `${TITLE_INK_SHIFT[id] ?? 0}em` }}>
         {title}
       </span>
@@ -93,24 +91,15 @@ export function BrandLink({ href, label, onClick }) {
   );
 }
 
-// /home's header nav, also used on /projects: the logotype and Work on the left, Workflow and Contact me on the right.
-// The logotype leads to BRAND (ABOUT ME) unless a page passes its own brand link ({ label, href }) and onBrandClick.
-// current is the key of the page the visitor is on, if it is one of the items.
-export function HomeNav({ current, brand = BRAND, onBrandClick }) {
+// /home's header nav: the logotype (ABOUT ME) and Work on the left, Workflow and Contact me on the right.
+export function HomeNav() {
   const item = (entry) => (
-    <NavItem
-      key={entry.key}
-      id={entry.key}
-      title={entry.title}
-      label={entry.label}
-      href={entry.href}
-      current={entry.key === current}
-    />
+    <NavItem key={entry.key} id={entry.key} title={entry.title} label={entry.label} href={entry.href} />
   );
   return (
     <nav className="home-nav" aria-label="Main">
       <div className="home-nav-group">
-        <BrandLink href={brand.href} label={brand.label} onClick={onBrandClick} />
+        <BrandLink href={BRAND.href} label={BRAND.label} />
         {item(NAV[0])}
       </div>
       <div className="home-nav-group">{NAV.slice(1).map(item)}</div>

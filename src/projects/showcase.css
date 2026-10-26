@@ -1,0 +1,392 @@
+/* /projects hero and showcase (Showcase.jsx). On the stage every size is Figma px inside the 1920 x 1080 frame; the
+   column for narrow screens at the end is ordinary fluid CSS. Colours come from projects.css (--ink, --muted,
+   --numbers); the hand-drawn lines are #919191 in both modes, inside their SVG files. */
+
+/* CaskaydiaCove NF: the strip and the preview's text (400), and the roles in brackets (SemiLight, 350). */
+@font-face {
+  font-family: 'CaskaydiaCove NF';
+  src: url('../about/assets/fonts/caskaydia-cove-regular.woff2') format('woff2');
+  font-weight: 400;
+  font-display: block;
+}
+
+@font-face {
+  font-family: 'CaskaydiaCove NF';
+  src: url('./assets/fonts/caskaydia-cove-semilight.woff2') format('woff2');
+  font-weight: 350;
+  font-display: block;
+}
+
+/* Open Sans Regular cut down to the two brackets, and Bold for the hero's words (the file /home ships). */
+@font-face {
+  font-family: 'Open Sans';
+  src: url('./assets/fonts/open-sans-brackets.woff2') format('woff2');
+  font-weight: 400;
+  font-display: block;
+  unicode-range: U+0028-0029;
+}
+
+@font-face {
+  font-family: 'Open Sans';
+  src: url('../home/assets/fonts/open-sans-bold.ttf') format('truetype');
+  font-weight: 700;
+  font-display: block;
+}
+
+/* JMH Typewriter Bold, the asterisk: Jorge Morón's font, shipped as the unmodified file. */
+@font-face {
+  font-family: 'JMH Typewriter';
+  src: url('./assets/fonts/jmh-typewriter-bold.ttf') format('truetype');
+  font-weight: 700;
+  font-display: block;
+}
+
+/* ---- Stage: one screen of scroll turns the hero into the showcase; the stage stays put while it does ---- */
+
+.pj-track {
+  height: 200svh;
+}
+
+.pj-sticky {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  overflow: hidden;
+  overflow: clip;
+}
+
+.pj-stage {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform-origin: 0 0;
+}
+
+.pj-stage :is(span, img, picture, a, h2) {
+  position: absolute;
+}
+
+.pj-line {
+  left: 0;
+  top: 0;
+  width: 1920px;
+  height: 1080px;
+  pointer-events: none;
+  user-select: none;
+}
+
+.pj-line img {
+  left: 0;
+  top: 0;
+  max-width: none;
+}
+
+/* A line's run past the frame: solid, or dashed in 2 px dashes with 4 px gaps, as Figma draws them. */
+.pj-bleed {
+  background: #919191;
+}
+
+.pj-bleed[data-dashed] {
+  background: repeating-linear-gradient(90deg, #919191 0 2px, transparent 2px 6px);
+}
+
+.pj-line-hero-dash .pj-bleed[data-dashed] {
+  background: repeating-linear-gradient(0deg, #919191 0 2px, transparent 2px 6px);
+}
+
+.pj-line-hero-circle {
+  transform-origin: 959.9px 540.2px;
+}
+
+.pj-line-showcase-circle,
+.pj-line-showcase-triangle {
+  opacity: 0;
+}
+
+.pj-line-showcase-triangle {
+  transform-origin: 251px 541px;
+}
+
+/* ---- Hero ---- */
+
+.pj-hero {
+  font: inherit;
+}
+
+.pj-word,
+.pj-bracket-small {
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 700;
+  white-space: pre;
+  color: var(--ink);
+}
+
+.pj-numbers span {
+  font-family: 'CaskaydiaCove NF', ui-monospace, monospace;
+  letter-spacing: -0.02em;
+  white-space: pre;
+  color: var(--numbers);
+}
+
+.pj-bracket-small,
+.pj-bracket-big,
+.pj-asterisk {
+  transform-origin: 0 0;
+  pointer-events: none;
+}
+
+.pj-bracket-big {
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  opacity: 0;
+}
+
+.pj-asterisk {
+  font-family: 'JMH Typewriter', monospace;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+/* ---- Preview: the hero's photo, grown into the showcase's frame; each project's image is stacked in it ---- */
+
+.pj-preview {
+  display: block;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+[data-scene='showcase'] .pj-preview {
+  pointer-events: auto;
+}
+
+.pj-preview :is(picture, img) {
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.pj-preview img {
+  position: static;
+  display: block;
+  object-fit: cover;
+}
+
+.pj-preview-image {
+  opacity: 0;
+  transition: opacity 0.45s var(--hover-ease);
+}
+
+.pj-preview-image[data-shown] {
+  opacity: 1;
+}
+
+.pj-preview:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 10px;
+}
+
+.pj-preview-text {
+  opacity: 0;
+}
+
+.pj-preview-title,
+.pj-preview-role {
+  font-family: 'CaskaydiaCove NF', ui-monospace, monospace;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  animation: pj-swap 0.35s var(--hover-ease) both;
+}
+
+.pj-preview-title {
+  /* "GAMIFIED PERSONAL" on the first line, as in the design. */
+  max-width: 19ch;
+  color: var(--ink);
+}
+
+.pj-preview-role {
+  max-width: 9.5ch;
+  font-weight: 350;
+  text-align: right;
+  color: var(--muted);
+}
+
+@keyframes pj-swap {
+  from {
+    opacity: 0;
+  }
+}
+
+/* ---- Strip: five projects across the top; the one in the preview is full strength, the others at half ---- */
+
+.pj-strip {
+  position: absolute;
+  inset: 0 0 auto;
+  height: 320px;
+  pointer-events: none;
+}
+
+[data-scene='showcase'] .pj-strip {
+  pointer-events: auto;
+}
+
+.pj-strip-item {
+  position: absolute;
+  top: 0;
+  width: 200px;
+  height: 320px;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  text-align: left;
+  color: inherit;
+  cursor: pointer;
+}
+
+.pj-strip-item .pj-strip-number,
+.pj-strip-item .pj-strip-text {
+  left: 0;
+}
+
+.pj-strip-number,
+.pj-strip-title,
+.pj-strip-role {
+  font-family: 'CaskaydiaCove NF', ui-monospace, monospace;
+  font-size: 16px;
+  line-height: 15px;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+
+.pj-strip-number,
+.pj-strip-role {
+  color: var(--muted);
+}
+
+.pj-strip-role {
+  font-weight: 350;
+  margin-top: 1px;
+  white-space: nowrap;
+}
+
+.pj-strip-title {
+  color: var(--ink);
+}
+
+.pj-strip-text {
+  display: flex;
+  flex-direction: column;
+  width: 190px;
+}
+
+.pj-stage .pj-strip-text span {
+  position: static;
+}
+
+.pj-strip-photo {
+  left: 0;
+  top: 88px;
+  width: 179px;
+  height: 134px;
+}
+
+.pj-strip-photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* The others sit at half strength, as in the design; the one shown in the preview comes up to full. */
+.pj-strip-item > :is(span, picture) {
+  opacity: 0.5;
+  transition: opacity 0.35s var(--hover-ease);
+}
+
+.pj-strip:not(:hover) .pj-strip-item[aria-selected='true'] > :is(span, picture),
+.pj-strip-item:hover > :is(span, picture),
+.pj-strip-item:focus-visible > :is(span, picture) {
+  opacity: 1;
+}
+
+.pj-strip-item:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 8px;
+}
+
+/* ---- Column: narrow or upright screens ---- */
+
+.pj-flow {
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+  padding: calc(var(--header-h, 120px) + 24px) max(20px, (100% - 720px) / 2) calc(var(--footer-h, 48px) + 40px);
+}
+
+.pj-flow-hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 700;
+  font-size: clamp(44px, 13vw, 100px);
+  line-height: 1.2;
+  text-align: center;
+  color: var(--ink);
+}
+
+.pj-flow-photo-line {
+  display: inline-flex;
+  align-items: center;
+}
+
+.pj-flow-asterisk {
+  align-self: flex-start;
+  font-family: 'JMH Typewriter', monospace;
+  font-size: 0.5em;
+}
+
+.pj-flow-photo {
+  display: block;
+  width: 1.46em;
+  height: 1.1em;
+  margin: 0 0.2em;
+}
+
+.pj-flow-photo img,
+.pj-flow-card-photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.pj-flow-list {
+  display: grid;
+  gap: 36px;
+  list-style: none;
+}
+
+.pj-flow-card {
+  display: grid;
+  gap: 8px;
+  color: inherit;
+  text-decoration: none;
+}
+
+.pj-flow-card-photo {
+  display: block;
+  aspect-ratio: 619 / 398;
+}
+
+.pj-flow-card .pj-strip-title {
+  font-size: 18px;
+  line-height: 20px;
+}
+
+.pj-flow-card:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 6px;
+}

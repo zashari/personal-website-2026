@@ -443,8 +443,7 @@
 }
 
 .bk-cover-strip img,
-.bk-pair-photo img,
-.bk-closing-photo img {
+.bk-pair-photo img {
   display: block;
   width: 100%;
   height: 100%;
@@ -725,8 +724,7 @@
   background: #111;
 }
 
-.bk-dossier-stamp,
-.bk-closing-stamp {
+.bk-dossier-stamp {
   position: absolute;
   font-family: 'Open Sans', sans-serif;
   font-weight: 700;
@@ -816,42 +814,7 @@
   color: #8a8680;
 }
 
-/* ---- Closing: a full-bleed photo, the last project, and the end of the issue in accent ---- */
-
-.bk-closing-photo {
-  position: absolute;
-  inset: 0 50cqw 0 0;
-}
-
-.bk-closing-photo img {
-  object-position: 50% 30%;
-  filter: grayscale(1) contrast(1.08);
-}
-
-.bk-closing-stamp {
-  left: 4cqw;
-  bottom: 7cqw;
-  font-size: 1.9cqw;
-  color: #fff;
-  mix-blend-mode: normal;
-}
-
-.bk-closing-page {
-  position: absolute;
-  left: 55.4cqw;
-  top: 5cqw;
-  width: 26cqw;
-}
-
-.bk-closing-title {
-  margin: 1cqw 0 1.4cqw;
-  font-family: 'Open Sans', sans-serif;
-  font-weight: 700;
-  font-size: 2.2cqw;
-  line-height: 1.02;
-  letter-spacing: -0.02em;
-  text-transform: uppercase;
-}
+/* ---- The end of the issue in the book's colour (the end spread's right page) ---- */
 
 .bk-closing-end {
   position: absolute;
@@ -881,10 +844,6 @@
   color: inherit;
   text-decoration: none;
   border-bottom: 1px solid currentColor;
-}
-
-.bk-closing .bk-folio {
-  color: #fff;
 }
 
 /* ---- Story: one project on the left page (the pair layout), a full-bleed photo on the right ---- */

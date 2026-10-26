@@ -31,6 +31,7 @@ const METRICS = {
   mono: { ascent: 0.93, descent: 0.23 }, // CaskaydiaCove NF
   sans: { ascent: 1.069, descent: 0.293 }, // Open Sans
   script: { ascent: 0.8, descent: 0.45 }, // Italianno
+  typewriter: { ascent: 0.969, descent: 0.291 }, // JMH Typewriter (its hhea and win metrics, used on Windows)
 };
 
 // The SVG export gives each text line's baseline. A CSS line box puts the baseline half the leading plus the ascent
