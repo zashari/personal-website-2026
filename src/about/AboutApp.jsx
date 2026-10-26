@@ -1,9 +1,11 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
-import { CLIP_LABEL, EDUCATION, EDUCATION_TITLE, HOME, INTRO, MODES, PAGE_TITLE, RESUME, SOUND } from './content';
-import { BrandLink } from '../home/Brand';
+import { CLIP_LABEL, EDUCATION, EDUCATION_TITLE, HOME, INTRO, NAV, PAGE_TITLE, RESUME, SOUND } from './content';
+import { BrandLink, MaybeLink, NavItem, backIfPrevious } from '../home/Brand';
+import ModeSwitch from '../home/ModeSwitch';
 import { useTheme } from '../home/theme';
 import { SOUND_SWITCH_ATTR, useWaveSound } from './useWaveSound';
-import lines from './assets/lines.svg';
+import FrameDecoration from './FrameDecoration';
+import { DASH_BLEED, DASH_Y, FRAME, fitFrame, textAt } from './frame';
 import clip from './assets/media/wave.mp4';
 import poster from './assets/media/wave-poster.webp';
 import waves from './assets/media/waves.mp3';
@@ -12,30 +14,6 @@ import waves from './assets/media/waves.mp3';
 // drawn in Figma px on a stage scaled to fit the window, as on /home. Narrow or upright screens get the same content
 // as an ordinary column instead (see useLayout). Above it sits /home's header logotype, in the same place and size,
 // as the way back home.
-const FRAME = { width: 1920, height: 1080 };
-// Below this the 16 px Figma text drops under ~9 px, so short windows scroll instead.
-const MIN_SCALE = 0.55;
-const FLOW_MAX_WIDTH = 1100; // narrower than this, the stage's text would be too small to read
-const FLOW_MAX_ASPECT = 1.2; // and windows less than 1.2 times as wide as tall would leave the stage floating
-// The frame is empty above the intro text (its box starts at y 103), so the header may overlap that band; the stage is
-// kept low enough, or small enough, for the intro to start this far below the header's label.
-const INTRO_TOP = 103;
-const HEADER_GAP = 16;
-
-// Vertical metrics per font, in em, as Chrome measures them (fontBoundingBox at 100 px).
-const METRICS = {
-  mono: { ascent: 0.93, descent: 0.23 }, // CaskaydiaCove NF
-  sans: { ascent: 1.069, descent: 0.293 }, // Open Sans
-  script: { ascent: 0.8, descent: 0.45 }, // Italianno
-};
-
-// The SVG export gives each text line's baseline. A CSS line box puts the baseline half the leading plus the ascent
-// below its top, so the box starts that far above the baseline.
-function textAt({ x, baseline, size, lineHeight, font = 'mono' }) {
-  const { ascent, descent } = METRICS[font];
-  const top = baseline - (lineHeight - (ascent + descent) * size) / 2 - ascent * size;
-  return { left: x, top, fontSize: size, lineHeight: `${lineHeight}px` };
-}
 
 const INTRO_BOX = { ...textAt({ x: 121, baseline: 121.094, size: 16, lineHeight: 25 }), width: 713 };
 const CLIP_BOX = { left: 124, top: 342, width: 713, height: 396 };
@@ -51,39 +29,12 @@ const RESUME_AT = { x: 351, y: 858 };
 const RESUME_TEXT = textAt({ x: 422 - RESUME_AT.x, baseline: 892.094 - RESUME_AT.y, size: 16, lineHeight: 25 });
 // Under the clip, as far below it as the intro text ends above it (14 px), and on the intro's left edge.
 const SOUND_BOX = { left: 121, top: CLIP_BOX.top + CLIP_BOX.height + 14, fontSize: 16, lineHeight: '25px' };
-const NUMBERS = Array.from({ length: 7 }, (_, i) => ({
-  label: String(i + 1).padStart(2, '0'),
-  ...textAt({ x: 77 + 269 * i, baseline: 1037.09, size: 16, lineHeight: 25 }),
-}));
-// The mode switch: a 173 px underline flush with the frame's bottom edge, the label centred over it.
-const MODE_LABEL = textAt({ x: 0, baseline: 1054.71, size: 15, lineHeight: 20.43, font: 'sans' });
-const MODE_X = { dark: 77, light: 1670 };
-const DASH_Y = 540; // the dashed line's 2 px band, through the clip's middle
-const DASH_BLEED = 2000; // the dashed line runs past the frame's sides to the window's edges
 
 // The same eight-point sparkle as TOUCH ME on /home (58 x 58, Figma's own paths).
 const SPARKLE_PATHS = [
   'M58 29C58 45.0163 29 29 29 58C12.9837 58 29 29 0 29C0 12.9837 29 29 29 0C45.0163 0 29 29 58 29Z',
   'M49.7579 49.2511C38.5736 60.7154 29 29 8.74888 49.758C-2.71541 38.5736 29 29 8.24205 8.74891C19.4264 -2.71538 29 29 49.2511 8.24208C60.7154 19.4265 29 29 49.7579 49.2511Z',
 ];
-
-const preventNavigation = (event) => event.preventDefault();
-
-// A link without a destination yet (href: null in content.js) still behaves like a link but does nothing.
-function MaybeLink({ href, className, style, children }) {
-  if (!href) {
-    return (
-      <a className={className} style={style} href="#" aria-disabled="true" onClick={preventNavigation}>
-        {children}
-      </a>
-    );
-  }
-  return (
-    <a className={className} style={style} href={href}>
-      {children}
-    </a>
-  );
-}
 
 // "BINUS UNIVERSITY @BANDUNG": the @ stays upright and the city after it is set in italics.
 function TitleLine({ text }) {
@@ -150,24 +101,18 @@ function Sparkle() {
   );
 }
 
-// The way home is a plain link, so it works from a shared link or a new tab too. When the visitor came here from
-// /home, a plain click goes back through history instead: the browser restores /home as they left it (scroll position
-// included) and the history does not grow home, about, home, about. Only same-site entries are visible to the
-// Navigation API, so a visitor who arrived from elsewhere simply follows the link.
-function backToHome(event) {
-  if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
-  const nav = window.navigation;
-  const previous = nav?.currentEntry && nav.entries()[nav.currentEntry.index - 1];
-  if (!previous?.url || new URL(previous.url).pathname !== HOME.href) return;
-  event.preventDefault();
-  nav.back();
-}
-
 function Header({ headerRef, variant }) {
   return (
     <header className="home-header about-header" ref={headerRef} data-variant={variant}>
-      <nav aria-label="Main">
-        <BrandLink href={HOME.href} label={HOME.label} onClick={backToHome} />
+      <nav className="home-nav" aria-label="Main">
+        <div className="home-nav-group">
+          <BrandLink href={HOME.href} label={HOME.label} onClick={backIfPrevious} />
+        </div>
+        <div className="home-nav-group">
+          {NAV.map((item) => (
+            <NavItem key={item.key} id={item.key} title={item.title} label={item.label} href={item.href} />
+          ))}
+        </div>
       </nav>
     </header>
   );
@@ -189,51 +134,20 @@ function SoundSwitch({ sound, style }) {
   );
 }
 
-function ModeSwitch({ theme, onChange, placed }) {
-  return (
-    <div className="about-mode" role="group" aria-label="Colour mode">
-      {MODES.map((mode) => (
-        <button
-          key={mode.key}
-          type="button"
-          className="about-mode-option"
-          style={placed && { left: MODE_X[mode.key], top: MODE_LABEL.top, height: FRAME.height - MODE_LABEL.top }}
-          aria-pressed={theme === mode.key}
-          onClick={() => onChange(mode.key)}
-        >
-          <span className="about-mode-label">{mode.label}</span>
-          <span className="about-mode-line" aria-hidden="true" />
-        </button>
-      ))}
-    </div>
-  );
-}
-
 // Picks the stage or the column, and for the stage its scale and place: as large as fits the window below the
-// header, centred across and resting on the bottom edge (where the mode switch's underline sits). A window too short
+// header, centred across and resting on the bottom edge (where the mode switch sits). A window too short
 // for MIN_SCALE scrolls. Re-runs when the window or the header (which grows as its fonts load) changes size.
 function useLayout(headerRef) {
   const [layout, setLayout] = useState(null);
   useLayoutEffect(() => {
     const header = headerRef.current;
     const update = () => {
-      const width = document.documentElement.clientWidth;
-      const height = window.innerHeight;
-      if (width < FLOW_MAX_WIDTH || width < height * FLOW_MAX_ASPECT) {
-        setLayout({ variant: 'flow' });
-        return;
-      }
-      const below = header.offsetHeight + HEADER_GAP;
-      const fit = Math.min(height / FRAME.height, (height - below) / (FRAME.height - INTRO_TOP));
-      const scale = Math.min(width / FRAME.width, Math.max(fit, MIN_SCALE));
-      const pageHeight = Math.max(height, below + (FRAME.height - INTRO_TOP) * scale);
-      setLayout({
-        variant: 'stage',
-        scale,
-        x: (width - FRAME.width * scale) / 2,
-        y: pageHeight - FRAME.height * scale,
-        pageHeight,
+      const fit = fitFrame({
+        width: document.documentElement.clientWidth,
+        height: window.innerHeight,
+        headerHeight: header.offsetHeight,
       });
+      setLayout(fit ? { variant: 'stage', ...fit } : { variant: 'flow' });
     };
     update();
     const observer = new ResizeObserver(update);
@@ -259,16 +173,9 @@ function Stage({ layout, theme, setTheme, sound }) {
           transform: `translate(${layout.x}px, ${layout.y}px) scale(${layout.scale})`,
         }}
       >
-        <div className="about-numbers" aria-hidden="true">
-          {NUMBERS.map(({ label, ...box }) => (
-            <span key={label} style={box}>
-              {label}
-            </span>
-          ))}
-        </div>
-        <img className="about-lines" src={lines} alt="" width={FRAME.width} height={FRAME.height} draggable={false} />
+        <FrameDecoration />
         <span
-          className="about-dash"
+          className="frame-dash"
           aria-hidden="true"
           style={{ left: -DASH_BLEED, top: DASH_Y, width: FRAME.width + 2 * DASH_BLEED }}
         />
@@ -312,8 +219,8 @@ function Stage({ layout, theme, setTheme, sound }) {
           {INTRO}
         </p>
         {sound.supported && <SoundSwitch sound={sound} style={SOUND_BOX} />}
-        <ModeSwitch theme={theme} onChange={setTheme} placed />
       </div>
+      <ModeSwitch theme={theme} onChange={setTheme} />
     </main>
   );
 }
@@ -324,7 +231,7 @@ function Flow({ theme, setTheme, sound }) {
       <h1 className="about-visually-hidden">{PAGE_TITLE}</h1>
       <p className="about-intro">{INTRO}</p>
       <div className="about-flow-clip">
-        <span className="about-dash" aria-hidden="true" />
+        <span className="frame-dash" aria-hidden="true" />
         <WaveClip className="about-clip" />
       </div>
       {sound.supported && <SoundSwitch sound={sound} />}

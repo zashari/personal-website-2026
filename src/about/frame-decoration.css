@@ -1,0 +1,40 @@
+/* The frame's decoration (FrameDecoration.jsx), shared by /about and /projects. The hand-drawn lines and the dashed
+   line are #919191 and the numbers #474747, in both colour modes. */
+
+/* CaskaydiaCove NF, cut down to Latin text by scripts/build-about-assets.mjs. SIL Open Font License 1.1. */
+@font-face {
+  font-family: 'CaskaydiaCove NF';
+  src: url('./assets/fonts/caskaydia-cove-regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: block;
+}
+
+:root {
+  --numbers: #474747;
+  --rule: #919191;
+}
+
+.frame-numbers span {
+  position: absolute;
+  font-family: 'CaskaydiaCove NF', ui-monospace, monospace;
+  letter-spacing: -0.02em;
+  white-space: pre;
+  color: var(--numbers);
+}
+
+.frame-lines {
+  position: absolute;
+  left: 0;
+  top: 0;
+  max-width: none;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* The dashed line: 2 px dashes of 4 px with 4 px gaps, in the phase Figma draws them from the frame's right edge. */
+.frame-dash {
+  height: 2px;
+  background: linear-gradient(90deg, var(--rule) 0 2px, transparent 2px 6px, var(--rule) 6px 8px) 0 0 / 8px 2px repeat-x;
+  pointer-events: none;
+}

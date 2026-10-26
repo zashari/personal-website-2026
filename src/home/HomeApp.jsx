@@ -1,10 +1,10 @@
 import { Fragment, useEffect, useLayoutEffect, useRef, useState } from 'react';
-import { BRAND, MODES, NAME, NAV, PHOTO_ALT, ROLES, SOCIALS, TOUCH_LABEL } from './content';
+import { NAME, PHOTO_ALT, ROLES, SOCIALS, TOUCH_LABEL } from './content';
 import spiral from './assets/golden-spiral.svg';
 import photoAvif from './assets/images/photo.avif';
 import photoWebp from './assets/images/photo.webp';
-import Book from './Book';
-import { BrandLink, SpacedLabel } from './Brand';
+import ModeSwitch from './ModeSwitch';
+import { HomeNav, MaybeLink, SpacedLabel } from './Brand';
 import SphereLens, { LENS_SUPPORTED } from './SphereLens';
 import Strands from './Strands';
 import { useTheme } from './theme';
@@ -67,32 +67,6 @@ function textBox({ x, y, font, size, lineHeight, capTrim = false }) {
 const SOCIAL_X = { tiktok: 742, github: 920, instagram: 1096 };
 const SMALL_SERIF = { font: 'times', size: 20, capTrim: true };
 const NAME_TEXT = { font: 'times', size: 100, lineHeight: 110 };
-
-// A link without a destination yet (href: null in content.js) still looks and behaves like a link (pointer, hover,
-// keyboard focus) but does nothing when clicked, and tells assistive tech it is not available yet.
-const preventNavigation = (event) => event.preventDefault();
-
-function MaybeLink({ href, className, children }) {
-  if (!href) {
-    return (
-      <a className={className} href="#" aria-disabled="true" onClick={preventNavigation}>
-        {children}
-      </a>
-    );
-  }
-  const external = /^https?:/.test(href);
-  return (
-    <a className={className} href={href} {...(external && { target: '_blank', rel: 'noopener noreferrer' })}>
-      {children}
-    </a>
-  );
-}
-
-// Optical left alignment: glyphs carry their own side bearings (and the Italianno Z a swash), so a title and its label
-// that start at the same x do not start inking at the same x. Each title is nudged by the gap measured in Chrome at
-// 4x (title ink minus label ink, in em of the title size). Re-measure if a title or label's first letter changes.
-// The logotype's own shift (0.0625) lives with it in Brand.jsx.
-const TITLE_INK_SHIFT = { work: 0.025, workflow: -0.0125, contact: -0.025 };
 
 // The centre photo. While the pointer is over it, the photos in REEL play in turn every 0.2s, looping, as hard cuts
 // like a flipbook, each with a camera shutter sound; leaving shows the original again. Frames keep their own aspect ratio, fitted inside the photo's box. The frames are stacked under the photo and only mounted once the
@@ -410,17 +384,6 @@ function useSpheres() {
   return [state, on, toggle];
 }
 
-function NavItem({ id, title, label, href }) {
-  return (
-    <MaybeLink href={href} className="home-link home-nav-item">
-      <span className="home-nav-title" style={{ marginLeft: `${TITLE_INK_SHIFT[id] ?? 0}em` }}>
-        {title}
-      </span>
-      <SpacedLabel text={label} />
-    </MaybeLink>
-  );
-}
-
 // Fits the stage's focus box into the window below the header, centred, and picks the arrangement by the shape of
 // that space. Width always fits; height may not, and then the page grows and scrolls. In the tall arrangement the
 // socials sit above the colour-mode switch instead of beside it, so its height is kept clear. Re-runs when the window,
@@ -458,25 +421,6 @@ function useStageLayout(headerRef, footerRef) {
     };
   }, [headerRef, footerRef]);
   return layout;
-}
-
-function ModeSwitch({ theme, onChange, footerRef }) {
-  return (
-    <div className="home-mode" ref={footerRef} role="group" aria-label="Colour mode">
-      {MODES.map((mode) => (
-        <button
-          key={mode.key}
-          type="button"
-          className="home-mode-option"
-          aria-pressed={theme === mode.key}
-          onClick={() => onChange(mode.key)}
-        >
-          <span className="home-mode-label">{mode.label}</span>
-          <span className="home-mode-line" aria-hidden="true" />
-        </button>
-      ))}
-    </div>
-  );
 }
 
 export default function HomeApp() {
@@ -555,23 +499,11 @@ export default function HomeApp() {
         </div>
 
         <header className="home-header" ref={headerRef}>
-          <nav className="home-nav" aria-label="Main">
-            <div className="home-nav-group">
-              <BrandLink href={BRAND.href} label={BRAND.label} />
-              <NavItem id={NAV[0].key} title={NAV[0].title} label={NAV[0].label} href={NAV[0].href} />
-            </div>
-            <div className="home-nav-group">
-              {NAV.slice(1).map((item) => (
-                <NavItem key={item.key} id={item.key} title={item.title} label={item.label} href={item.href} />
-              ))}
-            </div>
-          </nav>
+          <HomeNav />
         </header>
 
-        <ModeSwitch theme={theme} onChange={setTheme} footerRef={footerRef} />
+        <ModeSwitch theme={theme} onChange={setTheme} ref={footerRef} />
       </main>
-
-      <Book />
     </>
   );
 }

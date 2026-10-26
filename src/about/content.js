@@ -1,6 +1,8 @@
 // Every word on /about. Positions live in AboutApp.jsx; change only the text here.
 // A link with href: null is clickable but does nothing yet; give it an address when its target exists.
 
+import { NAV as HOME_NAV } from '../home/content';
+
 export const PAGE_TITLE = 'About Zaky Ashari';
 
 export const INTRO =
@@ -27,12 +29,10 @@ export const RESUME = { label: 'Check my resume here', href: null };
 // The header's logotype leads back home; its small label says so (on /home the same logotype reads ABOUT ME).
 export const HOME = { label: 'HOME', href: '/home/' };
 
+// The other header items are /home's, with the same words and destinations.
+export const NAV = HOME_NAV;
+
 // The sea plays on arrival. Browsers only allow sound after the visitor has interacted with the site, so a direct
 // visit starts it on the first click, tap or key press instead; this switch turns it off and on.
 export const SOUND = { on: 'Sound on', off: 'Sound off', label: 'Sound of the waves' };
 
-// Colour mode switch at the bottom: first option sits bottom-left, second bottom-right.
-export const MODES = [
-  { key: 'dark', label: 'DARK' },
-  { key: 'light', label: 'LIGHT' },
-];

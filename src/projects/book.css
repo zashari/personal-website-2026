@@ -1,8 +1,34 @@
-/* Page 2 of /home: the work book (Book.jsx). The book is drawn in the page colours of print in both modes; only the
+/* /projects: the work book (Book.jsx). The book is drawn in the page colours of print in both modes; only the
    accent follows the site's mode. Inside a spread every size is in cqw of the whole spread (100cqw = two pages), and
-   a spread is 100cqw x 69.44cqw (two pages of 0.72 : 1). */
+   a spread is 100cqw x 69.44cqw (two pages of 0.72 : 1).
+   It sits between the page's fixed header and footer; --header-h and --footer-h are their heights (measured by
+   ProjectsApp.jsx), which the sticky stage keeps clear. */
+
+/* The book's own type (the files are /home's and /temp's, so they ship once). */
+@font-face {
+  font-family: 'Open Sans';
+  src: url('../home/assets/fonts/open-sans-semibold.ttf') format('truetype');
+  font-weight: 600;
+  font-display: block;
+}
+
+@font-face {
+  font-family: 'Open Sans';
+  src: url('../home/assets/fonts/open-sans-bold.ttf') format('truetype');
+  font-weight: 700;
+  font-display: block;
+}
+
+@font-face {
+  font-family: 'Times New Normal';
+  src: url('../temp/assets/fonts/times-new-normal-regular.ttf') format('truetype');
+  font-weight: 400;
+  font-display: block;
+}
 
 .bk-section {
+  /* The book's cloth (set per project by Book.jsx), used for its covers and accents inside the pages. */
+  --book: var(--accent);
   --paper: #f3f0e9;
   --paper-edge: #d6d0c4;
   --paper-ink: #141414;
@@ -20,8 +46,8 @@
 
 .bk-stage {
   position: sticky;
-  top: 0;
-  height: 100svh;
+  top: var(--header-h, 0px);
+  height: calc(100svh - var(--header-h, 0px) - var(--footer-h, 0px));
 }
 
 /* Holds the book, its curl canvas and the controls, and sizes the book from its own box (cq units), so the same
@@ -44,7 +70,7 @@
   inset: auto;
   left: 50%;
   top: 50%;
-  width: 100svh;
+  width: calc(100svh - var(--header-h, 0px) - var(--footer-h, 0px));
   height: 100vw;
   transform: translate(-50%, -50%) rotate(90deg);
 }
@@ -382,7 +408,7 @@
 /* ---- Cover (after the red spread): accent paper, a black-and-white strip across the gutter ---- */
 
 .bk-cover {
-  background: var(--accent);
+  background: var(--book);
   color: #fff;
 }
 
@@ -417,8 +443,7 @@
 }
 
 .bk-cover-strip img,
-.bk-pair-photo img,
-.bk-closing-photo img {
+.bk-pair-photo img {
   display: block;
   width: 100%;
   height: 100%;
@@ -465,7 +490,7 @@
   font-size: 7.4cqw;
   line-height: 0.9;
   letter-spacing: -0.02em;
-  color: var(--accent);
+  color: var(--book);
   margin-bottom: 1cqw;
 }
 
@@ -505,7 +530,7 @@
   right: 0;
   top: 32.6cqw;
   bottom: 0;
-  background: var(--accent);
+  background: var(--book);
   color: #fff;
 }
 
@@ -543,7 +568,7 @@
 }
 
 .bk-plate-win .bk-plate-line {
-  stroke: var(--accent);
+  stroke: var(--book);
   stroke-width: 1.4;
 }
 
@@ -699,13 +724,12 @@
   background: #111;
 }
 
-.bk-dossier-stamp,
-.bk-closing-stamp {
+.bk-dossier-stamp {
   position: absolute;
   font-family: 'Open Sans', sans-serif;
   font-weight: 700;
   letter-spacing: 0.04em;
-  color: var(--accent);
+  color: var(--book);
   border: 0.32cqw solid currentColor;
   padding: 0.4cqw 1cqw;
   transform: rotate(-12deg);
@@ -752,7 +776,7 @@
   font-size: 3.1cqw;
   line-height: 0.82;
   margin: 0.2cqw 0.5cqw 0 0;
-  color: var(--accent);
+  color: var(--book);
 }
 
 .bk-quote {
@@ -790,42 +814,7 @@
   color: #8a8680;
 }
 
-/* ---- Closing: a full-bleed photo, the last project, and the end of the issue in accent ---- */
-
-.bk-closing-photo {
-  position: absolute;
-  inset: 0 50cqw 0 0;
-}
-
-.bk-closing-photo img {
-  object-position: 50% 30%;
-  filter: grayscale(1) contrast(1.08);
-}
-
-.bk-closing-stamp {
-  left: 4cqw;
-  bottom: 7cqw;
-  font-size: 1.9cqw;
-  color: #fff;
-  mix-blend-mode: normal;
-}
-
-.bk-closing-page {
-  position: absolute;
-  left: 55.4cqw;
-  top: 5cqw;
-  width: 26cqw;
-}
-
-.bk-closing-title {
-  margin: 1cqw 0 1.4cqw;
-  font-family: 'Open Sans', sans-serif;
-  font-weight: 700;
-  font-size: 2.2cqw;
-  line-height: 1.02;
-  letter-spacing: -0.02em;
-  text-transform: uppercase;
-}
+/* ---- The end of the issue in the book's colour (the end spread's right page) ---- */
 
 .bk-closing-end {
   position: absolute;
@@ -834,7 +823,7 @@
   top: 36cqw;
   bottom: 0;
   padding: 4cqw 5cqw 0 5.4cqw;
-  background: var(--accent);
+  background: var(--book);
   color: #fff;
 }
 
@@ -857,6 +846,70 @@
   border-bottom: 1px solid currentColor;
 }
 
-.bk-closing .bk-folio {
+/* ---- Story: one project on the left page (the pair layout), a full-bleed photo on the right ---- */
+
+.bk-story-photo {
+  position: absolute;
+  inset: 0 0 0 50cqw;
+}
+
+.bk-story-photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(1) contrast(1.08);
+}
+
+/* ---- End: the shelf's other books on the left page, the call to get in touch filling the right ---- */
+
+.bk-end-index {
+  position: absolute;
+  left: 5.4cqw;
+  top: 5cqw;
+  width: 39cqw;
+}
+
+.bk-end-index ol {
+  margin-top: 2.4cqw;
+  list-style: none;
+  border-top: 1px solid var(--paper-ink);
+}
+
+.bk-end-index li {
+  display: grid;
+  grid-template-columns: 4cqw 1fr auto;
+  align-items: baseline;
+  gap: 1.2cqw;
+  padding: 1.1cqw 0;
+  border-bottom: 1px solid var(--paper-edge);
+  color: var(--paper-mute);
+}
+
+.bk-end-index li[data-current] {
+  color: var(--book);
+}
+
+.bk-end-number {
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 500;
+  font-size: 1.5cqw;
+  letter-spacing: -0.02em;
+}
+
+.bk-end-title {
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 700;
+  font-size: 1.05cqw;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+}
+
+.bk-end-call.bk-closing-end {
+  top: 0;
+  padding-top: 26cqw;
+}
+
+.bk-end .bk-folio[data-side='right'] {
   color: #fff;
 }

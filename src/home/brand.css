@@ -1,5 +1,5 @@
-/* The brand mark shared by /home and /about: the "Zashari" logotype with its small spaced label under it, in the
-   header's top-left corner. Sizes are in em of the header's title size (see .home-header); the colours come from each
+/* The header shared by /home and /about: the "Zashari" logotype with its small spaced label under it in the top-left
+   corner, and the other nav items. Sizes are in em of the header's title size (see .home-header); the colours come from each
    page's --ink, --accent and --logo-stroke. */
 
 @font-face {
@@ -33,6 +33,34 @@
   /* Navigation size, not headline size: 40 px at 1920 wide down to 22 px on phones. */
   font-size: clamp(22px, 2.08vw, 40px);
   text-align: left;
+}
+
+/* Two groups on one line, pushed to the left and right edges. */
+.home-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  column-gap: clamp(16px, 3.8vw, 72px);
+}
+
+.home-nav-group {
+  display: flex;
+  align-items: flex-start;
+  gap: clamp(16px, 3.5vw, 68px);
+}
+
+/* Small phones: the two groups no longer fit on one line, so the four items become a 2 x 2 grid. */
+@media (max-width: 420px) {
+  .home-nav {
+    display: grid;
+    grid-template-columns: auto auto;
+    justify-content: space-between;
+    row-gap: 12px;
+  }
+
+  .home-nav-group {
+    display: contents;
+  }
 }
 
 /* Hover: the whole item turns blue and its label opens up, on one symmetric curve; the spacing moves slower. */

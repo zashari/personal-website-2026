@@ -1,4 +1,4 @@
-// Page 2 of /home: the projects as an open magazine whose pages turn as the visitor scrolls.
+// /projects: the projects as an open magazine whose pages turn as the visitor scrolls.
 //
 // Each spread is laid out once as a full two-page sheet (Spread below) and every page shows its half of it through
 // a window, so photos and headlines can run across the gutter as in print. The book is a stack of leaves: leaf i
@@ -12,20 +12,13 @@
 // turns the device sideways; scrolling still turns the pages. Only an inner frame rotates (the track and sticky stage
 // stay upright, as pinning needs), and a button offers the pages upright and stacked instead (WCAG 1.3.4). A device on
 // its side, or any landscape screen, gets the book upright. Portrait windows with a mouse keep the stacked pages.
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { createContext, use, useCallback, useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
 import { domToCanvas } from 'modern-screenshot';
-import { CLOSING, ISSUE, PROJECTS, SPREADS } from './work';
-import coverAvif from './assets/images/reel/06.avif';
-import coverWebp from './assets/images/reel/06.webp';
-import deskAvif from '../temp/assets/images/photo-professional-desk.avif';
-import deskWebp from '../temp/assets/images/photo-professional-desk.webp';
-import workAvif from '../temp/assets/images/photo-professional-1.avif';
-import workWebp from '../temp/assets/images/photo-professional-1.webp';
-import commuteAvif from '../temp/assets/images/photo-personal-1.avif';
-import commuteWebp from '../temp/assets/images/photo-personal-1.webp';
+import { CLOSING, ISSUE, PROJECTS, spreadsOf } from './work';
+import { PHOTOS, STORY_PHOTOS } from './photos';
 import PageCurl from './PageCurl';
 import './book.css';
 
@@ -33,7 +26,11 @@ gsap.registerPlugin(ScrollTrigger, useGSAP);
 // Phones resize the viewport as the address bar shows and hides; re-measuring then would jolt the book mid-scroll.
 ScrollTrigger.config({ ignoreMobileResize: true });
 
-const TURNS = SPREADS.length - 1;
+// The open book: which project, and its spreads in reading order (spreadsOf in work.js). Every spread and page reads
+// it from here.
+const BookContext = createContext(null);
+
+const ORDER = Object.keys(PROJECTS);
 // Any touch screen held upright, phone or tablet: an upright iPad (about 820 px wide) is still too narrow for the
 // spread, and stacked pages there read as one page per scroll.
 const TOUCH_PORTRAIT_QUERY = '(orientation: portrait) and (pointer: coarse)';
@@ -62,16 +59,26 @@ function Photo({ avif, webp, alt = '', className }) {
 // ---- Spread layouts. Sizes are in cqw of the whole spread (100cqw = both pages), so they scale like print. ----
 
 function CoverSpread() {
+  const { project } = use(BookContext);
+  const p = PROJECTS[project];
   return (
     <div className="bk-sheet-inner bk-cover">
       <p className="bk-cover-title">
-        {ISSUE.title},
-        <br />
-        {ISSUE.years}
+        {p.date ? (
+          <>
+            {p.title},
+            <br />
+            {p.date}
+          </>
+        ) : (
+          p.title
+        )}
       </p>
-      <p className="bk-cover-masthead">{ISSUE.masthead}</p>
-      <Photo className="bk-cover-strip" avif={coverAvif} webp={coverWebp} />
-      <p className="bk-cover-disciplines">{ISSUE.disciplines.join('   ·   ')}</p>
+      <p className="bk-cover-masthead">
+        {ISSUE.masthead.split(' · ')[0]} · No. {pad(ORDER.indexOf(project) + 1)}
+      </p>
+      <Photo className="bk-cover-strip" {...PHOTOS[project].large} />
+      <p className="bk-cover-disciplines">{p.category}</p>
       <p className="bk-cover-hint">{ISSUE.hint} →</p>
     </div>
   );
@@ -128,7 +135,7 @@ function BrainPlate() {
   );
 }
 
-function FeatureSpread() {
+function FeatureSpread({ spread }) {
   const p = PROJECTS.alzheimer;
   return (
     <div className="bk-sheet-inner bk-feature">
@@ -154,7 +161,7 @@ function FeatureSpread() {
         </p>
         <p className="bk-feature-note bk-caption">{p.plateNote}</p>
       </div>
-      <Folios spread={1} />
+      <Folios spread={spread} />
     </div>
   );
 }
@@ -186,16 +193,19 @@ function PairPage({ project, photo, side, spread }) {
   );
 }
 
-function PairSpread() {
+// A project told on one page (photo, caption row, text, big folio), with a full-bleed photo facing it.
+function StorySpread({ spread }) {
+  const { project } = use(BookContext);
+  const photo = STORY_PHOTOS[project];
   return (
     <div className="bk-sheet-inner bk-pair">
-      <PairPage project={PROJECTS.viewer} photo={{ avif: deskAvif, webp: deskWebp }} side="left" spread={2} />
-      <PairPage project={PROJECTS.pipeline} photo={{ avif: workAvif, webp: workWebp }} side="right" spread={2} />
+      <PairPage project={PROJECTS[project]} photo={PHOTOS[project].large} side="left" spread={spread} />
+      <Photo className="bk-story-photo" {...photo} />
     </div>
   );
 }
 
-function DossierSpread() {
+function DossierSpread({ spread }) {
   const p = PROJECTS.fraud;
   return (
     <div className="bk-sheet-inner bk-dossier">
@@ -230,34 +240,7 @@ function DossierSpread() {
           <p className="bk-caption">{p.statNote}</p>
         </div>
       </div>
-      <Folios spread={3} />
-    </div>
-  );
-}
-
-function ClosingSpread() {
-  const p = PROJECTS.uplink;
-  return (
-    <div className="bk-sheet-inner bk-closing">
-      <div className="bk-closing-photo">
-        <Photo avif={commuteAvif} webp={commuteWebp} />
-        <span className="bk-closing-stamp">{p.stamp}</span>
-      </div>
-      <div className="bk-closing-page">
-        <p className="bk-caption">
-          {p.category} · {p.date} · {p.stack}
-        </p>
-        <p className="bk-closing-title">{p.title}</p>
-        <p className="bk-body">{p.body}</p>
-      </div>
-      <div className="bk-closing-end">
-        <p className="bk-caption">{CLOSING.kicker}</p>
-        <p className="bk-closing-headline">{CLOSING.headline}</p>
-        <a className="bk-closing-link" href={CLOSING.href} tabIndex={-1}>
-          {CLOSING.label} →
-        </a>
-      </div>
-      <Folios spread={4} />
+      <Folios spread={spread} />
     </div>
   );
 }
@@ -275,22 +258,52 @@ function Folios({ spread }) {
   );
 }
 
+// The end of a book: the other books on the shelf on the left page, and the call to get in touch on the right.
+function EndSpread({ spread }) {
+  const { project } = use(BookContext);
+  return (
+    <div className="bk-sheet-inner bk-end">
+      <div className="bk-end-index">
+        <p className="bk-caption">{ISSUE.title}</p>
+        <ol>
+          {ORDER.map((key, i) => (
+            <li key={key} data-current={key === project || undefined}>
+              <span className="bk-end-number">{pad(i + 1)}</span>
+              <span className="bk-end-title">{PROJECTS[key].title}</span>
+              <span className="bk-caption">{PROJECTS[key].category}</span>
+            </li>
+          ))}
+        </ol>
+      </div>
+      <div className="bk-closing-end bk-end-call">
+        <p className="bk-caption">{CLOSING.kicker}</p>
+        <p className="bk-closing-headline">{CLOSING.headline}</p>
+        <a className="bk-closing-link" href={CLOSING.href} tabIndex={-1}>
+          {CLOSING.label} →
+        </a>
+      </div>
+      <Folios spread={spread} />
+    </div>
+  );
+}
+
 const LAYOUTS = {
   cover: CoverSpread,
   feature: FeatureSpread,
-  pair: PairSpread,
+  story: StorySpread,
   dossier: DossierSpread,
-  closing: ClosingSpread,
+  end: EndSpread,
 };
 
 // One page: a window onto half of a spread's sheet. Every page is drawn for sighted readers only; the same text is
 // given to assistive tech once, in order, by WorkIndex below.
 function Page({ spread, side, className = '' }) {
-  const Layout = LAYOUTS[SPREADS[spread].layout];
+  const { spreads } = use(BookContext);
+  const Layout = LAYOUTS[spreads[spread].layout];
   return (
-    <div className={`bk-page ${className}`} data-side={side} data-layout={SPREADS[spread].layout}>
+    <div className={`bk-page ${className}`} data-side={side} data-layout={spreads[spread].layout}>
       <div className="bk-sheet" data-side={side}>
-        <Layout />
+        <Layout spread={spread} />
       </div>
       <span className="bk-grain" aria-hidden="true" />
       <span className="bk-gutter" aria-hidden="true" />
@@ -298,19 +311,17 @@ function Page({ spread, side, className = '' }) {
   );
 }
 
-// The projects as plain, ordered text for screen readers (the drawn pages repeat halves of each spread).
+// The project as plain text for screen readers (the drawn pages repeat halves of each spread).
 function WorkIndex() {
+  const { project } = use(BookContext);
+  const p = PROJECTS[project];
   return (
     <div className="home-visually-hidden">
-      {Object.values(PROJECTS).map((p) => (
-        <article key={p.title}>
-          <h3>{p.title}</h3>
-          <p>
-            {p.category}, {p.date}
-          </p>
-          <p>{p.body}</p>
-        </article>
-      ))}
+      <article>
+        <h2>{p.title}</h2>
+        <p>{[p.category, p.date].filter(Boolean).join(', ')}</p>
+        <p>{p.body}</p>
+      </article>
       <p>
         {CLOSING.headline} <a href={CLOSING.href}>{CLOSING.label}</a>
       </p>
@@ -329,16 +340,18 @@ function useMediaQuery(media) {
   return matches;
 }
 
-function StackedBook({ onBookView }) {
+function StackedBook({ onBookView, onClose }) {
+  const { spreads } = use(BookContext);
   return (
     <>
+      <BackButton onClose={onClose} />
       {onBookView && (
         <button type="button" className="bk-control bk-view-toggle" onClick={onBookView}>
           {ISSUE.bookView}
         </button>
       )}
       <div className="bk-stack" aria-hidden="true">
-        {SPREADS.flatMap((s, i) =>
+        {spreads.flatMap((s, i) =>
           ['left', 'right'].map((side) => (
             <Page key={`${s.key}-${side}`} spread={i} side={side} className="bk-page-flat" />
           ))
@@ -435,6 +448,8 @@ function usePageCurl({ canvasRef, bookRef, sectionRef, leaves, redraw }) {
       const cssText = await bookFontCss();
       const scale = Math.min(window.devicePixelRatio || 1, 2);
       for (let i = 0; i < leaves.current.length; i++) {
+        // The book may have closed (back to the shelf) while the last leaf was being drawn.
+        if (run !== generation || !leaves.current[i]) return;
         const pages = [...leaves.current[i].querySelectorAll(':scope > .bk-face > .bk-page')];
         try {
           const [front, back] = await Promise.all(
@@ -500,7 +515,18 @@ function usePageCurl({ canvasRef, bookRef, sectionRef, leaves, redraw }) {
   return curlRef;
 }
 
-function TurningBook({ rotated, onUpright, memory }) {
+// Back to the shelf, at the top of the stacked pages and beside the turning book's controls.
+function BackButton({ onClose, className = 'bk-control bk-view-toggle' }) {
+  return (
+    <button type="button" className={className} onClick={onClose}>
+      ← {ISSUE.back}
+    </button>
+  );
+}
+
+function TurningBook({ rotated, onUpright, onClose, memory }) {
+  const { spreads } = use(BookContext);
+  const TURNS = spreads.length - 1;
   const sectionRef = useRef(null);
   const bookRef = useRef(null);
   const canvasRef = useRef(null);
@@ -604,13 +630,7 @@ function TurningBook({ rotated, onUpright, memory }) {
       };
       ScrollTrigger.addEventListener('refreshInit', onRefreshInit);
       ScrollTrigger.addEventListener('refresh', onRefresh);
-      // The landing above sets its own height after layout (and again on short windows), which moves the track
-      // without a window resize; re-measure the trigger whenever it changes.
-      const above = sectionRef.current.closest('.bk-section')?.previousElementSibling;
-      const observer = new ResizeObserver(() => ScrollTrigger.refresh());
-      if (above) observer.observe(above);
       return () => {
-        observer.disconnect();
         ScrollTrigger.removeEventListener('refreshInit', onRefreshInit);
         ScrollTrigger.removeEventListener('refresh', onRefresh);
         applyRef.current = () => {};
@@ -641,7 +661,7 @@ function TurningBook({ rotated, onUpright, memory }) {
           <div ref={bookRef} className="bk-book" aria-hidden="true">
             <Page spread={0} side="left" className="bk-base" />
             <Page spread={TURNS} side="right" className="bk-base" />
-            {SPREADS.slice(0, -1).map((s, i) => (
+            {spreads.slice(0, -1).map((s, i) => (
               <div
                 key={s.key}
                 className="bk-leaf"
@@ -663,15 +683,16 @@ function TurningBook({ rotated, onUpright, memory }) {
           </div>
           <canvas ref={canvasRef} className="bk-curl" aria-hidden="true" />
           <div className="bk-controls" onKeyDown={onKeyDown}>
+            <BackButton onClose={onClose} className="bk-control" />
             <button type="button" className="bk-control" onClick={() => goTo(current - 1)} disabled={current === 0}>
               ← Prev
             </button>
             <p className="bk-counter" aria-live="polite">
               <span aria-hidden="true">
-                {pad(current + 1)} / {pad(SPREADS.length)}
+                {pad(current + 1)} / {pad(spreads.length)}
               </span>
               <span className="home-visually-hidden">
-                Spread {current + 1} of {SPREADS.length}: {SPREADS[current].label}
+                Spread {current + 1} of {spreads.length}: {spreads[current].label}
               </span>
             </p>
             <button type="button" className="bk-control" onClick={() => goTo(current + 1)} disabled={current === TURNS}>
@@ -689,7 +710,10 @@ function TurningBook({ rotated, onUpright, memory }) {
   );
 }
 
-export default function Book() {
+// One project's book (project is its key in PROJECTS); onClose goes back to the shelf. Its cloth colour (--book) is the
+// accent inside it. Mount it with key={project} so a different book starts fresh.
+export default function Book({ project, onClose }) {
+  const [context] = useState(() => ({ project, spreads: spreadsOf(project) }));
   const touchPortrait = useMediaQuery(TOUCH_PORTRAIT_QUERY);
   const narrow = useMediaQuery(NARROW_QUERY);
   // The reader's choice of the upright pages is kept for the visit's later pages too.
@@ -717,17 +741,25 @@ export default function Book() {
     requestAnimationFrame(() => document.getElementById('work')?.scrollIntoView({ behavior: 'instant' }));
   };
   return (
-    <section id="work" className="bk-section" aria-label={ISSUE.sectionLabel}>
-      {view === 'stacked' ? (
-        <StackedBook onBookView={touchPortrait ? () => choose(false) : undefined} />
-      ) : (
-        <TurningBook
-          rotated={view === 'rotated'}
-          onUpright={touchPortrait ? () => choose(true) : undefined}
-          memory={memory}
-        />
-      )}
-      <WorkIndex />
-    </section>
+    <BookContext value={context}>
+      <section
+        id="work"
+        className="bk-section"
+        aria-label={PROJECTS[project].title}
+        style={{ '--book': PROJECTS[project].color }}
+      >
+        {view === 'stacked' ? (
+          <StackedBook onBookView={touchPortrait ? () => choose(false) : undefined} onClose={onClose} />
+        ) : (
+          <TurningBook
+            rotated={view === 'rotated'}
+            onUpright={touchPortrait ? () => choose(true) : undefined}
+            onClose={onClose}
+            memory={memory}
+          />
+        )}
+        <WorkIndex />
+      </section>
+    </BookContext>
   );
 }

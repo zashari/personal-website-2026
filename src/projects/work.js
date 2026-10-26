@@ -1,0 +1,99 @@
+// Every word on /projects: the hero and showcase (Showcase.jsx) and each project's book (Book.jsx). Layouts live in
+// those files; change only the text and colours here.
+// The projects are the ones on /temp (src/temp/content/dossier.js), rewritten for a magazine instead of a dossier.
+
+export const ISSUE = {
+  title: 'Selected Work',
+  masthead: 'Zaky Ashari · Issue 01',
+  hint: 'Scroll to turn the page',
+  // The way back to the showcase from an open book.
+  back: 'All projects',
+  // Phones and tablets held upright: the book is turned sideways; these offer the pages upright and back.
+  turnHint: 'Turn your phone sideways to read',
+  uprightView: 'Read upright',
+  bookView: 'Back to the book',
+};
+
+// One book per project, in showcase order (001 to 005). role is the bracketed line under its title in the showcase;
+// color is the book's cloth (its covers and the accent inside it); slug is its address on the page (/projects/?p=slug);
+// layout is the spread that tells the project (Book.jsx). A project without a known date leaves date out.
+export const PROJECTS = {
+  fraud: {
+    slug: 'fraud-detection',
+    color: '#16233f',
+    layout: 'dossier',
+    role: 'AI/ML Engineer',
+    category: 'AI Engineering',
+    title: 'Fraud Detection',
+    headline: ['Fraud', 'Detection'],
+    date: 'May — Dec 2024',
+    stamp: '[CLASSIFIED]',
+    quote: 'A pipeline that looks after itself, from feature analysis to deployment.',
+    stat: '>80%',
+    statNote: 'Recall the model was tuned for, so less fraud slips through.',
+    stack: ['XGBoost', 'SMOTE', 'Predictive Power Score', 'Flask', 'MinIO'],
+    body: 'Built with my mentor for a major financial institution in Indonesia: an automated fraud detection system on XGBoost, tuned for high recall to keep financial losses down. The pipeline looks after itself, from Predictive Power Score analysis and SMOTE balancing to the debtor’s credit data, and ships through Flask with MinIO for secure object storage. No further details can be shared.',
+  },
+  alzheimer: {
+    slug: 'alzheimer-detection',
+    color: '#541900',
+    layout: 'feature',
+    role: 'AI/ML Engineer',
+    category: 'AI Engineering',
+    title: 'Alzheimer’s Disease Detection',
+    headline: ['Alzheimer’s', 'Disease', 'Detection'],
+    date: 'Jul — Dec 2025',
+    stat: '83.54%',
+    statNote: 'Accuracy of the 3D-ResNet, the strongest of sixteen model variants.',
+    plateNote: '16 variants · 2D, 3D and trimodal fusion · ResNet, EfficientNet and ViT backbones',
+    winner: '3D-ResNet · 83.54%',
+    body: 'A full deep learning evaluation for classifying Alzheimer’s atrophy, trained on data from my own preprocessing pipeline. Sixteen architecture variants across 2D, 3D and trimodal fusion, built on ResNet, EfficientNet and ViT backbones, went through a 1,000-iteration bootstrap and Friedman tests. The 3D-ResNet came out on top at 83.54% accuracy: keeping the brain volume intact mattered more than fusing modalities.',
+  },
+  arumi: {
+    slug: 'arumi-coffee',
+    color: '#2f3a1c',
+    layout: 'story',
+    role: 'Business',
+    category: 'Business',
+    title: 'Arumi Coffee',
+    stack: 'Product · Operations',
+    body: 'Part of the founding team of Arumi Coffee, a coffee stand: hands-on with product development, business operations and everything in between. Different field, same curiosity.',
+  },
+  deepfake: {
+    slug: 'deepfake-classification',
+    color: '#3a1530',
+    layout: 'story',
+    role: 'AI/ML Engineer',
+    category: 'AI Engineering',
+    title: 'Deepfake Classification Research',
+    stack: 'CNN · LSTM',
+    body: 'Research into telling deepfake video from real footage, with CNN and LSTM architectures: the convolutional network reads each frame, and the recurrent one follows what changes between them.',
+  },
+  gamified: {
+    slug: 'gamified-personal-website',
+    color: '#1d3a3a',
+    layout: 'story',
+    role: 'Software Engineer',
+    category: 'Software Engineering',
+    title: 'Gamified Personal Website',
+    stack: 'React · Vite',
+    body: 'A personal website played as a classified dossier: personal info, professional record and projects filed as folders to open, every sheet built as live code.',
+  },
+};
+
+export const CLOSING = {
+  kicker: 'End of issue',
+  headline: 'Your project could be next.',
+  label: 'Contact me',
+  href: 'mailto:izzat.zaky@gmail.com',
+};
+
+// A project's book, spread by spread in reading order: its cover, the spread that tells it, and the end of the issue.
+// The live-region announcement uses the label.
+export function spreadsOf(key) {
+  return [
+    { key: 'cover', layout: 'cover', label: 'Cover' },
+    { key, layout: PROJECTS[key].layout, label: PROJECTS[key].title },
+    { key: 'end', layout: 'end', label: 'Contact' },
+  ];
+}
