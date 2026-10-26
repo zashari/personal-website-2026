@@ -1,4 +1,5 @@
-/* /projects: the shared header, fixed on top, over the work book (src/home/book.css, loaded by Book.jsx). */
+/* /projects: the shared header fixed on top and the colour mode switch fixed on the bottom edge, with the work book
+   between them (src/home/book.css, loaded by Book.jsx; the switch's own styles are in src/home/mode-switch.css). */
 
 @import '../home/brand.css';
 
@@ -12,15 +13,18 @@
 :root {
   --bg: #dbd5c9;
   --ink: #000;
+  --mode-idle: #000;
   --accent: #0015ff;
   --logo-stroke: currentColor;
   --hover-ease: cubic-bezier(0.45, 0, 0.25, 1);
   --hover-time: 0.9s;
+  --theme-time: 0.6s;
 }
 
 :root[data-theme='dark'] {
   --bg: #202020;
   --ink: #fff;
+  --mode-idle: #d2d2d2;
   --accent: #ff4400;
   /* Figma keeps the Z's 1 px outline black on the dark background too. */
   --logo-stroke: #000;
@@ -45,7 +49,32 @@ body {
 }
 
 /* The stacked pages (narrow windows, or the upright reading on a phone) scroll as plain content, so they start below
-   the header; the turning book keeps it clear with its sticky stage instead (book.css). */
+   the header and end above the switch; the turning book keeps them clear with its sticky stage instead (book.css). */
 .projects .bk-section:not(:has(> .bk-track)) {
   padding-top: var(--header-h);
+  padding-bottom: var(--footer-h);
+}
+
+/* The mode switch rests on the bottom edge as on /home, with the page colour behind it so the stacked pages pass under
+   it; the band above the labels keeps the book's controls off them. */
+.projects-footer {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10;
+  height: calc(var(--mode-h) + clamp(10px, 2dvh, 20px));
+  background: var(--bg);
+}
+
+/* Switching modes cross-fades every colour together, as on /home; the class is on <html> only during a switch. */
+:root.theme-switching body,
+:root.theme-switching .home-nav-item,
+:root.theme-switching .home-logo-z,
+:root.theme-switching .home-mode-option,
+:root.theme-switching :is(.projects-header, .projects-footer) {
+  transition:
+    background-color var(--theme-time) ease,
+    color var(--theme-time) ease,
+    -webkit-text-stroke-color var(--theme-time) ease !important;
 }

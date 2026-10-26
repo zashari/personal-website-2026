@@ -1,29 +1,35 @@
 import { useLayoutEffect, useRef } from 'react';
 import Book from '../home/Book';
 import { BrandLink, NavItem, backIfPrevious } from '../home/Brand';
+import ModeSwitch from '../home/ModeSwitch';
+import { useTheme } from '../home/theme';
 import { CURRENT, HEADING, HOME, NAV } from './content';
 
 // /projects: the work book from /home on a page of its own, opened by Work in the header. The header stays fixed on
-// top while the book turns under it; its height is handed to book.css as --header-h, which keeps the sticky stage
-// below it. It changes as fonts load and as the header wraps on phones, so it is measured, not assumed.
-function useHeaderHeight(headerRef) {
+// top and the colour mode switch on the bottom edge while the book turns between them; their heights are handed to
+// book.css as --header-h and --footer-h, which keep the sticky stage clear of both. They change as fonts load and as
+// the header wraps on phones, so they are measured, not assumed.
+function useHeightVar(ref, name) {
   useLayoutEffect(() => {
-    const header = headerRef.current;
+    const element = ref.current;
     const root = document.documentElement;
-    const update = () => root.style.setProperty('--header-h', `${header.offsetHeight}px`);
+    const update = () => root.style.setProperty(name, `${element.offsetHeight}px`);
     update();
     const observer = new ResizeObserver(update);
-    observer.observe(header);
+    observer.observe(element);
     return () => {
       observer.disconnect();
-      root.style.removeProperty('--header-h');
+      root.style.removeProperty(name);
     };
-  }, [headerRef]);
+  }, [ref, name]);
 }
 
 export default function ProjectsApp() {
   const headerRef = useRef(null);
-  useHeaderHeight(headerRef);
+  const footerRef = useRef(null);
+  useHeightVar(headerRef, '--header-h');
+  useHeightVar(footerRef, '--footer-h');
+  const [theme, setTheme] = useTheme();
   return (
     <>
       <header className="home-header projects-header" ref={headerRef}>
@@ -49,6 +55,9 @@ export default function ProjectsApp() {
         <h1 className="home-visually-hidden">{HEADING}</h1>
         <Book />
       </main>
+      <footer className="projects-footer" ref={footerRef}>
+        <ModeSwitch theme={theme} onChange={setTheme} />
+      </footer>
     </>
   );
 }
