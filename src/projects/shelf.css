@@ -1,0 +1,208 @@
+/* The /projects shelf (Shelf.jsx). Sizes follow the prototype's 1920 x 1080 frame through --u: a spine is 928 x 77,
+   the books sit 168 apart, and a cover seen at its steepest is about a book's depth of 2.3 spines. On a phone the
+   spine fills the width and keeps a 52 px floor so its title stays readable and easy to tap. */
+
+.shelf {
+  --u: min(100vw / 1920, 100svh / 1080);
+  --spine-w: min(100vw - 32px, max(928 * var(--u), 560px));
+  --spine-h: max(52px, var(--spine-w) * 77 / 928);
+  --pitch: calc(var(--spine-h) * 168 / 77);
+  --depth: calc(var(--spine-h) * 2.3);
+  --perspective: calc(var(--spine-w) * 1.6);
+  /* The tilt at the window's top and bottom edges (MAX_TILT in Shelf.jsx); the middle is square. */
+  --tilt: 54deg;
+  --header: var(--header-h, 0px);
+  --footer: var(--footer-h, 0px);
+  display: block;
+}
+
+/* Snap a book to the middle when scrolling settles near it; the fixed bars are kept out of the snapping area. */
+:root:has(.shelf) {
+  scroll-snap-type: y proximity;
+  scroll-padding: var(--header-h, 0px) 0 var(--footer-h, 0px);
+}
+
+/* Room above the first book and below the last, so each can reach the middle of the space between the bars. */
+.shelf-list {
+  list-style: none;
+  padding: calc(var(--header) + (100svh - var(--header) - var(--footer) - var(--pitch)) / 2) 0
+    calc(var(--footer) + (100svh - var(--header) - var(--footer) - var(--pitch)) / 2);
+}
+
+.shelf-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: var(--pitch);
+  scroll-snap-align: center;
+  /* The item, never transformed, measures the scroll; the box inside it turns. */
+  view-timeline: --shelf-book block;
+  view-timeline-inset: var(--header) var(--footer);
+}
+
+.shelf-book {
+  position: relative;
+  display: block;
+  width: var(--spine-w);
+  height: var(--spine-h);
+  font-size: var(--spine-h);
+  color: #fef9eb;
+  transition: scale 0.5s var(--hover-ease);
+}
+
+/* Pointing at a book draws it out of the stack a little. */
+.shelf-book:hover {
+  scale: 1.025;
+}
+
+.shelf-book:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 8px;
+}
+
+/* ---- The book: a spine face with its two covers hinged on its long edges, running back from it ---- */
+
+.shelf-box {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  animation: shelf-tilt linear both;
+  animation-timeline: --shelf-book;
+}
+
+@keyframes shelf-tilt {
+  from {
+    transform: perspective(var(--perspective)) rotateX(calc(-1 * var(--tilt)));
+  }
+  to {
+    transform: perspective(var(--perspective)) rotateX(var(--tilt));
+  }
+}
+
+/* No scroll-driven animations: Shelf.jsx sets the same transform from script. */
+@supports not (animation-timeline: view()) {
+  .shelf-box {
+    animation: none;
+  }
+}
+
+.shelf-face {
+  position: absolute;
+  left: 0;
+  width: 100%;
+}
+
+/* The covers: cloth darkening toward the far edge, hinged on the spine's top and bottom edges and laid back. */
+.shelf-face[data-face='top'],
+.shelf-face[data-face='bottom'] {
+  height: var(--depth);
+  transform-origin: 50% 0;
+  background: linear-gradient(var(--book), color-mix(in oklab, var(--book), #000 35%));
+}
+
+.shelf-face[data-face='top'] {
+  top: 0;
+  transform: rotateX(-90deg);
+}
+
+.shelf-face[data-face='bottom'] {
+  top: 100%;
+  transform: rotateX(-90deg);
+}
+
+/* The spine, as in the prototype: a darker frame around a long title panel and a small mark panel. */
+.shelf-spine {
+  top: 0;
+  height: 100%;
+  display: flex;
+  gap: 0.065em;
+  padding: 0.078em 0.27em;
+  background: color-mix(in oklab, var(--book), #000 45%);
+}
+
+.shelf-label,
+.shelf-mark {
+  display: flex;
+  align-items: center;
+  background: var(--book);
+}
+
+.shelf-label {
+  flex: 1;
+  min-width: 0;
+  justify-content: space-between;
+  gap: 1em;
+  padding: 0 0.3em;
+}
+
+.shelf-title {
+  overflow: hidden;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 600;
+  font-size: max(12px, 0.25em);
+  letter-spacing: 0.04em;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.shelf-meta {
+  flex: none;
+  font-family: 'Open Sans SemiCondensed', 'Open Sans', sans-serif;
+  font-weight: 500;
+  font-size: max(10px, 0.15em);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.72;
+}
+
+.shelf-mark {
+  flex: none;
+  justify-content: center;
+  width: 1.58em;
+  font-family: 'Times New Normal', 'Times New Roman', serif;
+  font-size: max(14px, 0.36em);
+}
+
+/* On a narrow spine the category gives way and the title may take two lines. */
+@media (max-width: 599px) {
+  .shelf-meta {
+    display: none;
+  }
+
+  .shelf-title {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-height: 1.15;
+    white-space: normal;
+  }
+
+  .shelf-mark {
+    width: 1.1em;
+  }
+}
+
+/* ---- Haze toward the top and bottom edges: page colour fading in over a light blur, in two fixed bands ---- */
+
+.shelf-haze {
+  position: fixed;
+  left: 0;
+  right: 0;
+  z-index: 5;
+  height: 24svh;
+  pointer-events: none;
+  backdrop-filter: blur(5px);
+}
+
+.shelf-haze[data-edge='top'] {
+  top: var(--header);
+  background: linear-gradient(var(--bg), transparent);
+  mask-image: linear-gradient(#000 35%, transparent);
+}
+
+.shelf-haze[data-edge='bottom'] {
+  bottom: var(--footer);
+  background: linear-gradient(transparent, var(--bg));
+  mask-image: linear-gradient(transparent, #000 65%);
+}

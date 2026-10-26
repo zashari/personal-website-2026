@@ -78,3 +78,16 @@ body {
     color var(--theme-time) ease,
     -webkit-text-stroke-color var(--theme-time) ease !important;
 }
+
+/* The shelf and a book each fade in as they arrive (ProjectsApp.jsx choreographs the way out). */
+@keyframes projects-arrive {
+  from {
+    opacity: 0;
+    scale: 0.97;
+  }
+}
+
+.projects[data-view='shelf'] .shelf-list,
+.projects[data-view='book'] .bk-section {
+  animation: projects-arrive 0.5s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
