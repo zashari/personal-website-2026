@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { ISSUE, PROJECTS } from './work';
+import { COVER_PHOTOS } from './photos';
 import './shelf.css';
 
 // The /projects shelf: one book per project, lying flat and stacked, seen spine-on. Scrolling moves them through the
@@ -50,18 +51,39 @@ function useFallbackTilt(listRef) {
   }, [listRef]);
 }
 
+// A hardcover lying flat, spine toward the reader. The front cover (on top) carries the book's cover design, turned
+// a quarter as on a real book whose spine faces you; the back cover underneath is plain cloth with the imprint.
 function Spine({ project }) {
   const p = PROJECTS[project];
+  const number = pad(ORDER.indexOf(project) + 1);
+  const photo = COVER_PHOTOS[project];
   return (
     <span className="shelf-box" aria-hidden="true">
-      <span className="shelf-face" data-face="top" />
-      <span className="shelf-face" data-face="bottom" />
+      <span className="shelf-face" data-face="top">
+        <span className="shelf-cover-art">
+          <span className="shelf-cover-title">{p.title}</span>
+          <picture className="shelf-cover-photo">
+            <source type="image/avif" srcSet={photo.avif} />
+            <img src={photo.webp} alt="" loading="lazy" decoding="async" draggable={false} />
+          </picture>
+          <span className="shelf-cover-meta">
+            {p.category} · No. {number}
+          </span>
+        </span>
+      </span>
+      <span className="shelf-face" data-face="bottom">
+        <span className="shelf-cover-art">
+          <span className="shelf-cover-imprint">Zaky Ashari · {ISSUE.title}</span>
+        </span>
+      </span>
       <span className="shelf-face shelf-spine" data-face="spine">
         <span className="shelf-label">
           <span className="shelf-title">{p.title}</span>
           <span className="shelf-meta">{p.category}</span>
         </span>
-        <span className="shelf-mark">{pad(ORDER.indexOf(project) + 1)}</span>
+        <span className="shelf-mark">
+          <span className="shelf-number">{number}</span>
+        </span>
       </span>
     </span>
   );
