@@ -1,9 +1,9 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import Book from './Book';
-import Shelf from './Shelf';
+import Shelf, { shelfMiddle } from './Shelf';
 import FrameDecoration from '../about/FrameDecoration';
-import { FRAME } from '../about/frame';
+import { DASH_BLEED, DASH_Y, FRAME, fitFrame } from '../about/frame';
 import { HomeNav, backIfPrevious } from '../home/Brand';
 import ModeSwitch from '../home/ModeSwitch';
 import { useTheme } from '../home/theme';
@@ -36,16 +36,13 @@ const KEY_OF = Object.fromEntries(Object.entries(PROJECTS).map(([key, p]) => [p.
 const MIDDLE = Object.keys(PROJECTS)[Math.floor(Object.keys(PROJECTS).length / 2)];
 const bookInUrl = () => KEY_OF[new URLSearchParams(window.location.search).get('p')] ?? null;
 
-// The scroll position that puts a book in the middle of the space between the fixed bars. Computed rather than
-// scrollIntoView, which would also move the browser's starting point for Tab to that book.
+// The scroll position that puts a book on the shelf's middle line. Computed rather than scrollIntoView, which would
+// also move the browser's starting point for Tab to that book.
 function middleOf(key) {
   const book = document.querySelector(`[data-project="${key}"]`);
   if (!book) return 0;
-  const root = getComputedStyle(document.documentElement);
-  const top = parseFloat(root.getPropertyValue('--header-h')) || 0;
-  const bottom = window.innerHeight - (parseFloat(root.getPropertyValue('--footer-h')) || 0);
   const rect = book.getBoundingClientRect();
-  return window.scrollY + rect.top + rect.height / 2 - (top + bottom) / 2;
+  return window.scrollY + rect.top + rect.height / 2 - shelfMiddle();
 }
 
 function useProjectRoute() {
@@ -109,33 +106,73 @@ function chooseBook(key, done) {
     return;
   }
   const rect = chosen.getBoundingClientRect();
-  const root = getComputedStyle(document.documentElement);
-  const top = parseFloat(root.getPropertyValue('--header-h')) || 0;
-  const bottom = window.innerHeight - (parseFloat(root.getPropertyValue('--footer-h')) || 0);
   const others = [...document.querySelectorAll('.shelf-item')].filter((item) => item !== chosen);
   gsap
     .timeline({ onComplete: done })
     .to(others, { opacity: 0, duration: 0.3, ease: 'power2.in' }, 0)
-    .to(chosen, { y: (top + bottom) / 2 - (rect.top + rect.height / 2), duration: 0.45, ease: 'power3.inOut' }, 0)
+    .to(chosen, { y: shelfMiddle() - (rect.top + rect.height / 2), duration: 0.45, ease: 'power3.inOut' }, 0)
     .to(chosen, { scale: 1.12, opacity: 0, duration: 0.25, ease: 'power2.in' }, 0.45);
 }
 
-// Behind the shelf, /about's frame decoration: its hand-drawn lines and the row of numbers along the bottom, on the
-// same 1920 x 1080 frame scaled to the window's width and resting on its bottom edge, with the dashed line through the
-// middle book. Narrow or upright windows keep only the dashed line, as /about's column does (projects.css).
-function ShelfFrame() {
-  const [scale, setScale] = useState(() => document.documentElement.clientWidth / FRAME.width);
-  useEffect(() => {
-    const update = () => setScale(document.documentElement.clientWidth / FRAME.width);
+// Behind the shelf, /about's frame exactly as /about places it (fitFrame): its hand-drawn lines and row of numbers,
+// fitted below the header, centred and resting on the window's bottom edge, and its dashed line through the circle's
+// centre. The shelf's middle line (--shelf-mid, shelf.css) is that dashed line, so the middle book rests on it. A
+// window too narrow or upright for the frame (where /about becomes a column) keeps only the dashed line, through the
+// middle of the space between the bars.
+function useShelfFrame() {
+  const [frame, setFrame] = useState(null);
+  useLayoutEffect(() => {
+    const header = document.querySelector('.projects-header');
+    const footer = document.querySelector('.projects-footer');
+    const root = document.documentElement;
+    const update = () => {
+      const height = window.innerHeight;
+      // /about's header has no band under its labels; this one does (projects.css), so it is left out of the fit.
+      // Rounded as /about's offsetHeight is, so both fit the frame to the same scale.
+      const headerHeight = Math.round(header.offsetHeight - parseFloat(getComputedStyle(header).paddingBottom));
+      const fit = fitFrame({ width: root.clientWidth, height, headerHeight });
+      // The fixed frame cannot scroll, so it rests on the window's bottom edge even when /about's page would be taller.
+      const top = fit && height - FRAME.height * fit.scale;
+      // The middle of the dashed line's 2 px band.
+      const middle = fit ? top + (DASH_Y + 1) * fit.scale : (header.offsetHeight + height - footer.offsetHeight) / 2;
+      root.style.setProperty('--shelf-mid', `${middle}px`);
+      setFrame(fit && { scale: fit.scale, x: fit.x, top });
+    };
+    update();
+    const observer = new ResizeObserver(update);
+    observer.observe(header);
+    observer.observe(footer);
     window.addEventListener('resize', update);
-    return () => window.removeEventListener('resize', update);
+    return () => {
+      observer.disconnect();
+      window.removeEventListener('resize', update);
+      root.style.removeProperty('--shelf-mid');
+    };
   }, []);
+  return frame;
+}
+
+function ShelfFrame() {
+  const frame = useShelfFrame();
   return (
     <div className="projects-frame" aria-hidden="true">
-      <div className="projects-frame-stage" style={{ width: FRAME.width, height: FRAME.height, scale: String(scale) }}>
-        <FrameDecoration />
-      </div>
-      <span className="frame-dash projects-dash" />
+      {frame && (
+        <div
+          className="projects-frame-stage"
+          style={{
+            width: FRAME.width,
+            height: FRAME.height,
+            transform: `translate(${frame.x}px, ${frame.top}px) scale(${frame.scale})`,
+          }}
+        >
+          <FrameDecoration />
+          <span
+            className="frame-dash projects-frame-dash"
+            style={{ left: -DASH_BLEED, top: DASH_Y, width: FRAME.width + 2 * DASH_BLEED }}
+          />
+        </div>
+      )}
+      {!frame && <span className="frame-dash projects-dash" />}
     </div>
   );
 }

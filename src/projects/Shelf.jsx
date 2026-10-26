@@ -5,20 +5,34 @@ import './shelf.css';
 
 // The /projects shelf: one book per project, lying flat and stacked, seen spine-on. Scrolling moves them through the
 // window; the book in the middle is seen square to its spine, the ones above tilt to show their underside and the
-// ones below their top cover, and they haze over toward the top and bottom edges (after the user's prototype,
+// ones below their top cover, and they blur and fade toward the top and bottom edges (after the user's prototype,
 // .tmp/projects-desktop-light.png). Choosing a book opens it (ProjectsApp.jsx).
 //
 // Each book is a real link (title as text, ?p=slug as its address) holding a CSS 3D box. The tilt is a scroll-driven
 // animation on the box (shelf.css), run by the browser off the main thread; where scroll-driven animations are
-// missing, useFallbackTilt sets the same transform from script. The edge haze is two fixed bands, so no book is
-// blurred while it moves. Research: reports/Book stack project picker.md.
+// missing, useFallbackTilt sets the same transform from script. The blur toward the edges is on each book rather than
+// a band over the page, so the frame's lines behind the shelf stay as sharp as on /about. Research:
+// reports/Book stack project picker.md.
 
 const ORDER = Object.keys(PROJECTS);
 const pad = (n) => String(n).padStart(2, '0');
 const SUPPORTS_VIEW_TIMELINE = typeof CSS !== 'undefined' && CSS.supports('animation-timeline: view()');
 
-// Keep in step with --tilt in shelf.css: the angle at the window's top and bottom edges.
+// Keep in step with shelf.css: the tilt at the edges of the shelf's view (--tilt), and the blur and fade there.
 const MAX_TILT = 54;
+const EDGE_BLUR = 5;
+const EDGE_OPACITY = 0;
+const CLEAR = 0.26; // the share of the view at each edge over which a book clears
+
+// The shelf's middle line, in window px: where the middle book rests flat (--shelf-mid, set by ProjectsApp.jsx; the
+// middle of the space between the fixed bars until it is set).
+export function shelfMiddle() {
+  const root = getComputedStyle(document.documentElement);
+  const middle = parseFloat(root.getPropertyValue('--shelf-mid'));
+  if (!Number.isNaN(middle)) return middle;
+  const top = parseFloat(root.getPropertyValue('--header-h')) || 0;
+  return (top + window.innerHeight - (parseFloat(root.getPropertyValue('--footer-h')) || 0)) / 2;
+}
 
 function useFallbackTilt(listRef) {
   useEffect(() => {
@@ -27,14 +41,18 @@ function useFallbackTilt(listRef) {
     let frame = 0;
     const update = () => {
       frame = 0;
-      const root = getComputedStyle(document.documentElement);
-      const top = parseFloat(root.getPropertyValue('--header-h')) || 0;
-      const bottom = window.innerHeight - (parseFloat(root.getPropertyValue('--footer-h')) || 0);
+      // The same view as the CSS timeline: from the header down to as far below the middle line as the header is above.
+      const top = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--header-h')) || 0;
+      const bottom = Math.min(window.innerHeight, 2 * shelfMiddle() - top);
       for (const box of boxes) {
         // The same progress as view(): 0 as the item's top meets the bottom inset, 1 as its bottom leaves the top.
         const item = box.closest('.shelf-item').getBoundingClientRect();
         const progress = Math.min(1, Math.max(0, (bottom - item.top) / (bottom - top + item.height)));
         box.style.transform = `perspective(var(--perspective)) rotateX(${((progress * 2 - 1) * MAX_TILT).toFixed(2)}deg)`;
+        const edge = Math.max(0, 1 - Math.min(progress, 1 - progress) / CLEAR);
+        const book = box.parentElement;
+        book.style.filter = edge ? `blur(${(edge * EDGE_BLUR).toFixed(2)}px)` : '';
+        book.style.opacity = edge ? (1 - edge * (1 - EDGE_OPACITY)).toFixed(3) : '';
       }
     };
     const schedule = () => {
@@ -132,8 +150,6 @@ export default function Shelf({ onOpen, focusKey }) {
           );
         })}
       </ol>
-      <span className="shelf-haze" data-edge="top" aria-hidden="true" />
-      <span className="shelf-haze" data-edge="bottom" aria-hidden="true" />
     </nav>
   );
 }

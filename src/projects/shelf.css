@@ -11,22 +11,27 @@
   --perspective: calc(var(--spine-w) * 1.6);
   /* The tilt at the window's top and bottom edges (MAX_TILT in Shelf.jsx); the middle is square. */
   --tilt: 54deg;
-  --header: var(--header-h, 0px);
-  --footer: var(--footer-h, 0px);
   display: block;
 }
 
-/* Snap a book to the middle when scrolling settles near it; the fixed bars are kept out of the snapping area. */
+/* The shelf's middle line, where a book rests flat: /about's dashed line (--shelf-mid, from ProjectsApp.jsx), or the
+   middle of the space between the fixed bars until that is known. Its view runs from the header down to as far below
+   the line as the header is above it, so the line is the view's middle; snapping and the tilt both use that view. */
 :root:has(.shelf) {
+  --shelf-header: var(--header-h, 0px);
+  --shelf-line: var(
+    --shelf-mid,
+    calc(var(--shelf-header) + (100svh - var(--shelf-header) - var(--footer-h, 0px)) / 2)
+  );
+  --shelf-below: max(0px, 100svh - 2 * var(--shelf-line) + var(--shelf-header));
   scroll-snap-type: y proximity;
-  scroll-padding: var(--header-h, 0px) 0 var(--footer-h, 0px);
+  scroll-padding: var(--shelf-header) 0 var(--shelf-below);
 }
 
-/* Room above the first book and below the last, so each can reach the middle of the space between the bars. */
+/* Room above the first book and below the last, so each can reach the middle line. */
 .shelf-list {
   list-style: none;
-  padding: calc(var(--header) + (100svh - var(--header) - var(--footer) - var(--pitch)) / 2) 0
-    calc(var(--footer) + (100svh - var(--header) - var(--footer) - var(--pitch)) / 2);
+  padding: calc(var(--shelf-line) - var(--pitch) / 2) 0 calc(100svh - var(--shelf-line) - var(--pitch) / 2);
 }
 
 .shelf-item {
@@ -37,7 +42,7 @@
   scroll-snap-align: center;
   /* The item, never transformed, measures the scroll; the box inside it turns. */
   view-timeline: --shelf-book block;
-  view-timeline-inset: var(--header) var(--footer);
+  view-timeline-inset: var(--shelf-header) var(--shelf-below);
 }
 
 .shelf-book {
@@ -48,6 +53,25 @@
   font-size: var(--spine-h);
   color: #fef9eb;
   transition: scale 0.5s var(--hover-ease);
+  /* Toward the top and bottom of the view a book softens and fades out, gone by the bars (EDGE_BLUR, EDGE_OPACITY and
+     CLEAR in Shelf.jsx).
+     On the link, outside the 3D box, so the box is not flattened. */
+  animation: shelf-edge linear both;
+  animation-timeline: --shelf-book;
+}
+
+@keyframes shelf-edge {
+  0%,
+  100% {
+    filter: blur(5px);
+    opacity: 0;
+  }
+
+  26%,
+  74% {
+    filter: none;
+    opacity: 1;
+  }
 }
 
 /* Pointing at a book draws it out of the stack a little. */
@@ -81,7 +105,8 @@
 
 /* No scroll-driven animations: Shelf.jsx sets the same transform from script. */
 @supports not (animation-timeline: view()) {
-  .shelf-box {
+  .shelf-box,
+  .shelf-book {
     animation: none;
   }
 }
@@ -287,28 +312,4 @@
   .shelf-mark {
     width: 1.1em;
   }
-}
-
-/* ---- Haze toward the top and bottom edges: page colour fading in over a light blur, in two fixed bands ---- */
-
-.shelf-haze {
-  position: fixed;
-  left: 0;
-  right: 0;
-  z-index: 5;
-  height: 24svh;
-  pointer-events: none;
-  backdrop-filter: blur(5px);
-}
-
-.shelf-haze[data-edge='top'] {
-  top: var(--header);
-  background: linear-gradient(var(--bg), transparent);
-  mask-image: linear-gradient(#000 35%, transparent);
-}
-
-.shelf-haze[data-edge='bottom'] {
-  bottom: var(--footer);
-  background: linear-gradient(transparent, var(--bg));
-  mask-image: linear-gradient(transparent, #000 65%);
 }
