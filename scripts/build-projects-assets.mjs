@@ -49,7 +49,7 @@ for (const [name, [paint, d]] of Object.entries(LINES)) {
 
 // ---- Photos: a thumbnail (179 x 134 on the frame) and a preview (619 x 398), at about twice their frame size ----
 const PHOTOS = {
-  hero: 'img_7300.jpg',
+  hero: 'img_0079.jpg', // the user's replacement for the frame's own photo (img_7300.jpg)
   fraud: 'img_8782.jpg',
   alzheimer: 'img_8781.jpg',
   arumi: 'img_8777.jpg',
