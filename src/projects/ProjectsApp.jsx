@@ -133,8 +133,12 @@ export default function ProjectsApp() {
   return (
     <>
       <header className="home-header projects-header" ref={headerRef}>
-        <nav aria-label="Main">
-          <BrandLink href={HOME.href} label={HOME.label} onClick={backIfPrevious} />
+        {/* In the nav's row, as on /about, so the link is only as wide as the logotype: on its own it would stretch
+            across the header, over the showcase's strip. */}
+        <nav className="home-nav" aria-label="Main">
+          <div className="home-nav-group">
+            <BrandLink href={HOME.href} label={HOME.label} onClick={backIfPrevious} />
+          </div>
         </nav>
       </header>
       <main className="projects" data-view={open ? 'book' : 'showcase'}>
