@@ -702,6 +702,15 @@ export default function Book() {
       return false; // storage blocked: the turned book is the default
     }
   });
+  // Arriving at /home/#work (the Work link on /about): the browser looks for #work before React has rendered it, so
+  // it never scrolls; open on the book once the landing above has its height. A reload or back/forward keeps the
+  // browser's own restored position.
+  useEffect(() => {
+    const [entry] = performance.getEntriesByType('navigation');
+    if (window.location.hash !== '#work' || entry?.type === 'reload' || entry?.type === 'back_forward') return undefined;
+    const raf = requestAnimationFrame(() => document.getElementById('work')?.scrollIntoView({ behavior: 'instant' }));
+    return () => cancelAnimationFrame(raf);
+  }, []);
   let view = 'turning';
   if (touchPortrait) view = upright ? 'stacked' : 'rotated';
   else if (narrow) view = 'stacked';
