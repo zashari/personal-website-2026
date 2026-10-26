@@ -474,6 +474,8 @@ function usePageCurl({ canvasRef, bookRef, sectionRef, leaves, redraw }) {
       const cssText = await bookFontCss();
       const scale = Math.min(window.devicePixelRatio || 1, 2);
       for (let i = 0; i < leaves.current.length; i++) {
+        // The book may have closed (back to the shelf) while the last leaf was being drawn.
+        if (run !== generation || !leaves.current[i]) return;
         const pages = [...leaves.current[i].querySelectorAll(':scope > .bk-face > .bk-page')];
         try {
           const [front, back] = await Promise.all(
