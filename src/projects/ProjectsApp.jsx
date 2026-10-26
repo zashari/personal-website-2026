@@ -1,9 +1,9 @@
 import { useLayoutEffect, useRef } from 'react';
 import Book from './Book';
-import { HomeNav } from '../home/Brand';
+import { HomeNav, backIfPrevious } from '../home/Brand';
 import ModeSwitch from '../home/ModeSwitch';
 import { useTheme } from '../home/theme';
-import { CURRENT, HEADING } from './content';
+import { CURRENT, HEADING, HOME } from './content';
 
 // /projects: the work book, opened by Work in the header. /home's header stays fixed on top and the colour mode
 // switch on the bottom edge while the book turns between them; their heights are handed to book.css as --header-h
@@ -33,7 +33,7 @@ export default function ProjectsApp() {
   return (
     <>
       <header className="home-header projects-header" ref={headerRef}>
-        <HomeNav current={CURRENT} />
+        <HomeNav current={CURRENT} brand={HOME} onBrandClick={backIfPrevious} />
       </header>
       <main className="projects">
         <h1 className="home-visually-hidden">{HEADING}</h1>

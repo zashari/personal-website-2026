@@ -50,7 +50,7 @@ export function SpacedLabel({ text }) {
 const LOGO_INK_SHIFT = 0.0625;
 const TITLE_INK_SHIFT = { work: 0.025, workflow: -0.0125, contact: -0.025 };
 
-// current marks the page the visitor is on: the item stays in the accent colour and says so to assistive tech.
+// current marks the page the visitor is on, for assistive tech; it looks like any other item.
 export function NavItem({ id, title, label, href, current = false }) {
   return (
     <MaybeLink href={href} className="home-link home-nav-item" current={current}>
@@ -62,7 +62,7 @@ export function NavItem({ id, title, label, href, current = false }) {
   );
 }
 
-// A link back to the page the visitor just came from (the logotype's HOME on /about): when the previous
+// A link back to the page the visitor just came from (the logotype's HOME on /about and /projects): when the previous
 // history entry is that page, a plain click goes back through history instead, so the browser restores the page as
 // they left it (scroll position included) and the history does not grow home, about, home, about. Only same-site
 // entries are visible to the Navigation API, so a visitor who arrived from elsewhere simply follows the link.
@@ -93,9 +93,10 @@ export function BrandLink({ href, label, onClick }) {
   );
 }
 
-// /home's header nav, also used on /projects: the logotype (ABOUT ME) and Work on the left, Workflow and Contact me on
-// the right. current is the key of the page the visitor is on, if it is one of the items.
-export function HomeNav({ current }) {
+// /home's header nav, also used on /projects: the logotype and Work on the left, Workflow and Contact me on the right.
+// The logotype leads to BRAND (ABOUT ME) unless a page passes its own brand link ({ label, href }) and onBrandClick.
+// current is the key of the page the visitor is on, if it is one of the items.
+export function HomeNav({ current, brand = BRAND, onBrandClick }) {
   const item = (entry) => (
     <NavItem
       key={entry.key}
@@ -109,7 +110,7 @@ export function HomeNav({ current }) {
   return (
     <nav className="home-nav" aria-label="Main">
       <div className="home-nav-group">
-        <BrandLink href={BRAND.href} label={BRAND.label} />
+        <BrandLink href={brand.href} label={brand.label} onClick={onBrandClick} />
         {item(NAV[0])}
       </div>
       <div className="home-nav-group">{NAV.slice(1).map(item)}</div>
