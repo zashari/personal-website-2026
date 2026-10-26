@@ -36,8 +36,3 @@ export const NAV = HOME_NAV;
 // visit starts it on the first click, tap or key press instead; this switch turns it off and on.
 export const SOUND = { on: 'Sound on', off: 'Sound off', label: 'Sound of the waves' };
 
-// Colour mode switch at the bottom: first option sits bottom-left, second bottom-right.
-export const MODES = [
-  { key: 'dark', label: 'DARK' },
-  { key: 'light', label: 'LIGHT' },
-];

@@ -96,7 +96,7 @@ body {
 :root.theme-switching .about-edu-years,
 :root.theme-switching .about-resume,
 :root.theme-switching .about-sound,
-:root.theme-switching .about-mode-option {
+:root.theme-switching .home-mode-option {
   transition:
     background-color var(--theme-time) ease,
     color var(--theme-time) ease,
@@ -203,43 +203,8 @@ body {
   color: var(--accent);
 }
 
-.about-mode-option {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 0;
-  border: 0;
-  background: none;
-  font: inherit;
-  color: var(--mode-idle);
-  cursor: pointer;
-  transition: color var(--hover-time) var(--hover-ease);
-}
 
-.about-mode-option[aria-pressed='true'],
-.about-mode-option:hover,
-.about-mode-option:focus-visible {
-  color: var(--accent);
-}
-
-.about-mode-option[aria-pressed='true'] {
-  cursor: default;
-}
-
-.about-mode-label {
-  font-family: 'Open Sans', sans-serif;
-  font-weight: 600;
-  letter-spacing: -0.02em;
-}
-
-.about-mode-line {
-  display: block;
-  width: 100%;
-  margin-top: auto;
-  background: currentColor;
-}
-
-:is(.about-resume, .about-sound, .about-mode-option):focus-visible {
+:is(.about-resume, .about-sound):focus-visible {
   outline: 2px solid currentColor;
   outline-offset: 6px;
 }
@@ -299,33 +264,18 @@ body {
   top: 0;
 }
 
-.about-stage .about-mode-option {
-  width: 173px;
-}
-
-.about-stage .about-mode-label {
-  font-size: 15px;
-  line-height: 20.43px;
-}
-
-.about-stage .about-mode-line {
-  height: 3px;
-}
-
-.about-stage .about-mode-option .about-mode-label,
-.about-stage .about-mode-option .about-mode-line {
-  position: static;
-}
-
 /* ---- Column: narrow or upright screens ---- */
 
 .about-flow {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: clamp(28px, 6vw, 44px);
   min-height: 100dvh;
   /* Content at most 860 px wide, centred (on a tablet); the dashed line still runs to the screen's edges. */
-  padding: clamp(28px, 6vw, 44px) max(clamp(20px, 6vw, 48px), (100% - 860px) / 2) 0;
+  /* At the foot, room for the mode switch on the bottom edge (mode-switch.css). */
+  padding: clamp(28px, 6vw, 44px) max(clamp(20px, 6vw, 48px), (100% - 860px) / 2)
+    calc(var(--mode-h) + clamp(28px, 6vw, 44px));
   overflow: hidden;
   overflow: clip;
 }
@@ -402,23 +352,4 @@ body {
 .about-flow .about-sparkle {
   width: 44px;
   height: 44px;
-}
-
-.about-flow .about-mode {
-  display: flex;
-  justify-content: space-between;
-  margin-top: auto;
-}
-
-.about-flow .about-mode-option {
-  gap: 14px;
-  width: min(40%, 173px);
-}
-
-.about-flow .about-mode-label {
-  font-size: 13px;
-}
-
-.about-flow .about-mode-line {
-  height: 3px;
 }

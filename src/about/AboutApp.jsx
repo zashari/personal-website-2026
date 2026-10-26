@@ -1,6 +1,7 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
-import { CLIP_LABEL, EDUCATION, EDUCATION_TITLE, HOME, INTRO, MODES, NAV, PAGE_TITLE, RESUME, SOUND } from './content';
+import { CLIP_LABEL, EDUCATION, EDUCATION_TITLE, HOME, INTRO, NAV, PAGE_TITLE, RESUME, SOUND } from './content';
 import { BrandLink, MaybeLink, NavItem, backIfPrevious } from '../home/Brand';
+import ModeSwitch from '../home/ModeSwitch';
 import { useTheme } from '../home/theme';
 import { SOUND_SWITCH_ATTR, useWaveSound } from './useWaveSound';
 import lines from './assets/lines.svg';
@@ -55,9 +56,6 @@ const NUMBERS = Array.from({ length: 7 }, (_, i) => ({
   label: String(i + 1).padStart(2, '0'),
   ...textAt({ x: 77 + 269 * i, baseline: 1037.09, size: 16, lineHeight: 25 }),
 }));
-// The mode switch: a 173 px underline flush with the frame's bottom edge, the label centred over it.
-const MODE_LABEL = textAt({ x: 0, baseline: 1054.71, size: 15, lineHeight: 20.43, font: 'sans' });
-const MODE_X = { dark: 77, light: 1670 };
 const DASH_Y = 540; // the dashed line's 2 px band, through the clip's middle
 const DASH_BLEED = 2000; // the dashed line runs past the frame's sides to the window's edges
 
@@ -165,28 +163,8 @@ function SoundSwitch({ sound, style }) {
   );
 }
 
-function ModeSwitch({ theme, onChange, placed }) {
-  return (
-    <div className="about-mode" role="group" aria-label="Colour mode">
-      {MODES.map((mode) => (
-        <button
-          key={mode.key}
-          type="button"
-          className="about-mode-option"
-          style={placed && { left: MODE_X[mode.key], top: MODE_LABEL.top, height: FRAME.height - MODE_LABEL.top }}
-          aria-pressed={theme === mode.key}
-          onClick={() => onChange(mode.key)}
-        >
-          <span className="about-mode-label">{mode.label}</span>
-          <span className="about-mode-line" aria-hidden="true" />
-        </button>
-      ))}
-    </div>
-  );
-}
-
 // Picks the stage or the column, and for the stage its scale and place: as large as fits the window below the
-// header, centred across and resting on the bottom edge (where the mode switch's underline sits). A window too short
+// header, centred across and resting on the bottom edge (where the mode switch sits). A window too short
 // for MIN_SCALE scrolls. Re-runs when the window or the header (which grows as its fonts load) changes size.
 function useLayout(headerRef) {
   const [layout, setLayout] = useState(null);
@@ -288,8 +266,8 @@ function Stage({ layout, theme, setTheme, sound }) {
           {INTRO}
         </p>
         {sound.supported && <SoundSwitch sound={sound} style={SOUND_BOX} />}
-        <ModeSwitch theme={theme} onChange={setTheme} placed />
       </div>
+      <ModeSwitch theme={theme} onChange={setTheme} />
     </main>
   );
 }
