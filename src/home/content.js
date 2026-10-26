@@ -4,7 +4,7 @@
 export const BRAND = { label: 'ABOUT ME', href: '/about/' };
 
 export const NAV = [
-  { key: 'work', title: 'Work', label: 'MY PROJECTS', href: '#work' },
+  { key: 'work', title: 'Work', label: 'MY PROJECTS', href: '/projects/' },
   { key: 'workflow', title: 'Workflow', label: 'THE PROCESS', href: null },
   { key: 'contact', title: 'Contact me', label: 'FOR ANY PROJECTS', href: 'mailto:izzat.zaky@gmail.com' },
 ];
