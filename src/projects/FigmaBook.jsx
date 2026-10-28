@@ -38,10 +38,11 @@ export function Sheet({ children, className = '' }) {
   return <div className={`bk-sheet-inner fb-sheet ${className}`}>{children}</div>;
 }
 
-// A photo from a book's figma.js, at its rect.
-export function Photo({ avif, webp, x, y, w, h }) {
+// A photo from a book's figma.js, at its rect, with the stroke Figma centres on its edge if it has one.
+export function Photo({ avif, webp, x, y, w, h, stroke, strokeWidth }) {
+  const edge = stroke && { outline: `${fpx(strokeWidth)} solid ${stroke}`, outlineOffset: fpx(-strokeWidth / 2) };
   return (
-    <picture className="fb-photo" style={{ left: fpx(x), top: fpx(y), width: fpx(w), height: fpx(h) }}>
+    <picture className="fb-photo" style={{ left: fpx(x), top: fpx(y), width: fpx(w), height: fpx(h), ...edge }}>
       <source type="image/avif" srcSet={avif} />
       <img src={webp} alt="" loading="lazy" decoding="async" draggable={false} />
     </picture>
@@ -62,10 +63,22 @@ export function Box({ x, y, w, h, color }) {
   return <div className="fb-box" style={{ left: fpx(x), top: fpx(y), width: fpx(w), height: fpx(h), background: color }} />;
 }
 
-// **words** in bold; {{words}} kept together, so a justified line does not spread the spaces inside them.
+// **words** in bold, _words_ in italics, [words](url) a link; {{words}} kept together, so a justified line does not
+// spread the spaces inside them. The pages are hidden from assistive tech and the keyboard, so a link there is for the
+// pointer only; a book's text for screen readers carries it too.
+const MARKUP = /(\*\*.+?\*\*|\{\{.+?\}\}|_.+?_|\[.+?\]\(.+?\))/;
 const rich = (line) =>
-  line.split(/(\*\*.+?\*\*|\{\{.+?\}\})/).map((part, i) => {
+  line.split(MARKUP).map((part, i) => {
     if (part.startsWith('**')) return <b key={i}>{part.slice(2, -2)}</b>;
+    if (part.startsWith('_')) return <i key={i}>{part.slice(1, -1)}</i>;
+    const link = part.match(/^\[(.+?)\]\((.+?)\)$/);
+    if (link) {
+      return (
+        <a key={i} className="fb-link" href={link[2]} target="_blank" rel="noopener" tabIndex={-1}>
+          {link[1]}
+        </a>
+      );
+    }
     if (part.startsWith('{{')) {
       return (
         <span key={i} className="fb-keep">
@@ -125,4 +138,24 @@ export const plain = (lines) =>
   lines
     .map((line) => (typeof line === 'string' ? line : line.text))
     .join(' ')
-    .replace(/\*\*|\{\{|\}\}/g, '');
+    .replace(/\[(.+?)\]\((.+?)\)/g, '$1')
+    .replace(/\*\*|\{\{|\}\}|_/g, '');
+
+// The "Zashari" logotype as the books draw it: an Italianno Z, stroked 1 px, and "ashari" set tight in Open Sans
+// Medium, 34 px to its right; x and baseline are the Z's.
+export function Logotype({ x, baseline }) {
+  return (
+    <>
+      <Text lines={['Z']} font="script" className="fb-logo-z" x={x} baseline={baseline} size={75} color="#000" />
+      <Text
+        lines={['ashari']}
+        x={x + 34}
+        baseline={baseline + 0.122}
+        size={50}
+        weight={500}
+        color="#000"
+        style={{ letterSpacing: '-0.13em' }}
+      />
+    </>
+  );
+}

@@ -3,7 +3,8 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
 import { FRAME, textAt } from '../about/frame';
-import { HERO, SHOWCASE } from './content';
+import { SOCIALS } from '../home/content';
+import { GITHUB, HERO, SHOWCASE } from './content';
 import { CLIPS, HERO_PHOTO, PHOTOS, SHOWCASE_REST } from './photos';
 import { PROJECTS } from './work';
 import heroCircle from './assets/lines/hero-circle.svg';
@@ -13,16 +14,20 @@ import showcaseCircle from './assets/lines/showcase-circle.svg';
 import showcaseRule from './assets/lines/showcase-rule.svg';
 import showcaseDash from './assets/lines/showcase-dash.svg';
 import showcaseTriangle from './assets/lines/showcase-triangle.svg';
+import githubArrow from './assets/lines/github-arrow.svg';
 import './showcase.css';
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
-// /projects before a book is open: two scenes from the Figma frames "projects-desktop" (the hero, "Things I've done")
-// and "projects-showcase-desktop" (the strip of projects over a big preview of one), drawn in Figma px on a 1920 x 1080
-// stage scaled to the window. Scrolling one screen turns the hero into the showcase, scrubbed by the scroll and settling
-// on either scene: the photo in the hero's brackets grows into the preview, the brackets and asterisk grow with it,
-// the words fall away, the strip comes in and the hand-drawn lines move to their showcase places. Research:
-// reports/Projects hero to showcase scroll.md. Narrow or upright windows get the same content as a column instead.
+// /projects before a book is open: three scenes from the Figma frames "projects-desktop" (the hero, "Things I've done"),
+// "projects-showcase-desktop" (the strip of projects over a big preview of one) and "projects-github-desktop" ("Please
+// visit my Github profile"), drawn in Figma px on a 1920 x 1080 stage scaled to the window. Each screen of scroll turns
+// one scene into the next, scrubbed by the scroll and settling on a scene. Hero to showcase: the photo in the hero's
+// brackets grows into the preview, the brackets and asterisk grow with it, the words fall away, the strip comes in and
+// the hand-drawn lines move to their showcase places. Showcase to Github: the strip leaves, the brackets close on the
+// preview, the dashed line erases and the circle rolls away, while the triangle turns upright, the asterisk rises to
+// the headline and a second one spins in. Research: reports/Projects hero to showcase scroll.md. Narrow or upright
+// windows get the same content as a column instead.
 
 const ORDER = Object.keys(PROJECTS);
 const pad3 = (n) => String(n).padStart(3, '0');
@@ -49,7 +54,13 @@ const BRACKET_SCALE = 4.5;
 const ASTERISK = {
   hero: typewriter(803, 599.791, 50),
   showcase: typewriter(626, 540.582, 100),
+  github: typewriter(618, 315.373, 150),
+  second: typewriter(1618, 912.373, 150), // the Github scene's other asterisk, bottom right
 };
+// In the Github scene the asterisks spin in place, a turn every SPIN_S seconds; leaving it, each settles on the nearest
+// fifth of a turn, where its five arms look as they did.
+const SPIN_S = 6;
+const ARMS = 5;
 const PHOTO = {
   hero: { left: 887, top: 553, width: 146, height: 110 },
   showcase: { left: 810, top: 469, width: 619, height: 398 },
@@ -74,7 +85,42 @@ const CIRCLE = {
   hero: { cx: 959.9, cy: 540.2, size: 665.2 },
   showcase: { cx: 1619.7, cy: 540.6, size: 580.2 },
 };
-const TRIANGLE_CENTRE = '251px 541px';
+// The Github scene's triangle is the showcase's turned a quarter anticlockwise round its centre (251, 541) and moved
+// (Figma's two paths match point for point that way).
+const TRIANGLE_UPRIGHT = { rotation: -90, x: 69.95, y: 68.05 };
+// The Github scene's words: Times New Normal at 100 on 110 px lines, with "Github" and "!!" set apart; the socials at
+// 20, as on /home. Placed on the SVG's own baselines: at these sizes they match Figma's render (an overlay shows no
+// offset), unlike the books' small Times (FigmaBook.jsx).
+const times = (x, baseline, size, lineHeight) => textAt({ x, baseline, size, lineHeight, font: 'times' });
+const GITHUB_LINES = [times(618, 485, 100, 110), times(618, 595, 100, 110), times(618, 705, 100, 110)];
+const GITHUB_LINK = times(1461.7, 485, 100, 110);
+const GITHUB_BANG = times(949.902, 705, 100, 110);
+const SOCIAL_X = { tiktok: 742, github: 920, instagram: 1096 };
+const SOCIAL_BASELINE = 1037;
+
+// The scroll runs hero (0), showcase (0.5) and Github (1); a scene counts as reached a tenth of the way to it.
+const SCENE_AT = [0, 0.5, 1];
+const sceneAt = (progress) => (progress < 0.45 ? 'hero' : progress <= 0.55 ? 'showcase' : 'github');
+// How far the scroll must carry from a scene, as a share of the way to the next, before letting go settles on that
+// next one; a shorter scroll springs back. The owner found a plain directional snap too eager: a nudge changed scenes.
+const COMMIT = 0.3;
+const nearestScene = (progress) => SCENE_AT.reduce((a, b) => (Math.abs(b - progress) < Math.abs(a - progress) ? b : a));
+// Where to settle once the scroll stops, given the scene it last settled on (rest): the same one after a short scroll,
+// the next one in the scroll's direction after a longer one. A scene the scroll already rests on (a jump straight to
+// it, as on the way back from a book) stays put.
+function settleOn(progress, direction, rest) {
+  const here = SCENE_AT.find((p) => Math.abs(p - progress) < 0.01);
+  if (here !== undefined) return here;
+  if (Math.abs(progress - rest) < COMMIT * SCENE_AT[1]) return rest;
+  return direction > 0 ? SCENE_AT.find((p) => p > progress) : SCENE_AT.findLast((p) => p < progress);
+}
+
+// Where the showcase rests on the scroll (half way down the track), for ProjectsApp to return to from a book; null
+// until the stage is laid out.
+export function showcaseScrollTop() {
+  const st = ScrollTrigger.getById('pj-scenes');
+  return st ? st.start + (st.end - st.start) / 2 : null;
+}
 
 const FLOW_MAX_WIDTH = 1100; // as /about: narrower than this the frame's 16 px text would be too small to read
 const FLOW_MAX_ASPECT = 1.2;
@@ -242,7 +288,7 @@ function Strip({ selected, peek, onSelect, onPeek, onFocusStrip }) {
   );
 }
 
-// The two scenes on the scaled stage, and the scroll that turns one into the other.
+// The three scenes on the scaled stage, and the scroll that turns one into the next.
 function Stage({ stage, selected, onSelect, onOpen }) {
   const trackRef = useRef(null);
   const triggerRef = useRef(null);
@@ -388,42 +434,135 @@ function Stage({ stage, selected, onSelect, onOpen }) {
           { opacity: 1, scale: 1, duration: 0.45 },
           0.45
         );
+
+      // Showcase to Github, as long as hero to showcase (one), so the showcase sits half way down the scroll.
+      const one = tl.duration();
+      const at = (t) => one + t * one;
+      const len = (t) => t * one;
+      tl.addLabel('hero', 0).addLabel('showcase', one);
+      tl
+        // The strip and the preview's caption leave; the brackets close on the preview, which narrows to nothing, all
+        // before the words come in.
+        .to(q('.pj-strip-item'), { opacity: 0, y: -24, duration: len(0.3), stagger: len(0.04) }, at(0))
+        .to(q('.pj-preview-text'), { opacity: 0, y: 16, duration: len(0.25) }, at(0))
+        .fromTo(
+          q('.pj-preview'),
+          { clipPath: 'inset(0% 0% 0% 0%)' },
+          { clipPath: 'inset(0% 50% 0% 50%)', duration: len(0.35), immediateRender: false },
+          at(0)
+        )
+        .to(q('.pj-bracket-big[data-side="open"]'), { x: 330, duration: len(0.35) }, at(0))
+        .to(q('.pj-bracket-big[data-side="close"]'), { x: -330, duration: len(0.35) }, at(0))
+        .to(q('.pj-bracket-big'), { opacity: 0, duration: len(0.12), ease: 'none' }, at(0.25))
+        // The dashed line erases from the left, behind the circle, which rolls away to the right.
+        .to(
+          q('.pj-line-showcase-dash'),
+          { clipPath: `inset(0px ${-BLEED}px 0px ${FRAME.width + BLEED}px)`, duration: len(0.5), ease: 'power1.inOut' },
+          at(0)
+        )
+        .to(q('.pj-line-showcase-circle'), { x: 760, rotation: 140, opacity: 0, duration: len(0.6), ease: 'power2.in' }, at(0))
+        // The triangle turns upright onto the rule; the asterisk rises to the headline and grows.
+        .to(q('.pj-line-showcase-triangle'), { ...TRIANGLE_UPRIGHT, duration: len(0.8) }, at(0.05))
+        .to(
+          q('.pj-asterisk'),
+          {
+            x: ASTERISK.github.left - ASTERISK.showcase.left,
+            y: ASTERISK.github.top - ASTERISK.showcase.top,
+            scale: ASTERISK.github.fontSize / ASTERISK.showcase.fontSize,
+            duration: len(0.7),
+          },
+          at(0.05)
+        )
+        // The words rise in line by line, the arrow draws towards "Github", the second asterisk spins in and the
+        // socials come up last.
+        .fromTo(
+          q('.pj-github-line'),
+          { opacity: 0, y: 60 },
+          { opacity: 1, y: 0, duration: len(0.4), stagger: len(0.07), ease: 'power3.out' },
+          at(0.4)
+        )
+        .fromTo(
+          q('.pj-github-arrow'),
+          { clipPath: `inset(0px ${FRAME.width - 1251}px 0px 0px)` },
+          { clipPath: 'inset(0px 0px 0px 0px)', duration: len(0.3), ease: 'power1.inOut' },
+          at(0.55)
+        )
+        .fromTo(
+          q('.pj-asterisk-second'),
+          { opacity: 0, scale: 0.2, rotation: -144 },
+          { opacity: 1, scale: 1, rotation: 0, duration: len(0.45), ease: 'back.out(1.6)' },
+          at(0.5)
+        )
+        .fromTo(
+          q('.pj-social'),
+          { opacity: 0, y: 20 },
+          { opacity: 1, y: 0, duration: len(0.3), stagger: len(0.06) },
+          at(0.65)
+        )
+        .addLabel('github', 2 * one)
+        .set({}, {}, 2 * one);
+      let rest = 0; // the scene the scroll last settled on (see settleOn)
       triggerRef.current = ScrollTrigger.create({
+        id: 'pj-scenes',
         trigger: trackRef.current,
         start: 'top top',
         end: 'bottom bottom',
         animation: tl,
-        scrub: 0.6,
-        // Settle on a scene, in the direction the visitor was scrolling.
+        // The scenes trail the scroll by a second, which gives the scroll some weight.
+        scrub: 1,
         snap: {
-          snapTo: [0, 1],
-          directional: true,
-          duration: { min: 0.3, max: 0.8 },
-          delay: 0.05,
+          snapTo: (progress, self) => (rest = settleOn(progress, self.direction, rest)),
+          // Judge where the scroll stopped, not where its momentum would carry it: with inertia a quick flick counts
+          // as a long scroll and skips scenes.
+          inertia: false,
+          duration: { min: 0.4, max: 0.9 },
+          delay: 0.15,
           ease: 'power2.inOut',
         },
         onUpdate: (self) => {
-          const next = self.progress > 0.9 ? 'showcase' : 'hero';
-          // Leaving the showcase for the hero lets go of the chosen project, so coming back shows the resting image.
-          if (next === 'hero' && sceneRef.current === 'showcase') {
+          const next = sceneAt(self.progress);
+          // Back to the hero lets go of the chosen project, so coming back shows the resting image; on to the Github
+          // scene lets go of the one pointed at.
+          if (next !== 'showcase' && sceneRef.current !== next) {
             clearTimeout(lingerRef.current);
             setPeek(null);
-            onSelectRef.current(null);
+            if (next === 'hero') onSelectRef.current(null);
           }
           sceneRef.current = next;
           setScene(next);
         },
       });
-      sceneRef.current = triggerRef.current.progress > 0.9 ? 'showcase' : 'hero';
+      sceneRef.current = sceneAt(triggerRef.current.progress);
+      rest = nearestScene(triggerRef.current.progress);
       setScene(sceneRef.current);
     },
     { scope: trackRef }
   );
 
-  // Reaching the strip with the keyboard while the hero is up brings the showcase in.
+  // In the Github scene the asterisks spin in place; leaving it, they settle where their arms look as at rest.
+  useEffect(() => {
+    const glyphs = trackRef.current.querySelectorAll('.pj-asterisk-glyph');
+    if (scene !== 'github') {
+      gsap.to(glyphs, {
+        rotation: (i, el) => Math.round(gsap.getProperty(el, 'rotation') / (360 / ARMS)) * (360 / ARMS),
+        duration: 0.4,
+        ease: 'power2.out',
+        overwrite: true,
+      });
+      return undefined;
+    }
+    const spin = gsap.to(glyphs, { rotation: '+=360', duration: SPIN_S, ease: 'none', repeat: -1, overwrite: true });
+    return () => spin.kill();
+  }, [scene]);
+
+  // Reaching the strip with the keyboard brings the showcase in; reaching the Github scene's links brings that in.
   const toShowcase = () => {
+    const top = showcaseScrollTop();
+    if (top !== null && sceneRef.current !== 'showcase') window.scrollTo({ top, behavior: 'smooth' });
+  };
+  const toGithub = () => {
     const st = triggerRef.current;
-    if (st && st.progress < 0.9) window.scrollTo({ top: st.end, behavior: 'smooth' });
+    if (st && sceneRef.current !== 'github') window.scrollTo({ top: st.end, behavior: 'smooth' });
   };
   const open = (event) => {
     if (!project) return;
@@ -450,6 +589,7 @@ function Stage({ stage, selected, onSelect, onOpen }) {
           <Line src={showcaseRule} className="pj-line-showcase-rule" bleed={{ axis: 'y', at: 321 }} />
           <Line src={showcaseDash} className="pj-line-showcase-dash" bleed={{ axis: 'x', at: 539, dashed: true }} />
           <Line src={showcaseTriangle} className="pj-line-showcase-triangle" />
+          <span className="pj-github-arrow" style={{ '--arrow': `url(${githubArrow})` }} aria-hidden="true" />
 
           <div className="pj-numbers" aria-hidden="true">
             {HERO_NUMBERS.map((box, i) => (
@@ -491,8 +631,11 @@ function Stage({ stage, selected, onSelect, onOpen }) {
             onPointerEnter={hold}
             onPointerLeave={letGo}
           >
-            *
+            <span className="pj-asterisk-glyph">*</span>
           </a>
+          <span className="pj-asterisk-second" style={ASTERISK.second} aria-hidden="true">
+            <span className="pj-asterisk-glyph">*</span>
+          </span>
           <a
             className="pj-hint"
             style={HINT}
@@ -548,6 +691,46 @@ function Stage({ stage, selected, onSelect, onOpen }) {
               </Fragment>
             ))}
           </a>
+          {/* The Github scene, read in order as one sentence with the link in it. */}
+          <p className="pj-github">
+            <span className="pj-github-line" style={GITHUB_LINES[0]}>
+              {GITHUB.lines[0]}
+            </span>{' '}
+            <a
+              className="pj-github-line pj-github-link"
+              style={GITHUB_LINK}
+              href={GITHUB.link.href}
+              target="_blank"
+              rel="noopener"
+              onFocus={toGithub}
+            >
+              {GITHUB.link.label}
+            </a>{' '}
+            <span className="pj-github-line" style={GITHUB_LINES[1]}>
+              {GITHUB.lines[1]}
+            </span>{' '}
+            <span className="pj-github-line" style={GITHUB_LINES[2]}>
+              {GITHUB.lines[2]}
+            </span>
+            <span className="pj-github-line pj-github-bang" style={GITHUB_BANG} aria-hidden="true">
+              {GITHUB.bang}
+            </span>
+          </p>
+          <nav className="pj-socials" aria-label="Socials">
+            {SOCIALS.map((social) => (
+              <a
+                key={social.key}
+                className="pj-social"
+                style={times(SOCIAL_X[social.key], SOCIAL_BASELINE, 20, 27)}
+                href={social.href}
+                target="_blank"
+                rel="noopener"
+                onFocus={toGithub}
+              >
+                {social.label}
+              </a>
+            ))}
+          </nav>
           <div className="pj-preview-text" aria-hidden="true">
             {project && (
               <>
@@ -574,7 +757,8 @@ function Stage({ stage, selected, onSelect, onOpen }) {
   );
 }
 
-// Narrow or upright windows: the hero, then the projects as a list of cards that open their books.
+// Narrow or upright windows: the hero, then the projects as a list of cards that open their books, then the Github scene's
+// words and the socials.
 function Flow({ onOpen }) {
   const open = (event, key) => {
     if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
@@ -613,6 +797,26 @@ function Flow({ onOpen }) {
           );
         })}
       </ol>
+      <p className="pj-flow-github">
+        <span className="pj-flow-asterisk" aria-hidden="true">
+          *
+        </span>{' '}
+        {GITHUB.lines[0]}{' '}
+        <a href={GITHUB.link.href} target="_blank" rel="noopener">
+          {GITHUB.link.label}
+        </a>{' '}
+        {GITHUB.lines[1]} {GITHUB.lines[2]}{' '}
+        <span className="pj-github-bang" aria-hidden="true">
+          {GITHUB.bang}
+        </span>
+      </p>
+      <nav className="pj-flow-socials" aria-label="Socials">
+        {SOCIALS.map((social) => (
+          <a key={social.key} className="pj-social" href={social.href} target="_blank" rel="noopener">
+            {social.label}
+          </a>
+        ))}
+      </nav>
     </div>
   );
 }

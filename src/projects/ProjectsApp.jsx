@@ -1,7 +1,7 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import Book from './Book';
-import Showcase from './Showcase';
+import Showcase, { showcaseScrollTop } from './Showcase';
 import { BrandLink, backIfPrevious } from '../home/Brand';
 import ModeSwitch from '../home/ModeSwitch';
 import { useTheme } from '../home/theme';
@@ -33,6 +33,15 @@ function useHeightVar(ref, name) {
 const KEY_OF = Object.fromEntries(Object.entries(PROJECTS).map(([key, p]) => [p.slug, key]));
 const bookInUrl = () => KEY_OF[new URLSearchParams(window.location.search).get('p')] ?? null;
 
+// The showcase's place on the scroll, half way down the scenes (Showcase.jsx); the stage is laid out a frame or two
+// after the view mounts, so this waits for it. Narrow windows have no scenes, and their projects end the page.
+function scrollToShowcase(tries = 10) {
+  const top = showcaseScrollTop();
+  if (top !== null) window.scrollTo({ top, behavior: 'instant' });
+  else if (tries > 0) requestAnimationFrame(() => scrollToShowcase(tries - 1));
+  else window.scrollTo({ top: document.documentElement.scrollHeight - window.innerHeight, behavior: 'instant' });
+}
+
 // Once the showcase has rendered: put focus back on the project that was open, without scrolling to it.
 function focusProject(key) {
   requestAnimationFrame(() => document.querySelector(`[data-project="${key}"]`)?.focus({ preventScroll: true }));
@@ -40,7 +49,7 @@ function focusProject(key) {
 
 function useProjectRoute(onReturn) {
   const [open, setOpen] = useState(bookInUrl);
-  // Where to scroll once the view has rendered: a number, or 'showcase' for the end of the scroll, where the showcase is.
+  // Where to scroll once the view has rendered: a number, or 'showcase' for the showcase's place on the scroll.
   const pendingScroll = useRef(0);
   const back = useRef(null);
 
@@ -60,9 +69,7 @@ function useProjectRoute(onReturn) {
     const target = pendingScroll.current;
     pendingScroll.current = null;
     if (typeof target === 'number') window.scrollTo({ top: target, behavior: 'instant' });
-    else if (target === 'showcase') {
-      window.scrollTo({ top: document.documentElement.scrollHeight - window.innerHeight, behavior: 'instant' });
-    }
+    else if (target === 'showcase') scrollToShowcase();
     if (!open && back.current) {
       onReturn(back.current);
       focusProject(back.current);

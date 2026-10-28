@@ -1,8 +1,8 @@
 #!/usr/bin/env node
-// Builds the /projects assets from the Figma frames "projects-desktop" (the hero) and "projects-showcase-desktop",
-// exported as SVG with text kept as text (design/figma/data/projects-*-light.svg; dark differs only in colour) and their
-// photos split out to design/source/projects.
-// - src/projects/assets/lines/*.svg: the hand-drawn lines of both scenes, Figma's own paths, one file each
+// Builds the /projects assets from the Figma frames "projects-desktop" (the hero), "projects-showcase-desktop" and
+// "projects-github-desktop", exported as SVG with text kept as text (design/figma/data/projects-*-light.svg; dark
+// differs only in colour) and their photos split out to design/source/projects.
+// - src/projects/assets/lines/*.svg: the hand-drawn lines of the three scenes, Figma's own paths, one file each
 // - src/projects/assets/images/*.{avif,webp}: the hero photo and each project's photo, as a thumbnail and a preview,
 //   and me.webp, the showcase's animated resting image
 // - src/projects/assets/fonts/*.woff2: CaskaydiaCove NF SemiLight (the roles in brackets) cut down to Latin text, and
@@ -22,6 +22,8 @@ const OUT = 'src/projects/assets';
 const svgs = {
   hero: fs.readFileSync(`${DATA}/projects-desktop-light.svg`, 'utf8'),
   showcase: fs.readFileSync(`${DATA}/projects-showcase-desktop-light.svg`, 'utf8'),
+  // The third scene, "Please visit my Github profile" (2026-10-28); its rule and triangle are the showcase's.
+  github: fs.readFileSync(`${DATA}/projects-github-desktop-light.svg`, 'utf8'),
 };
 const pathById = (svg, id) => {
   const match = svg.match(new RegExp(`<path id="${id}" d="([^"]+)"`));
@@ -39,6 +41,7 @@ const LINES = {
   'showcase-dash': ['stroke', pathById(svgs.showcase, 'Line 8')], // the horizontal dashed line
   'showcase-triangle': ['fill', pathById(svgs.showcase, 'Rectangle 1')],
   'showcase-circle': ['fill', pathById(svgs.showcase, 'Ellipse 3')],
+  'github-arrow': ['fill', pathById(svgs.github, 'Arrow 1')], // painted in the accent through a CSS mask
 };
 fs.mkdirSync(`${OUT}/lines`, { recursive: true });
 for (const [name, [paint, d]] of Object.entries(LINES)) {
@@ -55,8 +58,7 @@ const PHOTOS = {
   alzheimer: 'img_8781.jpg',
   arumi: 'arumi.png', // the user's still of the stand at night (2026-10-28); its clip is assets/media/arumi.mp4
   deepfake: 'img_7302.jpg',
-  gamified: 'img_6752.jpg',
-  'gamified-site': 'image.png',
+  gamified: 'gamified-cover.png', // the user's interrogation-room still (2026-10-28); its clip is assets/media/gamified.mp4
 };
 fs.mkdirSync(`${OUT}/images`, { recursive: true });
 for (const [name, file] of Object.entries(PHOTOS)) {

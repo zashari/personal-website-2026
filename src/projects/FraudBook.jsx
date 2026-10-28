@@ -1,5 +1,5 @@
 // Fraud Detection's book: four spreads drawn in Figma (design/figma/data/fraud-page-*.svg), rebuilt with FigmaBook.jsx.
-import { Box, Hint, Path, Photo, Sheet, Text, plain } from './FigmaBook';
+import { Box, Hint, Logotype, Path, Photo, Sheet, Text, plain } from './FigmaBook';
 import { PATHS, PHOTOS } from './assets/books/fraud/figma';
 import { FRAUD_BOOK as F } from './work';
 import './fraud.css';
@@ -40,16 +40,7 @@ function ResearchSpread() {
       <Text lines={F.research} {...column} x={413} baseline={279} width={135} />
       <Text lines={F.goal} {...column} justify={false} x={604} baseline={44} />
       <Path {...PATHS['s2-line-9']} />
-      <Text lines={['Z']} font="script" className="fb-logo-z" x={598} baseline={280.275} size={75} color="#000" />
-      <Text
-        lines={['ashari']}
-        x={632}
-        baseline={280.397}
-        size={50}
-        weight={500}
-        color="#000"
-        style={{ letterSpacing: '-0.13em' }}
-      />
+      <Logotype x={598} baseline={280.275} />
     </Sheet>
   );
 }

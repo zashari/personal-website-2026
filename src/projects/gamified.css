@@ -1,0 +1,6 @@
+/* Gamified Personal Website's book (GamifiedBook.jsx): the Figma frames' cream pages, 384 x 536. */
+.bk-section[data-book='gamified'] {
+  --paper: #f7ebd2;
+  --paper-edge: #ddd0b4;
+  --page-ratio: 0.71642;
+}

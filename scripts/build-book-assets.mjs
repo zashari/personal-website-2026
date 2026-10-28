@@ -96,7 +96,13 @@ function spreadOf(file, spread) {
     const fill = attr(attrs, 'fill', '').match(/^url\(#(.+)\)$/)?.[1];
     if (tag !== 'rect' || !fill) continue;
     const p = patterns[fill];
-    const r = { x: num(attrs, 'x'), y: num(attrs, 'y'), w: num(attrs, 'width'), h: num(attrs, 'height') };
+    const move = parseTransform(attr(attrs, 'transform', '')); // translate only, as Figma writes it for rects
+    const r = {
+      x: num(attrs, 'x') + move.e,
+      y: num(attrs, 'y') + move.f,
+      w: num(attrs, 'width'),
+      h: num(attrs, 'height'),
+    };
     // The image px under the rect's corner, and image px per frame px.
     const crop = { left: -p.e / p.a, top: -p.f / p.d, sx: 1 / p.a / r.w, sy: 1 / p.d / r.h };
     // Cut the rect to its clip, and the crop with it.
@@ -105,7 +111,9 @@ function spreadOf(file, spread) {
     const x1 = Math.min(r.x + r.w, clip.x + clip.w);
     const y1 = Math.min(r.y + r.h, clip.y + clip.h);
     rects.push({
-      id: attr(attrs, 'id'),
+      id: attr(attrs, 'id', `image-${rects.length + 1}`),
+      // A stroke Figma draws centred on the rect's edge (a print's white border).
+      ...(attr(attrs, 'stroke', null) && { stroke: attr(attrs, 'stroke'), strokeWidth: num(attrs, 'stroke-width', 1) }),
       x: x0,
       y: y0,
       w: x1 - x0,
@@ -119,21 +127,32 @@ function spreadOf(file, spread) {
       },
     });
   }
-  // Join a photo split at the gutter: same image, same row, the second rect starting where the first ends.
+  // Join a photo split at the gutter: same image, same row, the second rect starting where the first ends and its crop
+  // carrying on from the first's (to a few source px).
   const joined = [];
   for (const r of rects) {
     const prev = joined.find(
-      (q) => q.image.file === r.image.file && q.y === r.y && q.h === r.h && Math.abs(q.x + q.w - r.x) < 0.5
+      (q) =>
+        q.image.file === r.image.file &&
+        q.y === r.y &&
+        q.h === r.h &&
+        Math.abs(q.x + q.w - r.x) < 0.5 &&
+        Math.abs(q.crop.left + q.crop.width - r.crop.left) < 8
     );
     if (prev) {
       prev.w += r.w;
       prev.crop.width = r.crop.left + r.crop.width - prev.crop.left;
       prev.id = prev.id.replace(/-left$/, '');
+      // It is drawn where its second half is, over anything between the two.
+      joined.push(...joined.splice(joined.indexOf(prev), 1));
     } else joined.push({ ...r, crop: { ...r.crop } });
   }
+  // A photo another one drawn after it covers whole is never seen (Figma keeps such stray layers); leave it out.
+  const covers = (q, r) => q.x <= r.x + 0.5 && q.y <= r.y + 0.5 && q.x + q.w >= r.x + r.w - 0.5 && q.y + q.h >= r.y + r.h - 0.5;
+  const seen = joined.filter((r, i) => !joined.slice(i + 1).some((q) => covers(q, r)));
   const slug = (id) => id.replace(/[^a-z0-9]+/gi, '-').toLowerCase();
   return {
-    photos: joined.map((r) => ({ ...r, name: `s${spread}-${slug(r.id)}` })),
+    photos: seen.map((r) => ({ ...r, name: `s${spread}-${slug(r.id)}` })),
     paths: paths.map((p) => ({ ...p, name: `s${spread}-${slug(p.id)}` })),
   };
 }
@@ -186,7 +205,7 @@ const lines = [
   'export const PHOTOS = {',
   ...placed.map(
     (p) =>
-      `  '${p.name}': { avif: ${ident(p.name)}Avif, webp: ${ident(p.name)}Webp, x: ${+p.x.toFixed(2)}, y: ${+p.y.toFixed(2)}, w: ${+p.w.toFixed(2)}, h: ${+p.h.toFixed(2)} },`
+      `  '${p.name}': { avif: ${ident(p.name)}Avif, webp: ${ident(p.name)}Webp, x: ${+p.x.toFixed(2)}, y: ${+p.y.toFixed(2)}, w: ${+p.w.toFixed(2)}, h: ${+p.h.toFixed(2)}${p.stroke ? `, stroke: '${p.stroke}', strokeWidth: ${p.strokeWidth}` : ''} },`
   ),
   '};',
   '',
@@ -209,7 +228,9 @@ const LATIN =
 const FONTS = {
   'HostGrotesk-Regular.ttf': 'book-host-grotesk-regular.woff2',
   'HostGrotesk-Medium.ttf': 'book-host-grotesk-medium.woff2',
+  'HostGrotesk-MediumItalic.ttf': 'book-host-grotesk-medium-italic.woff2',
   'HostGrotesk-Bold.ttf': 'book-host-grotesk-bold.woff2',
+  'HostGrotesk-ExtraBold.ttf': 'book-host-grotesk-extrabold.woff2',
   'OpenSans-Regular.ttf': 'book-open-sans-regular.woff2',
   'OpenSans-Medium.ttf': 'book-open-sans-medium.woff2',
   'OpenSans-ExtraBold.ttf': 'book-open-sans-extrabold.woff2',

@@ -41,10 +41,18 @@
   font-display: block;
 }
 
-/* ---- Stage: one screen of scroll turns the hero into the showcase; the stage stays put while it does ---- */
+/* Times New Normal, the Github scene's words (/temp's file, so it ships once). */
+@font-face {
+  font-family: 'Times New Normal';
+  src: url('../temp/assets/fonts/times-new-normal-regular.ttf') format('truetype');
+  font-weight: 400;
+  font-display: block;
+}
+
+/* ---- Stage: each screen of scroll turns one scene into the next (hero, showcase, Github); the stage stays put ---- */
 
 .pj-track {
-  height: 200svh;
+  height: 300svh;
 }
 
 .pj-sticky {
@@ -107,6 +115,24 @@
   transform-origin: 251px 541px;
 }
 
+/* The circle rolls away round its own centre on the way to the Github scene. */
+.pj-line-showcase-circle {
+  transform-origin: 1619.7px 540.6px;
+}
+
+/* The arrow beside "Github": Figma's hand-drawn path, painted in the accent through it. */
+.pj-github-arrow {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1920px;
+  height: 1080px;
+  background: var(--accent);
+  -webkit-mask: var(--arrow) 0 0 / 100% 100% no-repeat;
+  mask: var(--arrow) 0 0 / 100% 100% no-repeat;
+  pointer-events: none;
+}
+
 /* ---- Hero ---- */
 
 .pj-hero {
@@ -148,6 +174,28 @@
   letter-spacing: -0.02em;
   color: var(--ink);
   opacity: 0;
+}
+
+/* The asterisk's glyph turns round its own middle (JMH Typewriter's asterisk, measured in Chrome: 0.31 em across, 0.47
+   em down its line box), so it spins in place in the Github scene (Showcase.jsx). */
+.pj-stage .pj-asterisk-glyph {
+  position: static;
+  display: inline-block;
+  transform-origin: 0.31em 0.469em;
+}
+
+/* The Github scene's second asterisk, bottom right; in that scene both are the accent, steady. */
+.pj-asterisk-second {
+  font-family: 'JMH Typewriter', monospace;
+  font-weight: 700;
+  color: var(--accent);
+  transform-origin: 0.31em 0.469em;
+  pointer-events: none;
+  opacity: 0;
+}
+
+[data-scene='github'] .pj-asterisk {
+  color: var(--accent);
 }
 
 /* While a project is in the preview (pointed at or chosen), the asterisk flips between the mode's ink and accent every
@@ -275,6 +323,55 @@
   from {
     opacity: 0;
   }
+}
+
+/* ---- Github scene: "Please visit my Github profile to discover all of my projects !!" and the socials ---- */
+
+.pj-github,
+.pj-socials {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  pointer-events: none;
+}
+
+.pj-github-line,
+.pj-social {
+  font-family: 'Times New Normal', 'Times New Roman', serif;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  white-space: pre;
+  text-decoration: none;
+  opacity: 0;
+}
+
+.pj-github-line {
+  color: var(--ink);
+}
+
+.pj-github-link,
+.pj-github-bang {
+  color: var(--accent);
+}
+
+.pj-social {
+  color: var(--muted);
+  transition: color var(--hover-time) var(--hover-ease);
+}
+
+[data-scene='github'] :is(.pj-github-link, .pj-social) {
+  pointer-events: auto;
+}
+
+.pj-social:hover,
+.pj-social:focus-visible {
+  color: var(--accent);
+}
+
+.pj-github-link:focus-visible,
+.pj-social:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 6px;
 }
 
 /* ---- Strip: five projects across the top; the one in the preview is full strength, the others at half ---- */
@@ -459,6 +556,34 @@
 .pj-flow-card .pj-strip-title {
   font-size: 18px;
   line-height: 20px;
+}
+
+.pj-flow-github {
+  margin: 24px 0 0;
+  font-family: 'Times New Normal', 'Times New Roman', serif;
+  font-size: clamp(34px, 8vw, 60px);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+
+.pj-flow-github a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.pj-flow-github .pj-flow-asterisk {
+  color: var(--accent);
+}
+
+.pj-flow-socials {
+  display: flex;
+  gap: 32px;
+}
+
+.pj-flow-socials .pj-social {
+  font-size: 20px;
+  opacity: 1;
 }
 
 .pj-flow-card:focus-visible {

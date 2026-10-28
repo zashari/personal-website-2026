@@ -8,6 +8,15 @@ export const HOME = { label: 'HOME', href: '/home/' };
 // The hero, a line per entry: "Things / I've / *( photo ) / Done". Read as one sentence by assistive tech.
 export const HERO = { lines: ['THINGS', 'I’VE', 'DONE'], label: 'Things I’ve done' };
 
+// The third scene, after the showcase: a pointer to the rest of the work on Github, and the socials from /home.
+export const GITHUB = {
+  // Line by line as the Figma frame breaks it; "Github" and "!!" are set apart in the accent.
+  lines: ['Please visit my', 'profile to discover all of my', 'projects'],
+  link: { label: 'Github', href: 'https://github.com/zashari' },
+  bang: '!!',
+  label: 'Please visit my Github profile to discover all of my projects!',
+};
+
 // The showcase: the strip of projects (a tab list) and the big preview, which opens the project's book.
 export const SHOWCASE = {
   stripLabel: 'Projects',

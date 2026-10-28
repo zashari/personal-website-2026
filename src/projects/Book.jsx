@@ -22,6 +22,7 @@ import { PHOTOS, STORY_PHOTOS } from './photos';
 import PageCurl from './PageCurl';
 import { ARUMI_LAYOUTS, ArumiIndex } from './ArumiBook';
 import { FRAUD_LAYOUTS, FraudIndex } from './FraudBook';
+import { GAMIFIED_LAYOUTS, GamifiedIndex } from './GamifiedBook';
 import './book.css';
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
@@ -263,10 +264,11 @@ const LAYOUTS = {
   end: EndSpread,
   ...ARUMI_LAYOUTS,
   ...FRAUD_LAYOUTS,
+  ...GAMIFIED_LAYOUTS,
 };
 
 // The text of the books drawn in Figma, for screen readers.
-const OWN_INDEX = { arumi: ArumiIndex, fraud: FraudIndex };
+const OWN_INDEX = { arumi: ArumiIndex, fraud: FraudIndex, gamified: GamifiedIndex };
 
 // One page: a window onto half of a spread's sheet. Every page is drawn for sighted readers only; the same text is
 // given to assistive tech once, in order, by WorkIndex below.
