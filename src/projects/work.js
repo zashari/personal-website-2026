@@ -95,7 +95,8 @@ export const CLOSING = {
 };
 
 // Arumi Coffee's book, from the Figma spreads design/figma/data/arumi-page-1-2.svg to 7-8. Every paragraph is given
-// line by line as Figma breaks it, so the justified columns come out as designed; **words** are set in bold.
+// line by line as Figma breaks it, so the justified columns come out as designed (FigmaBook.jsx: **bold**,
+// {{kept together}}).
 export const ARUMI_BOOK = {
   title: 'ARUMI COFFEE',
   date: 'May 2026',
@@ -143,7 +144,7 @@ export const ARUMI_BOOK = {
     'signature drinks, including',
     'the Mont Blanc, Berry',
     'Manuka Americano, and',
-    'Honey Tea Blanc.',
+    'Honey {{Tea Blanc.}}',
   ],
   team: [
     'But he’s the first to admit it’s a total',
