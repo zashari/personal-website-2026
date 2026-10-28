@@ -143,6 +143,8 @@ function spreadOf(file, spread) {
       prev.w += r.w;
       prev.crop.width = r.crop.left + r.crop.width - prev.crop.left;
       prev.id = prev.id.replace(/-left$/, '');
+      // It is drawn where its second half is, over anything between the two.
+      joined.push(...joined.splice(joined.indexOf(prev), 1));
     } else joined.push({ ...r, crop: { ...r.crop } });
   }
   // A photo another one drawn after it covers whole is never seen (Figma keeps such stray layers); leave it out.
