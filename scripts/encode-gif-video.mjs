@@ -1,9 +1,12 @@
 #!/usr/bin/env node
-// Turns the /about wave GIF (800 x 450, 200 frames at 50 fps, 38 MB) into src/about/assets/media/wave.mp4, a silent
-// H.264 loop of the same frames at about 1.5 MB, and wave-poster.webp, its first frame (shown until the video plays).
+// Turns a GIF into a silent H.264 loop of the same frames, and its first frame as <name>-poster.webp (shown until the
+// video plays). Made for the /about wave GIF (800 x 450, 200 frames at 50 fps, 38 MB -> wave.mp4, about 1.5 MB, the
+// default), and used for the /projects clips too.
 // There is no ffmpeg here, so Chrome does the work: WebCodecs decodes the GIF (ImageDecoder) and encodes each frame
 // (VideoEncoder), and mp4-muxer writes the file.
-// usage: npm i --no-save playwright mp4-muxer && node scripts/encode-about-video.mjs [path/to/gif-version.gif]
+// usage: npm i --no-save playwright mp4-muxer && node scripts/encode-gif-video.mjs [gif] [out.mp4] [bits per second]
+//   /about: node scripts/encode-gif-video.mjs
+//   /projects, Arumi Coffee: node scripts/encode-gif-video.mjs .tmp/arumi-project-details/arumi.gif //     src/projects/assets/media/arumi.mp4 2000000
 import fs from 'node:fs';
 import path from 'node:path';
 import { createRequire } from 'node:module';
@@ -11,8 +14,8 @@ import sharp from 'sharp';
 import { chromium } from 'playwright';
 
 const GIF = process.argv[2] ?? '.tmp/about-me/gif-version.gif';
-const OUT = 'src/about/assets/media';
-const BITRATE = 3_000_000; // the water's fine ripples smear below this
+const VIDEO = process.argv[3] ?? 'src/about/assets/media/wave.mp4';
+const BITRATE = Number(process.argv[4] ?? 3_000_000); // the waves' fine ripples smear below 3 Mbps
 const ORIGIN = 'http://localhost:9'; // WebCodecs needs a secure context; nothing listens here, Playwright answers
 
 const muxerScript = fs.readFileSync(
@@ -76,9 +79,12 @@ const result = await page.evaluate(async (bitrate) => {
 }, BITRATE);
 await browser.close();
 
-const video = `${OUT}/wave.mp4`;
+const video = VIDEO;
+fs.mkdirSync(path.dirname(video), { recursive: true });
 fs.writeFileSync(video, Buffer.from(result.base64, 'base64'));
 // A video poster is a single URL with no fallback, so WebP (every current browser) rather than AVIF.
-await sharp(GIF, { page: 0 }).webp({ quality: 80 }).toFile(`${OUT}/wave-poster.webp`);
+await sharp(GIF, { page: 0 })
+  .webp({ quality: 80 })
+  .toFile(video.replace(/.mp4$/, '-poster.webp'));
 const size = (fs.statSync(video).size / 1e6).toFixed(2);
 console.log(`${video}: ${result.count} frames, ${result.width} x ${result.height}, ${result.seconds} s, ${size} MB`);

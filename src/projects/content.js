@@ -12,4 +12,6 @@ export const HERO = { lines: ['THINGS', 'I’VE', 'DONE'], label: 'Things I’ve
 export const SHOWCASE = {
   stripLabel: 'Projects',
   open: (title) => `Open the book: ${title}`,
+  // Beside the asterisk while a project is in the preview: the preview opens its book.
+  hint: 'Click here for project detail',
 };

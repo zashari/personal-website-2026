@@ -20,6 +20,8 @@ import { domToCanvas } from 'modern-screenshot';
 import { CLOSING, ISSUE, PROJECTS, spreadsOf } from './work';
 import { PHOTOS, STORY_PHOTOS } from './photos';
 import PageCurl from './PageCurl';
+import { ARUMI_LAYOUTS, ArumiIndex } from './ArumiBook';
+import { FRAUD_LAYOUTS, FraudIndex } from './FraudBook';
 import './book.css';
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
@@ -41,7 +43,14 @@ const NARROW_QUERY = '(max-aspect-ratio: 1/1), (max-width: 599px)';
 const FOLLOW_S = 0.55;
 
 // Typefaces the pages use; their files are inlined into each page image (see bookFontCss).
-const BOOK_FONTS = new Set(['Times New Normal', 'Open Sans', 'Open Sans SemiCondensed']);
+const BOOK_FONTS = new Set([
+  'Times New Normal',
+  'Open Sans',
+  'Open Sans SemiCondensed',
+  'Open Sans Condensed',
+  'Host Grotesk',
+  'Italianno',
+]);
 
 const pad = (n) => String(n).padStart(2, '0');
 // Folios as in a magazine: the cover has none, then spread s holds pages 2s + 2 and 2s + 3.
@@ -205,46 +214,6 @@ function StorySpread({ spread }) {
   );
 }
 
-function DossierSpread({ spread }) {
-  const p = PROJECTS.fraud;
-  return (
-    <div className="bk-sheet-inner bk-dossier">
-      <div className="bk-dossier-dark">
-        <div className="bk-dossier-doc" aria-hidden="true">
-          {[92, 70, 84, 40, 88, 76, 60, 90, 52].map((w, i) => (
-            <span key={i} className="bk-dossier-bar" style={{ width: `${w}%` }} />
-          ))}
-          <span className="bk-dossier-stamp">{p.stamp}</span>
-        </div>
-      </div>
-      <div className="bk-dossier-page">
-        <h3 className="bk-dossier-headline">
-          {p.headline.map((word) => (
-            <span key={word}>{word}</span>
-          ))}
-        </h3>
-        <p className="bk-dossier-credits bk-caption">
-          {p.category} · {p.date}
-        </p>
-        <div className="bk-dossier-columns">
-          <p className="bk-body bk-dropcap">{p.body}</p>
-          <blockquote className="bk-quote">{p.quote}</blockquote>
-          <ul className="bk-dossier-stack bk-caption">
-            {p.stack.map((s) => (
-              <li key={s}>{s}</li>
-            ))}
-          </ul>
-        </div>
-        <div className="bk-dossier-stat">
-          <p className="bk-stat">{p.stat}</p>
-          <p className="bk-caption">{p.statNote}</p>
-        </div>
-      </div>
-      <Folios spread={spread} />
-    </div>
-  );
-}
-
 function Folios({ spread }) {
   return (
     <>
@@ -291,9 +260,13 @@ const LAYOUTS = {
   cover: CoverSpread,
   feature: FeatureSpread,
   story: StorySpread,
-  dossier: DossierSpread,
   end: EndSpread,
+  ...ARUMI_LAYOUTS,
+  ...FRAUD_LAYOUTS,
 };
+
+// The text of the books drawn in Figma, for screen readers.
+const OWN_INDEX = { arumi: ArumiIndex, fraud: FraudIndex };
 
 // One page: a window onto half of a spread's sheet. Every page is drawn for sighted readers only; the same text is
 // given to assistive tech once, in order, by WorkIndex below.
@@ -315,6 +288,14 @@ function Page({ spread, side, className = '' }) {
 function WorkIndex() {
   const { project } = use(BookContext);
   const p = PROJECTS[project];
+  const Own = OWN_INDEX[project];
+  if (Own) {
+    return (
+      <div className="home-visually-hidden">
+        <Own />
+      </div>
+    );
+  }
   return (
     <div className="home-visually-hidden">
       <article>
@@ -745,6 +726,7 @@ export default function Book({ project, onClose }) {
       <section
         id="work"
         className="bk-section"
+        data-book={project}
         aria-label={PROJECTS[project].title}
         style={{ '--book': PROJECTS[project].color }}
       >

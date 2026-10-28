@@ -56,7 +56,7 @@ function EducationTitle({ lines: titleLines }) {
   ));
 }
 
-// The wave clip: the GIF from the design, as a silent looping video (scripts/encode-about-video.mjs). muted is set on
+// The wave clip: the GIF from the design, as a silent looping video (scripts/encode-gif-video.mjs). muted is set on
 // the element itself as well, since React only sets the property and iOS checks the attribute before it autoplays.
 function WaveClip({ className, style }) {
   const ref = useRef(null);

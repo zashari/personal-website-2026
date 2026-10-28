@@ -133,6 +133,13 @@
 .pj-asterisk {
   transform-origin: 0 0;
   pointer-events: none;
+  text-decoration: none;
+}
+
+/* With a project in the preview, the asterisk and the hint open its book. */
+[data-scene='showcase'] :is(.pj-asterisk[data-active], .pj-hint[data-shown]) {
+  pointer-events: auto;
+  cursor: pointer;
 }
 
 .pj-bracket-big {
@@ -143,10 +150,40 @@
   opacity: 0;
 }
 
+/* While a project is in the preview (pointed at or chosen), the asterisk flips between the mode's ink and accent every
+   half second. */
 .pj-asterisk {
   font-family: 'JMH Typewriter', monospace;
   font-weight: 700;
   color: var(--ink);
+}
+
+.pj-asterisk[data-active] {
+  animation: pj-asterisk-blink 1s steps(1) infinite;
+}
+
+@keyframes pj-asterisk-blink {
+  0% {
+    color: var(--ink);
+  }
+  50% {
+    color: var(--accent);
+  }
+}
+
+/* Beside the asterisk while a project is in the preview. */
+.pj-hint {
+  font-family: 'CaskaydiaCove NF', ui-monospace, monospace;
+  white-space: nowrap;
+  text-decoration: none;
+  color: var(--ink);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.35s var(--hover-ease);
+}
+
+.pj-hint[data-shown] {
+  opacity: 1;
 }
 
 /* ---- Preview: the hero's photo, grown into the showcase's frame; each project's image is stacked in it ---- */
@@ -179,6 +216,21 @@
 }
 
 .pj-preview-image[data-shown] {
+  opacity: 1;
+}
+
+/* A project's clip over its photo in the preview, shown while it plays (Clip in Showcase.jsx). */
+.pj-preview-clip {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.45s var(--hover-ease);
+}
+
+.pj-preview-clip[data-playing] {
   opacity: 1;
 }
 
@@ -304,6 +356,22 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+/* A project's clip over its thumbnail, shown while it is pointed at and playing. */
+.pj-strip-clip {
+  position: absolute;
+  left: 0;
+  top: 88px;
+  width: 179px;
+  height: 134px;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.35s var(--hover-ease);
+}
+
+.pj-strip-clip[data-playing] {
+  opacity: 1;
 }
 
 /* The others sit at half strength, as in the design; the one shown in the preview comes up to full. */

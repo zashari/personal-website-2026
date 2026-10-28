@@ -1,0 +1,11 @@
+/* Fraud Detection's book (FraudBook.jsx): the Figma frames' cream pages, 384 x 536. */
+.bk-section[data-book='fraud'] {
+  --paper: #f7ebd2;
+  --paper-edge: #ddd0b4;
+  --page-ratio: 0.71642;
+}
+
+/* The logotype's Z, stroked 1 px on its outline as Figma draws it. */
+.fb-logo-z {
+  -webkit-text-stroke: var(--fpx) #000;
+}

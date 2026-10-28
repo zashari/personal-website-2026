@@ -1,0 +1,137 @@
+/* A project's own book, drawn in Figma (FigmaBook.jsx). Its sheet is measured in frame px: --fpx is one px of the 768 px
+   wide frame, in cqw of the spread. Each book sets its page colour and page ratio on .bk-section[data-book]. */
+
+@font-face {
+  font-family: 'Host Grotesk';
+  src: url('./assets/fonts/book-host-grotesk-regular.woff2') format('woff2');
+  font-weight: 400;
+  font-display: block;
+}
+
+@font-face {
+  font-family: 'Host Grotesk';
+  src: url('./assets/fonts/book-host-grotesk-medium.woff2') format('woff2');
+  font-weight: 500;
+  font-display: block;
+}
+
+@font-face {
+  font-family: 'Host Grotesk';
+  src: url('./assets/fonts/book-host-grotesk-bold.woff2') format('woff2');
+  font-weight: 700;
+  font-display: block;
+}
+
+@font-face {
+  font-family: 'Open Sans';
+  src: url('./assets/fonts/book-open-sans-regular.woff2') format('woff2');
+  font-weight: 400;
+  font-display: block;
+}
+
+@font-face {
+  font-family: 'Open Sans';
+  src: url('./assets/fonts/book-open-sans-medium.woff2') format('woff2');
+  font-weight: 500;
+  font-display: block;
+}
+
+@font-face {
+  font-family: 'Open Sans';
+  src: url('./assets/fonts/book-open-sans-extrabold.woff2') format('woff2');
+  font-weight: 800;
+  font-display: block;
+}
+
+@font-face {
+  font-family: 'Open Sans Condensed';
+  src: url('./assets/fonts/book-open-sans-condensed-regular.woff2') format('woff2');
+  font-weight: 400;
+  font-display: block;
+}
+
+@font-face {
+  font-family: 'Open Sans Condensed';
+  src: url('./assets/fonts/book-open-sans-condensed-extrabold.woff2') format('woff2');
+  font-weight: 800;
+  font-display: block;
+}
+
+.fb-sheet {
+  --fpx: calc(100cqw / 768);
+  position: absolute;
+  inset: 0;
+  color: #fff;
+}
+
+.fb-photo {
+  position: absolute;
+  display: block;
+}
+
+.fb-photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.fb-path {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.fb-box {
+  position: absolute;
+}
+
+.fb-text {
+  position: absolute;
+  margin: 0;
+  font-weight: 400;
+  white-space: nowrap;
+}
+
+.fb-sans {
+  font-family: 'Open Sans', sans-serif;
+}
+
+.fb-condensed {
+  font-family: 'Open Sans Condensed', 'Open Sans', sans-serif;
+}
+
+.fb-grotesk {
+  font-family: 'Host Grotesk', sans-serif;
+}
+
+.fb-times {
+  font-family: 'Times New Normal', serif;
+}
+
+.fb-script {
+  font-family: 'Italianno', cursive;
+}
+
+.fb-line {
+  display: block;
+}
+
+/* A justified line spans its column, as Figma set it. */
+.fb-line[data-justify] {
+  text-align: justify;
+  text-align-last: justify;
+}
+
+.fb-keep {
+  display: inline-block;
+}
+
+.fb-text b {
+  font-weight: 700;
+}
+
+/* Figma's drop shadow: 0 4 px, blur 4 px, black at 25%. */
+.fb-text[data-shadow] {
+  text-shadow: 0 calc(4 * var(--fpx)) calc(4 * var(--fpx)) rgb(0 0 0 / 0.25);
+}

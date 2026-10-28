@@ -1,0 +1,6 @@
+/* Arumi Coffee's book (ArumiBook.jsx): the Figma frames' maroon pages, 384 x 536. */
+.bk-section[data-book='arumi'] {
+  --paper: #421615;
+  --paper-edge: #2a0d0c;
+  --page-ratio: 0.71642;
+}

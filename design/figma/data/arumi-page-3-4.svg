@@ -1,0 +1,63 @@
+<svg width="768" height="536" viewBox="0 0 768 536" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="arumi-page-3-4">
+<g id="project-detail-arumi-left-01" clip-path="url(#clip0_2082_55)">
+<rect width="384" height="536" fill="#421615"/>
+<rect id="image-left" width="384" height="536" fill="url(#pattern0_2082_55)"/>
+<g id="Scroll to turn this page" filter="url(#filter0_d_2082_55)">
+<text fill="white" style="white-space: pre" xml:space="preserve" font-family="Open Sans" font-size="12" letter-spacing="0em"><tspan x="26" y="497.655">Scroll to turn this page</tspan></text>
+</g>
+</g>
+<g id="project-detail-arumi-right-01" clip-path="url(#clip1_2082_55)">
+<rect width="384" height="536" transform="translate(384)" fill="#421615"/>
+<rect id="image-right" x="384" width="384" height="536" fill="url(#pattern1_2082_55)"/>
+<g id="text-box">
+<rect id="rectangle" x="512" y="413" width="229" height="88" fill="black" fill-opacity="0.75"/>
+<g id="text">
+<text id="&#226;&#128;&#156;At least, that&#226;&#128;&#153;s what our customers tell us. Arumi Coffee is a passion project I&#226;&#128;&#153;m building from the ground up with my family&#226;&#128;&#157;" fill="white" style="white-space: pre" xml:space="preserve" font-family="Times New Normal" font-size="12" letter-spacing="0em"><tspan x="517" y="429.5">&#x201c;At least, that&#x2019;s what our customers tell us. </tspan><tspan x="517" y="442.5">Arumi Coffee is a passion project I&#x2019;m </tspan><tspan x="517" y="455.5">building from the ground up with my </tspan><tspan x="517" y="468.5">family&#x201d;</tspan></text>
+<g id="Group 6">
+<text id="Zaky Ashari" fill="white" style="white-space: pre" xml:space="preserve" font-family="Times New Normal" font-size="12" letter-spacing="0em"><tspan x="524" y="490.5">Zaky Ashari</tspan></text>
+<text id="-" fill="white" style="white-space: pre" xml:space="preserve" font-family="Times New Normal" font-size="12" letter-spacing="0em"><tspan x="517" y="490.5">-</tspan></text>
+</g>
+</g>
+</g>
+</g>
+<g id="&#226;&#128;&#156;A PLACE TO CATCH THE SUNSET.&#226;&#128;&#157;" filter="url(#filter1_d_2082_55)">
+<text fill="white" style="white-space: pre" xml:space="preserve" font-family="Open Sans" font-size="50" font-weight="800" letter-spacing="0em"><tspan x="26" y="88.397">&#x201c;A PLACE TO CATCH THE </tspan><tspan x="26" y="156.397">SUNSET.&#x201d;</tspan></text>
+</g>
+</g>
+<defs>
+<pattern id="pattern0_2082_55" patternContentUnits="objectBoundingBox" width="1" height="1">
+<use xlink:href="#image0_2082_55" transform="scale(0.000495386 0.000354903)"/>
+</pattern>
+<filter id="filter0_d_2082_55" x="22.6152" y="488.883" width="132.828" height="20" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset dy="4"/>
+<feGaussianBlur stdDeviation="2"/>
+<feComposite in2="hardAlpha" operator="out"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
+<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_2082_55"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_2082_55" result="shape"/>
+</filter>
+<pattern id="pattern1_2082_55" patternContentUnits="objectBoundingBox" width="1" height="1">
+<use xlink:href="#image0_2082_55" transform="matrix(0.000496032 0 0 0.000355366 -1 0)"/>
+</pattern>
+<filter id="filter1_d_2082_55" x="22.4883" y="51.7451" width="609.123" height="112.865" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset dy="4"/>
+<feGaussianBlur stdDeviation="2"/>
+<feComposite in2="hardAlpha" operator="out"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
+<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_2082_55"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_2082_55" result="shape"/>
+</filter>
+<clipPath id="clip0_2082_55">
+<rect width="384" height="536" fill="white"/>
+</clipPath>
+<clipPath id="clip1_2082_55">
+<rect width="384" height="536" fill="white" transform="translate(384)"/>
+</clipPath>
+<image id="image0_2082_55" data-name="IMG_8781.JPG.jpg" width="4032" height="3024" preserveAspectRatio="none" xlink:href=""/>
+</defs>
+</svg>

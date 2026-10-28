@@ -32,6 +32,8 @@ const METRICS = {
   sans: { ascent: 1.069, descent: 0.293 }, // Open Sans
   script: { ascent: 0.8, descent: 0.45 }, // Italianno
   typewriter: { ascent: 0.969, descent: 0.291 }, // JMH Typewriter (its hhea and win metrics, used on Windows)
+  grotesk: { ascent: 0.99, descent: 0.29 }, // Host Grotesk (typo metrics, which it asks to be used)
+  times: { ascent: 0.75, descent: 0.25 }, // Times New Normal (typo metrics, which it asks to be used)
 };
 
 // The SVG export gives each text line's baseline. A CSS line box puts the baseline half the leading plus the ascent

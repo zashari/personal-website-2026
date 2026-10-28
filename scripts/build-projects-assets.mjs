@@ -51,9 +51,9 @@ for (const [name, [paint, d]] of Object.entries(LINES)) {
 // ---- Photos: a thumbnail (179 x 134 on the frame) and a preview (619 x 398), at about twice their frame size ----
 const PHOTOS = {
   hero: 'img_0079.jpg', // the user's replacement for the frame's own photo (img_7300.jpg)
-  fraud: 'img_8782.jpg',
+  fraud: 'fraud-cover.png', // the user's cover for the project (2026-10-28), in place of the frame's img_8782.jpg
   alzheimer: 'img_8781.jpg',
-  arumi: 'img_8777.jpg',
+  arumi: 'arumi.png', // the user's still of the stand at night (2026-10-28); its clip is assets/media/arumi.mp4
   deepfake: 'img_7302.jpg',
   gamified: 'img_6752.jpg',
   'gamified-site': 'image.png',
