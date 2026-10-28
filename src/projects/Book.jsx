@@ -356,6 +356,49 @@ const readAsDataUrl = (blob) =>
     reader.readAsDataURL(blob);
   });
 
+// A page drawn as Figma's own SVG (DeepfakeBook.jsx) is turned into its page image directly: modern-screenshot's copy
+// of it loses the photos its patterns draw, so the spread's SVG is drawn onto a canvas itself, with its photos and the
+// book's fonts put in as data URLs, and the page's half of it kept.
+const svgPhotos = new Map();
+const photoAsDataUrl = (href) => {
+  if (!svgPhotos.has(href)) {
+    svgPhotos.set(
+      href,
+      fetch(href).then((response) => {
+        if (!response.ok) throw new Error(`HTTP ${response.status} for ${href}`);
+        return response.blob().then(readAsDataUrl);
+      })
+    );
+  }
+  return svgPhotos.get(href);
+};
+async function figmaPageCanvas(page, scale, cssText) {
+  const svg = page.querySelector('.fb-figma > svg');
+  const width = page.offsetWidth;
+  const height = page.offsetHeight;
+  let markup = svg.outerHTML;
+  const hrefs = [...new Set([...markup.matchAll(/ href="([^"#][^"]*)"/g)].map((m) => m[1]))];
+  const urls = await Promise.all(hrefs.map(photoAsDataUrl));
+  hrefs.forEach((href, i) => {
+    markup = markup.replaceAll(`"${href}"`, `"${urls[i]}"`);
+  });
+  // The whole spread, two pages wide, with the book's fonts.
+  markup = markup.replace(
+    /^<svg /,
+    `<svg width="${2 * width}" height="${height}" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" `
+  );
+  markup = markup.replace(/(<svg [^>]*>)/, `$1<style>${cssText}</style>`);
+  const image = new Image();
+  image.src = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(markup)}`;
+  await image.decode();
+  const canvas = document.createElement('canvas');
+  canvas.width = Math.round(width * scale);
+  canvas.height = Math.round(height * scale);
+  const right = page.dataset.side === 'right';
+  canvas.getContext('2d').drawImage(image, right ? -canvas.width : 0, 0, 2 * canvas.width, canvas.height);
+  return canvas;
+}
+
 // modern-screenshot does not pick up the page's own @font-face rules, so the page images would fall back to a system
 // font. This builds the book's @font-face rules with each file inlined, once, for every image to share.
 let fontCss = null;
@@ -439,7 +482,9 @@ function usePageCurl({ canvasRef, bookRef, sectionRef, leaves, redraw }) {
         try {
           const [front, back] = await Promise.all(
             pages.map((page) =>
-              domToCanvas(page, {
+              page.querySelector('.fb-figma > svg')
+                ? figmaPageCanvas(page, scale, cssText)
+                : domToCanvas(page, {
                 scale,
                 // The page's layout size, given explicitly: left out, modern-screenshot measures the page with
                 // getBoundingClientRect, which includes its leaf's 3D turn, so a page captured mid-turn came out
