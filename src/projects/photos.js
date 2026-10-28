@@ -26,14 +26,16 @@ import gamifiedWebp from './assets/images/gamified-preview.webp';
 import cameraAvif from '../home/assets/images/reel/12.avif';
 import cameraWebp from '../home/assets/images/reel/12.webp';
 
-// The clips of Arumi Coffee, Fraud Detection and Gamified Personal Website, the user's GIFs as videos
-// (scripts/encode-gif-video.mjs), and their first frames.
+// The clips of the projects' showcase photos, the user's GIFs as videos (scripts/encode-gif-video.mjs), and their first
+// frames.
 import arumiClip from './assets/media/arumi.mp4';
 import arumiClipPoster from './assets/media/arumi-poster.webp';
 import fraudClip from './assets/media/fraud.mp4';
 import fraudClipPoster from './assets/media/fraud-poster.webp';
 import gamifiedClip from './assets/media/gamified.mp4';
 import gamifiedClipPoster from './assets/media/gamified-poster.webp';
+import deepfakeClip from './assets/media/deepfake.mp4';
+import deepfakeClipPoster from './assets/media/deepfake-poster.webp';
 
 // The showcase's resting image (animated), which the hero's photo turns into once it has grown into the preview.
 import showcaseRest from './assets/images/me.webp';
@@ -70,6 +72,7 @@ export const CLIPS = {
   fraud: { src: fraudClip, poster: fraudClipPoster },
   arumi: { src: arumiClip, poster: arumiClipPoster },
   gamified: { src: gamifiedClip, poster: gamifiedClipPoster },
+  deepfake: { src: deepfakeClip, poster: deepfakeClipPoster },
 };
 
 // The full-bleed photo facing the text on a story spread (Book.jsx).
