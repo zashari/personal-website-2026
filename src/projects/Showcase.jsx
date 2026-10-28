@@ -57,6 +57,9 @@ const PHOTO = {
 const PREVIEW_TITLE = mono(810, 910.334, 25, 25);
 // "Click here for project detail", ending just left of the showcase's asterisk (the user's mockup, 2026-10-28).
 const HINT = { ...mono(0, 510, 15, 15), left: undefined, right: 1920 - 615 };
+// How long a project pointed at stays in the preview once the pointer leaves the strip, so it can reach the preview,
+// the asterisk or the hint, which all open the project's book.
+const LINGER_MS = 700;
 const PREVIEW_ROLE_BASELINE = 909.334;
 // The strip: a column every 266 px from x 498; the number, the 179 x 134 photo, then the title (15 px lines) and role.
 const STRIP = {
@@ -245,6 +248,17 @@ function Stage({ stage, selected, onSelect, onOpen }) {
   const triggerRef = useRef(null);
   const [scene, setScene] = useState('hero');
   const [peek, setPeek] = useState(null);
+  const lingerRef = useRef(0);
+  useEffect(() => () => clearTimeout(lingerRef.current), []);
+  // Pointing at a project shows it at once; pointing away lets go of it after LINGER_MS, unless the pointer reaches
+  // something that opens it first (hold).
+  const pointAt = (key) => {
+    clearTimeout(lingerRef.current);
+    if (key) setPeek(key);
+    else lingerRef.current = setTimeout(() => setPeek(null), LINGER_MS);
+  };
+  const letGo = () => pointAt(null);
+  const hold = () => clearTimeout(lingerRef.current);
   const sceneRef = useRef('hero');
   // The latest onSelect, for the scroll callback set up once below.
   const onSelectRef = useRef(onSelect);
@@ -392,6 +406,7 @@ function Stage({ stage, selected, onSelect, onOpen }) {
           const next = self.progress > 0.9 ? 'showcase' : 'hero';
           // Leaving the showcase for the hero lets go of the chosen project, so coming back shows the resting image.
           if (next === 'hero' && sceneRef.current === 'showcase') {
+            clearTimeout(lingerRef.current);
             setPeek(null);
             onSelectRef.current(null);
           }
@@ -463,15 +478,37 @@ function Stage({ stage, selected, onSelect, onOpen }) {
           <span className="pj-bracket-big" data-side="close" style={BIG_BRACKETS.close} aria-hidden="true">
             )
           </span>
-          <span className="pj-asterisk" style={ASTERISK.showcase} aria-hidden="true">
+          {/* The asterisk and the hint beside it open the shown project's book too, for the pointer; the preview is the
+              link for the keyboard and assistive tech. */}
+          <a
+            className="pj-asterisk"
+            style={ASTERISK.showcase}
+            href={project ? `?p=${project.slug}` : undefined}
+            data-active={Boolean(project) || undefined}
+            tabIndex={-1}
+            aria-hidden="true"
+            onClick={open}
+            onPointerEnter={hold}
+            onPointerLeave={letGo}
+          >
             *
-          </span>
-          <span className="pj-hint" style={HINT} data-shown={Boolean(project) || undefined} aria-hidden="true">
+          </a>
+          <a
+            className="pj-hint"
+            style={HINT}
+            href={project ? `?p=${project.slug}` : undefined}
+            data-shown={Boolean(project) || undefined}
+            tabIndex={-1}
+            aria-hidden="true"
+            onClick={open}
+            onPointerEnter={hold}
+            onPointerLeave={letGo}
+          >
             {SHOWCASE.hint}
-          </span>
+          </a>
 
           {/* The strip comes before the preview it controls, so Tab reaches it first. */}
-          <Strip selected={selected} peek={peek} onSelect={onSelect} onPeek={setPeek} onFocusStrip={toShowcase} />
+          <Strip selected={selected} peek={peek} onSelect={onSelect} onPeek={pointAt} onFocusStrip={toShowcase} />
 
           {/* The preview shows the project pointed at or chosen, in the same photo as its thumbnail, and opens its
               book; with none, it keeps the hero's photo and leads nowhere yet. */}
@@ -484,6 +521,8 @@ function Stage({ stage, selected, onSelect, onOpen }) {
             aria-label={project ? SHOWCASE.open(project.title) : undefined}
             tabIndex={project && scene === 'showcase' ? 0 : -1}
             onClick={open}
+            onPointerEnter={hold}
+            onPointerLeave={letGo}
             style={PHOTO.hero}
           >
             <Picture className="pj-preview-image" photo={HERO_PHOTO.large} eager data-shown={!project || undefined} />

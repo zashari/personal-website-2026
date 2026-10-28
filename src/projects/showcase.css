@@ -133,6 +133,13 @@
 .pj-asterisk {
   transform-origin: 0 0;
   pointer-events: none;
+  text-decoration: none;
+}
+
+/* With a project in the preview, the asterisk and the hint open its book. */
+[data-scene='showcase'] :is(.pj-asterisk[data-active], .pj-hint[data-shown]) {
+  pointer-events: auto;
+  cursor: pointer;
 }
 
 .pj-bracket-big {
@@ -143,11 +150,15 @@
   opacity: 0;
 }
 
-/* The asterisk flips between the mode's ink and accent every half second, always. */
+/* While a project is in the preview (pointed at or chosen), the asterisk flips between the mode's ink and accent every
+   half second. */
 .pj-asterisk {
   font-family: 'JMH Typewriter', monospace;
   font-weight: 700;
   color: var(--ink);
+}
+
+.pj-asterisk[data-active] {
   animation: pj-asterisk-blink 1s steps(1) infinite;
 }
 
@@ -164,6 +175,7 @@
 .pj-hint {
   font-family: 'CaskaydiaCove NF', ui-monospace, monospace;
   white-space: nowrap;
+  text-decoration: none;
   color: var(--ink);
   pointer-events: none;
   opacity: 0;
