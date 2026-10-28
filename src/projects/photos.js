@@ -28,9 +28,12 @@ import siteWebp from './assets/images/gamified-site-preview.webp';
 import cameraAvif from '../home/assets/images/reel/12.avif';
 import cameraWebp from '../home/assets/images/reel/12.webp';
 
-// Arumi Coffee's clip, the user's GIF as a video (scripts/encode-gif-video.mjs), and its first frame.
+// The clips of Arumi Coffee and Fraud Detection, the user's GIFs as videos (scripts/encode-gif-video.mjs), and their
+// first frames.
 import arumiClip from './assets/media/arumi.mp4';
 import arumiClipPoster from './assets/media/arumi-poster.webp';
+import fraudClip from './assets/media/fraud.mp4';
+import fraudClipPoster from './assets/media/fraud-poster.webp';
 
 // The showcase's resting image (animated), which the hero's photo turns into once it has grown into the preview.
 import showcaseRest from './assets/images/me.webp';
@@ -64,6 +67,7 @@ export const PHOTOS = {
 // Projects whose photo moves on the showcase: the clip plays over the thumbnail while it is pointed at, and over the
 // preview while the project is shown there.
 export const CLIPS = {
+  fraud: { src: fraudClip, poster: fraudClipPoster },
   arumi: { src: arumiClip, poster: arumiClipPoster },
 };
 
