@@ -158,7 +158,9 @@ for (const [i, file] of files.entries()) {
     const top = Math.max(0, Math.round(crop.top));
     const width = Math.min(image.width - left, Math.round(crop.width));
     const height = Math.min(image.height - top, Math.round(crop.height));
-    const size = { width: Math.round(photo.w * SCALE), height: Math.round(photo.h * SCALE) };
+    // Never larger than the crop itself: upscaling only adds bytes.
+    const k = Math.min(SCALE, width / photo.w, height / photo.h);
+    const size = { width: Math.round(photo.w * k), height: Math.round(photo.h * k) };
     const cut = () =>
       sharp(path.join(SOURCE, image.file))
         .extract({ left, top, width, height })
