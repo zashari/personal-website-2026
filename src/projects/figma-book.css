@@ -90,6 +90,15 @@
   height: 100%;
 }
 
+/* A spread drawn as Figma's own SVG (DeepfakeBook.jsx), filling the sheet. */
+.fb-figma,
+.fb-figma > svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
 .fb-path {
   position: absolute;
   inset: 0;

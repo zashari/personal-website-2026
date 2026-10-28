@@ -1,0 +1,6 @@
+/* Deepfake Classification Research's book (DeepfakeBook.jsx): the Figma frames' near-black pages, 384 x 536. */
+.bk-section[data-book='deepfake'] {
+  --paper: #090608;
+  --paper-edge: #1c171a;
+  --page-ratio: 0.71642;
+}

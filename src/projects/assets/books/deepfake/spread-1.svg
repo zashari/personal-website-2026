@@ -1,0 +1,57 @@
+<svg viewBox="0 0 768 536" preserveAspectRatio="none" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g>
+<rect id="deepfake1-Rectangle 3" x="26" y="35" width="716" height="466" fill="#090608"/>
+<g>
+<rect width="384" height="536" fill="#090608"/>
+<rect id="deepfake1-Futuristic Lavender Portrait with Emerald Shades 1" x="164" width="220" height="536" fill="url(#deepfake1-pattern0_2107_291)"/>
+<text id="deepfake1-header" fill="white" style="white-space: pre" xml:space="preserve" font-family="Open Sans Condensed" font-size="20" font-weight="800" letter-spacing="0em"><tspan x="26" y="67.7588">DEEPFAKE RESEARCH</tspan></text>
+</g>
+<g>
+<rect width="384" height="536" transform="translate(384)" fill="#090608"/>
+<rect id="deepfake1-Futuristic Lavender Portrait with Emerald Shades 1_2" x="384" width="220" height="536" fill="url(#deepfake1-pattern1_2107_291)"/>
+<g>
+<rect id="deepfake1-Rectangle 10" x="384" y="431" width="361" height="70" fill="black" fill-opacity="0.7"/>
+<g filter="url(#deepfake1-filter0_d_2107_291)">
+<text fill="white" style="white-space: pre" xml:space="preserve" font-family="Times New Normal" font-size="12" letter-spacing="0em"><tspan x="425.992" y="456.5">Right before taking on banking fraud, It&#x2019;s one of his first intern </tspan><tspan x="393.531" y="469.5">projects: unpacking the escalating threat of deepfakes and the machine </tspan><tspan x="551.465" y="482.5">learning models built to destroy them.</tspan></text>
+</g>
+</g>
+<text id="deepfake1-header_2" fill="white" style="white-space: pre" xml:space="preserve" font-family="Open Sans Condensed" font-size="20" font-weight="800" letter-spacing="0em"><tspan x="664" y="67.7588">Feb, 2024</tspan></text>
+</g>
+<g>
+<text id="deepfake1-title_2" fill="white" style="white-space: pre" xml:space="preserve" font-family="Open Sans" font-size="65" font-weight="800" letter-spacing="-0.1em"><tspan x="26" y="293.216">THE BI                                      SION</tspan></text>
+<g filter="url(#deepfake1-filter1_d_2107_291)">
+<text fill="white" fill-opacity="0.1" style="white-space: pre" shape-rendering="crispEdges" xml:space="preserve" font-family="Open Sans" font-size="65" font-weight="800" letter-spacing="-0.1em"><tspan x="198" y="293.216">OMETRIC ILLU</tspan></text>
+</g>
+</g>
+</g>
+<defs>
+<pattern id="deepfake1-pattern0_2107_291" patternContentUnits="objectBoundingBox" width="1" height="1">
+<use xlink:href="#deepfake1-image0_2107_291" transform="scale(0.00181818 0.000746269)"/>
+</pattern>
+<pattern id="deepfake1-pattern1_2107_291" patternContentUnits="objectBoundingBox" width="1" height="1">
+<use xlink:href="#deepfake1-image0_2107_291" transform="matrix(0.00181818 0 0 0.000746269 -1.00033 0)"/>
+</pattern>
+<filter id="deepfake1-filter0_d_2107_291" x="389.459" y="448.348" width="353.369" height="45.6519" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset dy="4"/>
+<feGaussianBlur stdDeviation="2"/>
+<feComposite in2="hardAlpha" operator="out"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
+<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_2107_291"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_2107_291" result="shape"/>
+</filter>
+<filter id="deepfake1-filter1_d_2107_291" x="184.301" y="228.869" width="416.453" height="81.7661" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset/>
+<feGaussianBlur stdDeviation="8.5"/>
+<feComposite in2="hardAlpha" operator="out"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0"/>
+<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_2107_291"/>
+<feBlend mode="normal" in="BackgroundImageFix" in2="effect1_dropShadow_2107_291" result="BackgroundImageFix"/>
+<feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+</filter>
+<image id="deepfake1-image0_2107_291" data-name="Futuristic Lavender Portrait with Emerald Shades.png" width="1100" height="1430" preserveAspectRatio="none" xlink:href="__IMG_futuristicLavenderPortraitWithEmeraldShades__"/>
+</defs>
+</svg>

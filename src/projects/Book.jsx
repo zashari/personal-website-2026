@@ -21,6 +21,7 @@ import { CLOSING, ISSUE, PROJECTS, spreadsOf } from './work';
 import { PHOTOS, STORY_PHOTOS } from './photos';
 import PageCurl from './PageCurl';
 import { ARUMI_LAYOUTS, ArumiIndex } from './ArumiBook';
+import { DEEPFAKE_LAYOUTS, DeepfakeIndex } from './DeepfakeBook';
 import { FRAUD_LAYOUTS, FraudIndex } from './FraudBook';
 import { GAMIFIED_LAYOUTS, GamifiedIndex } from './GamifiedBook';
 import './book.css';
@@ -265,10 +266,11 @@ const LAYOUTS = {
   ...ARUMI_LAYOUTS,
   ...FRAUD_LAYOUTS,
   ...GAMIFIED_LAYOUTS,
+  ...DEEPFAKE_LAYOUTS,
 };
 
 // The text of the books drawn in Figma, for screen readers.
-const OWN_INDEX = { arumi: ArumiIndex, fraud: FraudIndex, gamified: GamifiedIndex };
+const OWN_INDEX = { arumi: ArumiIndex, fraud: FraudIndex, gamified: GamifiedIndex, deepfake: DeepfakeIndex };
 
 // One page: a window onto half of a spread's sheet. Every page is drawn for sighted readers only; the same text is
 // given to assistive tech once, in order, by WorkIndex below.
