@@ -369,9 +369,10 @@ const readAsDataUrl = (blob) =>
     reader.readAsDataURL(blob);
   });
 
-// A page drawn as Figma's own SVG (DeepfakeBook.jsx) is turned into its page image directly: modern-screenshot's copy
-// of it loses the photos its patterns draw, so the spread's SVG is drawn onto a canvas itself, with its photos and the
-// book's fonts put in as data URLs, and the page's half of it kept.
+// A page drawn as Figma's own SVG (DeepfakeBook.jsx) is turned into its page image directly. modern-screenshot 4.7
+// copies a pattern's <use> target from the live page rather than its clone, so the photo keeps a URL that an SVG drawn
+// as an image cannot load, and comes out blank (reports/Book page images and scroll snap.md). So the spread's own SVG
+// is drawn onto a canvas, with its photos and the book's fonts put in as data URLs, and the page's half of it kept.
 const svgPhotos = new Map();
 const photoAsDataUrl = (href) => {
   if (!svgPhotos.has(href)) {
@@ -389,21 +390,26 @@ async function figmaPageCanvas(page, scale, cssText) {
   const svg = page.querySelector('.fb-figma > svg');
   const width = page.offsetWidth;
   const height = page.offsetHeight;
-  let markup = svg.outerHTML;
-  const hrefs = [...new Set([...markup.matchAll(/ href="([^"#][^"]*)"/g)].map((m) => m[1]))];
+  let markup = new XMLSerializer().serializeToString(svg);
+  // Figma writes the photos as xlink:href; anything not pointing within the SVG (#id) is a photo to put in.
+  const hrefs = [...new Set([...markup.matchAll(/ (?:xlink:)?href="([^"#][^"]*)"/g)].map((m) => m[1]))];
   const urls = await Promise.all(hrefs.map(photoAsDataUrl));
   hrefs.forEach((href, i) => {
     markup = markup.replaceAll(`"${href}"`, `"${urls[i]}"`);
   });
-  // The whole spread, two pages wide, with the book's fonts.
-  markup = markup.replace(
-    /^<svg /,
-    `<svg width="${2 * width}" height="${height}" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" `
-  );
+  // The whole spread, two pages wide, with the book's fonts. Its namespaces are Figma's own: adding them again would
+  // make the markup invalid XML, which the image then fails to decode.
+  markup = markup.replace(/^<svg /, `<svg width="${2 * width}" height="${height}" `);
   markup = markup.replace(/(<svg [^>]*>)/, `$1<style>${cssText}</style>`);
+  // Through a Blob URL rather than a data URL, so the payload (photos and fonts inside) is not encoded a second time.
+  const url = URL.createObjectURL(new Blob([markup], { type: 'image/svg+xml' }));
   const image = new Image();
-  image.src = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(markup)}`;
-  await image.decode();
+  try {
+    image.src = url;
+    await image.decode();
+  } finally {
+    URL.revokeObjectURL(url);
+  }
   const canvas = document.createElement('canvas');
   canvas.width = Math.round(width * scale);
   canvas.height = Math.round(height * scale);
