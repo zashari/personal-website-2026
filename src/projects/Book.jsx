@@ -43,6 +43,19 @@ const UPRIGHT_KEY = 'zashari-home-book-upright';
 const NARROW_QUERY = '(max-aspect-ratio: 1/1), (max-width: 599px)';
 // Easing of the page toward the scroll position, in seconds: a short lag reads as paper, not as a hinge.
 const FOLLOW_S = 0.55;
+// How far the scroll must carry from the spread it rests on, as a share of a page turn (a screen of scroll), before
+// letting go turns the page; a shorter scroll springs back. A plain directional snap turned a page on a single wheel
+// notch, which the owner found too sensitive (as on the showcase's scenes, Showcase.jsx).
+const COMMIT = 0.3;
+
+// The spread to settle on once the scroll stops, from where it stopped (in pages turned), the scroll's direction and
+// the spread it last settled on: that one after a short scroll, the next whole spread that way after a longer one.
+function settleOn(pages, direction, settled) {
+  const whole = Math.round(pages);
+  if (Math.abs(pages - whole) < 0.01) return whole;
+  if (Math.abs(pages - settled) < COMMIT) return settled;
+  return direction > 0 ? Math.ceil(pages) : Math.floor(pages);
+}
 
 // Typefaces the pages use; their files are inlined into each page image (see bookFontCss).
 const BOOK_FONTS = new Set([
@@ -576,6 +589,8 @@ function TurningBook({ rotated, onUpright, onClose, memory }) {
       // book then, live in memory (owned by Book) so they survive this book being remounted (see below).
       let target = 0;
       const rest = memory.current;
+      // The spread the snap last settled on (see settleOn).
+      let settled = rest.inBook ? rest.spread : 0;
       // Lay the leaves out for p pages turned (fractional while a page is in the air).
       const turn = (p) => {
         const moving = Math.min(Math.floor(p), TURNS - 1);
@@ -625,11 +640,18 @@ function TurningBook({ rotated, onUpright, onClose, memory }) {
           target = self.progress * TURNS;
           follow(target);
         },
-        // On touch, wait a little longer so momentum scrolling settles before the snap takes over.
+        // Settle on a spread once the scroll stops (settleOn). On touch, wait a little longer so momentum scrolling
+        // settles before the snap takes over.
         snap: {
-          snapTo: 1 / TURNS,
-          duration: { min: 0.25, max: 0.7 },
-          delay: window.matchMedia(TOUCH_QUERY).matches ? 0.2 : 0.08,
+          snapTo: (progress, self) => {
+            settled = settleOn(progress * TURNS, self.direction, settled);
+            return settled / TURNS;
+          },
+          // Judge where the scroll stopped, not where its momentum would carry it: with inertia a quick flick counts
+          // as a long scroll and turns pages it should not.
+          inertia: false,
+          duration: { min: 0.3, max: 0.8 },
+          delay: window.matchMedia(TOUCH_QUERY).matches ? 0.25 : 0.15,
           ease: 'power2.inOut',
         },
       });
@@ -641,6 +663,7 @@ function TurningBook({ rotated, onUpright, onClose, memory }) {
         target = rest.spread;
       }
       state.p = rest.inBook ? rest.spread : triggerRef.current.progress * TURNS;
+      settled = Math.round(state.p);
       apply();
       // A real resize (a device turned with auto-rotate, a window resized) changes the track's length; keep the
       // reader on the spread they were on instead of wherever the old scroll offset now lands. By the time
