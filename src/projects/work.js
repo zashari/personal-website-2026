@@ -60,8 +60,6 @@ export const PROJECTS = {
     role: 'Business',
     category: 'Business',
     title: 'Arumi Coffee',
-    stack: 'Product · Operations',
-    body: 'Part of the founding team of Arumi Coffee, a coffee stand: hands-on with product development, business operations and everything in between. Different field, same curiosity.',
   },
   deepfake: {
     slug: 'deepfake-classification',

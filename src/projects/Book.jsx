@@ -214,46 +214,6 @@ function StorySpread({ spread }) {
   );
 }
 
-function DossierSpread({ spread }) {
-  const p = PROJECTS.fraud;
-  return (
-    <div className="bk-sheet-inner bk-dossier">
-      <div className="bk-dossier-dark">
-        <div className="bk-dossier-doc" aria-hidden="true">
-          {[92, 70, 84, 40, 88, 76, 60, 90, 52].map((w, i) => (
-            <span key={i} className="bk-dossier-bar" style={{ width: `${w}%` }} />
-          ))}
-          <span className="bk-dossier-stamp">{p.stamp}</span>
-        </div>
-      </div>
-      <div className="bk-dossier-page">
-        <h3 className="bk-dossier-headline">
-          {p.headline.map((word) => (
-            <span key={word}>{word}</span>
-          ))}
-        </h3>
-        <p className="bk-dossier-credits bk-caption">
-          {p.category} · {p.date}
-        </p>
-        <div className="bk-dossier-columns">
-          <p className="bk-body bk-dropcap">{p.body}</p>
-          <blockquote className="bk-quote">{p.quote}</blockquote>
-          <ul className="bk-dossier-stack bk-caption">
-            {p.stack.map((s) => (
-              <li key={s}>{s}</li>
-            ))}
-          </ul>
-        </div>
-        <div className="bk-dossier-stat">
-          <p className="bk-stat">{p.stat}</p>
-          <p className="bk-caption">{p.statNote}</p>
-        </div>
-      </div>
-      <Folios spread={spread} />
-    </div>
-  );
-}
-
 function Folios({ spread }) {
   return (
     <>
@@ -300,7 +260,6 @@ const LAYOUTS = {
   cover: CoverSpread,
   feature: FeatureSpread,
   story: StorySpread,
-  dossier: DossierSpread,
   end: EndSpread,
   ...ARUMI_LAYOUTS,
   ...FRAUD_LAYOUTS,

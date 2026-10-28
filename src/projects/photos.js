@@ -25,8 +25,6 @@ import gamifiedAvif from './assets/images/gamified-preview.avif';
 import gamifiedWebp from './assets/images/gamified-preview.webp';
 import siteAvif from './assets/images/gamified-site-preview.avif';
 import siteWebp from './assets/images/gamified-site-preview.webp';
-import standAvif from '../home/assets/images/reel/13.avif';
-import standWebp from '../home/assets/images/reel/13.webp';
 import cameraAvif from '../home/assets/images/reel/12.avif';
 import cameraWebp from '../home/assets/images/reel/12.webp';
 
@@ -61,7 +59,6 @@ export const PHOTOS = {
 
 // The full-bleed photo facing the text on a story spread (Book.jsx).
 export const STORY_PHOTOS = {
-  arumi: { avif: standAvif, webp: standWebp },
   deepfake: { avif: cameraAvif, webp: cameraWebp },
   gamified: { avif: siteAvif, webp: siteWebp },
 };
