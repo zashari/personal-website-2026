@@ -1,0 +1,24 @@
+<svg width="768" height="536" viewBox="0 0 768 536" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="arumi-page-1-2">
+<g id="project-detail-arumi-left-01">
+<rect width="384" height="536" fill="#421615"/>
+<text id="ARUMI COFFEE" fill="white" style="white-space: pre" xml:space="preserve" font-family="Open Sans" font-size="20" font-weight="500" letter-spacing="0em"><tspan x="32" y="56.2588">ARUMI COFFEE</tspan></text>
+<rect id="image-left" x="161" y="218" width="223" height="100" fill="url(#pattern0_2081_45)"/>
+</g>
+<g id="project-detail-arumi-right-01">
+<rect width="384" height="536" transform="translate(384)" fill="#421615"/>
+<text id="Scroll to turn this page" fill="white" style="white-space: pre" xml:space="preserve" font-family="Open Sans" font-size="12" letter-spacing="0em"><tspan x="615" y="497.655">Scroll to turn this page</tspan></text>
+<text id="May 2026" fill="white" style="white-space: pre" xml:space="preserve" font-family="Open Sans" font-size="15" letter-spacing="0em"><tspan x="669" y="54.8191">May 2026</tspan></text>
+<rect id="image-right" x="384" y="218" width="223" height="100" fill="url(#pattern1_2081_45)"/>
+</g>
+</g>
+<defs>
+<pattern id="pattern0_2081_45" patternContentUnits="objectBoundingBox" width="1" height="1">
+<use xlink:href="#image0_2081_45" transform="matrix(0.000495418 0 0 0.00110478 0.00247452 -1.16882)"/>
+</pattern>
+<pattern id="pattern1_2081_45" patternContentUnits="objectBoundingBox" width="1" height="1">
+<use xlink:href="#image0_2081_45" transform="matrix(0.000495418 0 0 0.00110478 -0.999653 -1.17419)"/>
+</pattern>
+<image id="image0_2081_45" data-name="IMG_6751.JPG.jpg" width="4032" height="3025" preserveAspectRatio="none" xlink:href=""/>
+</defs>
+</svg>
