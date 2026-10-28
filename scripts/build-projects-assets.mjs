@@ -55,8 +55,7 @@ const PHOTOS = {
   alzheimer: 'img_8781.jpg',
   arumi: 'arumi.png', // the user's still of the stand at night (2026-10-28); its clip is assets/media/arumi.mp4
   deepfake: 'img_7302.jpg',
-  gamified: 'img_6752.jpg',
-  'gamified-site': 'image.png',
+  gamified: 'gamified-cover.png', // the user's interrogation-room still (2026-10-28); its clip is assets/media/gamified.mp4
 };
 fs.mkdirSync(`${OUT}/images`, { recursive: true });
 for (const [name, file] of Object.entries(PHOTOS)) {
