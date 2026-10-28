@@ -1,0 +1,346 @@
+<svg viewBox="0 0 768 536" preserveAspectRatio="none" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g>
+<g clip-path="url(#deepfake2-clip0_2107_269)">
+<rect width="384" height="536" fill="#090608"/>
+<g>
+<g filter="url(#deepfake2-filter0_n_2107_269)">
+<rect width="384" height="536" transform="matrix(-1 0 0 1 384 0)" fill="url(#deepfake2-pattern0_2107_269)"/>
+</g>
+<g>
+<g filter="url(#deepfake2-filter1_d_2107_269)">
+<path d="M255 190L254.82 189.82L211.82 232.82L212 233L212.18 233.18L255.18 190.18L255 190ZM255.94 189.06C255.42 188.54 254.58 188.54 254.06 189.06C253.54 189.58 253.54 190.42 254.06 190.94C254.58 191.46 255.42 191.46 255.94 190.94C256.46 190.42 256.46 189.58 255.94 189.06ZM212.94 232.06C212.42 231.54 211.58 231.54 211.06 232.06C210.54 232.58 210.54 233.42 211.06 233.94C211.58 234.46 212.42 234.46 212.94 233.94C213.46 233.42 213.46 232.58 212.94 232.06Z" fill="#62FF00"/>
+</g>
+<g filter="url(#deepfake2-filter2_d_2107_269)">
+<path d="M255 190L254.95 190.25L294.95 198.25L295 198L295.05 197.75L255.05 189.75L255 190ZM253.69 189.74C253.55 190.46 254.02 191.16 254.74 191.31C255.46 191.45 256.16 190.98 256.31 190.26C256.45 189.54 255.98 188.84 255.26 188.69C254.54 188.55 253.84 189.02 253.69 189.74ZM293.69 197.74C293.55 198.46 294.02 199.16 294.74 199.31C295.46 199.45 296.16 198.98 296.31 198.26C296.45 197.54 295.98 196.84 295.26 196.69C294.54 196.55 293.84 197.02 293.69 197.74Z" fill="#62FF00"/>
+</g>
+<g filter="url(#deepfake2-filter3_d_2107_269)">
+<path d="M255 190L255.25 189.96L246.25 136.96L246 137L245.75 137.04L254.75 190.04L255 190ZM255.22 191.31C255.95 191.19 256.44 190.5 256.31 189.78C256.19 189.05 255.5 188.56 254.78 188.69C254.05 188.81 253.56 189.5 253.69 190.22C253.81 190.95 254.5 191.44 255.22 191.31ZM246.22 138.31C246.95 138.19 247.44 137.5 247.31 136.78C247.19 136.05 246.5 135.56 245.78 135.69C245.05 135.81 244.56 136.5 244.69 137.22C244.81 137.95 245.5 138.44 246.22 138.31Z" fill="#62FF00"/>
+</g>
+<g filter="url(#deepfake2-filter4_d_2107_269)">
+<path d="M278 137L278 136.75L246 136.75L246 137L246 137.25L278 137.25L278 137ZM279.33 137C279.33 136.26 278.74 135.67 278 135.67C277.26 135.67 276.67 136.26 276.67 137C276.67 137.74 277.26 138.33 278 138.33C278.74 138.33 279.33 137.74 279.33 137ZM247.33 137C247.33 136.26 246.74 135.67 246 135.67C245.26 135.67 244.67 136.26 244.67 137C244.67 137.74 245.26 138.33 246 138.33C246.74 138.33 247.33 137.74 247.33 137Z" fill="#62FF00"/>
+</g>
+<g filter="url(#deepfake2-filter5_d_2107_269)">
+<path d="M278 137L277.89 137.22L304.89 150.22L305 150L305.11 149.78L278.11 136.78L278 137ZM276.8 136.42C276.48 137.09 276.76 137.88 277.42 138.2C278.08 138.52 278.88 138.24 279.2 137.58C279.52 136.91 279.24 136.12 278.58 135.8C277.92 135.48 277.12 135.76 276.8 136.42ZM303.8 149.42C303.48 150.09 303.76 150.88 304.42 151.2C305.08 151.52 305.88 151.24 306.2 150.58C306.52 149.91 306.24 149.12 305.58 148.8C304.92 148.48 304.12 148.76 303.8 149.42Z" fill="#62FF00"/>
+</g>
+<g filter="url(#deepfake2-filter6_d_2107_269)">
+<path d="M309 175L309.25 174.96L305.25 149.96L305 150L304.75 150.04L308.75 175.04L309 175ZM309.21 176.32C309.94 176.2 310.43 175.52 310.32 174.79C310.2 174.06 309.52 173.57 308.79 173.68C308.06 173.8 307.57 174.48 307.68 175.21C307.8 175.94 308.48 176.43 309.21 176.32ZM305.21 151.32C305.94 151.2 306.43 150.52 306.32 149.79C306.2 149.06 305.52 148.57 304.79 148.68C304.06 148.8 303.57 149.48 303.68 150.21C303.8 150.94 304.48 151.43 305.21 151.32Z" fill="#62FF00"/>
+</g>
+<g filter="url(#deepfake2-filter7_d_2107_269)">
+<path d="M319 165L319.18 164.83L305.18 149.83L305 150L304.82 150.17L318.82 165.17L319 165ZM319.91 165.97C320.45 165.47 320.48 164.63 319.98 164.09C319.47 163.55 318.63 163.52 318.09 164.03C317.55 164.53 317.52 165.37 318.02 165.91C318.53 166.45 319.37 166.48 319.91 165.97ZM305.91 150.97C306.45 150.47 306.48 149.63 305.98 149.09C305.47 148.55 304.63 148.52 304.09 149.03C303.55 149.53 303.52 150.37 304.02 150.91C304.53 151.45 305.37 151.48 305.91 150.97Z" fill="#62FF00"/>
+</g>
+<g filter="url(#deepfake2-filter8_d_2107_269)">
+<path d="M317.75 182.99L317.74 183.24L318.24 183.26L318.25 183.01L318 183L317.75 182.99ZM319 165L318.75 164.99L317.75 182.99L318 183L318.25 183.01L319.25 165.01L319 165ZM319.07 163.67C318.34 163.63 317.71 164.19 317.67 164.93C317.63 165.66 318.19 166.29 318.93 166.33C319.66 166.37 320.29 165.81 320.33 165.07C320.37 164.34 319.81 163.71 319.07 163.67Z" fill="#62FF00"/>
+</g>
+<g filter="url(#deepfake2-filter9_d_2107_269)">
+<path d="M309 175L308.8 175.15L327.8 201.15L328 201L328.2 200.85L309.2 174.85L309 175ZM308.21 173.92C307.62 174.36 307.49 175.19 307.92 175.79C308.36 176.38 309.19 176.51 309.79 176.08C310.38 175.64 310.51 174.81 310.08 174.21C309.64 173.62 308.81 173.49 308.21 173.92ZM327.21 199.92C326.62 200.36 326.49 201.19 326.92 201.79C327.36 202.38 328.19 202.51 328.79 202.08C329.38 201.64 329.51 200.81 329.08 200.21C328.64 199.62 327.81 199.49 327.21 199.92Z" fill="#62FF00"/>
+</g>
+<g filter="url(#deepfake2-filter10_d_2107_269)">
+<path d="M328 201L328.02 200.75L295.02 197.75L295 198L294.98 198.25L327.98 201.25L328 201ZM329.33 201.12C329.39 200.39 328.85 199.74 328.12 199.67C327.39 199.6 326.74 200.15 326.67 200.88C326.61 201.61 327.15 202.26 327.88 202.33C328.61 202.4 329.26 201.85 329.33 201.12ZM296.33 198.12C296.39 197.39 295.85 196.74 295.12 196.67C294.39 196.6 293.74 197.15 293.67 197.88C293.61 198.61 294.15 199.26 294.88 199.33C295.61 199.4 296.26 198.85 296.33 198.12Z" fill="#62FF00"/>
+</g>
+<g filter="url(#deepfake2-filter11_d_2107_269)">
+<path d="M285 234L285.24 234.07L295.24 198.07L295 198L294.76 197.93L284.76 233.93L285 234ZM284.64 235.28C285.35 235.48 286.09 235.07 286.29 234.36C286.48 233.65 286.07 232.91 285.36 232.72C284.65 232.52 283.91 232.93 283.71 233.64C283.52 234.35 283.93 235.09 284.64 235.28ZM294.64 199.28C295.35 199.48 296.09 199.07 296.29 198.36C296.48 197.65 296.07 196.91 295.36 196.72C294.65 196.52 293.91 196.93 293.71 197.64C293.52 198.35 293.93 199.09 294.64 199.28Z" fill="#62FF00"/>
+</g>
+<g filter="url(#deepfake2-filter12_d_2107_269)">
+<path d="M285 234L284.75 234.03L289.75 270.03L290 270L290.25 269.97L285.25 233.97L285 234ZM284.82 232.68C284.09 232.78 283.58 233.45 283.68 234.18C283.78 234.91 284.45 235.42 285.18 235.32C285.91 235.22 286.42 234.55 286.32 233.82C286.22 233.09 285.55 232.58 284.82 232.68ZM289.82 268.68C289.09 268.78 288.58 269.45 288.68 270.18C288.78 270.91 289.45 271.42 290.18 271.32C290.91 271.22 291.42 270.55 291.32 269.82C291.22 269.09 290.55 268.58 289.82 268.68Z" fill="#62FF00"/>
+</g>
+<g filter="url(#deepfake2-filter13_d_2107_269)">
+<path d="M212 233L211.89 233.23L289.89 270.23L290 270L290.11 269.77L212.11 232.77L212 233ZM210.79 232.43C210.48 233.09 210.76 233.89 211.43 234.21C212.09 234.52 212.89 234.24 213.21 233.57C213.52 232.91 213.24 232.11 212.57 231.79C211.91 231.48 211.11 231.76 210.79 232.43ZM288.8 269.43C288.48 270.09 288.76 270.89 289.43 271.2C290.09 271.52 290.89 271.24 291.2 270.57C291.52 269.91 291.24 269.11 290.57 268.8C289.91 268.48 289.11 268.76 288.8 269.43Z" fill="#62FF00"/>
+</g>
+<g filter="url(#deepfake2-filter14_d_2107_269)">
+<path d="M309 279L309.11 278.77L290.11 269.77L290 270L289.89 270.23L308.89 279.23L309 279ZM310.2 279.57C310.52 278.9 310.24 278.11 309.57 277.8C308.9 277.48 308.11 277.76 307.8 278.43C307.48 279.1 307.76 279.89 308.43 280.2C309.1 280.52 309.89 280.24 310.2 279.57ZM291.2 270.57C291.52 269.9 291.24 269.11 290.57 268.8C289.9 268.48 289.11 268.76 288.8 269.43C288.48 270.1 288.76 270.89 289.43 271.2C290.1 271.52 290.89 271.24 291.2 270.57Z" fill="#62FF00"/>
+</g>
+<g filter="url(#deepfake2-filter15_d_2107_269)">
+<path d="M309 279L309.25 279.03L310.25 270.03L310 270L309.75 269.97L308.75 278.97L309 279ZM308.85 280.32C309.58 280.41 310.24 279.88 310.32 279.15C310.41 278.42 309.88 277.76 309.15 277.68C308.42 277.59 307.76 278.12 307.68 278.85C307.59 279.58 308.12 280.24 308.85 280.32ZM309.85 271.32C310.58 271.41 311.24 270.88 311.32 270.15C311.41 269.42 310.88 268.76 310.15 268.68C309.42 268.59 308.76 269.12 308.68 269.85C308.59 270.58 309.12 271.24 309.85 271.32Z" fill="#62FF00"/>
+</g>
+<g filter="url(#deepfake2-filter16_d_2107_269)">
+<path d="M312 262L311.76 261.94L309.76 269.94L310 270L310.24 270.06L312.24 262.06L312 262ZM312.32 260.71C311.61 260.53 310.88 260.96 310.71 261.68C310.53 262.39 310.96 263.12 311.68 263.29C312.39 263.47 313.12 263.04 313.29 262.32C313.47 261.61 313.04 260.88 312.32 260.71ZM310.32 268.71C309.61 268.53 308.88 268.96 308.71 269.68C308.53 270.39 308.96 271.12 309.68 271.29C310.39 271.47 311.12 271.04 311.29 270.32C311.47 269.61 311.04 268.88 310.32 268.71Z" fill="#62FF00"/>
+</g>
+<g filter="url(#deepfake2-filter17_d_2107_269)">
+<path d="M312 262L312.22 262.12L319.22 249.12L319 249L318.78 248.88L311.78 261.88L312 262ZM311.37 263.17C312.02 263.52 312.82 263.28 313.17 262.63C313.52 261.98 313.28 261.18 312.63 260.83C311.98 260.48 311.18 260.72 310.83 261.37C310.48 262.02 310.72 262.82 311.37 263.17ZM318.37 250.17C319.02 250.52 319.82 250.28 320.17 249.63C320.52 248.98 320.28 248.18 319.63 247.83C318.98 247.48 318.18 247.72 317.83 248.37C317.48 249.02 317.72 249.82 318.37 250.17Z" fill="#62FF00"/>
+</g>
+</g>
+</g>
+<text id="deepfake2-THE ANATOMY OF A FAKE." fill="white" style="white-space: pre" xml:space="preserve" font-family="Open Sans Condensed" font-size="20" font-weight="800" letter-spacing="0em"><tspan x="26" y="67.7588">THE ANATOMY OF A FAKE.</tspan></text>
+<g>
+<text id="deepfake2-A face biometric &#34;defect&#34; isn&#39;t just a glitch; it&#226;&#128;&#153;s a vulnerability&#226;&#128;&#148;a space where mistakes, unfairness, and malicious spoofing thrive. The most insidious of these is face morphing, which creates a seamless, virtually undetectable transition from one person&#39;s face to another." fill="white" style="white-space: pre" xml:space="preserve" font-family="Host Grotesk" font-size="10" font-weight="500" letter-spacing="0em"><tspan x="18" y="400">A </tspan><tspan x="30.7568" y="400">face </tspan><tspan x="56.4043" y="400">biometric </tspan><tspan x="105.724" y="400">&#34;defect&#34; </tspan><tspan x="147.729" y="400">isn&#39;t </tspan><tspan x="18" y="411">just </tspan><tspan x="37.1625" y="411">a </tspan><tspan x="46.1297" y="411">glitch; </tspan><tspan x="76.7375" y="411">it&#x2019;s </tspan><tspan x="93.4391" y="411">a </tspan><tspan x="102.406" y="411">vulnerability&#x2014;</tspan><tspan x="18" y="422">a </tspan><tspan x="38.4531" y="422">space </tspan><tspan x="80.7227" y="422">where </tspan><tspan x="123.822" y="422">mistakes, </tspan><tspan x="18" y="433">unfairness, </tspan><tspan x="86.4189" y="433">and </tspan><tspan x="123.578" y="433">malicious </tspan><tspan x="18" y="444">spoofing </tspan><tspan x="71.1712" y="444">thrive. </tspan><tspan x="112.536" y="444">The </tspan><tspan x="143.002" y="444">most </tspan><tspan x="18" y="455">insidious </tspan><tspan x="69.0649" y="455">of </tspan><tspan x="90.2178" y="455">these </tspan><tspan x="127.25" y="455">is </tspan><tspan x="146.371" y="455">face </tspan><tspan x="18" y="466">morphing, </tspan><tspan x="76.4023" y="466">which </tspan><tspan x="115.342" y="466">creates </tspan><tspan x="160.453" y="466">a </tspan><tspan x="18" y="477">seamless, </tspan><tspan x="66.3848" y="477">virtually </tspan><tspan x="106.498" y="477">undetectable </tspan><tspan x="18" y="488">transition </tspan><tspan x="70.084" y="488">from </tspan><tspan x="101.045" y="488">one </tspan><tspan x="127.621" y="488">person&#39;s </tspan><tspan x="18" y="499">face </tspan><tspan x="40.6953" y="499">to </tspan><tspan x="52.8828" y="499">another.</tspan></text>
+<text id="deepfake2-The process is a masterclass in digital manipulation. It starts with &#34;Correspondence,&#34; where an algorithm identifies and matches key facial landmarks like the eyes, eyebrows, and nose. Next comes &#34;Warping,&#34; which deliberately distorts the images to perfectly align those landmarks. Finally, &#34;Blending&#34; merges the aligned images into a single, cohesive, fake identity." fill="white" style="white-space: pre" xml:space="preserve" font-family="Host Grotesk" font-size="10" font-weight="500" letter-spacing="0em"><tspan x="184" y="400">The </tspan><tspan x="205.773" y="400">process </tspan><tspan x="246.003" y="400">is </tspan><tspan x="257.717" y="400">a </tspan><tspan x="267.908" y="400">masterclass </tspan><tspan x="327.014" y="400">in </tspan><tspan x="339.471" y="400">digital </tspan><tspan x="184" y="411">manipulation. </tspan><tspan x="268.337" y="411">It </tspan><tspan x="297.956" y="411">starts </tspan><tspan x="347.732" y="411">with </tspan><tspan x="184" y="422">&#34;Correspondence,&#34; </tspan><tspan x="273.564" y="422">where </tspan><tspan x="306.859" y="422">an </tspan><tspan x="323.201" y="422">algorithm </tspan><tspan x="184" y="433">identifies </tspan><tspan x="236.159" y="433">and </tspan><tspan x="264.938" y="433">matches </tspan><tspan x="315.583" y="433">key </tspan><tspan x="343.152" y="433">facial </tspan><tspan x="184" y="444">landmarks </tspan><tspan x="235.606" y="444">like </tspan><tspan x="254.282" y="444">the </tspan><tspan x="273.027" y="444">eyes, </tspan><tspan x="299.984" y="444">eyebrows, </tspan><tspan x="349.744" y="444">and </tspan><tspan x="184" y="455">nose. </tspan><tspan x="216.02" y="455">Next </tspan><tspan x="245.461" y="455">comes </tspan><tspan x="283.965" y="455">&#34;Warping,&#34; </tspan><tspan x="339.959" y="455">which </tspan><tspan x="184" y="466">deliberately </tspan><tspan x="246.828" y="466">distorts </tspan><tspan x="290.72" y="466">the </tspan><tspan x="315.168" y="466">images </tspan><tspan x="357.879" y="466">to </tspan><tspan x="184" y="477">perfectly </tspan><tspan x="228.683" y="477">align </tspan><tspan x="254.138" y="477">those </tspan><tspan x="283.293" y="477">landmarks. </tspan><tspan x="336.932" y="477">Finally, </tspan><tspan x="184" y="488">&#34;Blending&#34; </tspan><tspan x="235.602" y="488">merges </tspan><tspan x="275.261" y="488">the </tspan><tspan x="295.369" y="488">aligned </tspan><tspan x="333.924" y="488">images </tspan><tspan x="184" y="499">into </tspan><tspan x="203.854" y="499">a </tspan><tspan x="212.467" y="499">single, </tspan><tspan x="244.303" y="499">cohesive, </tspan><tspan x="289.469" y="499">fake </tspan><tspan x="311.676" y="499">identity.</tspan></text>
+</g>
+</g>
+<g clip-path="url(#deepfake2-clip1_2107_269)">
+<rect width="384" height="536" transform="translate(384)" fill="#060103"/>
+<g filter="url(#deepfake2-filter18_n_2107_269)">
+<rect width="45" height="536" transform="matrix(-1 0 0 1 429 0)" fill="url(#deepfake2-pattern1_2107_269)"/>
+</g>
+<g filter="url(#deepfake2-filter19_n_2107_269)">
+<rect x="499" width="154" height="524" fill="url(#deepfake2-pattern2_2107_269)" fill-opacity="0.8"/>
+</g>
+<g filter="url(#deepfake2-filter20_g_2107_269)">
+<text id="deepfake2-HUMAN" fill="#62FF00" style="white-space: pre" xml:space="preserve" font-family="Open Sans Condensed" font-size="16" font-weight="800" letter-spacing="0em"><tspan x="445.117" y="63.4219">HUMAN</tspan></text>
+<g filter="url(#deepfake2-filter21_d_2107_269)">
+<text fill="#62FF00" style="white-space: pre" xml:space="preserve" font-family="Open Sans Condensed" font-size="16" font-weight="800" letter-spacing="0em"><tspan x="562.383" y="63.4219">VS</tspan></text>
+</g>
+<text id="deepfake2-MACHINE" fill="#62FF00" style="white-space: pre" xml:space="preserve" font-family="Open Sans Condensed" font-size="16" font-weight="800" letter-spacing="0em"><tspan x="644.414" y="63.4219">MACHINE</tspan></text>
+</g>
+<g>
+<text id="deepfake2-If you think you can spot a fake, the data says otherwise. Research shows that a staggering 68% of morphed images are accepted as totally genuine by human observers. Automated face recognition systems fare better, but even they are fooled 27% of the time by these sophisticated morphs." fill="white" style="white-space: pre" xml:space="preserve" font-family="Host Grotesk" font-size="10" font-weight="500" letter-spacing="0em"><tspan x="410" y="217">If </tspan><tspan x="421.101" y="217">you </tspan><tspan x="443.1" y="217">think </tspan><tspan x="470.881" y="217">you </tspan><tspan x="492.88" y="217">can </tspan><tspan x="514.87" y="217">spot </tspan><tspan x="540.453" y="217">a </tspan><tspan x="410" y="228">fake, </tspan><tspan x="434.422" y="228">the </tspan><tspan x="452.399" y="228">data </tspan><tspan x="475.816" y="228">says </tspan><tspan x="499.154" y="228">otherwise. </tspan><tspan x="410" y="239">Research </tspan><tspan x="465.841" y="239">shows </tspan><tspan x="508.44" y="239">that </tspan><tspan x="540.453" y="239">a </tspan><tspan x="410" y="250">staggering </tspan><tspan x="464.07" y="250">68% </tspan><tspan x="490.357" y="250">of </tspan><tspan x="504.145" y="250">morphed </tspan><tspan x="410" y="261">images </tspan><tspan x="454.741" y="261">are </tspan><tspan x="480.927" y="261">accepted </tspan><tspan x="535.502" y="261">as </tspan><tspan x="410" y="272">totally </tspan><tspan x="447.677" y="272">genuine </tspan><tspan x="493.548" y="272">by </tspan><tspan x="514.691" y="272">human </tspan><tspan x="410" y="283">observers. </tspan><tspan x="466.555" y="283">Automated </tspan><tspan x="526.371" y="283">face </tspan><tspan x="410" y="294">recognition </tspan><tspan x="476.081" y="294">systems </tspan><tspan x="528.393" y="294">fare </tspan><tspan x="410" y="305">better, </tspan><tspan x="448.385" y="305">but </tspan><tspan x="472.062" y="305">even </tspan><tspan x="502.4" y="305">they </tspan><tspan x="531.479" y="305">are </tspan><tspan x="410" y="316">fooled </tspan><tspan x="444.423" y="316">27% </tspan><tspan x="472.107" y="316">of </tspan><tspan x="487.291" y="316">the </tspan><tspan x="508.189" y="316">time </tspan><tspan x="534.506" y="316">by </tspan><tspan x="410" y="327">these </tspan><tspan x="438.047" y="327">sophisticated </tspan><tspan x="501.719" y="327">morphs.</tspan></text>
+<text id="deepfake2-The deepfake audio landscape is just as wild. While humans can correctly identify synthetic audio about 80% of the time, advanced AI algorithms can catch the fakes with a 95% accuracy rate. The reality is simple: the human eye and ear are no longer reliable security checkpoints. To fight synthetic media, we have to build synthetic defenses." fill="white" style="white-space: pre" xml:space="preserve" font-family="Host Grotesk" font-size="10" font-weight="500" letter-spacing="0em"><tspan x="577" y="217">The </tspan><tspan x="600.862" y="217">deepfake </tspan><tspan x="649.9" y="217">audio </tspan><tspan x="681.458" y="217">landscape </tspan><tspan x="734.93" y="217">is </tspan><tspan x="577" y="228">just </tspan><tspan x="600.736" y="228">as </tspan><tspan x="619.229" y="228">wild. </tspan><tspan x="647.613" y="228">While </tspan><tspan x="681.223" y="228">humans </tspan><tspan x="725.428" y="228">can </tspan><tspan x="577" y="239">correctly </tspan><tspan x="625.685" y="239">identify </tspan><tspan x="667.651" y="239">synthetic </tspan><tspan x="717.176" y="239">audio </tspan><tspan x="577" y="250">about </tspan><tspan x="608.441" y="250">80% </tspan><tspan x="635.225" y="250">of </tspan><tspan x="649.508" y="250">the </tspan><tspan x="669.504" y="250">time, </tspan><tspan x="697.039" y="250">advanced </tspan><tspan x="577" y="261">AI </tspan><tspan x="591.441" y="261">algorithms </tspan><tspan x="645.502" y="261">can </tspan><tspan x="667.434" y="261">catch </tspan><tspan x="698.037" y="261">the </tspan><tspan x="718.211" y="261">fakes </tspan><tspan x="577" y="272">with </tspan><tspan x="604.188" y="272">a </tspan><tspan x="617.654" y="272">95% </tspan><tspan x="647.176" y="272">accuracy </tspan><tspan x="696.922" y="272">rate. </tspan><tspan x="724.871" y="272">The </tspan><tspan x="577" y="283">reality </tspan><tspan x="607.908" y="283">is </tspan><tspan x="618.064" y="283">simple: </tspan><tspan x="653.152" y="283">the </tspan><tspan x="671.053" y="283">human </tspan><tspan x="705.447" y="283">eye </tspan><tspan x="724.744" y="283">and </tspan><tspan x="577" y="294">ear </tspan><tspan x="597.137" y="294">are </tspan><tspan x="616.873" y="294">no </tspan><tspan x="633.543" y="294">longer </tspan><tspan x="667.908" y="294">reliable </tspan><tspan x="705.486" y="294">security </tspan><tspan x="577" y="305">checkpoints. </tspan><tspan x="646.082" y="305">To </tspan><tspan x="668.074" y="305">fight </tspan><tspan x="700.398" y="305">synthetic </tspan><tspan x="577" y="316">media, </tspan><tspan x="613.029" y="316">we </tspan><tspan x="631.822" y="316">have </tspan><tspan x="658.486" y="316">to </tspan><tspan x="673.178" y="316">build </tspan><tspan x="700.398" y="316">synthetic </tspan><tspan x="577" y="327">defenses.</tspan></text>
+</g>
+</g>
+</g>
+<defs>
+<filter id="deepfake2-filter0_n_2107_269" x="0" y="0" width="384" height="536" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+<feTurbulence type="fractalNoise" baseFrequency="2 2" stitchTiles="stitch" numOctaves="3" result="noise" seed="208" />
+<feColorMatrix in="noise" type="luminanceToAlpha" result="alphaNoise" />
+<feComponentTransfer in="alphaNoise" result="coloredNoise1">
+<feFuncA type="discrete" tableValues="1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 "/>
+</feComponentTransfer>
+<feComposite operator="in" in2="shape" in="coloredNoise1" result="noise1Clipped" />
+<feFlood flood-color="rgba(0, 0, 0, 0.5)" result="color1Flood" />
+<feComposite operator="in" in2="noise1Clipped" in="color1Flood" result="color1" />
+<feMerge result="effect1_noise_2107_269">
+<feMergeNode in="shape" />
+<feMergeNode in="color1" />
+</feMerge>
+</filter>
+<pattern id="deepfake2-pattern0_2107_269" patternContentUnits="objectBoundingBox" width="1" height="1">
+<use xlink:href="#deepfake2-image0_2107_269" transform="matrix(0.000995711 0 0 0.000713345 -0.117188 -5.48727e-05)"/>
+</pattern>
+<filter id="deepfake2-filter1_d_2107_269" x="206.667" y="184.667" width="53.667" height="53.667" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset/>
+<feGaussianBlur stdDeviation="2"/>
+<feComposite in2="hardAlpha" operator="out"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0"/>
+<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_2107_269"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_2107_269" result="shape"/>
+</filter>
+<filter id="deepfake2-filter2_d_2107_269" x="249.667" y="184.667" width="50.667" height="18.667" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset/>
+<feGaussianBlur stdDeviation="2"/>
+<feComposite in2="hardAlpha" operator="out"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0"/>
+<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_2107_269"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_2107_269" result="shape"/>
+</filter>
+<filter id="deepfake2-filter3_d_2107_269" x="240.667" y="131.667" width="19.667" height="63.667" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset/>
+<feGaussianBlur stdDeviation="2"/>
+<feComposite in2="hardAlpha" operator="out"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0"/>
+<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_2107_269"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_2107_269" result="shape"/>
+</filter>
+<filter id="deepfake2-filter4_d_2107_269" x="240.667" y="131.667" width="42.667" height="10.667" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset/>
+<feGaussianBlur stdDeviation="2"/>
+<feComposite in2="hardAlpha" operator="out"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0"/>
+<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_2107_269"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_2107_269" result="shape"/>
+</filter>
+<filter id="deepfake2-filter5_d_2107_269" x="272.667" y="131.667" width="37.667" height="23.667" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset/>
+<feGaussianBlur stdDeviation="2"/>
+<feComposite in2="hardAlpha" operator="out"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0"/>
+<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_2107_269"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_2107_269" result="shape"/>
+</filter>
+<filter id="deepfake2-filter6_d_2107_269" x="299.667" y="144.667" width="14.667" height="35.667" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset/>
+<feGaussianBlur stdDeviation="2"/>
+<feComposite in2="hardAlpha" operator="out"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0"/>
+<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_2107_269"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_2107_269" result="shape"/>
+</filter>
+<filter id="deepfake2-filter7_d_2107_269" x="299.667" y="144.667" width="24.667" height="25.667" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset/>
+<feGaussianBlur stdDeviation="2"/>
+<feComposite in2="hardAlpha" operator="out"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0"/>
+<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_2107_269"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_2107_269" result="shape"/>
+</filter>
+<filter id="deepfake2-filter8_d_2107_269" x="313.667" y="159.667" width="10.667" height="27.5972" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset/>
+<feGaussianBlur stdDeviation="2"/>
+<feComposite in2="hardAlpha" operator="out"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0"/>
+<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_2107_269"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_2107_269" result="shape"/>
+</filter>
+<filter id="deepfake2-filter9_d_2107_269" x="303.667" y="169.667" width="29.667" height="36.667" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset/>
+<feGaussianBlur stdDeviation="2"/>
+<feComposite in2="hardAlpha" operator="out"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0"/>
+<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_2107_269"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_2107_269" result="shape"/>
+</filter>
+<filter id="deepfake2-filter10_d_2107_269" x="289.667" y="192.667" width="43.667" height="13.667" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset/>
+<feGaussianBlur stdDeviation="2"/>
+<feComposite in2="hardAlpha" operator="out"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0"/>
+<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_2107_269"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_2107_269" result="shape"/>
+</filter>
+<filter id="deepfake2-filter11_d_2107_269" x="279.667" y="192.667" width="20.667" height="46.667" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset/>
+<feGaussianBlur stdDeviation="2"/>
+<feComposite in2="hardAlpha" operator="out"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0"/>
+<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_2107_269"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_2107_269" result="shape"/>
+</filter>
+<filter id="deepfake2-filter12_d_2107_269" x="279.667" y="228.667" width="15.667" height="46.667" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset/>
+<feGaussianBlur stdDeviation="2"/>
+<feComposite in2="hardAlpha" operator="out"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0"/>
+<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_2107_269"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_2107_269" result="shape"/>
+</filter>
+<filter id="deepfake2-filter13_d_2107_269" x="206.667" y="227.667" width="88.667" height="47.667" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset/>
+<feGaussianBlur stdDeviation="2"/>
+<feComposite in2="hardAlpha" operator="out"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0"/>
+<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_2107_269"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_2107_269" result="shape"/>
+</filter>
+<filter id="deepfake2-filter14_d_2107_269" x="284.667" y="264.667" width="29.667" height="19.667" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset/>
+<feGaussianBlur stdDeviation="2"/>
+<feComposite in2="hardAlpha" operator="out"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0"/>
+<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_2107_269"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_2107_269" result="shape"/>
+</filter>
+<filter id="deepfake2-filter15_d_2107_269" x="303.667" y="264.667" width="11.667" height="19.667" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset/>
+<feGaussianBlur stdDeviation="2"/>
+<feComposite in2="hardAlpha" operator="out"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0"/>
+<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_2107_269"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_2107_269" result="shape"/>
+</filter>
+<filter id="deepfake2-filter16_d_2107_269" x="304.667" y="256.667" width="12.667" height="18.667" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset/>
+<feGaussianBlur stdDeviation="2"/>
+<feComposite in2="hardAlpha" operator="out"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0"/>
+<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_2107_269"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_2107_269" result="shape"/>
+</filter>
+<filter id="deepfake2-filter17_d_2107_269" x="306.667" y="243.667" width="17.667" height="23.667" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset/>
+<feGaussianBlur stdDeviation="2"/>
+<feComposite in2="hardAlpha" operator="out"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0"/>
+<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_2107_269"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_2107_269" result="shape"/>
+</filter>
+<filter id="deepfake2-filter18_n_2107_269" x="384" y="0" width="45" height="536" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+<feTurbulence type="fractalNoise" baseFrequency="2 2" stitchTiles="stitch" numOctaves="3" result="noise" seed="6799" />
+<feColorMatrix in="noise" type="luminanceToAlpha" result="alphaNoise" />
+<feComponentTransfer in="alphaNoise" result="coloredNoise1">
+<feFuncA type="discrete" tableValues="1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 "/>
+</feComponentTransfer>
+<feComposite operator="in" in2="shape" in="coloredNoise1" result="noise1Clipped" />
+<feFlood flood-color="rgba(0, 0, 0, 0.5)" result="color1Flood" />
+<feComposite operator="in" in2="noise1Clipped" in="color1Flood" result="color1" />
+<feMerge result="effect1_noise_2107_269">
+<feMergeNode in="shape" />
+<feMergeNode in="color1" />
+</feMerge>
+</filter>
+<pattern id="deepfake2-pattern1_2107_269" patternContentUnits="objectBoundingBox" width="1" height="1">
+<use xlink:href="#deepfake2-image0_2107_269" transform="scale(0.00849673 0.000713345)"/>
+</pattern>
+<filter id="deepfake2-filter19_n_2107_269" x="499" y="0" width="154" height="524" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+<feTurbulence type="fractalNoise" baseFrequency="2 2" stitchTiles="stitch" numOctaves="3" result="noise" seed="3036" />
+<feColorMatrix in="noise" type="luminanceToAlpha" result="alphaNoise" />
+<feComponentTransfer in="alphaNoise" result="coloredNoise1">
+<feFuncA type="discrete" tableValues="1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 "/>
+</feComponentTransfer>
+<feComposite operator="in" in2="shape" in="coloredNoise1" result="noise1Clipped" />
+<feFlood flood-color="rgba(0, 0, 0, 0.25)" result="color1Flood" />
+<feComposite operator="in" in2="noise1Clipped" in="color1Flood" result="color1" />
+<feMerge result="effect1_noise_2107_269">
+<feMergeNode in="shape" />
+<feMergeNode in="color1" />
+</feMerge>
+</filter>
+<pattern id="deepfake2-pattern2_2107_269" patternContentUnits="objectBoundingBox" width="1" height="1">
+<use xlink:href="#deepfake2-image1_2107_269" transform="matrix(0.00275157 0 0 0.000808668 -1.24675 -0.000161284)"/>
+</pattern>
+<filter id="deepfake2-filter20_g_2107_269" x="444.5" y="50.9141" width="263" height="12.7422" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+<feTurbulence type="fractalNoise" baseFrequency="0.25 0.25" numOctaves="3" seed="9035" />
+<feDisplacementMap in="shape" scale="1" xChannelSelector="R" yChannelSelector="G" result="displacedImage" width="100%" height="100%" />
+<feMerge result="effect1_texture_2107_269">
+<feMergeNode in="displacedImage"/>
+</feMerge>
+</filter>
+<filter id="deepfake2-filter21_d_2107_269" x="558.383" y="47.4141" width="23.8359" height="19.7422" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset/>
+<feGaussianBlur stdDeviation="2"/>
+<feComposite in2="hardAlpha" operator="out"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0"/>
+<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_2107_269"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_2107_269" result="shape"/>
+</filter>
+<clipPath id="deepfake2-clip0_2107_269">
+<rect width="384" height="536" fill="white"/>
+</clipPath>
+<clipPath id="deepfake2-clip1_2107_269">
+<rect width="384" height="536" fill="white" transform="translate(384)"/>
+</clipPath>
+<image id="deepfake2-image0_2107_269" data-name="Gritty Cyberpunk Profile Portrait(edit).png" width="1122" height="1402" preserveAspectRatio="none" xlink:href="__IMG_grittyCyberpunkProfilePortraitEdit__"/>
+<image id="deepfake2-image1_2107_269" data-name="Neon Chrome Mannequin Orbit.png" width="1272" height="1237" preserveAspectRatio="none" xlink:href="__IMG_neonChromeMannequinOrbit__"/>
+</defs>
+</svg>

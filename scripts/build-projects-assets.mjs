@@ -57,7 +57,7 @@ const PHOTOS = {
   fraud: 'fraud-cover.png', // the user's cover for the project (2026-10-28), in place of the frame's img_8782.jpg
   alzheimer: 'img_8781.jpg',
   arumi: 'arumi.png', // the user's still of the stand at night (2026-10-28); its clip is assets/media/arumi.mp4
-  deepfake: 'img_7302.jpg',
+  deepfake: 'deepfake-cover.png', // the user's mannequin still (2026-10-28); its clip is assets/media/deepfake.mp4
   gamified: 'gamified-cover.png', // the user's interrogation-room still (2026-10-28); its clip is assets/media/gamified.mp4
 };
 fs.mkdirSync(`${OUT}/images`, { recursive: true });

@@ -63,13 +63,18 @@ export const PROJECTS = {
   },
   deepfake: {
     slug: 'deepfake-classification',
-    color: '#3a1530',
-    layout: 'story',
+    color: '#090608',
+    // Its own book, drawn as Figma's SVG (DeepfakeBook.jsx); its words are in the spreads, its headings in
+    // DEEPFAKE_BOOK below.
+    spreads: [
+      { key: 'deepfake-cover', layout: 'deepfake1', label: 'The biometric illusion' },
+      { key: 'deepfake-anatomy', layout: 'deepfake2', label: 'The anatomy of a fake' },
+      { key: 'deepfake-networks', layout: 'deepfake3', label: 'Traditional vs deep neural networks' },
+      { key: 'deepfake-capsule', layout: 'deepfake4', label: 'Capsule network' },
+    ],
     role: 'AI/ML Engineer',
     category: 'AI Engineering',
     title: 'Deepfake Classification Research',
-    stack: 'CNN · LSTM',
-    body: 'Research into telling deepfake video from real footage, with CNN and LSTM architectures: the convolutional network reads each frame, and the recurrent one follows what changes between them.',
   },
   gamified: {
     slug: 'gamified-personal-website',
@@ -382,6 +387,17 @@ export const GAMIFIED_BOOK = {
     { text: 'direction, and let AI', align: 'left' },
   ],
   stackEnd: 'execute the technical grind.',
+};
+
+// Deepfake Classification Research's book is Figma's own SVG (scripts/build-book-svg.mjs), its text included; these are
+// its headings for screen readers, spread by spread, as the drawn lettering splits them up.
+export const DEEPFAKE_BOOK = {
+  headings: [
+    ['Deepfake Research, Feb 2024', 'The Biometric Illusion'],
+    ['The Anatomy of a Fake', 'Human vs Machine'],
+    ['Traditional Neural Network vs Deep Neural Network', 'The Innovative Bottleneck'],
+    ['The CNN vs LSTM Pipeline', 'Capsule Network'],
+  ],
 };
 
 // A project's book, spread by spread in reading order: its cover, the spread that tells it, and the end of the issue,

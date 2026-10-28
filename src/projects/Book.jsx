@@ -21,6 +21,7 @@ import { CLOSING, ISSUE, PROJECTS, spreadsOf } from './work';
 import { PHOTOS, STORY_PHOTOS } from './photos';
 import PageCurl from './PageCurl';
 import { ARUMI_LAYOUTS, ArumiIndex } from './ArumiBook';
+import { DEEPFAKE_LAYOUTS, DeepfakeIndex } from './DeepfakeBook';
 import { FRAUD_LAYOUTS, FraudIndex } from './FraudBook';
 import { GAMIFIED_LAYOUTS, GamifiedIndex } from './GamifiedBook';
 import './book.css';
@@ -42,6 +43,19 @@ const UPRIGHT_KEY = 'zashari-home-book-upright';
 const NARROW_QUERY = '(max-aspect-ratio: 1/1), (max-width: 599px)';
 // Easing of the page toward the scroll position, in seconds: a short lag reads as paper, not as a hinge.
 const FOLLOW_S = 0.55;
+// How far the scroll must carry from the spread it rests on, as a share of a page turn (a screen of scroll), before
+// letting go turns the page; a shorter scroll springs back. A plain directional snap turned a page on a single wheel
+// notch, which the owner found too sensitive (as on the showcase's scenes, Showcase.jsx).
+const COMMIT = 0.3;
+
+// The spread to settle on once the scroll stops, from where it stopped (in pages turned), the scroll's direction and
+// the spread it last settled on: that one after a short scroll, the next whole spread that way after a longer one.
+function settleOn(pages, direction, settled) {
+  const whole = Math.round(pages);
+  if (Math.abs(pages - whole) < 0.01) return whole;
+  if (Math.abs(pages - settled) < COMMIT) return settled;
+  return direction > 0 ? Math.ceil(pages) : Math.floor(pages);
+}
 
 // Typefaces the pages use; their files are inlined into each page image (see bookFontCss).
 const BOOK_FONTS = new Set([
@@ -265,10 +279,11 @@ const LAYOUTS = {
   ...ARUMI_LAYOUTS,
   ...FRAUD_LAYOUTS,
   ...GAMIFIED_LAYOUTS,
+  ...DEEPFAKE_LAYOUTS,
 };
 
 // The text of the books drawn in Figma, for screen readers.
-const OWN_INDEX = { arumi: ArumiIndex, fraud: FraudIndex, gamified: GamifiedIndex };
+const OWN_INDEX = { arumi: ArumiIndex, fraud: FraudIndex, gamified: GamifiedIndex, deepfake: DeepfakeIndex };
 
 // One page: a window onto half of a spread's sheet. Every page is drawn for sighted readers only; the same text is
 // given to assistive tech once, in order, by WorkIndex below.
@@ -354,6 +369,55 @@ const readAsDataUrl = (blob) =>
     reader.readAsDataURL(blob);
   });
 
+// A page drawn as Figma's own SVG (DeepfakeBook.jsx) is turned into its page image directly. modern-screenshot 4.7
+// copies a pattern's <use> target from the live page rather than its clone, so the photo keeps a URL that an SVG drawn
+// as an image cannot load, and comes out blank (reports/Book page images and scroll snap.md). So the spread's own SVG
+// is drawn onto a canvas, with its photos and the book's fonts put in as data URLs, and the page's half of it kept.
+const svgPhotos = new Map();
+const photoAsDataUrl = (href) => {
+  if (!svgPhotos.has(href)) {
+    svgPhotos.set(
+      href,
+      fetch(href).then((response) => {
+        if (!response.ok) throw new Error(`HTTP ${response.status} for ${href}`);
+        return response.blob().then(readAsDataUrl);
+      })
+    );
+  }
+  return svgPhotos.get(href);
+};
+async function figmaPageCanvas(page, scale, cssText) {
+  const svg = page.querySelector('.fb-figma > svg');
+  const width = page.offsetWidth;
+  const height = page.offsetHeight;
+  let markup = new XMLSerializer().serializeToString(svg);
+  // Figma writes the photos as xlink:href; anything not pointing within the SVG (#id) is a photo to put in.
+  const hrefs = [...new Set([...markup.matchAll(/ (?:xlink:)?href="([^"#][^"]*)"/g)].map((m) => m[1]))];
+  const urls = await Promise.all(hrefs.map(photoAsDataUrl));
+  hrefs.forEach((href, i) => {
+    markup = markup.replaceAll(`"${href}"`, `"${urls[i]}"`);
+  });
+  // The whole spread, two pages wide, with the book's fonts. Its namespaces are Figma's own: adding them again would
+  // make the markup invalid XML, which the image then fails to decode.
+  markup = markup.replace(/^<svg /, `<svg width="${2 * width}" height="${height}" `);
+  markup = markup.replace(/(<svg [^>]*>)/, `$1<style>${cssText}</style>`);
+  // Through a Blob URL rather than a data URL, so the payload (photos and fonts inside) is not encoded a second time.
+  const url = URL.createObjectURL(new Blob([markup], { type: 'image/svg+xml' }));
+  const image = new Image();
+  try {
+    image.src = url;
+    await image.decode();
+  } finally {
+    URL.revokeObjectURL(url);
+  }
+  const canvas = document.createElement('canvas');
+  canvas.width = Math.round(width * scale);
+  canvas.height = Math.round(height * scale);
+  const right = page.dataset.side === 'right';
+  canvas.getContext('2d').drawImage(image, right ? -canvas.width : 0, 0, 2 * canvas.width, canvas.height);
+  return canvas;
+}
+
 // modern-screenshot does not pick up the page's own @font-face rules, so the page images would fall back to a system
 // font. This builds the book's @font-face rules with each file inlined, once, for every image to share.
 let fontCss = null;
@@ -437,7 +501,9 @@ function usePageCurl({ canvasRef, bookRef, sectionRef, leaves, redraw }) {
         try {
           const [front, back] = await Promise.all(
             pages.map((page) =>
-              domToCanvas(page, {
+              page.querySelector('.fb-figma > svg')
+                ? figmaPageCanvas(page, scale, cssText)
+                : domToCanvas(page, {
                 scale,
                 // The page's layout size, given explicitly: left out, modern-screenshot measures the page with
                 // getBoundingClientRect, which includes its leaf's 3D turn, so a page captured mid-turn came out
@@ -529,6 +595,8 @@ function TurningBook({ rotated, onUpright, onClose, memory }) {
       // book then, live in memory (owned by Book) so they survive this book being remounted (see below).
       let target = 0;
       const rest = memory.current;
+      // The spread the snap last settled on (see settleOn).
+      let settled = rest.inBook ? rest.spread : 0;
       // Lay the leaves out for p pages turned (fractional while a page is in the air).
       const turn = (p) => {
         const moving = Math.min(Math.floor(p), TURNS - 1);
@@ -578,11 +646,18 @@ function TurningBook({ rotated, onUpright, onClose, memory }) {
           target = self.progress * TURNS;
           follow(target);
         },
-        // On touch, wait a little longer so momentum scrolling settles before the snap takes over.
+        // Settle on a spread once the scroll stops (settleOn). On touch, wait a little longer so momentum scrolling
+        // settles before the snap takes over.
         snap: {
-          snapTo: 1 / TURNS,
-          duration: { min: 0.25, max: 0.7 },
-          delay: window.matchMedia(TOUCH_QUERY).matches ? 0.2 : 0.08,
+          snapTo: (progress, self) => {
+            settled = settleOn(progress * TURNS, self.direction, settled);
+            return settled / TURNS;
+          },
+          // Judge where the scroll stopped, not where its momentum would carry it: with inertia a quick flick counts
+          // as a long scroll and turns pages it should not.
+          inertia: false,
+          duration: { min: 0.3, max: 0.8 },
+          delay: window.matchMedia(TOUCH_QUERY).matches ? 0.25 : 0.15,
           ease: 'power2.inOut',
         },
       });
@@ -594,6 +669,7 @@ function TurningBook({ rotated, onUpright, onClose, memory }) {
         target = rest.spread;
       }
       state.p = rest.inBook ? rest.spread : triggerRef.current.progress * TURNS;
+      settled = Math.round(state.p);
       apply();
       // A real resize (a device turned with auto-rotate, a window resized) changes the track's length; keep the
       // reader on the spread they were on instead of wherever the old scroll offset now lands. By the time
