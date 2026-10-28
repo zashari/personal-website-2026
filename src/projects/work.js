@@ -51,8 +51,14 @@ export const PROJECTS = {
   },
   arumi: {
     slug: 'arumi-coffee',
-    color: '#2f3a1c',
-    layout: 'story',
+    color: '#421615',
+    // Its own book, drawn in Figma (ArumiBook.jsx); the words are in ARUMI_BOOK below.
+    spreads: [
+      { key: 'arumi-cover', layout: 'arumiCover', label: 'Cover' },
+      { key: 'arumi-sunset', layout: 'arumiSunset', label: 'A place to catch the sunset' },
+      { key: 'arumi-plan', layout: 'arumiPlan', label: 'It was never the plan' },
+      { key: 'arumi-team', layout: 'arumiTeam', label: 'The team' },
+    ],
     role: 'Business',
     category: 'Business',
     title: 'Arumi Coffee',
@@ -88,9 +94,94 @@ export const CLOSING = {
   href: 'mailto:izzat.zaky@gmail.com',
 };
 
-// A project's book, spread by spread in reading order: its cover, the spread that tells it, and the end of the issue.
-// The live-region announcement uses the label.
+// Arumi Coffee's book, from the Figma spreads design/figma/data/arumi-page-1-2.svg to 7-8. Every paragraph is given
+// line by line as Figma breaks it, so the justified columns come out as designed; **words** are set in bold.
+export const ARUMI_BOOK = {
+  title: 'ARUMI COFFEE',
+  date: 'May 2026',
+  hint: 'Scroll to turn this page',
+  end: 'End of File',
+  headline: ['“A PLACE TO CATCH THE', 'SUNSET.”'],
+  quote: [
+    '“At least, that’s what our customers tell us.',
+    'Arumi Coffee is a passion project I’m',
+    'building from the ground up with my',
+    'family”',
+  ],
+  quoteBy: 'Zaky Ashari',
+  plan: ['IT WAS', 'NEVER THE', 'PLAN.'],
+  opened: [
+    'Arumi Coffee opened its doors on June 19, 2026. Zashari actually',
+    'never intended to go all-in on this project. It wasn’t until a trip back to',
+    'his hometown of Palu in March 2026, and a pivotal late-night',
+    'conversation with his family that everything shifted. After three',
+    'months of grinding, Arumi Coffee launched with a raw, minimalist',
+    'open-bar concept.',
+  ],
+  revamp: [
+    'By month three, Zaky and his',
+    'siblings knew they had to level',
+    'up. They revamped the bar',
+    'layout—a move that instantly',
+    'paid off and drew in a massive',
+    'new crowd.',
+  ],
+  vibe: [
+    'The vibe shifted organically.',
+    'People weren’t just showing up',
+    'for the sunset anymore; they',
+    'were staying for the city lights',
+    'and making the redesigned bar',
+    'their go-to aesthetic photo',
+    'drop.',
+  ],
+  hats: [
+    'Zashari wears a lot of hats',
+    'here. He spearheaded the',
+    'R&D behind some of',
+    'Arumi’s most hyped',
+    'signature drinks, including',
+    'the Mont Blanc, Berry',
+    'Manuka Americano, and',
+    'Honey Tea Blanc.',
+  ],
+  team: [
+    'But he’s the first to admit it’s a total',
+    'team effort. His brother **Andi Ashari**',
+    'built the custom POS system and',
+    'helped fund the vision alongside their',
+    'parents. **Kintha Ashari** and **Nadine**',
+    '**Ashari** brought serious F&B industry',
+    'experience to lock down the SOPs,',
+    'while his younger brother **Izzat Ashari**',
+    'is the creative force behind the visual',
+    'identity and the iconic Arumi logo.',
+  ],
+  today: [
+    'Today, Zaky manages the day-to-day',
+    'chaos, from daily operations and HR',
+    'to social media and infrastructure',
+    'design. The vision? Constant',
+    'evolution. Arumi Coffee is always',
+    'upgrading its space and tweaking its',
+    'menu to keep the community coming',
+    'back for more.',
+  ],
+  hiatus: [
+    'To make Arumi a reality, Zaky actually',
+    'took a hiatus from his career in tech.',
+    'But it’s only temporary—he plans to',
+    'dive right back into the development',
+    'world once the coffee shop is fully',
+    'self-sustaining.',
+  ],
+  dream: ['It’s his dream', 'since in middle', 'school to run a', 'business he said.'],
+};
+
+// A project's book, spread by spread in reading order: its cover, the spread that tells it, and the end of the issue,
+// unless the project has a book of its own (spreads). The live-region announcement uses the label.
 export function spreadsOf(key) {
+  if (PROJECTS[key].spreads) return PROJECTS[key].spreads;
   return [
     { key: 'cover', layout: 'cover', label: 'Cover' },
     { key, layout: PROJECTS[key].layout, label: PROJECTS[key].title },

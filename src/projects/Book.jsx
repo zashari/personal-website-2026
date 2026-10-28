@@ -20,6 +20,7 @@ import { domToCanvas } from 'modern-screenshot';
 import { CLOSING, ISSUE, PROJECTS, spreadsOf } from './work';
 import { PHOTOS, STORY_PHOTOS } from './photos';
 import PageCurl from './PageCurl';
+import { ARUMI_LAYOUTS, ArumiIndex } from './ArumiBook';
 import './book.css';
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
@@ -41,7 +42,13 @@ const NARROW_QUERY = '(max-aspect-ratio: 1/1), (max-width: 599px)';
 const FOLLOW_S = 0.55;
 
 // Typefaces the pages use; their files are inlined into each page image (see bookFontCss).
-const BOOK_FONTS = new Set(['Times New Normal', 'Open Sans', 'Open Sans SemiCondensed']);
+const BOOK_FONTS = new Set([
+  'Times New Normal',
+  'Open Sans',
+  'Open Sans SemiCondensed',
+  'Open Sans Condensed',
+  'Host Grotesk',
+]);
 
 const pad = (n) => String(n).padStart(2, '0');
 // Folios as in a magazine: the cover has none, then spread s holds pages 2s + 2 and 2s + 3.
@@ -293,6 +300,7 @@ const LAYOUTS = {
   story: StorySpread,
   dossier: DossierSpread,
   end: EndSpread,
+  ...ARUMI_LAYOUTS,
 };
 
 // One page: a window onto half of a spread's sheet. Every page is drawn for sighted readers only; the same text is
@@ -315,6 +323,13 @@ function Page({ spread, side, className = '' }) {
 function WorkIndex() {
   const { project } = use(BookContext);
   const p = PROJECTS[project];
+  if (project === 'arumi') {
+    return (
+      <div className="home-visually-hidden">
+        <ArumiIndex />
+      </div>
+    );
+  }
   return (
     <div className="home-visually-hidden">
       <article>
@@ -745,6 +760,7 @@ export default function Book({ project, onClose }) {
       <section
         id="work"
         className="bk-section"
+        data-book={project}
         aria-label={PROJECTS[project].title}
         style={{ '--book': PROJECTS[project].color }}
       >

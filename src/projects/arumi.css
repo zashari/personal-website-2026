@@ -1,0 +1,129 @@
+/* Arumi Coffee's book (ArumiBook.jsx). Its pages are the Figma frames' maroon, and its sheet is measured in frame px:
+   --fpx is one px of the 768 px wide frame, in cqw of the spread. */
+
+@font-face {
+  font-family: 'Host Grotesk';
+  src: url('./assets/fonts/book-host-grotesk-regular.woff2') format('woff2');
+  font-weight: 400;
+  font-display: block;
+}
+
+@font-face {
+  font-family: 'Host Grotesk';
+  src: url('./assets/fonts/book-host-grotesk-bold.woff2') format('woff2');
+  font-weight: 700;
+  font-display: block;
+}
+
+@font-face {
+  font-family: 'Open Sans';
+  src: url('./assets/fonts/book-open-sans-regular.woff2') format('woff2');
+  font-weight: 400;
+  font-display: block;
+}
+
+@font-face {
+  font-family: 'Open Sans';
+  src: url('./assets/fonts/book-open-sans-medium.woff2') format('woff2');
+  font-weight: 500;
+  font-display: block;
+}
+
+@font-face {
+  font-family: 'Open Sans';
+  src: url('./assets/fonts/book-open-sans-extrabold.woff2') format('woff2');
+  font-weight: 800;
+  font-display: block;
+}
+
+@font-face {
+  font-family: 'Open Sans Condensed';
+  src: url('./assets/fonts/book-open-sans-condensed-extrabold.woff2') format('woff2');
+  font-weight: 800;
+  font-display: block;
+}
+
+/* The frame's pages are 384 x 536. */
+.bk-section[data-book='arumi'] {
+  --paper: #421615;
+  --paper-edge: #2a0d0c;
+  --page-ratio: 0.71642;
+}
+
+.ar-sheet {
+  --fpx: calc(100cqw / 768);
+  position: absolute;
+  inset: 0;
+  color: #fff;
+}
+
+.ar-photo {
+  position: absolute;
+  display: block;
+}
+
+.ar-photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.ar-text {
+  position: absolute;
+  margin: 0;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 400;
+  white-space: nowrap;
+}
+
+.ar-line {
+  display: block;
+}
+
+.ar-cover-title {
+  font-weight: 500;
+}
+
+/* Figma's drop shadow: 0 4 px, blur 4 px, black at 25%. */
+.ar-hint[data-shadow],
+.ar-headline,
+.ar-shadow {
+  text-shadow: 0 calc(4 * var(--fpx)) calc(4 * var(--fpx)) rgb(0 0 0 / 0.25);
+}
+
+.ar-headline {
+  font-weight: 800;
+}
+
+.ar-condensed {
+  font-family: 'Open Sans Condensed', 'Open Sans', sans-serif;
+  font-weight: 800;
+}
+
+.ar-quote-box {
+  position: absolute;
+  background: rgb(0 0 0 / 0.75);
+}
+
+.ar-quote {
+  font-family: 'Times New Normal', serif;
+}
+
+/* Justified columns: every line spans the column, as Figma set it, but the last, which stays ragged. */
+.ar-column {
+  font-family: 'Host Grotesk', sans-serif;
+  color: #d2d2d2;
+}
+
+.ar-column .ar-line {
+  text-align: justify;
+  text-align-last: justify;
+}
+
+.ar-column .ar-line[data-ragged] {
+  text-align-last: left;
+}
+
+.ar-column b {
+  font-weight: 700;
+}
