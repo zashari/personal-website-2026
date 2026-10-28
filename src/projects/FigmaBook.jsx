@@ -10,17 +10,20 @@ import './figma-book.css';
 
 export const fpx = (n) => `calc(${n} * var(--fpx))`;
 
-// Each typeface: its family (figma-book.css) and its vertical metrics (frame.js).
+// Each typeface: its family (figma-book.css) and its vertical metrics (frame.js). Figma draws a face with a line gap
+// (Times New Normal's is 0.1 em) that much lower than the baseline its SVG export gives, so shift moves it down to match.
 const FONTS = {
   sans: { className: 'fb-sans', metrics: 'sans' },
   condensed: { className: 'fb-condensed', metrics: 'sans' },
   grotesk: { className: 'fb-grotesk', metrics: 'grotesk' },
-  times: { className: 'fb-times', metrics: 'times' },
+  times: { className: 'fb-times', metrics: 'times', shift: 0.1 },
+  script: { className: 'fb-script', metrics: 'script' }, // Italianno, the logotype's Z (src/home/brand.css)
 };
 
 // A text block whose first baseline sits where Figma has it. width, when given, is the column's.
 export function at({ x, baseline, size, lineHeight = size * 1.3618, font = 'sans', width }) {
-  const t = textAt({ x, baseline, size, lineHeight, font: FONTS[font].metrics });
+  const { metrics, shift = 0 } = FONTS[font];
+  const t = textAt({ x, baseline: baseline + shift * size, size, lineHeight, font: metrics });
   return {
     left: fpx(t.left),
     top: fpx(t.top),
@@ -75,7 +78,8 @@ const rich = (line) =>
 
 // Text line by line as Figma breaks it. justify spreads every line across the column (width) but the last of each
 // paragraph; an empty line ends a paragraph and stands for Figma's blank line between them. A line may be given as
-// { text, align } to set it apart (Figma's centred last lines). justifyLast spreads the very last line too.
+// { text, align } to set it apart and leave it unspread (Figma's centred last lines). justifyLast spreads the very
+// last line too. style adds to the block's own (letter spacing and the like).
 export function Text({
   lines,
   font = 'sans',
@@ -86,20 +90,22 @@ export function Text({
   align,
   shadow = false,
   className = '',
+  style: extra,
   ...place
 }) {
-  const style = { ...at({ font, ...place }), fontWeight: weight, color, textAlign: align };
+  const style = { ...at({ font, ...place }), fontWeight: weight, color, textAlign: align, ...extra };
   return (
     <p className={`fb-text ${FONTS[font].className} ${className}`} data-shadow={shadow || undefined} style={style}>
       {lines.map((line, i) => {
-        const text = typeof line === 'string' ? line : line.text;
-        const last = i === lines.length - 1 ? !justifyLast : lines[i + 1] === '';
+        const set = typeof line !== 'string';
+        const text = set ? line.text : line;
+        const last = set || (i === lines.length - 1 ? !justifyLast : lines[i + 1] === '');
         return (
           <span
             key={i}
             className="fb-line"
             data-justify={(justify && !last) || undefined}
-            style={typeof line === 'string' ? undefined : { textAlign: line.align }}
+            style={set ? { textAlign: line.align } : undefined}
           >
             {text === '' ? ' ' : rich(text)}
           </span>

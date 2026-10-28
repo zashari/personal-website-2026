@@ -21,6 +21,7 @@ import { CLOSING, ISSUE, PROJECTS, spreadsOf } from './work';
 import { PHOTOS, STORY_PHOTOS } from './photos';
 import PageCurl from './PageCurl';
 import { ARUMI_LAYOUTS, ArumiIndex } from './ArumiBook';
+import { FRAUD_LAYOUTS, FraudIndex } from './FraudBook';
 import './book.css';
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
@@ -48,6 +49,7 @@ const BOOK_FONTS = new Set([
   'Open Sans SemiCondensed',
   'Open Sans Condensed',
   'Host Grotesk',
+  'Italianno',
 ]);
 
 const pad = (n) => String(n).padStart(2, '0');
@@ -301,7 +303,11 @@ const LAYOUTS = {
   dossier: DossierSpread,
   end: EndSpread,
   ...ARUMI_LAYOUTS,
+  ...FRAUD_LAYOUTS,
 };
+
+// The text of the books drawn in Figma, for screen readers.
+const OWN_INDEX = { arumi: ArumiIndex, fraud: FraudIndex };
 
 // One page: a window onto half of a spread's sheet. Every page is drawn for sighted readers only; the same text is
 // given to assistive tech once, in order, by WorkIndex below.
@@ -323,10 +329,11 @@ function Page({ spread, side, className = '' }) {
 function WorkIndex() {
   const { project } = use(BookContext);
   const p = PROJECTS[project];
-  if (project === 'arumi') {
+  const Own = OWN_INDEX[project];
+  if (Own) {
     return (
       <div className="home-visually-hidden">
-        <ArumiIndex />
+        <Own />
       </div>
     );
   }
