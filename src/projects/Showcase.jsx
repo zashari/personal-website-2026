@@ -55,6 +55,8 @@ const PHOTO = {
   showcase: { left: 810, top: 469, width: 619, height: 398 },
 };
 const PREVIEW_TITLE = mono(810, 910.334, 25, 25);
+// "Click here for project detail", ending just left of the showcase's asterisk (the user's mockup, 2026-10-28).
+const HINT = { ...mono(0, 510, 15, 15), left: undefined, right: 1920 - 615 };
 const PREVIEW_ROLE_BASELINE = 909.334;
 // The strip: a column every 266 px from x 498; the number, the 179 x 134 photo, then the title (15 px lines) and role.
 const STRIP = {
@@ -463,6 +465,9 @@ function Stage({ stage, selected, onSelect, onOpen }) {
           </span>
           <span className="pj-asterisk" style={ASTERISK.showcase} aria-hidden="true">
             *
+          </span>
+          <span className="pj-hint" style={HINT} data-shown={Boolean(project) || undefined} aria-hidden="true">
+            {SHOWCASE.hint}
           </span>
 
           {/* The strip comes before the preview it controls, so Tab reaches it first. */}

@@ -143,10 +143,35 @@
   opacity: 0;
 }
 
+/* The asterisk flips between the mode's ink and accent every half second, always. */
 .pj-asterisk {
   font-family: 'JMH Typewriter', monospace;
   font-weight: 700;
   color: var(--ink);
+  animation: pj-asterisk-blink 1s steps(1) infinite;
+}
+
+@keyframes pj-asterisk-blink {
+  0% {
+    color: var(--ink);
+  }
+  50% {
+    color: var(--accent);
+  }
+}
+
+/* Beside the asterisk while a project is in the preview. */
+.pj-hint {
+  font-family: 'CaskaydiaCove NF', ui-monospace, monospace;
+  white-space: nowrap;
+  color: var(--ink);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.35s var(--hover-ease);
+}
+
+.pj-hint[data-shown] {
+  opacity: 1;
 }
 
 /* ---- Preview: the hero's photo, grown into the showcase's frame; each project's image is stacked in it ---- */
