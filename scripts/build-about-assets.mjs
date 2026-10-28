@@ -5,7 +5,7 @@
 // - src/about/assets/fonts/caskaydia-cove-*.woff2: CaskaydiaCove NF (SIL OFL 1.1) cut down to Latin text, from the
 //   3 MB Nerd Font files in design/source/about (their thousands of icon glyphs are not used here)
 // usage: node scripts/build-about-assets.mjs
-//   The photo clip and its poster are made by scripts/encode-about-video.mjs.
+//   The photo clip and its poster are made by scripts/encode-gif-video.mjs.
 import fs from 'node:fs';
 import path from 'node:path';
 import subsetFont from 'subset-font';
