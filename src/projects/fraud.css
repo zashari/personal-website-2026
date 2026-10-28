@@ -4,8 +4,3 @@
   --paper-edge: #ddd0b4;
   --page-ratio: 0.71642;
 }
-
-/* The logotype's Z, stroked 1 px on its outline as Figma draws it. */
-.fb-logo-z {
-  -webkit-text-stroke: var(--fpx) #000;
-}

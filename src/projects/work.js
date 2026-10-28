@@ -73,13 +73,15 @@ export const PROJECTS = {
   },
   gamified: {
     slug: 'gamified-personal-website',
-    color: '#1d3a3a',
-    layout: 'story',
+    color: '#f7ebd2',
+    // Its own book, drawn in Figma (GamifiedBook.jsx); the words are in GAMIFIED_BOOK below.
+    spreads: [
+      { key: 'gamified-cover', layout: 'gamifiedCover', label: 'A gamified personal website' },
+      { key: 'gamified-site', layout: 'gamifiedSite', label: 'Fully interactive website' },
+    ],
     role: 'Software Engineer',
     category: 'Software Engineering',
     title: 'Gamified Personal Website',
-    stack: 'React · Vite',
-    body: 'A personal website played as a classified dossier: personal info, professional record and projects filed as folders to open, every sheet built as live code.',
   },
 };
 
@@ -334,6 +336,52 @@ export const FRAUD_BOOK = {
     'Risk Management Division exactly what they needed: the transparent',
     'logic behind the AI to confidently make those final approval decisions.',
   ],
+};
+
+// Gamified Personal Website's book, from the Figma spreads design/figma/data/gamified-page-1-2.svg and 3-4, given as
+// ARUMI_BOOK is (FigmaBook.jsx also reads _italics_ and [links](url)).
+export const GAMIFIED_BOOK = {
+  headline: ['A', 'GAMIFIED', 'PERSONAL', 'WEBSITE'],
+  kicker: 'PERSONAL PROJECT',
+  date: 'DECEMBER 2025',
+  hint: 'Scroll to turn this page',
+  end: 'End of File',
+  feature: 'FULLY INTERACTIVE WEBSITE',
+  // The gamified site lives at the root of zashari.website; /gamified-version leads there (public/gamified-version).
+  site: 'https://zashari.website/gamified-version',
+  idea: [
+    'Back in December 2025, a heavy',
+    'obsession with a crime-investigation',
+    'game sparked an idea: a fully',
+    'interactive personal project built',
+    'entirely from scratch.',
+  ],
+  vibe: [
+    "Vibe Coding is Zashari's ultimate",
+    'creative outlet, he loves dreaming up',
+    'concepts and bringing them to life.',
+    'To nail the gritty aesthetic, he even',
+    'used AI to generate paparazzi-style',
+    'photos of himself.',
+  ],
+  week: [
+    'Combining creativity with sharp AI prompting, he pulled the entire site',
+    'together in just a week. (You can explore it live at [https://](https://zashari.website/gamified-version)',
+    '[zashari.website/gamified-version](https://zashari.website/gamified-version)). Zashari is obsessed with',
+    'productivity, he built this as a side hustle while grinding full-time as a',
+    'Software Engineer at marketbetter.ai and doing his final thesis in Deep',
+    'Learning field.',
+  ],
+  designFile: '( The design file )',
+  stack: [
+    'The stack? React 19 (with React Compiler), Vite 8, and Three.js with',
+    '@react-three/fiber 9. The rest? He let _Claude Code_ handle the heavy',
+    'lifting in the code. Zashari believes the game has changed: today,',
+    'creators should focus their energy on prototyping, design, and creative',
+    // The line breaks round the logotype: Figma sets its end apart, at the column's right.
+    { text: 'direction, and let AI', align: 'left' },
+  ],
+  stackEnd: 'execute the technical grind.',
 };
 
 // A project's book, spread by spread in reading order: its cover, the spread that tells it, and the end of the issue,
