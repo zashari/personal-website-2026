@@ -444,7 +444,7 @@ body {
    written over it. */
 .rs-dimension {
   position: relative;
-  width: max(4ch, calc(var(--span) * 100%));
+  width: max(6ch, calc(var(--span) * 100%));
   margin-top: 14px;
   padding-top: 2px;
   font-size: 0.85em;
@@ -654,7 +654,7 @@ body {
 /* ---- Narrower windows ---- */
 
 /* No room for the rail: the sections' own headings carry their numbers. */
-@media (max-width: 1099px) {
+@media screen and (max-width: 1099px) {
   .rs-sheet {
     grid-template-columns: minmax(0, 1fr);
   }
@@ -672,7 +672,7 @@ body {
   }
 }
 
-@media (max-width: 799px) {
+@media screen and (max-width: 799px) {
   .rs {
     font-size: 14px;
   }
@@ -699,7 +699,7 @@ body {
   }
 
   .rs-dimension {
-    width: max(4ch, calc(var(--span) * min(100%, 240px)));
+    width: max(6ch, calc(var(--span) * min(100%, 240px)));
   }
 
   .rs-projects,
@@ -718,7 +718,7 @@ body {
 
 @page {
   size: A4;
-  margin: 14mm 14mm 16mm;
+  margin: 11mm 12mm 13mm;
 
   @bottom-left {
     content: 'Zaky Ashari · 2026 Resume';
@@ -743,7 +743,7 @@ body {
     --muted: #474747;
     --accent: #0015ff;
     --rule: #919191;
-    --dates: 30mm;
+    --dates: 24mm;
   }
 
   html {
@@ -765,37 +765,59 @@ body {
 
   .rs {
     padding: 0;
-    font-size: 8.6pt;
-    line-height: 1.45;
+    font-size: 6.8pt;
+    line-height: 1.33;
   }
 
   .rs-sheet {
     display: block;
   }
 
+  /* Education and certifications side by side, as on the CV. */
   .rs-sections {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 8mm;
     padding-left: 0;
+  }
+
+  .rs-section {
+    grid-column: 1 / -1;
+  }
+
+  #education {
+    grid-column: 1;
+  }
+
+  #certifications {
+    grid-column: 2;
+  }
+
+  #education .rs-entry,
+  #certifications .rs-entry {
+    grid-template-columns: 27mm minmax(0, 1fr);
+    gap: 2mm;
   }
 
   .rs-masthead {
     grid-template-columns: minmax(0, 1fr) 52mm;
     gap: 8mm;
-    padding-bottom: 5mm;
-    margin-bottom: 5mm;
+    padding-bottom: 3.5mm;
+    margin-bottom: 4mm;
     border-bottom: 1.5pt solid #000;
   }
 
   .rs-name {
-    font-size: 34pt;
+    font-size: 28pt;
   }
 
   .rs-roles {
-    margin-top: 2mm;
-    font-size: 11pt;
+    margin-top: 1.5mm;
+    font-size: 9.5pt;
   }
 
   .rs-contact {
-    margin-top: 3mm;
+    margin-top: 2mm;
     gap: 1mm 5mm;
   }
 
@@ -805,16 +827,16 @@ body {
 
   .rs-title-block {
     min-width: 0;
-    font-size: 7.5pt;
+    font-size: 6.5pt;
   }
 
   .rs-title-block dt,
   .rs-title-block dd {
-    padding: 0.8mm 2mm;
+    padding: 0.5mm 2mm;
   }
 
   .rs-section {
-    padding: 0 0 4.5mm;
+    padding: 0 0 3.5mm;
   }
 
   .rs-section + .rs-section {
@@ -822,21 +844,24 @@ body {
   }
 
   .rs-section-head {
-    margin-bottom: 2.5mm;
-    padding-bottom: 1mm;
+    margin-bottom: 2mm;
+    padding-bottom: 0.8mm;
     border-bottom: 1pt solid #000;
-    font-size: 11.5pt;
+    font-size: 9.5pt;
     break-after: avoid;
   }
 
   .rs-entry {
-    gap: 5mm;
-    break-inside: avoid;
+    gap: 4mm;
+  }
+
+  .rs-role {
+    break-after: avoid;
   }
 
   .rs-entry + .rs-entry {
-    margin-top: 3mm;
-    padding-top: 3mm;
+    margin-top: 2.2mm;
+    padding-top: 2.2mm;
     border-top: 0.5pt dashed var(--rule);
   }
 
@@ -846,21 +871,25 @@ body {
   }
 
   .rs-role {
-    font-size: 10pt;
+    font-size: 8.4pt;
   }
 
   .rs-points {
-    gap: 1mm;
-    margin-top: 1.5mm;
+    gap: 0.4mm;
+    margin-top: 1mm;
     max-width: none;
   }
 
   .rs-dimension {
-    margin-top: 2mm;
+    margin-top: 1.5mm;
+  }
+
+  .rs-summary {
+    max-width: none;
   }
 
   .rs-projects {
-    gap: 4mm 8mm;
+    gap: 3mm 8mm;
   }
 
   .rs-project,
@@ -869,12 +898,17 @@ body {
     break-inside: avoid;
   }
 
+  .rs-project {
+    gap: 0.8mm;
+  }
+
   .rs-more {
-    margin-top: 3mm;
+    margin-top: 2mm;
   }
 
   .rs-achievements {
-    gap: 2mm;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.5mm 8mm;
     max-width: none;
   }
 
@@ -888,9 +922,29 @@ body {
     max-width: none;
   }
 
+  .rs-skills {
+    gap: 0;
+  }
+
+  /* The ten technical strengths in two columns, beside the six soft ones. */
   .rs-strengths {
-    margin-top: 3mm;
+    grid-template-columns: 2fr 1fr;
+  }
+
+  .rs-strength:first-child ul {
+    display: block;
+    columns: 2;
+    column-gap: 8mm;
+  }
+
+  .rs-strengths {
+    margin-top: 2.5mm;
     gap: 8mm;
+  }
+
+  .rs-strength ul {
+    gap: 0;
+    margin-top: 1mm;
   }
 
   .rs-sparkle-spin {
