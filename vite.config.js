@@ -15,14 +15,15 @@ export default defineConfig({
     // The lazily loaded paper viewer carries three.js (~920 kB minified); warn only beyond that.
     chunkSizeWarningLimit: 1000,
     rolldownOptions: {
-      // /temp (code-built sheets), /home (new landing page), /about and /projects are separate pages; the main page is
-      // unaffected.
+      // /temp (code-built sheets), /home (new landing page), /about, /projects and /resume are separate pages; the main
+      // page is unaffected.
       input: {
         main: path.resolve(import.meta.dirname, 'index.html'),
         temp: path.resolve(import.meta.dirname, 'temp/index.html'),
         home: path.resolve(import.meta.dirname, 'home/index.html'),
         about: path.resolve(import.meta.dirname, 'about/index.html'),
         projects: path.resolve(import.meta.dirname, 'projects/index.html'),
+        resume: path.resolve(import.meta.dirname, 'resume/index.html'),
       },
     },
   },

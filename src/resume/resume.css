@@ -1,0 +1,899 @@
+/* /resume: the CV as a drafting sheet in the site's style (ResumeApp.jsx). There is no Figma frame for it; it takes
+   /about's and /projects' colours, fonts, hand-drawn grey lines, dashed rule, numbered axis and sparkle. The logotype
+   header is fixed on top and the colour mode switch on the bottom edge, as on /projects. The print stylesheet at the
+   end turns the same page into the two A4 sheets of the PDF (scripts/build-resume-pdf.mjs). */
+
+@import '../home/brand.css';
+@import '../about/frame-decoration.css'; /* CaskaydiaCove regular, --rule and the dashed line */
+
+@font-face {
+  font-family: 'CaskaydiaCove NF';
+  src: url('../about/assets/fonts/caskaydia-cove-italic.woff2') format('woff2');
+  font-weight: 400;
+  font-style: italic;
+  font-display: block;
+}
+
+@font-face {
+  font-family: 'Open Sans';
+  src: url('../home/assets/fonts/open-sans-semibold.ttf') format('truetype');
+  font-weight: 600;
+  font-display: block;
+}
+
+@font-face {
+  font-family: 'Times New Normal';
+  src: url('../temp/assets/fonts/times-new-normal-regular.ttf') format('truetype');
+  font-weight: 400;
+  font-display: block;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* The same colour modes as the other pages (the saved mode is applied in resume/index.html before first paint). */
+:root {
+  --bg: #dbd5c9;
+  --ink: #000;
+  --muted: #474747;
+  --mode-idle: #000;
+  --accent: #0015ff;
+  --logo-stroke: currentColor;
+  --mono: 'CaskaydiaCove NF', ui-monospace, monospace;
+  --sans: 'Open Sans', sans-serif;
+  --serif: 'Times New Normal', 'Times New Roman', serif;
+  --hover-ease: cubic-bezier(0.45, 0, 0.25, 1);
+  --hover-time: 0.9s;
+  --theme-time: 0.6s;
+  /* The page's side margin is the header's, so the sheet lines up under the logotype and Contact me. */
+  --side: clamp(16px, 3.2vw, 60px);
+  --rail: clamp(180px, 15vw, 280px);
+  --dates: clamp(150px, 12vw, 210px);
+  scroll-padding-top: calc(var(--header-h, 120px) + 16px);
+}
+
+:root[data-theme='dark'] {
+  --bg: #202020;
+  --ink: #fff;
+  --muted: #d2d2d2;
+  --mode-idle: #d2d2d2;
+  --accent: #ff4400;
+  --logo-stroke: #000;
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--mono);
+  overflow-x: hidden;
+  overflow-x: clip;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: geometricPrecision;
+}
+
+:root.theme-switching body,
+:root.theme-switching .home-nav-item,
+:root.theme-switching .home-logo-z,
+:root.theme-switching .home-mode-option,
+:root.theme-switching :is(.rs-header, .rs-mode, .rs a) {
+  transition:
+    background-color var(--theme-time) ease,
+    color var(--theme-time) ease,
+    -webkit-text-stroke-color var(--theme-time) ease !important;
+}
+
+.rs-visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.rs ol,
+.rs ul {
+  list-style: none;
+}
+
+/* ---- The fixed bars, as on /projects ---- */
+
+.rs-header {
+  position: fixed;
+  z-index: 10;
+  padding-bottom: clamp(12px, 2.5dvh, 28px);
+  background: var(--bg);
+}
+
+.rs-mode {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10;
+  height: calc(var(--mode-h) + clamp(10px, 2dvh, 20px));
+  background: var(--bg);
+  pointer-events: none;
+}
+
+/* ---- Links ---- */
+
+.rs a {
+  color: inherit;
+  text-decoration: none;
+  transition: color var(--hover-time) var(--hover-ease);
+}
+
+.rs-link {
+  text-decoration: underline !important;
+  text-decoration-thickness: 1px !important;
+  text-underline-offset: 0.2em;
+}
+
+.rs-link-quiet {
+  text-decoration-color: var(--rule) !important;
+}
+
+.rs a:hover,
+.rs a:focus-visible {
+  color: var(--accent);
+}
+
+.rs a:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 4px;
+}
+
+/* ---- The sheet ---- */
+
+.rs {
+  position: relative;
+  padding: calc(var(--header-h, 120px) + clamp(16px, 4dvh, 48px)) var(--side)
+    calc(var(--footer-h, 60px) + clamp(32px, 6dvh, 72px));
+  font-size: clamp(13px, 0.9vw, 16px);
+  line-height: 1.6;
+  letter-spacing: -0.02em;
+}
+
+/* The drafting layer: a large circle off the top right, as on /about, and the dashed line across the masthead, both
+   bleeding to the window's edges. */
+.rs-lines {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  overflow: clip;
+}
+
+.rs-circle {
+  position: absolute;
+  top: calc(var(--header-h, 120px) - 8vw);
+  right: -9vw;
+  width: clamp(380px, 38vw, 760px);
+  height: auto;
+  fill: none;
+  stroke: var(--rule);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+
+.rs-circle circle {
+  vector-effect: non-scaling-stroke;
+}
+
+/* The dashed line of /about (frame-decoration.css), under the masthead and between the sections. */
+.rs-masthead::after,
+.rs-section + .rs-section::before {
+  height: 2px;
+  background: linear-gradient(90deg, var(--rule) 0 2px, transparent 2px 6px, var(--rule) 6px 8px) 0 0 / 8px 2px repeat-x;
+}
+
+/* ---- Masthead: the name and roles on the left, the drawing's title block on the right ---- */
+
+.rs-masthead {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: clamp(24px, 4vw, 72px);
+  padding-bottom: clamp(32px, 5vw, 72px);
+  margin-bottom: clamp(40px, 6vw, 96px);
+}
+
+/* The dashed line under the masthead runs to both edges of the window. */
+.rs-masthead::after {
+  content: '';
+  position: absolute;
+  left: calc(-1 * var(--side) - 2000px);
+  right: calc(-1 * var(--side) - 2000px);
+  bottom: 0;
+}
+
+.rs-name {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: clamp(64px, 9.4vw, 180px);
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+}
+
+.rs-roles {
+  margin-top: clamp(12px, 1.6vw, 28px);
+  font-family: var(--sans);
+  font-weight: 600;
+  font-size: clamp(16px, 1.55vw, 30px);
+  line-height: 1.3;
+  text-transform: uppercase;
+}
+
+.rs-roles-slash {
+  color: var(--accent);
+}
+
+.rs-contact {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px clamp(16px, 2vw, 40px);
+  margin-top: clamp(16px, 2vw, 32px);
+}
+
+.rs-phone[hidden] {
+  display: none;
+}
+
+.rs-title-block {
+  display: grid;
+  gap: 18px;
+  justify-items: start;
+  min-width: clamp(240px, 20vw, 340px);
+}
+
+/* A drawing's title block: a ruled box of label and value rows. */
+.rs-title-block dl {
+  width: 100%;
+  border: 1px solid var(--rule);
+  background: var(--bg);
+}
+
+.rs-title-block dl > div {
+  display: grid;
+  grid-template-columns: 9ch 1fr;
+}
+
+.rs-title-block dl > div + div {
+  border-top: 1px solid var(--rule);
+}
+
+.rs-title-block dt,
+.rs-title-block dd {
+  padding: 5px 10px;
+}
+
+.rs-title-block dt {
+  border-right: 1px solid var(--rule);
+  color: var(--muted);
+  font-size: 0.8em;
+  text-transform: uppercase;
+  align-self: center;
+}
+
+.rs-pdf {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.rs-pdf .rs-sparkle {
+  flex: none;
+  width: 44px;
+  height: 44px;
+  color: var(--accent);
+}
+
+.rs-pdf-label {
+  display: grid;
+}
+
+.rs-pdf-note {
+  color: var(--muted);
+  font-size: 0.8em;
+}
+
+/* The sparkle turns slowly, as on /home and /about (small, slow, and the owner's choice under reduced motion too). */
+.rs-sparkle-spin {
+  transform-box: view-box;
+  transform-origin: 29px 29px;
+  animation: rs-sparkle-spin 8s linear infinite;
+}
+
+@keyframes rs-sparkle-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ---- The index rail and the sections ---- */
+
+.rs-sheet {
+  display: grid;
+  grid-template-columns: var(--rail) minmax(0, 1fr);
+}
+
+.rs-index {
+  position: relative;
+  border-right: 1px solid var(--rule);
+}
+
+.rs-index ol {
+  position: sticky;
+  top: calc(var(--header-h, 120px) + 24px);
+  display: grid;
+  gap: 10px;
+  padding-right: 20px;
+}
+
+.rs-index a {
+  display: grid;
+  grid-template-columns: 3ch 1fr;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 0.85em;
+  text-transform: uppercase;
+}
+
+.rs-index a[aria-current='true'] {
+  color: var(--accent);
+}
+
+.rs-sections {
+  min-width: 0;
+  padding-left: clamp(24px, 3.5vw, 72px);
+}
+
+.rs-section {
+  position: relative;
+  padding-bottom: clamp(40px, 5vw, 80px);
+}
+
+.rs-section + .rs-section {
+  padding-top: clamp(40px, 5vw, 80px);
+}
+
+/* A dashed line between sections, from the rail's rule to the window's right edge. */
+.rs-section + .rs-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: calc(-1 * clamp(24px, 3.5vw, 72px));
+  right: calc(-1 * var(--side) - 2000px);
+}
+
+.rs-section-head {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  margin-bottom: clamp(20px, 2.6vw, 40px);
+  font-family: var(--sans);
+  font-weight: 600;
+  font-size: clamp(22px, 1.6vw, 30px);
+  line-height: 1.36;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+
+.rs-section-number {
+  font-family: var(--mono);
+  font-weight: 400;
+  font-size: 0.55em;
+  color: var(--muted);
+}
+
+.rs-summary {
+  max-width: 80ch;
+  text-align: justify;
+  text-align-last: left;
+}
+
+.rs strong {
+  font-family: var(--sans);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.rs em {
+  font-style: italic;
+}
+
+/* ---- Entries: dates and dimension line on the left, the entry on the right ---- */
+
+.rs-entries {
+  display: grid;
+}
+
+.rs-entry {
+  display: grid;
+  grid-template-columns: var(--dates) minmax(0, 1fr);
+  gap: clamp(16px, 2vw, 40px);
+}
+
+.rs-entry + .rs-entry {
+  margin-top: clamp(28px, 3vw, 48px);
+  padding-top: clamp(28px, 3vw, 48px);
+  border-top: 1px solid color-mix(in srgb, var(--rule) 60%, transparent);
+}
+
+.rs-entries-compact .rs-entry + .rs-entry {
+  margin-top: 16px;
+  padding-top: 16px;
+}
+
+.rs-dates {
+  color: var(--muted);
+  font-size: 0.85em;
+}
+
+.rs-period {
+  color: var(--ink);
+  white-space: nowrap;
+}
+
+/* A dimension line: a thin line with end ticks, as long as the entry lasted on the page's one scale, its length
+   written over it. */
+.rs-dimension {
+  position: relative;
+  width: max(4ch, calc(var(--span) * 100%));
+  margin-top: 14px;
+  padding-top: 2px;
+  font-size: 0.85em;
+  text-align: center;
+}
+
+.rs-dimension-line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -6px;
+  height: 9px;
+  border-left: 1px solid var(--rule);
+  border-right: 1px solid var(--rule);
+  background: linear-gradient(var(--rule), var(--rule)) 0 50% / 100% 1px no-repeat;
+}
+
+.rs-dimension-label {
+  position: relative;
+  white-space: nowrap;
+}
+
+.rs-ref {
+  color: var(--muted);
+  font-size: 0.75em;
+  margin-bottom: 4px;
+}
+
+.rs-role {
+  font-family: var(--sans);
+  font-weight: 600;
+  font-size: clamp(17px, 1.25vw, 24px);
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+.rs-org {
+  color: var(--accent);
+}
+
+.rs-org-inline {
+  font-family: var(--mono);
+  font-weight: 400;
+  font-size: 0.75em;
+  white-space: nowrap;
+}
+
+.rs-points {
+  display: grid;
+  gap: 10px;
+  margin-top: 16px;
+  max-width: 88ch;
+}
+
+.rs-points > li {
+  position: relative;
+  padding-left: 2.2em;
+  text-wrap: pretty;
+}
+
+.rs-points:not(.rs-points-star) > li::before {
+  content: '';
+  position: absolute;
+  left: 0.6em;
+  top: 0.75em;
+  width: 0.7em;
+  height: 1px;
+  background: var(--rule);
+}
+
+/* Situation, task, action, result: a drawing's callout balloon, a small circled letter. */
+.rs-star {
+  position: absolute;
+  left: 0;
+  top: 0.2em;
+  display: grid;
+  place-items: center;
+  width: 1.5em;
+  height: 1.5em;
+  border: 1px solid var(--rule);
+  border-radius: 50%;
+  color: var(--muted);
+  font-size: 0.75em;
+  line-height: 1;
+  text-decoration: none;
+  cursor: help;
+}
+
+/* ---- Projects: two columns divided by a dashed rule ---- */
+
+.rs-projects {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(28px, 3vw, 48px) clamp(32px, 4vw, 80px);
+}
+
+.rs-project {
+  display: grid;
+  align-content: start;
+  gap: 8px;
+}
+
+.rs-project .rs-dates {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 1.5ch;
+}
+
+.rs-text {
+  text-wrap: pretty;
+}
+
+.rs-links {
+  display: flex;
+  gap: 2ch;
+  font-size: 0.85em;
+}
+
+.rs-note {
+  color: var(--muted);
+  font-style: italic;
+}
+
+.rs-more {
+  margin-top: clamp(28px, 3vw, 48px);
+  color: var(--muted);
+}
+
+.rs-asterisk {
+  color: var(--accent);
+  margin-right: 0.3ch;
+}
+
+/* ---- Achievements: a bar down each, as on the CV ---- */
+
+.rs-achievements {
+  display: grid;
+  gap: 18px;
+  max-width: 88ch;
+}
+
+.rs-achievements > li {
+  padding-left: 18px;
+  border-left: 4px solid var(--ink);
+}
+
+.rs-achievement-title {
+  font-family: var(--sans);
+  font-weight: 600;
+  font-size: 1.05em;
+  letter-spacing: -0.01em;
+}
+
+/* ---- Skills: one run of names, slashed; strengths in two columns ---- */
+
+.rs-skills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 0;
+  max-width: 100ch;
+}
+
+.rs-skills > li:not(:last-child)::after {
+  content: '/';
+  margin: 0 1.2ch;
+  color: var(--accent);
+}
+
+.rs-strengths {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(24px, 3vw, 64px);
+  margin-top: clamp(28px, 3vw, 48px);
+  max-width: 100ch;
+}
+
+.rs-strength ul {
+  display: grid;
+  gap: 4px;
+  margin-top: 10px;
+}
+
+.rs-strength li {
+  position: relative;
+  padding-left: 2.2em;
+}
+
+.rs-strength li::before {
+  content: '';
+  position: absolute;
+  left: 0.6em;
+  top: 0.8em;
+  width: 0.7em;
+  height: 1px;
+  background: var(--rule);
+}
+
+.rs-footer {
+  margin-top: clamp(24px, 3vw, 48px);
+  color: var(--muted);
+  font-size: 0.8em;
+  text-align: right;
+  text-transform: uppercase;
+}
+
+/* ---- Narrower windows ---- */
+
+/* No room for the rail: the sections' own headings carry their numbers. */
+@media (max-width: 1099px) {
+  .rs-sheet {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .rs-index {
+    display: none;
+  }
+
+  .rs-sections {
+    padding-left: 0;
+  }
+
+  .rs-section + .rs-section::before {
+    left: calc(-1 * var(--side) - 2000px);
+  }
+}
+
+@media (max-width: 799px) {
+  .rs {
+    font-size: 14px;
+  }
+
+  .rs-masthead {
+    grid-template-columns: minmax(0, 1fr);
+    align-items: start;
+  }
+
+  .rs-title-block {
+    min-width: 0;
+    width: min(100%, 360px);
+  }
+
+  .rs-circle {
+    top: calc(var(--header-h, 120px) - 30px);
+    right: -45vw;
+    width: 90vw;
+  }
+
+  .rs-entry {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 10px;
+  }
+
+  .rs-dimension {
+    width: max(4ch, calc(var(--span) * min(100%, 240px)));
+  }
+
+  .rs-projects,
+  .rs-strengths {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .rs-summary {
+    text-align: left;
+  }
+}
+
+/* ---- Print: the two A4 sheets of the PDF ----
+   Light colours on white paper, no fixed bars, rail, drawing layer or download link; the accent and the rules are
+   kept, so the PDF reads as the same document. */
+
+@page {
+  size: A4;
+  margin: 14mm 14mm 16mm;
+
+  @bottom-left {
+    content: 'Zaky Ashari · 2026 Resume';
+    font-family: 'CaskaydiaCove NF', monospace;
+    font-size: 7.5pt;
+    color: #474747;
+  }
+
+  @bottom-right {
+    content: counter(page) ' / ' counter(pages);
+    font-family: 'CaskaydiaCove NF', monospace;
+    font-size: 7.5pt;
+    color: #474747;
+  }
+}
+
+@media print {
+  :root,
+  :root[data-theme='dark'] {
+    --bg: #fff;
+    --ink: #000;
+    --muted: #474747;
+    --accent: #0015ff;
+    --rule: #919191;
+    --dates: 30mm;
+  }
+
+  html {
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+
+  .rs-header,
+  .rs-mode,
+  .rs-lines,
+  .rs-index,
+  .rs-pdf,
+  .rs-footer,
+  .rs-ref,
+  .rs-masthead::after,
+  .rs-section + .rs-section::before {
+    display: none !important;
+  }
+
+  .rs {
+    padding: 0;
+    font-size: 8.6pt;
+    line-height: 1.45;
+  }
+
+  .rs-sheet {
+    display: block;
+  }
+
+  .rs-sections {
+    padding-left: 0;
+  }
+
+  .rs-masthead {
+    grid-template-columns: minmax(0, 1fr) 52mm;
+    gap: 8mm;
+    padding-bottom: 5mm;
+    margin-bottom: 5mm;
+    border-bottom: 1.5pt solid #000;
+  }
+
+  .rs-name {
+    font-size: 34pt;
+  }
+
+  .rs-roles {
+    margin-top: 2mm;
+    font-size: 11pt;
+  }
+
+  .rs-contact {
+    margin-top: 3mm;
+    gap: 1mm 5mm;
+  }
+
+  .rs-phone:not([hidden]) {
+    display: list-item;
+  }
+
+  .rs-title-block {
+    min-width: 0;
+    font-size: 7.5pt;
+  }
+
+  .rs-title-block dt,
+  .rs-title-block dd {
+    padding: 0.8mm 2mm;
+  }
+
+  .rs-section {
+    padding: 0 0 4.5mm;
+  }
+
+  .rs-section + .rs-section {
+    padding-top: 0;
+  }
+
+  .rs-section-head {
+    margin-bottom: 2.5mm;
+    padding-bottom: 1mm;
+    border-bottom: 1pt solid #000;
+    font-size: 11.5pt;
+    break-after: avoid;
+  }
+
+  .rs-entry {
+    gap: 5mm;
+    break-inside: avoid;
+  }
+
+  .rs-entry + .rs-entry {
+    margin-top: 3mm;
+    padding-top: 3mm;
+    border-top: 0.5pt dashed var(--rule);
+  }
+
+  .rs-entries-compact .rs-entry + .rs-entry {
+    margin-top: 1.5mm;
+    padding-top: 1.5mm;
+  }
+
+  .rs-role {
+    font-size: 10pt;
+  }
+
+  .rs-points {
+    gap: 1mm;
+    margin-top: 1.5mm;
+    max-width: none;
+  }
+
+  .rs-dimension {
+    margin-top: 2mm;
+  }
+
+  .rs-projects {
+    gap: 4mm 8mm;
+  }
+
+  .rs-project,
+  .rs-achievements > li,
+  .rs-strength {
+    break-inside: avoid;
+  }
+
+  .rs-more {
+    margin-top: 3mm;
+  }
+
+  .rs-achievements {
+    gap: 2mm;
+    max-width: none;
+  }
+
+  .rs-achievements > li {
+    padding-left: 3mm;
+    border-left-width: 2.5pt;
+  }
+
+  .rs-skills,
+  .rs-strengths {
+    max-width: none;
+  }
+
+  .rs-strengths {
+    margin-top: 3mm;
+    gap: 8mm;
+  }
+
+  .rs-sparkle-spin {
+    animation: none;
+  }
+}
