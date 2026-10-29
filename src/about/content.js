@@ -24,7 +24,7 @@ export const EDUCATION = [
   { key: 'telkom', years: '2017 - 2021', lines: ['COMPUTER AND NETWORK', 'ENGINEERING,TELKOM SCHOOL', '@MAKASSAR'] },
 ];
 
-export const RESUME = { label: 'Check my resume here', href: null };
+export const RESUME = { label: 'Check my resume here', href: '/resume/' };
 
 // The header's logotype leads back home; its small label says so (on /home the same logotype reads ABOUT ME).
 export const HOME = { label: 'HOME', href: '/home/' };
