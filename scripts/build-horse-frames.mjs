@@ -17,6 +17,9 @@ const DARK = 80; // luminance below which a pixel is the horse (coat 10 to 45, m
 // The shadow: a column whose lowest dark run starts below this share of the frame's height is shadow alone (a leg's
 // run starts higher, at the horse); the cut is this many px above the fitted top edge.
 const SHADOW = { below: 0.8, margin: 3 };
+const BARREL = [0.3, 0.55]; // the barrel's rows, as shares of the horse's height from its top
+const HELD = 0.4; // a frame changing less than this share of the usual change from the one before is a held frame
+const LOOP_MIN = 8; // the shortest loop, in frames
 
 const { width: w, pageHeight: h, pages, delay } = await sharp(GIF, { animated: true }).metadata();
 
@@ -66,6 +69,7 @@ function fitLine(points) {
 
 const frames = [];
 for (let page = 0; page < pages; page++) {
+  const raw = await sharp(GIF, { page }).greyscale().raw().toBuffer();
   const lum = await sharp(GIF, { page }).greyscale().median(3).raw().toBuffer();
   const dark = lum.map((v) => (v < DARK ? 1 : 0));
 
@@ -82,17 +86,30 @@ for (let page = 0; page < pages; page++) {
   const above = dark.map((v, i) => (v && Math.floor(i / w) < ground.a + ground.b * (i % w) - SHADOW.margin ? 1 : 0));
   const horse = largest(above);
 
+  // Where the horse is, steadier than its middle (which swings with its legs and tail): its barrel, the middle of the
+  // rows between its back and its belly, and the ground under it (the camera pans and tilts over the clip).
+  let top = h;
+  let bottom = 0;
+  for (let i = 0; i < w * h; i++) {
+    if (!horse[i]) continue;
+    top = Math.min(top, Math.floor(i / w));
+    bottom = Math.max(bottom, Math.floor(i / w));
+  }
   let sx = 0;
   let n = 0;
   for (let i = 0; i < w * h; i++) {
-    if (!horse[i]) continue;
+    const y = Math.floor(i / w);
+    if (!horse[i] || y < top + BARREL[0] * (bottom - top) || y > top + BARREL[1] * (bottom - top)) continue;
     sx += i % w;
     n++;
   }
+  const barrel = sx / n;
+  const floor = ground.a + ground.b * barrel;
+
   // The coat's tone, spread over the horse's own range so its light and dark patches read.
   const tones = [];
   for (let i = 0; i < w * h; i++) if (horse[i]) tones.push(lum[i]);
-  tones.sort((a, b) => a - b);
+  tones.sort((p, q) => p - q);
   const lo = tones[Math.floor(tones.length * 0.05)];
   const hi = tones[Math.floor(tones.length * 0.95)];
 
@@ -115,15 +132,63 @@ for (let page = 0; page < pages; page++) {
       cells[r * cols + c] = 1 + Math.round(t * 254);
     }
   }
-  frames.push({ cols, rows, cx: sx / n / CELL, cells: Buffer.from(cells).toString('base64') });
-  console.log(`frame ${page + 1}: ${n} px, ground y ${ground.a.toFixed(0)} + ${ground.b.toFixed(3)} x`);
+  frames.push({ page, raw, cols, rows, x: barrel / CELL, y: floor / CELL, cells });
 }
 
+// A frame that barely differs from the one before (the GIF holds a few) only stalls the gallop.
+const change = (p, q) => p.raw.reduce((sum, v, i) => sum + Math.abs(v - q.raw[i]), 0) / p.raw.length;
+const steps = frames.slice(1).map((f, i) => change(f, frames[i]));
+const usual = [...steps].sort((p, q) => p - q)[Math.floor(steps.length / 2)];
+const moving = frames.filter((f, i) => i === 0 || steps[i - 1] >= HELD * usual);
+
+// Each frame's offset, in cells, that puts its barrel and ground where the frames' average is.
+const mean = (key) => moving.reduce((sum, f) => sum + f[key], 0) / moving.length;
+const [mx, my] = [mean('x'), mean('y')];
+for (const f of moving) [f.dx, f.dy] = [mx - f.x, my - f.y];
+
+// The loop: the GIF does not end in the pose it starts with, so the gallop runs from frame i to the frame before j,
+// where j is the later frame most like i once both are lined up (a whole number of strides apart).
+const overlap = (p, q) => {
+  const [ox, oy] = [Math.round(q.dx - p.dx), Math.round(q.dy - p.dy)];
+  let both = 0;
+  let either = 0;
+  for (let r = 0; r < p.rows; r++) {
+    for (let c = 0; c < p.cols; c++) {
+      const a = p.cells[r * p.cols + c] > 0;
+      const qc = c - ox;
+      const qr = r - oy;
+      const b = qc >= 0 && qc < q.cols && qr >= 0 && qr < q.rows && q.cells[qr * q.cols + qc] > 0;
+      both += a && b;
+      either += a || b;
+    }
+  }
+  return both / either;
+};
+let loop = { i: 0, j: moving.length, score: 0 };
+for (let i = 0; i < moving.length; i++) {
+  for (let j = i + LOOP_MIN; j < moving.length; j++) {
+    const score = overlap(moving[i], moving[j]);
+    if (score > loop.score + 0.01 || (score > loop.score - 0.01 && j - i > loop.j - loop.i)) loop = { i, j, score };
+  }
+}
+const chosen = moving.slice(loop.i, loop.j);
+console.log(
+  `${frames.length - moving.length} held frame(s) dropped; loop: GIF frames ${chosen[0].page + 1} to ${chosen.at(-1).page + 1} (${chosen.length}), its ends ${(loop.score * 100).toFixed(0)}% alike`
+);
+
+const out = chosen.map((f) => ({
+  cols: f.cols,
+  rows: f.rows,
+  dx: +f.dx.toFixed(2),
+  dy: +f.dy.toFixed(2),
+  cells: Buffer.from(f.cells).toString('base64'),
+}));
 const lines = [
   `// Generated by scripts/build-horse-frames.mjs from the owner's GIF of a horse galloping; do not edit.`,
-  "// Per frame: the cell grid's size, the horse's middle (cx, in cells), and its cells' tones (base64).",
+  "// Per frame, in loop order: the cell grid's size, the offset in cells that lines the horse up with the others, and",
+  "// its cells' tones (base64).",
   `export const FRAME_MS = ${delay?.[0] ?? 100};`,
-  `export const FRAMES = ${JSON.stringify(frames)};`,
+  `export const FRAMES = ${JSON.stringify(out)};`,
   '',
 ];
 fs.mkdirSync('src/horse', { recursive: true });
