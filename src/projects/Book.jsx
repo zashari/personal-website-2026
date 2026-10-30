@@ -110,88 +110,6 @@ function CoverSpread() {
   );
 }
 
-// Sixteen axial brain slices, one per model variant, drawn from a wobbly polar outline; the winner is filled.
-function slicePath(cx, cy, rx, ry, wobble, seed, steps = 72) {
-  let d = '';
-  for (let k = 0; k <= steps; k++) {
-    const a = (k / steps) * Math.PI * 2;
-    const r = 1 + wobble * (Math.sin(a * 7 + seed) * 0.6 + Math.sin(a * 13 + seed * 1.7) * 0.4);
-    const x = cx + Math.cos(a) * rx * r;
-    const y = cy + Math.sin(a) * ry * r;
-    d += `${k ? 'L' : 'M'}${x.toFixed(1)} ${y.toFixed(1)}`;
-  }
-  return `${d}Z`;
-}
-
-const PLATE = { cols: 8, rows: 2, cell: 200, height: 170 };
-const WINNER = 10;
-// Where the winner's label sits under its slice, in cqw of the spread (the plate spans the spread's full width).
-const WINNER_X = (((WINNER % PLATE.cols) + 0.5) / PLATE.cols) * 100;
-
-function BrainPlate() {
-  const cells = [];
-  for (let i = 0; i < PLATE.cols * PLATE.rows; i++) {
-    const cx = (i % PLATE.cols) * PLATE.cell + PLATE.cell / 2;
-    const cy = Math.floor(i / PLATE.cols) * PLATE.height + PLATE.height / 2 + 4;
-    const depth = 0.82 + 0.18 * Math.sin((i / 15) * Math.PI);
-    const rx = 52 * depth;
-    const ry = 64 * depth;
-    const win = i === WINNER;
-    cells.push(
-      <g key={i} className={win ? 'bk-plate-win' : undefined}>
-        <path className="bk-plate-outer" d={slicePath(cx, cy, rx, ry, 0.025, i)} />
-        <path className="bk-plate-line" d={slicePath(cx, cy, rx * 0.78, ry * 0.8, 0.07, i * 2.3)} />
-        <path className="bk-plate-line" d={slicePath(cx, cy, rx * 0.55, ry * 0.6, 0.1, i * 3.1)} />
-        <path className="bk-plate-line" d={slicePath(cx, cy, rx * 0.32, ry * 0.38, 0.14, i * 4.7)} />
-        <path className="bk-plate-line" d={`M${cx} ${cy - ry * 0.98}L${cx} ${cy - ry * 0.42}`} />
-        <text className="bk-plate-index" x={cx - PLATE.cell / 2 + 14} y={cy - PLATE.height / 2 + 18}>
-          {pad(i + 1)}
-        </text>
-      </g>
-    );
-  }
-  return (
-    <svg
-      className="bk-plate"
-      viewBox={`0 0 ${PLATE.cols * PLATE.cell} ${PLATE.rows * PLATE.height + 8}`}
-      aria-hidden="true"
-    >
-      {cells}
-    </svg>
-  );
-}
-
-function FeatureSpread({ spread }) {
-  const p = PROJECTS.alzheimer;
-  return (
-    <div className="bk-sheet-inner bk-feature">
-      <div className="bk-feature-stat">
-        <p className="bk-stat">{p.stat}</p>
-        <p className="bk-caption">{p.statNote}</p>
-      </div>
-      <p className="bk-feature-body bk-body">{p.body}</p>
-      <h3 className="bk-feature-headline">
-        {p.headline.map((word) => (
-          <span key={word}>{word}</span>
-        ))}
-      </h3>
-      <p className="bk-feature-credits bk-caption">
-        {p.category}
-        <br />
-        {p.date}
-      </p>
-      <div className="bk-feature-band">
-        <BrainPlate />
-        <p className="bk-feature-winner bk-caption" style={{ left: `${WINNER_X}cqw` }}>
-          {p.winner}
-        </p>
-        <p className="bk-feature-note bk-caption">{p.plateNote}</p>
-      </div>
-      <Folios spread={spread} />
-    </div>
-  );
-}
-
 function PairPage({ project, photo, side, spread }) {
   return (
     <div className="bk-pair-page" data-side={side}>
@@ -275,7 +193,6 @@ function EndSpread({ spread }) {
 
 const LAYOUTS = {
   cover: CoverSpread,
-  feature: FeatureSpread,
   story: StorySpread,
   end: EndSpread,
   ...ARUMI_LAYOUTS,

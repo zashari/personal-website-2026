@@ -46,13 +46,6 @@ export const PROJECTS = {
     role: 'AI/ML Engineer',
     category: 'AI Engineering',
     title: 'Alzheimer’s Disease Detection',
-    headline: ['Alzheimer’s', 'Disease', 'Detection'],
-    date: 'Jul — Dec 2025',
-    stat: '83.54%',
-    statNote: 'Accuracy of the 3D-ResNet, the strongest of sixteen model variants.',
-    plateNote: '16 variants · 2D, 3D and trimodal fusion · ResNet, EfficientNet and ViT backbones',
-    winner: '3D-ResNet · 83.54%',
-    body: 'A full deep learning evaluation for classifying Alzheimer’s atrophy, trained on data from my own preprocessing pipeline. Sixteen architecture variants across 2D, 3D and trimodal fusion, built on ResNet, EfficientNet and ViT backbones, went through a 1,000-iteration bootstrap and Friedman tests. The 3D-ResNet came out on top at 83.54% accuracy: keeping the brain volume intact mattered more than fusing modalities.',
   },
   arumi: {
     slug: 'arumi-coffee',
