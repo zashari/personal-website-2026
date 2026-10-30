@@ -24,6 +24,7 @@ export default defineConfig({
         about: path.resolve(import.meta.dirname, 'about/index.html'),
         projects: path.resolve(import.meta.dirname, 'projects/index.html'),
         resume: path.resolve(import.meta.dirname, 'resume/index.html'),
+        contact: path.resolve(import.meta.dirname, 'contact/index.html'),
         horse: path.resolve(import.meta.dirname, 'horse/index.html'), // a test page
       },
     },
