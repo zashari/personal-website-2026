@@ -1,0 +1,13 @@
+/* /horse, a test page: the galloping horse (main.js) in the middle of a dark page. */
+html,
+body {
+  height: 100%;
+  margin: 0;
+  background: #1b1b1b;
+}
+
+.horse {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
