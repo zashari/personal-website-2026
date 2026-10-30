@@ -55,7 +55,7 @@ for (const [name, [paint, d]] of Object.entries(LINES)) {
 const PHOTOS = {
   hero: 'img_0079.jpg', // the user's replacement for the frame's own photo (img_7300.jpg)
   fraud: 'fraud-cover.png', // the user's cover for the project (2026-10-28), in place of the frame's img_8782.jpg
-  alzheimer: 'img_8781.jpg',
+  alzheimer: 'alzheimer-cover.png', // the user's halftone brain (2026-10-30); its clip is assets/media/alzheimer.mp4
   arumi: 'arumi.png', // the user's still of the stand at night (2026-10-28); its clip is assets/media/arumi.mp4
   deepfake: 'deepfake-cover.png', // the user's mannequin still (2026-10-28); its clip is assets/media/deepfake.mp4
   gamified: 'gamified-cover.png', // the user's interrogation-room still (2026-10-28); its clip is assets/media/gamified.mp4
