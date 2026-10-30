@@ -29,7 +29,13 @@ export const TITLE_BLOCK = [
 ];
 
 // The PDF, built from this page by scripts/build-resume-pdf.mjs into public/resume/.
-export const PDF = { label: 'Download the PDF', href: '/resume/zaky-ashari-resume.pdf', note: 'A4, 2 pages' };
+// railLabel is the link at the foot of the index rail, in view while the sections scroll by.
+export const PDF = {
+  label: 'Download the PDF',
+  railLabel: 'Download resume as PDF',
+  href: '/resume/zaky-ashari-resume.pdf',
+  note: 'A4, 2 pages',
+};
 
 export const SECTIONS = {
   summary: 'Summary',

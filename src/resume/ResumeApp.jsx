@@ -421,7 +421,13 @@ export default function ResumeApp() {
         </div>
         <Masthead />
         <div className="rs-sheet">
-          <Index current={current} />
+          <div className="rs-rail">
+            <Index current={current} />
+            <a className="rs-rail-pdf" href={PDF.href} download>
+              {PDF.railLabel}
+              <span aria-hidden="true"> ↓</span>
+            </a>
+          </div>
           <div className="rs-sections">
             {SECTION_KEYS.map((key, i) => {
               const Body = BODIES[key];

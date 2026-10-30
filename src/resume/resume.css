@@ -322,9 +322,31 @@ body {
   grid-template-columns: var(--rail) minmax(0, 1fr);
 }
 
+/* The rail: the index at the top and the PDF link at the foot, each held in view while the sections scroll by. */
+.rs-rail {
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid var(--rule);
+}
+
 .rs-index {
   position: relative;
-  border-right: 1px solid var(--rule);
+  flex: 1;
+}
+
+.rs-rail-pdf {
+  position: sticky;
+  bottom: calc(var(--footer-h, 60px) + 24px);
+  margin-top: 32px;
+  padding-right: 20px;
+  font-size: 0.85em;
+  text-transform: uppercase;
+}
+
+.rs-rail-pdf:hover,
+.rs-rail-pdf:focus-visible {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
 }
 
 .rs-index ol {
@@ -659,7 +681,7 @@ body {
     grid-template-columns: minmax(0, 1fr);
   }
 
-  .rs-index {
+  .rs-rail {
     display: none;
   }
 
@@ -754,7 +776,7 @@ body {
   .rs-header,
   .rs-mode,
   .rs-lines,
-  .rs-index,
+  .rs-rail,
   .rs-pdf,
   .rs-footer,
   .rs-ref,
