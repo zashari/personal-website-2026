@@ -239,8 +239,8 @@ export const EDUCATION = [
   },
   {
     key: 'telkom',
-    title: 'Highschool Diploma',
-    org: 'Telkom University',
+    title: 'Computer & Network Engineering',
+    org: 'Telkom School',
     from: { label: '09/2017', iso: '2017-09' },
     to: { label: '06/2021', iso: '2021-06' },
     place: 'Makassar, Indonesia',
