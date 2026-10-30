@@ -16,7 +16,9 @@ import './contact.css';
 // focus is the box of the stage that useStageLayout fits to the window.
 const ARRANGE = {
   wide: {
-    focus: { x: 80, y: 217, width: 1760, height: 863 }, // centred on the frame, so the socials line up with /home's
+    // Centred on the frame and as wide as puts the email's right end (x 1846) on the header's right margin (3.2% of the
+    // window in from the edge) whenever the width sets the scale: (1846 - x) / width = 0.968.
+    focus: { x: 13.5, y: 217, width: 1893, height: 863 },
     art: { x: 0, y: 0 },
     words: { x: 0, y: 0 },
     socials: 0,
@@ -68,7 +70,8 @@ function ChangingWord({ style }) {
 }
 
 export default function ContactStage({ headerRef, footerRef, id }) {
-  const layout = useStageLayout(headerRef, footerRef, STAGE_FOCUS);
+  // On the bottom edge, so the socials stay put between /home's landing and this screen.
+  const layout = useStageLayout(headerRef, footerRef, STAGE_FOCUS, { bottom: true });
   const at = ARRANGE[layout?.variant ?? 'wide'];
   const move = ({ x, y }) => ({ transform: `translate(${x}px, ${y}px)` });
   return (
