@@ -8,10 +8,11 @@ export const FRAME = { width: 1920, height: 1080 };
 const MIN_SCALE = 0.55;
 
 // Fits the stage's focus box into the window below the header, centred, and picks the arrangement by the shape of
-// that space. Width always fits; height may not, and then the page grows and scrolls. In the tall arrangement the
+// that space (or, with bottom, sets it on the bottom edge, so the frame's bottom row stays where /home has it). Width
+// always fits; height may not, and then the page grows and scrolls. In the tall arrangement the
 // socials sit above the colour-mode switch instead of beside it, so its height is kept clear. Re-runs when the window,
 // the header (which wraps on phones and grows as fonts load) or the switch changes size.
-export function useStageLayout(headerRef, footerRef, focusOf) {
+export function useStageLayout(headerRef, footerRef, focusOf, { bottom = false } = {}) {
   const [layout, setLayout] = useState(null);
   useLayoutEffect(() => {
     const header = headerRef.current;
@@ -29,7 +30,7 @@ export function useStageLayout(headerRef, footerRef, focusOf) {
         variant,
         scale,
         x: (width - focus.width * scale) / 2 - focus.x * scale,
-        y: top + spare / 2 - focus.y * scale,
+        y: top + (bottom ? spare : spare / 2) - focus.y * scale,
         pageHeight: top + spare + focus.height * scale + reserved,
       });
     };
@@ -42,6 +43,6 @@ export function useStageLayout(headerRef, footerRef, focusOf) {
       observer.disconnect();
       window.removeEventListener('resize', update);
     };
-  }, [headerRef, footerRef, focusOf]);
+  }, [headerRef, footerRef, focusOf, bottom]);
   return layout;
 }
