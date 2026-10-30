@@ -15,8 +15,9 @@ const OUT = 'src/horse/frames.js';
 const CELL = 3; // source px per cell: about 115 cells across the horse
 const DARK = 80; // luminance below which a pixel is the horse (coat 10 to 45, mane 50 to 80; the horizon 80 to 115)
 // The shadow: a column whose lowest dark run starts below this share of the frame's height is shadow alone (a leg's
-// run starts higher, at the horse); the cut is this many px above the fitted top edge.
-const SHADOW = { below: 0.8, margin: 3 };
+// run starts higher, at the horse); the cut is margin px above the fitted top edge, and a leg reaching it goes on down
+// to hoof px below it.
+const SHADOW = { below: 0.8, margin: 3, hoof: 10 };
 const BARREL = [0.3, 0.55]; // the barrel's rows, as shares of the horse's height from its top
 const HELD = 0.4; // a frame changing less than this share of the usual change from the one before is a held frame
 const LOOP_MIN = 8; // the shortest loop, in frames
@@ -84,7 +85,15 @@ for (let page = 0; page < pages; page++) {
   }
   const ground = tops.length > 10 ? fitLine(tops) : { a: h, b: 0 };
   const above = dark.map((v, i) => (v && Math.floor(i / w) < ground.a + ground.b * (i % w) - SHADOW.margin ? 1 : 0));
-  const horse = largest(above);
+  // A hoof on the ground reaches into the cut; below it, the dark pixels straight under the horse's legs are kept, as
+  // deep as a hoof, so the legs it stands on are not cut short (the shadow beside them stays cut).
+  const body = largest(above);
+  const horse = Uint8Array.from(body);
+  for (let x = 0; x < w; x++) {
+    const cut = Math.max(1, Math.ceil(ground.a + ground.b * x - SHADOW.margin));
+    if (!body[(cut - 1) * w + x]) continue;
+    for (let y = cut; y < Math.min(h, cut + SHADOW.hoof) && dark[y * w + x]; y++) horse[y * w + x] = 1;
+  }
 
   // Where the horse is, steadier than its middle (which swings with its legs and tail): its barrel, the middle of the
   // rows between its back and its belly, and the ground under it (the camera pans and tilts over the clip).
