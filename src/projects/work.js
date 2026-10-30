@@ -34,18 +34,18 @@ export const PROJECTS = {
   },
   alzheimer: {
     slug: 'alzheimer-detection',
-    color: '#541900',
-    layout: 'feature',
+    color: '#c5fb04',
+    // Its own book, drawn as Figma's SVG (AlzheimerBook.jsx); its words are in the spreads, its headings in
+    // ALZHEIMER_BOOK below.
+    spreads: [
+      { key: 'alzheimer-cover', layout: 'alzheimer1', label: 'Alzheimer’s disease classification' },
+      { key: 'alzheimer-stakes', layout: 'alzheimer2', label: 'The stakes and the raw material' },
+      { key: 'alzheimer-pipelines', layout: 'alzheimer3', label: 'The pipelines and the neural net' },
+      { key: 'alzheimer-results', layout: 'alzheimer4', label: 'Simplicity wins' },
+    ],
     role: 'AI/ML Engineer',
     category: 'AI Engineering',
     title: 'Alzheimer’s Disease Detection',
-    headline: ['Alzheimer’s', 'Disease', 'Detection'],
-    date: 'Jul — Dec 2025',
-    stat: '83.54%',
-    statNote: 'Accuracy of the 3D-ResNet, the strongest of sixteen model variants.',
-    plateNote: '16 variants · 2D, 3D and trimodal fusion · ResNet, EfficientNet and ViT backbones',
-    winner: '3D-ResNet · 83.54%',
-    body: 'A full deep learning evaluation for classifying Alzheimer’s atrophy, trained on data from my own preprocessing pipeline. Sixteen architecture variants across 2D, 3D and trimodal fusion, built on ResNet, EfficientNet and ViT backbones, went through a 1,000-iteration bootstrap and Friedman tests. The 3D-ResNet came out on top at 83.54% accuracy: keeping the brain volume intact mattered more than fusing modalities.',
   },
   arumi: {
     slug: 'arumi-coffee',
@@ -397,6 +397,18 @@ export const DEEPFAKE_BOOK = {
     ['The Anatomy of a Fake', 'Human vs Machine'],
     ['Traditional Neural Network vs Deep Neural Network', 'The Innovative Bottleneck'],
     ['The CNN vs LSTM Pipeline', 'Capsule Network'],
+  ],
+};
+
+// Alzheimer's Disease Classification's book is Figma's own SVG (scripts/build-book-svg.mjs), its text included; these
+// are its title and its headings for screen readers, spread by spread, as the drawn lettering splits them up.
+export const ALZHEIMER_BOOK = {
+  title: 'Alzheimer’s Disease Classification',
+  headings: [
+    ['Alzheimer’s Disease Classification'],
+    ['The Stakes', 'The Raw Material'],
+    ['The Pipelines', 'The Neural Net.'],
+    ['Simplicity Wins.'],
   ],
 };
 

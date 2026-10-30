@@ -90,7 +90,7 @@
   height: 100%;
 }
 
-/* A spread drawn as Figma's own SVG (DeepfakeBook.jsx), filling the sheet. */
+/* A spread drawn as Figma's own SVG (svgLayouts in FigmaBook.jsx), filling the sheet. */
 .fb-figma,
 .fb-figma > svg {
   position: absolute;

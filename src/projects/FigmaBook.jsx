@@ -159,3 +159,46 @@ export function Logotype({ x, baseline }) {
     </>
   );
 }
+
+// A book drawn as Figma's own SVG (scripts/build-book-svg.mjs; DeepfakeBook.jsx, AlzheimerBook.jsx), for spreads whose
+// look rests on Figma's effects (texture and noise, glows, see-through and photo-filled lettering): each spread is the
+// export itself, drawn inline on the sheet with its text as SVG text in the page's own fonts. Its layouts are named
+// <book>1, <book>2, ...
+export function svgLayouts(book, spreads) {
+  return Object.fromEntries(
+    spreads.map((svg, i) => [
+      `${book}${i + 1}`,
+      function SvgSpread() {
+        return (
+          <Sheet>
+            {/* Figma's export, built from design/figma/data at build time; nothing from visitors goes in. */}
+            <div className="fb-figma" dangerouslySetInnerHTML={{ __html: svg }} />
+          </Sheet>
+        );
+      },
+    ])
+  );
+}
+
+// The text of a book drawn as SVG, for screen readers: its headings, spread by spread, as the drawn lettering splits
+// them up, each spread's paragraphs (text, in reading order) under them.
+const PARAGRAPH_WORDS = 8;
+export function SvgIndex({ title, headings, text }) {
+  return (
+    <article>
+      <h2>{title}</h2>
+      {headings.map((spread, i) => (
+        <section key={spread[0]}>
+          {spread.map((heading) => (
+            <h3 key={heading}>{heading}</h3>
+          ))}
+          {text[i]
+            .filter((words) => words.split(' ').length >= PARAGRAPH_WORDS)
+            .map((words) => (
+              <p key={words}>{words}</p>
+            ))}
+        </section>
+      ))}
+    </article>
+  );
+}

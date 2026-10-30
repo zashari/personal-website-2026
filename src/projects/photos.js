@@ -36,6 +36,8 @@ import gamifiedClip from './assets/media/gamified.mp4';
 import gamifiedClipPoster from './assets/media/gamified-poster.webp';
 import deepfakeClip from './assets/media/deepfake.mp4';
 import deepfakeClipPoster from './assets/media/deepfake-poster.webp';
+import alzheimerClip from './assets/media/alzheimer.mp4';
+import alzheimerClipPoster from './assets/media/alzheimer-poster.webp';
 
 // The showcase's resting image (animated), which the hero's photo turns into once it has grown into the preview.
 import showcaseRest from './assets/images/me.webp';
@@ -73,6 +75,7 @@ export const CLIPS = {
   arumi: { src: arumiClip, poster: arumiClipPoster },
   gamified: { src: gamifiedClip, poster: gamifiedClipPoster },
   deepfake: { src: deepfakeClip, poster: deepfakeClipPoster },
+  alzheimer: { src: alzheimerClip, poster: alzheimerClipPoster },
 };
 
 // The full-bleed photo facing the text on a story spread (Book.jsx).

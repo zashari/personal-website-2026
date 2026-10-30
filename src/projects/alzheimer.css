@@ -1,0 +1,15 @@
+/* Alzheimer's Disease Classification's book (AlzheimerBook.jsx): the Figma frames' lime pages, 384 x 536. */
+.bk-section[data-book='alzheimer'] {
+  --paper: #c5fb04;
+  --paper-edge: #aedd04;
+  --page-ratio: 0.71642;
+}
+
+/* CaskaydiaCove NF Bold, cut down to the cover title (scripts/build-projects-assets.mjs). SIL Open Font License 1.1.
+   The book's page numbers are the Regular the showcase already loads (showcase.css). */
+@font-face {
+  font-family: 'CaskaydiaCove NF';
+  src: url('./assets/fonts/caskaydia-cove-bold-title.woff2') format('woff2');
+  font-weight: 700;
+  font-display: block;
+}

@@ -6,7 +6,8 @@
 // - src/projects/assets/images/*.{avif,webp}: the hero photo and each project's photo, as a thumbnail and a preview,
 //   and me.webp, the showcase's animated resting image
 // - src/projects/assets/fonts/*.woff2: CaskaydiaCove NF SemiLight (the roles in brackets) cut down to Latin text, and
-//   Open Sans Regular cut down to the two giant brackets; both SIL OFL 1.1. JMH Typewriter Bold (the asterisk) is
+//   Open Sans Regular cut down to the two giant brackets, and CaskaydiaCove NF Bold cut down to the Alzheimer book's
+//   cover title; all SIL OFL 1.1. JMH Typewriter Bold (the asterisk) is
 //   shipped as the unmodified file, src/projects/assets/fonts/jmh-typewriter-bold.ttf, as its terms require.
 // usage: node scripts/build-projects-assets.mjs
 import fs from 'node:fs';
@@ -55,7 +56,7 @@ for (const [name, [paint, d]] of Object.entries(LINES)) {
 const PHOTOS = {
   hero: 'img_0079.jpg', // the user's replacement for the frame's own photo (img_7300.jpg)
   fraud: 'fraud-cover.png', // the user's cover for the project (2026-10-28), in place of the frame's img_8782.jpg
-  alzheimer: 'img_8781.jpg',
+  alzheimer: 'alzheimer-cover.png', // the user's halftone brain (2026-10-30); its clip is assets/media/alzheimer.mp4
   arumi: 'arumi.png', // the user's still of the stand at night (2026-10-28); its clip is assets/media/arumi.mp4
   deepfake: 'deepfake-cover.png', // the user's mannequin still (2026-10-28); its clip is assets/media/deepfake.mp4
   gamified: 'gamified-cover.png', // the user's interrogation-room still (2026-10-28); its clip is assets/media/gamified.mp4
@@ -89,6 +90,8 @@ fs.mkdirSync(`${OUT}/fonts`, { recursive: true });
 const fonts = [
   ['design/source/about/caskaydia-cove-nf-semilight.ttf', LATIN, 'caskaydia-cove-semilight.woff2'],
   [`${SOURCE}/open-sans-regular.ttf`, '()', 'open-sans-brackets.woff2'],
+  // The Alzheimer book's cover title (AlzheimerBook.jsx), its only bold monospace.
+  ['design/source/about/caskaydia-cove-nf-bold.ttf', 'ALZHEIMER’S DISEASE CLASSIFICATION', 'caskaydia-cove-bold-title.woff2'],
 ];
 for (const [file, text, out] of fonts) {
   const woff2 = await subsetFont(fs.readFileSync(file), text, { targetFormat: 'woff2' });
