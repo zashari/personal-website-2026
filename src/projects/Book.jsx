@@ -21,6 +21,7 @@ import { CLOSING, ISSUE, PROJECTS, spreadsOf } from './work';
 import { PHOTOS, STORY_PHOTOS } from './photos';
 import PageCurl from './PageCurl';
 import { ARUMI_LAYOUTS, ArumiIndex } from './ArumiBook';
+import { ALZHEIMER_LAYOUTS, AlzheimerIndex } from './AlzheimerBook';
 import { DEEPFAKE_LAYOUTS, DeepfakeIndex } from './DeepfakeBook';
 import { FRAUD_LAYOUTS, FraudIndex } from './FraudBook';
 import { GAMIFIED_LAYOUTS, GamifiedIndex } from './GamifiedBook';
@@ -65,6 +66,7 @@ const BOOK_FONTS = new Set([
   'Open Sans Condensed',
   'Host Grotesk',
   'Italianno',
+  'CaskaydiaCove NF',
 ]);
 
 const pad = (n) => String(n).padStart(2, '0');
@@ -280,10 +282,17 @@ const LAYOUTS = {
   ...FRAUD_LAYOUTS,
   ...GAMIFIED_LAYOUTS,
   ...DEEPFAKE_LAYOUTS,
+  ...ALZHEIMER_LAYOUTS,
 };
 
 // The text of the books drawn in Figma, for screen readers.
-const OWN_INDEX = { arumi: ArumiIndex, fraud: FraudIndex, gamified: GamifiedIndex, deepfake: DeepfakeIndex };
+const OWN_INDEX = {
+  arumi: ArumiIndex,
+  fraud: FraudIndex,
+  gamified: GamifiedIndex,
+  deepfake: DeepfakeIndex,
+  alzheimer: AlzheimerIndex,
+};
 
 // One page: a window onto half of a spread's sheet. Every page is drawn for sighted readers only; the same text is
 // given to assistive tech once, in order, by WorkIndex below.
@@ -369,7 +378,7 @@ const readAsDataUrl = (blob) =>
     reader.readAsDataURL(blob);
   });
 
-// A page drawn as Figma's own SVG (DeepfakeBook.jsx) is turned into its page image directly. modern-screenshot 4.7
+// A page drawn as Figma's own SVG (svgLayouts in FigmaBook.jsx) is turned into its page image directly. modern-screenshot 4.7
 // copies a pattern's <use> target from the live page rather than its clone, so the photo keeps a URL that an SVG drawn
 // as an image cannot load, and comes out blank (reports/Book page images and scroll snap.md). So the spread's own SVG
 // is drawn onto a canvas, with its photos and the book's fonts put in as data URLs, and the page's half of it kept.
