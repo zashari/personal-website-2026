@@ -1,5 +1,6 @@
-// /horse, a test page: the owner's galloping horse (frames.js, from scripts/build-horse-frames.mjs) drawn on a canvas as
-// a grid of marks in the colour mode's accent, galloping in place in the middle of it. The grid stays put and the horse
+// The owner's galloping horse (frames.js, from scripts/build-horse-frames.mjs), drawn on a canvas as a grid of marks in
+// the colour mode's accent, galloping in place in the middle of it: in the contact section's circle (ContactStage.jsx)
+// and on /horse, a test page. The grid stays put and the horse
 // moves under it, like a dot-matrix display: each screen refresh, every cell takes the horse's tone there, blended
 // between the frame before and the frame after (each sampled at its own sub-cell offset), so the 10 frames a second
 // of the GIF flow instead of stepping. The tone picks the cell's mark: a full square, a smaller square, a cross, a dot
@@ -7,7 +8,7 @@
 // halftone print rather than a pixel mask.
 import { FRAMES, FRAME_MS } from './frames.js';
 
-const FIT = { width: 0.8, height: 0.6 }; // the horse at most this share of the window's width and height
+const FIT = { width: 0.8, height: 0.6 }; // by default, the horse at most this share of the canvas's width and height
 // A cell's value: 0 off the horse, and on it from LIGHTEST (its lightest tone) to 1 (its darkest). The marks by value:
 const LIGHTEST = 0.3;
 const MARKS = [
@@ -58,20 +59,24 @@ function sample(f, gx, gy) {
   return top * (1 - fy) + bottom * fy;
 }
 
-// Draws the horse on canvas, galloping, until the returned function is called. Its colour is the canvas's CSS color,
-// read at every refresh, so it follows the colour mode as that fades (horse.css).
-export function gallop(canvas) {
+// Draws the horse on canvas, galloping, until the returned function is called; fit is the share of the canvas's width
+// and height it may fill. Its colour is the canvas's CSS color, read at every refresh, so it follows the colour mode as
+// that fades. It only runs while the canvas is on screen.
+export function gallop(canvas, { fit = FIT } = {}) {
   const context = canvas.getContext('2d');
   const cols = bounds.right - bounds.left;
   const rows = bounds.bottom - bounds.top;
   const values = new Float32Array(cols * rows);
   let cell = 1;
   let origin = { x: 0, y: 0 };
+  // The canvas's pixels follow its size on screen, transforms included (the contact section scales its stage), so the
+  // marks stay sharp at any scale.
   function resize() {
     const ratio = window.devicePixelRatio || 1;
-    canvas.width = Math.round(canvas.clientWidth * ratio);
-    canvas.height = Math.round(canvas.clientHeight * ratio);
-    cell = Math.min((canvas.width * FIT.width) / cols, (canvas.height * FIT.height) / rows);
+    const { width, height } = canvas.getBoundingClientRect();
+    canvas.width = Math.max(1, Math.round(width * ratio));
+    canvas.height = Math.max(1, Math.round(height * ratio));
+    cell = Math.min((canvas.width * fit.width) / cols, (canvas.height * fit.height) / rows);
     origin = { x: (canvas.width - cols * cell) / 2, y: (canvas.height - rows * cell) / 2 };
   }
 
@@ -138,15 +143,24 @@ export function gallop(canvas) {
     request = requestAnimationFrame(tick);
   }
 
-  const observer = new ResizeObserver(() => {
+  const redraw = () => {
     resize();
     draw(last);
-  });
+  };
+  const observer = new ResizeObserver(redraw);
   observer.observe(canvas);
+  // A stage's scale changes with the window without the canvas's own size changing.
+  window.addEventListener('resize', redraw);
+  const visibility = new IntersectionObserver(([entry]) => {
+    cancelAnimationFrame(request);
+    if (entry.isIntersecting) request = requestAnimationFrame(tick);
+  });
+  visibility.observe(canvas);
   resize();
-  request = requestAnimationFrame(tick);
   return () => {
     cancelAnimationFrame(request);
     observer.disconnect();
+    visibility.disconnect();
+    window.removeEventListener('resize', redraw);
   };
 }
