@@ -1,0 +1,133 @@
+/* The contact section (ContactStage.jsx), on /contact and under /home's landing. Every size is Figma px inside the
+   1920 x 1080 stage. Colours come from home.css's modes (--ink, --accent); the hand-drawn circle and rule are black in
+   light mode and #919191 in dark, and the brush stroke is the mode's ink, as in the Figma frames. */
+:root {
+  --cta-line: #000;
+}
+
+:root[data-theme='dark'] {
+  --cta-line: #919191;
+}
+
+.cta {
+  position: relative;
+  height: 100dvh;
+  overflow: hidden;
+  overflow: clip;
+}
+
+.cta-stage {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform-origin: 0 0;
+}
+
+.cta-group,
+.cta-lines {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1920px;
+  height: 1080px;
+}
+
+.cta-group {
+  pointer-events: none;
+}
+
+.cta-group :is(a, canvas) {
+  pointer-events: auto;
+}
+
+.cta-line {
+  fill: var(--cta-line);
+}
+
+.cta-brush {
+  fill: var(--ink);
+}
+
+.cta-horse {
+  position: absolute;
+  display: block;
+  color: var(--accent);
+}
+
+.cta-lead,
+.cta-email,
+.cta-word {
+  position: absolute;
+  margin: 0;
+  font-family: 'Times New Normal', serif;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  white-space: pre;
+}
+
+.cta-lead,
+.cta-word {
+  color: var(--ink);
+}
+
+.cta-email {
+  color: var(--accent);
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-decoration-thickness: 3px;
+  text-underline-offset: 0.12em;
+  transition: text-decoration-color var(--hover-time) var(--hover-ease);
+}
+
+.cta-email:hover,
+.cta-email:focus-visible {
+  text-decoration-color: currentColor;
+}
+
+.cta-email:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 6px;
+}
+
+/* One grid cell for every word, as wide as the widest (the hidden sizer); each word sits at its right end. */
+.cta-word-cell {
+  display: inline-grid;
+  justify-items: end;
+}
+
+.cta-word-cell > span {
+  grid-area: 1 / 1;
+}
+
+.cta-word-sizer {
+  visibility: hidden;
+}
+
+.cta .home-socials li {
+  position: absolute;
+  white-space: pre;
+}
+
+.cta-visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* Switching modes cross-fades these with the rest of the page (see home.css). */
+:root.theme-switching :is(.cta-lead, .cta-email, .cta-word, .cta-horse) {
+  transition: color var(--theme-time) ease !important;
+}
+
+:root.theme-switching :is(.cta-line, .cta-brush) {
+  transition: fill var(--theme-time) ease !important;
+}
+
+/* /contact: the page grows with the section when a short window makes it scroll (see useStageLayout). */
+.cta-page {
+  height: auto;
+  min-height: 100%;
+}
