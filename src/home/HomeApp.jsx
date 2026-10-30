@@ -1,5 +1,5 @@
 import { Fragment, useEffect, useRef, useState } from 'react';
-import { NAME, NAV, PHOTO_ALT, ROLES, TOUCH_LABEL } from './content';
+import { NAME, PHOTO_ALT, ROLES, TOUCH_LABEL } from './content';
 import spiral from './assets/golden-spiral.svg';
 import photoAvif from './assets/images/photo.avif';
 import photoWebp from './assets/images/photo.webp';
@@ -385,16 +385,6 @@ function useSpheres() {
   return [state, on, toggle];
 }
 
-// "Contact me" leads to /contact from every page; here, where the contact section is the screen below, it scrolls
-// there instead (a modified click still opens the page).
-const CONTACT_HREF = NAV.find((item) => item.key === 'contact').href;
-function scrollToContact(event) {
-  const link = event.target.closest(`a[href="${CONTACT_HREF}"]`);
-  if (!link || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
-  event.preventDefault();
-  document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
-}
-
 export default function HomeApp() {
   const headerRef = useRef(null);
   const footerRef = useRef(null);
@@ -463,7 +453,7 @@ export default function HomeApp() {
             </h1>
           </div>
 
-          <header className="home-header" ref={headerRef} onClick={scrollToContact}>
+          <header className="home-header" ref={headerRef}>
             <HomeNav />
           </header>
 
