@@ -1,15 +1,17 @@
 import { Fragment, useEffect, useRef, useState } from 'react';
-import { NAME, PHOTO_ALT, ROLES, SOCIALS, TOUCH_LABEL } from './content';
+import { NAME, NAV, PHOTO_ALT, ROLES, TOUCH_LABEL } from './content';
 import spiral from './assets/golden-spiral.svg';
 import photoAvif from './assets/images/photo.avif';
 import photoWebp from './assets/images/photo.webp';
 import ModeSwitch from './ModeSwitch';
-import { HomeNav, MaybeLink, SpacedLabel } from './Brand';
+import { HomeNav, SpacedLabel } from './Brand';
+import Socials from './Socials';
 import SphereLens, { LENS_SUPPORTED } from './SphereLens';
 import Strands from './Strands';
 import { useTheme } from './theme';
 import { FRAME, useStageLayout } from './stage';
 import { useSoundEffect } from './useSoundEffect';
+import ContactStage from '../contact/ContactStage';
 import shutterSound from './assets/audio/shutter.mp3';
 import sphereSound from './assets/audio/sphere.mp3';
 
@@ -64,7 +66,6 @@ function textBox({ x, y, font, size, lineHeight, capTrim = false }) {
   return { left: x, top, fontSize: size, lineHeight: `${lineHeight}px` };
 }
 
-const SOCIAL_X = { tiktok: 742, github: 920, instagram: 1096 };
 const SMALL_SERIF = { font: 'times', size: 20, capTrim: true };
 const NAME_TEXT = { font: 'times', size: 100, lineHeight: 110 };
 
@@ -384,6 +385,16 @@ function useSpheres() {
   return [state, on, toggle];
 }
 
+// "Contact me" leads to /contact from every page; here, where the contact section is the screen below, it scrolls
+// there instead (a modified click still opens the page).
+const CONTACT_HREF = NAV.find((item) => item.key === 'contact').href;
+function scrollToContact(event) {
+  const link = event.target.closest(`a[href="${CONTACT_HREF}"]`);
+  if (!link || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+  event.preventDefault();
+  document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+}
+
 export default function HomeApp() {
   const headerRef = useRef(null);
   const footerRef = useRef(null);
@@ -404,66 +415,63 @@ export default function HomeApp() {
 
   return (
     <>
-      <main className="home" style={{ minHeight: layout?.pageHeight }}>
-        <div
-          ref={stageRef}
-          className="home-stage"
-          data-layout={layout?.variant}
-          style={{
-            width: FRAME.width,
-            height: FRAME.height,
-            transform: layout && `translate(${layout.x}px, ${layout.y}px) scale(${layout.scale})`,
-            visibility: layout ? undefined : 'hidden',
-          }}
-        >
-          <img
-            className="home-spiral"
-            src={spiral}
-            alt=""
-            style={{ left: -SPIRAL_BLEED, top: -SPIRAL_BLEED }}
-            width={FRAME.width + 2 * SPIRAL_BLEED}
-            height={FRAME.height + 2 * SPIRAL_BLEED}
-            draggable={false}
-          />
+      <main className="home-page">
+        <div className="home" style={{ minHeight: layout?.pageHeight }}>
+          <div
+            ref={stageRef}
+            className="home-stage"
+            data-layout={layout?.variant}
+            style={{
+              width: FRAME.width,
+              height: FRAME.height,
+              transform: layout && `translate(${layout.x}px, ${layout.y}px) scale(${layout.scale})`,
+              visibility: layout ? undefined : 'hidden',
+            }}
+          >
+            <img
+              className="home-spiral"
+              src={spiral}
+              alt=""
+              style={{ left: -SPIRAL_BLEED, top: -SPIRAL_BLEED }}
+              width={FRAME.width + 2 * SPIRAL_BLEED}
+              height={FRAME.height + 2 * SPIRAL_BLEED}
+              draggable={false}
+            />
 
-          {!isPhone && <SphereLayer front={false} state={sphereState} variant={layout?.variant ?? 'wide'} theme={theme} />}
+            {!isPhone && <SphereLayer front={false} state={sphereState} variant={layout?.variant ?? 'wide'} theme={theme} />}
 
-          {!isPhone && <TouchMe {...pos.touch} pressed={spheresOn} onToggle={onTouch} />}
+            {!isPhone && <TouchMe {...pos.touch} pressed={spheresOn} onToggle={onTouch} />}
 
-          <PhotoReel />
+            <PhotoReel />
 
-          {!isPhone && <SphereLayer front state={sphereState} variant={layout?.variant ?? 'wide'} theme={theme} />}
+            {!isPhone && <SphereLayer front state={sphereState} variant={layout?.variant ?? 'wide'} theme={theme} />}
 
-          <ul className="home-socials">
-            {SOCIALS.map((s) => (
-              <li key={s.key} style={textBox({ x: SOCIAL_X[s.key], y: 1023, lineHeight: 22, ...SMALL_SERIF })}>
-                <MaybeLink href={s.href} className="home-link">
-                  {s.label}
-                </MaybeLink>
-              </li>
-            ))}
-          </ul>
+            <Socials />
 
-          <p className="home-roles" style={textBox({ ...pos.roles, lineHeight: 25, ...SMALL_SERIF })}>
-            {ROLES.map((role, i) => (
-              <span key={role}>
-                {i > 0 && <br />}
-                {role}
-              </span>
-            ))}
-          </p>
+            <p className="home-roles" style={textBox({ ...pos.roles, lineHeight: 25, ...SMALL_SERIF })}>
+              {ROLES.map((role, i) => (
+                <span key={role}>
+                  {i > 0 && <br />}
+                  {role}
+                </span>
+              ))}
+            </p>
 
-          <h1 className="home-name">
-            <span style={textBox({ ...pos.first, ...NAME_TEXT })}>{NAME.first}</span>{' '}
-            <span style={textBox({ ...pos.last, ...NAME_TEXT })}>{NAME.last}</span>
-          </h1>
+            <h1 className="home-name">
+              <span style={textBox({ ...pos.first, ...NAME_TEXT })}>{NAME.first}</span>{' '}
+              <span style={textBox({ ...pos.last, ...NAME_TEXT })}>{NAME.last}</span>
+            </h1>
+          </div>
+
+          <header className="home-header" ref={headerRef} onClick={scrollToContact}>
+            <HomeNav />
+          </header>
+
+          <ModeSwitch theme={theme} onChange={setTheme} ref={footerRef} />
         </div>
 
-        <header className="home-header" ref={headerRef}>
-          <HomeNav />
-        </header>
-
-        <ModeSwitch theme={theme} onChange={setTheme} ref={footerRef} />
+        {/* The contact section, the screen under the landing (also its own page, /contact). */}
+        <ContactStage id="contact" headerRef={headerRef} footerRef={footerRef} />
       </main>
     </>
   );

@@ -85,6 +85,27 @@ body {
   overflow: clip;
 }
 
+/* /home is two screens: the landing, then the contact section (ContactStage.jsx, also its own page, /contact). Both
+   Figma frames put the header and the mode switch in the same places, so those stay fixed over both while the screens
+   scroll under them, and a scroll that ends near a screen settles on it. */
+html:has(.home-page) {
+  scroll-snap-type: y proximity;
+}
+
+.home-page > :is(.home, .cta) {
+  scroll-snap-align: start;
+}
+
+.home-page .home {
+  height: auto;
+  min-height: 100dvh;
+}
+
+.home-page :is(.home-header, .home-mode) {
+  position: fixed;
+  z-index: 2;
+}
+
 /* ---- Artwork: Figma px on a 1920 x 1080 stage, placed and scaled by useStageLayout ---- */
 
 .home-stage {
