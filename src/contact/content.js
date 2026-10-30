@@ -1,6 +1,9 @@
 // Every word of the contact section (/contact, and the bottom of /home). Positions live in ContactStage.jsx; change
 // only the text here.
 
+// The logotype's link in /contact's header: home, as from /about and /projects.
+export const HOME = { label: 'HOME', href: '/home/' };
+
 export const LEAD = 'Let’s get it done';
 
 export const EMAIL = { label: 'izzat.zaky@gmail.com', href: 'mailto:izzat.zaky@gmail.com' };

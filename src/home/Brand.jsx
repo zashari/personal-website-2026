@@ -91,15 +91,16 @@ export function BrandLink({ href, label, onClick }) {
   );
 }
 
-// /home's header nav: the logotype (ABOUT ME) and Work on the left, Workflow and Contact me on the right.
-export function HomeNav() {
+// /home's header nav: the logotype (ABOUT ME) and Work on the left, Workflow and Contact me on the right. Another page
+// with the same header (/contact) gives the logotype its own link, label and click (brand).
+export function HomeNav({ brand = BRAND }) {
   const item = (entry) => (
     <NavItem key={entry.key} id={entry.key} title={entry.title} label={entry.label} href={entry.href} />
   );
   return (
     <nav className="home-nav" aria-label="Main">
       <div className="home-nav-group">
-        <BrandLink href={BRAND.href} label={BRAND.label} />
+        <BrandLink href={brand.href} label={brand.label} onClick={brand.onClick} />
         {item(NAV[0])}
       </div>
       <div className="home-nav-group">{NAV.slice(1).map(item)}</div>
