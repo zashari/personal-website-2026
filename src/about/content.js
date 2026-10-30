@@ -19,7 +19,7 @@ export const EDUCATION_TITLE = 'EDUCATION';
 
 // Each line is set as written. A word after @ (the city) is set in italics.
 export const EDUCATION = [
-  { key: 'binus', years: '2017 - 2021', lines: ['SCHOOL OF COMPUTER SCIENCE,', 'BINUS UNIVERSITY @BANDUNG'] },
+  { key: 'binus', years: '2021 - 2025', lines: ['SCHOOL OF COMPUTER SCIENCE,', 'BINUS UNIVERSITY @BANDUNG'] },
   { key: 'aws', years: '2023', lines: ['AWS ACADEMY CLOUD FOUNDATION,', 'DICODING'] },
   { key: 'telkom', years: '2017 - 2021', lines: ['COMPUTER AND NETWORK', 'ENGINEERING,TELKOM SCHOOL', '@MAKASSAR'] },
 ];
