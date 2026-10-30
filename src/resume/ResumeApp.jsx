@@ -29,8 +29,8 @@ import {
 // tech.md). A title block and the name open it; then seven numbered sections, each with its number and name in a rail
 // on the left (sticky on wide screens, the 01 to 07 of /about's frame) and the entries on the right, each entry with
 // its dates and a dimension line of its length in a narrow column of its own. The logotype header is fixed on top and
-// the colour mode switch on the bottom edge, as on /projects. The print stylesheet (resume.css) turns the same page
-// into the two A4 sheets of the PDF.
+// the colour mode switch on the bottom edge, as on /projects. The print stylesheet (resume.css) lays the same page
+// out on A4 sheets when a visitor prints it; the PDF the links download is the owner's own.
 
 const SECTION_KEYS = Object.keys(SECTIONS);
 const pad = (n) => String(n).padStart(2, '0');
@@ -314,7 +314,6 @@ function Masthead() {
               </MaybeLink>
             </li>
           ))}
-          <li className="rs-phone" data-phone hidden />
         </ul>
       </div>
       <aside className="rs-title-block" aria-label="About this document">

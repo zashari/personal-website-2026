@@ -1,7 +1,7 @@
 /* /resume: the CV as a drafting sheet in the site's style (ResumeApp.jsx). There is no Figma frame for it; it takes
    /about's and /projects' colours, fonts, hand-drawn grey lines, dashed rule, numbered axis and sparkle. The logotype
    header is fixed on top and the colour mode switch on the bottom edge, as on /projects. The print stylesheet at the
-   end turns the same page into the two A4 sheets of the PDF (scripts/build-resume-pdf.mjs). */
+   end lays the same page out on A4 sheets when a visitor prints it. */
 
 @import '../home/brand.css';
 @import '../about/frame-decoration.css'; /* CaskaydiaCove regular, --rule and the dashed line */
@@ -238,10 +238,6 @@ body {
   flex-wrap: wrap;
   gap: 6px clamp(16px, 2vw, 40px);
   margin-top: clamp(16px, 2vw, 32px);
-}
-
-.rs-phone[hidden] {
-  display: none;
 }
 
 .rs-title-block {
@@ -734,9 +730,9 @@ body {
   }
 }
 
-/* ---- Print: the two A4 sheets of the PDF ----
+/* ---- Print: the page on two A4 sheets ----
    Light colours on white paper, no fixed bars, rail, drawing layer or download link; the accent and the rules are
-   kept, so the PDF reads as the same document. */
+   kept, so the print reads as the same document. */
 
 @page {
   size: A4;
@@ -841,10 +837,6 @@ body {
   .rs-contact {
     margin-top: 2mm;
     gap: 1mm 5mm;
-  }
-
-  .rs-phone:not([hidden]) {
-    display: list-item;
   }
 
   .rs-title-block {

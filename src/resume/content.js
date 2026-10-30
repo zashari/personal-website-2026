@@ -2,7 +2,7 @@
 // Positions and styles live in ResumeApp.jsx and resume.css; change only the text here. In any text, **bold** and
 // _italic_ are marked as in the CV (company names in bold, repository names in italics).
 // Dates are written as on the CV (MM/YYYY) and given again as ISO dates for <time>. The phone number is left out of
-// the page on purpose: it goes only into the PDF (scripts/build-resume-pdf.mjs adds it there).
+// the page on purpose; it is only in the owner's PDF.
 
 import { NAV as HOME_NAV } from '../home/content';
 
@@ -17,24 +17,21 @@ export const CONTACT = [
   { key: 'github', label: 'github.com/zashari', href: 'https://github.com/zashari' },
 ];
 
-// Only in the PDF (see above).
-export const PHONE = { label: '+6281248777317', href: 'https://wa.me/6281248777317' };
-
 // The drawing's title block, top right of the sheet: what this document is, as an engineering drawing would say it.
 export const TITLE_BLOCK = [
   { label: 'Document', value: 'Resume' },
   { label: 'Revision', value: '2026-v2' },
   { label: 'Updated', value: '10/2026' },
-  { label: 'Sheets', value: '02 (A4)' },
+  { label: 'Sheets', value: '02' },
 ];
 
-// The PDF, built from this page by scripts/build-resume-pdf.mjs into public/resume/.
+// The owner's own PDF of the CV (public/resume/zaky-ashari-resume.pdf, from .tmp/resume), which both links download.
 // railLabel is the link at the foot of the index rail, in view while the sections scroll by.
 export const PDF = {
   label: 'Download the PDF',
   railLabel: 'Download resume as PDF',
   href: '/resume/zaky-ashari-resume.pdf',
-  note: 'A4, 2 pages',
+  note: '2 pages',
 };
 
 export const SECTIONS = {
