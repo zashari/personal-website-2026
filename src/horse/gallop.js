@@ -1,10 +1,9 @@
-// /horse, a test page: Muybridge's galloping horse (frames.js, from scripts/build-horse-frames.mjs) drawn on a canvas as
+// /horse, a test page: the owner's galloping horse (frames.js, from scripts/build-horse-frames.mjs) drawn on a canvas as
 // a grid of marks in the colour mode's accent, galloping in place in the middle of it. Each cell of the horse gets a
 // mark by its tone: the darkest a full square, then a smaller square, a cross and a dot; a few cells swap to a cross,
 // and a few empty cells at its edge get a stray dot, so it reads as a halftone print rather than a pixel mask.
-import { FRAMES } from './frames.js';
+import { FRAMES, FRAME_MS } from './frames.js';
 
-const FRAME_MS = 80; // the 15 frames are one stride: about 1.2 s a stride
 const FIT = { width: 0.8, height: 0.6 }; // the horse at most this share of the window's width and height
 
 // A fixed pseudo-random number in [0, 1) per cell, so the texture holds still while the horse moves.

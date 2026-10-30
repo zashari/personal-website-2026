@@ -1,51 +1,29 @@
 #!/usr/bin/env node
-// Builds the galloping horse of /horse (a test page) from Eadweard Muybridge's "The Horse in Motion" (1878, public
-// domain; the 15-frame GIF on Wikimedia Commons, Muybridge_race_horse_animated.gif). Each frame is cut down to the
-// horse alone: the dark pixels, with thin lines (the track's posts, the reins) opened away, and the jockey cut off above
-// the horse's back between its tail and its neck (his arms join him to the neck, so shape alone cannot part them).
-// Frames are lined up on the horse's middle, so it gallops in place.
+// Builds the galloping horse of /horse (a test page) from the owner's GIF of a black horse galloping over sand
+// (.tmp/horse-2.gif, 23 frames, one stride). Each frame is cut down to the horse alone: its dark pixels, without the
+// shadow it casts on the sand (as dark as the horse, so it is cut off below the shadow's top edge, a line fitted to the
+// columns where the shadow lies alone) and keeping only the largest dark shape, which leaves out the dust and the
+// stones along the horizon. Frames are lined up on the horse's middle, so it gallops in place.
 // - src/horse/frames.js: per frame, a grid of cells (CELL source px each) with the horse's tone in each cell, 0 for
-//   none and 1 to 255 from its lightest to its darkest, as base64
-// usage: node scripts/build-horse-frames.mjs [gif]   (default .tmp/horse-src/muybridge.gif)
+//   none and 1 to 255 from its lightest to its darkest, as base64; and the GIF's frame time
+// usage: node scripts/build-horse-frames.mjs [gif]   (default .tmp/horse-2.gif)
 import fs from 'node:fs';
 import sharp from 'sharp';
 
-const GIF = process.argv[2] ?? '.tmp/horse-src/muybridge.gif';
+const GIF = process.argv[2] ?? '.tmp/horse-2.gif';
 const OUT = 'src/horse/frames.js';
-const CELL = 2; // source px per cell: about 120 cells across the horse
-const DARK = 110; // luminance below which a pixel is the horse (its coat is about 30 to 90, the backdrop above 180)
-const MARGIN = { top: 2, left: 2, right: 2, bottom: 16 }; // the frame's edges, the track and the plate numbers
-// Where the jockey is, as fractions of the horse's span from its tail: the croup's columns, whose top is the height of
-// the back, and the columns he is cut from (the tail is left of them, the neck and head right).
-const JOCKEY = { croup: [0.28, 0.34], cut: [0.33, 0.72] };
+const CELL = 3; // source px per cell: about 115 cells across the horse
+const DARK = 80; // luminance below which a pixel is the horse (coat 10 to 45, mane 50 to 80; the horizon 80 to 115)
+// The shadow: a column whose lowest dark run starts below this share of the frame's height is shadow alone (a leg's
+// run starts higher, at the horse); the cut is this many px above the fitted top edge.
+const SHADOW = { below: 0.8, margin: 3 };
 
-const { width, pageHeight: height, pages } = await sharp(GIF, { animated: true }).metadata();
+const { width: w, pageHeight: h, pages, delay } = await sharp(GIF, { animated: true }).metadata();
 
-// A square structuring element of radius r over a binary mask: erode (all set) or dilate (any set).
-function morph(mask, w, h, r, all) {
-  const out = new Uint8Array(w * h);
-  for (let y = 0; y < h; y++) {
-    for (let x = 0; x < w; x++) {
-      let hit = all;
-      for (let dy = -r; dy <= r && hit === all; dy++) {
-        for (let dx = -r; dx <= r; dx++) {
-          const v = mask[Math.min(h - 1, Math.max(0, y + dy)) * w + Math.min(w - 1, Math.max(0, x + dx))];
-          if (all ? !v : v) {
-            hit = !all;
-            break;
-          }
-        }
-      }
-      out[y * w + x] = hit ? 1 : 0;
-    }
-  }
-  return out;
-}
-
-// The 4-connected sets of mask pixels of at least min px.
-function shapes(mask, w, h, min) {
+// The largest 4-connected set of mask pixels.
+function largest(mask) {
   const label = new Int32Array(w * h);
-  const keep = new Set();
+  let best = { id: 0, size: 0 };
   let id = 0;
   for (let i = 0; i < w * h; i++) {
     if (!mask[i] || label[i]) continue;
@@ -64,58 +42,52 @@ function shapes(mask, w, h, min) {
         }
       }
     }
-    if (size >= min) keep.add(id);
+    if (size > best.size) best = { id, size };
   }
-  return label.map((l) => (keep.has(l) ? 1 : 0));
+  return label.map((l) => (l === best.id ? 1 : 0));
 }
 
-const w = width - MARGIN.left - MARGIN.right;
-const h = height - MARGIN.top - MARGIN.bottom;
+// A least-squares line y = a + b x through points, refitted once without the points furthest from it (the odd column
+// where dust or a hoof sits on the shadow).
+function fitLine(points) {
+  const fit = (ps) => {
+    const n = ps.length;
+    const mx = ps.reduce((s, p) => s + p.x, 0) / n;
+    const my = ps.reduce((s, p) => s + p.y, 0) / n;
+    const sxx = ps.reduce((s, p) => s + (p.x - mx) ** 2, 0);
+    const b = sxx ? ps.reduce((s, p) => s + (p.x - mx) * (p.y - my), 0) / sxx : 0;
+    return { a: my - b * mx, b };
+  };
+  const first = fit(points);
+  const off = (p) => Math.abs(p.y - (first.a + first.b * p.x));
+  const kept = [...points].sort((p, q) => off(p) - off(q)).slice(0, Math.ceil(points.length * 0.8));
+  return fit(kept);
+}
+
 const frames = [];
 for (let page = 0; page < pages; page++) {
-  const lum = await sharp(GIF, { page })
-    .extract({ left: MARGIN.left, top: MARGIN.top, width: w, height: h })
-    .greyscale()
-    .median(3)
-    .raw()
-    .toBuffer();
+  const lum = await sharp(GIF, { page }).greyscale().median(3).raw().toBuffer();
   const dark = lum.map((v) => (v < DARK ? 1 : 0));
-  // Opening (erode, then dilate) by one px removes thin lines; what is left grows back by a px within the dark pixels
-  // so the legs and tail keep their thin ends.
-  const opened = morph(morph(dark, w, h, 1, true), w, h, 1, false);
-  const body = morph(shapes(opened, w, h, 400), w, h, 1, false).map((v, i) => v & dark[i]);
-  // The horse's span, and its back: as high as its croup (the jockey never reaches over it), the median of the top
-  // edges of the columns there. The jockey is everything above the back, short of the tail and the neck.
-  let left = w;
-  let right = 0;
-  for (let i = 0; i < w * h; i++) {
-    if (!body[i]) continue;
-    left = Math.min(left, i % w);
-    right = Math.max(right, i % w);
-  }
-  const span = right - left;
+
+  // The shadow's top edge, from the columns where the lowest dark run lies alone near the ground.
   const tops = [];
-  for (let x = Math.round(left + JOCKEY.croup[0] * span); x <= left + JOCKEY.croup[1] * span; x++) {
-    let y = 0;
-    while (y < h && !body[y * w + x]) y++;
-    if (y < h) tops.push(y);
+  for (let x = 0; x < w; x++) {
+    let y = h - 1;
+    while (y >= 0 && !dark[y * w + x]) y--;
+    if (y < 0) continue;
+    while (y > 0 && dark[(y - 1) * w + x]) y--;
+    if (y > SHADOW.below * h) tops.push({ x, y });
   }
-  tops.sort((p, q) => p - q);
-  const back = tops[Math.floor(tops.length / 2)];
-  const [cutL, cutR] = [left + JOCKEY.cut[0] * span, left + JOCKEY.cut[1] * span];
-  const riderless = body.map((v, i) => (v && !(Math.floor(i / w) < back - 1 && i % w > cutL && i % w < cutR) ? 1 : 0));
-  const horse = shapes(riderless, w, h, 150);
+  const ground = tops.length > 10 ? fitLine(tops) : { a: h, b: 0 };
+  const above = dark.map((v, i) => (v && Math.floor(i / w) < ground.a + ground.b * (i % w) - SHADOW.margin ? 1 : 0));
+  const horse = largest(above);
 
   let sx = 0;
   let n = 0;
-  let minY = h;
-  let maxY = 0;
   for (let i = 0; i < w * h; i++) {
     if (!horse[i]) continue;
     sx += i % w;
     n++;
-    minY = Math.min(minY, Math.floor(i / w));
-    maxY = Math.max(maxY, Math.floor(i / w));
   }
   // The coat's tone, spread over the horse's own range so its light and dark patches read.
   const tones = [];
@@ -143,14 +115,14 @@ for (let page = 0; page < pages; page++) {
       cells[r * cols + c] = 1 + Math.round(t * 254);
     }
   }
-  frames.push({ cols, rows, cx: sx / n / CELL, bottom: maxY / CELL, cells: Buffer.from(cells).toString('base64') });
-  console.log(`frame ${page + 1}: ${n} px, rows ${minY}-${maxY}`);
+  frames.push({ cols, rows, cx: sx / n / CELL, cells: Buffer.from(cells).toString('base64') });
+  console.log(`frame ${page + 1}: ${n} px, ground y ${ground.a.toFixed(0)} + ${ground.b.toFixed(3)} x`);
 }
 
 const lines = [
-  `// Generated by scripts/build-horse-frames.mjs from Muybridge's "The Horse in Motion" (1878, public domain); do not edit.`,
-  "// Per frame: the cell grid's size, the horse's middle (cx, in cells), its lowest cell, and its cells' tones (base64).",
-  `export const FRAME_MS = 100;`,
+  `// Generated by scripts/build-horse-frames.mjs from the owner's GIF of a horse galloping; do not edit.`,
+  "// Per frame: the cell grid's size, the horse's middle (cx, in cells), and its cells' tones (base64).",
+  `export const FRAME_MS = ${delay?.[0] ?? 100};`,
   `export const FRAMES = ${JSON.stringify(frames)};`,
   '',
 ];
